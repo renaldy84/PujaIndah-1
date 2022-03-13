@@ -5,7 +5,9 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
+  StyleSheet,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 
 function home({navigation}) {
@@ -13,112 +15,150 @@ function home({navigation}) {
   const logout = () => {
     dispatch({type: 'LOGOUT'});
   };
+
+  const Data = [
+    {
+      id: 1,
+      title: 'Beautiful and dramatic Antelope Canyon',
+      subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+      illustration: 'https://i.imgur.com/UYiroysl.jpg',
+    },
+    {
+      id: 2,
+      title: 'Earlier this morning, NYC',
+      subtitle: 'Lorem ipsum dolor sit amet',
+      illustration: 'https://i.imgur.com/UPrs1EWl.jpg',
+    },
+    {
+      id: 3,
+      title: 'White Pocket Sunset',
+      subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
+      illustration: 'https://i.imgur.com/MABUbpDl.jpg',
+    },
+    {
+      id: 4,
+      title: 'Acrocorinth, Greece',
+      subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
+      illustration: 'https://i.imgur.com/KZsmUi2l.jpg',
+    },
+    {
+      id: 5,
+      title: 'The lone tree, majestic landscape of New Zealand',
+      subtitle: 'Lorem ipsum dolor sit amet',
+      illustration: 'https://i.imgur.com/2nCt3Sbl.jpg',
+    },
+    {
+      id: 6,
+      title: 'Middle Earth, Germany',
+      subtitle: 'Lorem ipsum dolor sit amet',
+      illustration: 'https://i.imgur.com/lceHsT6l.jpg',
+    },
+  ];
+
+  const DATA = [{text: '#1'}, {text: '#2'}, {text: '#3'}];
+
   return (
     <>
-      <ImageBackground
-        style={{flex: 1, resizeMode: 'cover', justifyContent: 'center'}}
-        source={require('../assets/image/menu.png')}>
-        <View style={{flex: 1, flexDirection: 'column', margin: 20}}>
-          <View style={styles.boxFontHeader}>
-            <Text style={styles.fontHeader}>PujaIndah</Text>
-          </View>
-
-          <View style={styles.containerBox}>
-            <TouchableOpacity
-              style={styles.box}
-              onPress={() => navigation.navigate('History')}>
-              <Image
-                style={styles.icon}
-                source={require('../assets/image/history.png')}></Image>
-              {/* <Text>Histori</Text> */}
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.box}
-              onPress={() => navigation.navigate('Psikiater')}>
-              <Image
-                style={styles.icon}
-                source={require('../assets/image/doctor.png')}></Image>
-              {/* <Text>Daftar Psikiater</Text> */}
-            </TouchableOpacity>
-          </View>
-
+      <View style={styles.containerHeader}>
+        <SafeAreaView style={styles.child1}>
           <View
             style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 100,
+              borderWidth: 1,
+              width: '50%',
+              flexDirection: 'row',
+              height: '100%',
             }}>
-            <View
-              style={{
-                backgroundColor: 'red',
-                width: 150,
-                height: 40,
-                borderRadius: 20,
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 7,
-                },
-                shadowOpacity: 0.41,
-                shadowRadius: 9.11,
-                elevation: 14,
-              }}>
-              <TouchableOpacity onPress={() => logout()}>
-                <Text
-                  style={{
-                    fontFamily: 'helvetica-rounded-bold',
-                    fontSize: 14,
-                    color: '#ffffff',
-                  }}>
-                  Logout
-                </Text>
-              </TouchableOpacity>
-            </View>
+            <Text>
+              asbdhjasbdhasbdhasdbjsahdjashgdjsahdgajshdgashgdhjasgdjahsgd
+            </Text>
           </View>
+          <View
+            style={{
+              borderWidth: 1,
+              width: '50%',
+              flexDirection: 'row',
+              height: '100%',
+            }}>
+            <Text>
+              asjdhgjasbdkjashdkjasdjkasndkjas xjansbcjkasjdbasj
+              cjkabsdjasndkjas kajs
+            </Text>
+          </View>
+        </SafeAreaView>
+      </View>
+
+      {/* <View style={styles.container}>
+        <Carousel
+          pagination={Pagination}
+          renderItem={DATA.map(item => console.log(item))}
+          data={DATA}
+        />
+      </View> */}
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 100,
+        }}>
+        <View
+          style={{
+            backgroundColor: 'red',
+            width: 150,
+            height: 40,
+            borderRadius: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 7,
+            },
+            shadowOpacity: 0.41,
+            shadowRadius: 9.11,
+            elevation: 14,
+          }}>
+          <TouchableOpacity onPress={() => logout()}>
+            <Text
+              style={{
+                fontFamily: 'helvetica-rounded-bold',
+                fontSize: 14,
+                color: 'white',
+              }}>
+              Logout
+            </Text>
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
+      </View>
+      {/* </View>
+      </ImageBackground> */}
     </>
   );
 }
 
 const styles = {
-  boxFontHeader: {
-    marginTop: 30,
+  containerHeader: {
+    backgroundColor: '#0323C4',
+    height: '20%',
   },
-  fontHeader: {
-    fontFamily: 'AmsterdamOne-eZ12l',
-    fontSize: 50,
-    textAlign: 'center',
-    color: '#ffffff',
-  },
-  containerBox: {
+  child1: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 100,
+    marginTop: 20,
+    width: '100%',
+    // height: 50,
+    borderWidth: 1,
   },
-  box: {
-    width: 90,
-    height: 90,
-    margin: 20,
-    borderRadius: 90 / 2,
-    backgroundColor: '#ffffff',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.41,
-    shadowRadius: 9.11,
-    elevation: 14,
   },
-  icon: {
-    width: 50,
-    height: 50,
+  item: {
+    width: 200,
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#dbf3fa',
   },
 };
 export default home;

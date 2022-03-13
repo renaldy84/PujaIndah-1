@@ -17,6 +17,9 @@ import Login from './view/login';
 import HomePage from './view/home';
 import psikiater from './view/psikiater';
 import history from './view/history';
+import lupaPassword from './view/lupaPassword';
+import daftarAkun from './view/daftarAkun';
+import carouselHeader from './view/carousel.js';
 
 const Stack = createStackNavigator();
 function SettingNav() {
@@ -66,15 +69,46 @@ function SettingNavAwal() {
           name="MenuAwal"
           component={MenuAwal}
         />
+
         <Stack.Screen
           options={{
-            headerShown: true,
+            headerShown: false,
             headerStyle: {
-              backgroundColor: 'rgb(188, 89, 213)',
+              backgroundColor: 'white',
             },
           }}
           name="Login"
           component={Login}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: 'white',
+            },
+          }}
+          name="LupaPassword"
+          component={lupaPassword}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: 'white',
+            },
+          }}
+          name="DaftarAkun"
+          component={daftarAkun}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: 'white',
+            },
+          }}
+          name="CarouselHeader"
+          component={carouselHeader}
         />
         {/* <Stack.Screen
           options={{

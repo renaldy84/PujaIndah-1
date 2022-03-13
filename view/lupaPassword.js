@@ -11,25 +11,15 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faArrowLeft,
-  faEye,
-  faEyeSlash,
-} from '@fortawesome/free-solid-svg-icons';
+import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
-function login({navigation}) {
+function lupaPassword({navigation}) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(true);
 
   const login = () => {
-    if (email === 'user@gmail.com' && password === '1234') {
-      dispatch({type: 'LOGIN'});
-    } else {
-      setModalVisible(true);
-    }
+    setModalVisible(true);
   };
 
   return (
@@ -37,17 +27,24 @@ function login({navigation}) {
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Image
-              style={{width: 50, height: 50}}
-              source={require('../assets/image/warning.png')}></Image>
-            {email === '' || password === '' ? (
+            {email === '' ? (
+              <Image
+                style={{width: 50, height: 50}}
+                source={require('../assets/image/warning.png')}></Image>
+            ) : (
+              <Image
+                style={{width: 50, height: 50}}
+                source={require('../assets/image/success.png')}></Image>
+            )}
+
+            {email === '' ? (
               <Text
                 style={{
                   fontWeight: 'bold',
                   fontSize: 14,
                   marginTop: 20,
                 }}>
-                Email atau Password Anda Kosong
+                Email Anda Kosong
               </Text>
             ) : (
               <Text
@@ -56,29 +53,53 @@ function login({navigation}) {
                   fontSize: 14,
                   marginTop: 20,
                 }}>
-                Email atau Pasword Anda Salah
+                Email berhasil dikirim
               </Text>
             )}
-
-            <Pressable
-              onPress={() => setModalVisible(!modalVisible)}
-              style={{
-                backgroundColor: '#ff0000',
-                marginTop: 20,
-                borderRadius: 10,
-                width: 100,
-                alignItems: 'center',
-              }}>
-              <Text
+            {email == '' ? (
+              <Pressable
+                onPress={() => setModalVisible(!modalVisible)}
                 style={{
-                  fontWeight: 'bold',
-                  color: '#ffffff',
-                  fontSize: 14,
-                  margin: 10,
+                  backgroundColor: '#ff0000',
+                  marginTop: 20,
+                  borderRadius: 10,
+                  width: 100,
+                  alignItems: 'center',
                 }}>
-                Close
-              </Text>
-            </Pressable>
+                <Text
+                  style={{
+                    ffontWeight: 'bold',
+                    color: '#ffffff',
+                    fontSize: 14,
+                    margin: 10,
+                  }}>
+                  Close
+                </Text>
+              </Pressable>
+            ) : (
+              <Pressable
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  navigation.navigate('Login');
+                }}
+                style={{
+                  backgroundColor: 'green',
+                  marginTop: 20,
+                  borderRadius: 10,
+                  width: 100,
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    color: '#ffffff',
+                    fontSize: 14,
+                    margin: 10,
+                  }}>
+                  Ok
+                </Text>
+              </Pressable>
+            )}
           </View>
         </View>
       </Modal>
@@ -96,29 +117,18 @@ function login({navigation}) {
             size={30}
             icon={faArrowLeft}
             onPress={() => {
-              navigation.navigate('MenuAwal');
+              navigation.navigate('Login');
             }}
           />
         </View>
         <View style={styles.boxLogin}>
-          <Text style={styles.textLogin}>Log in</Text>
+          <Text style={styles.textLogin}>Lupa Kata Sandi</Text>
         </View>
         <View style={styles.boxChildLogin}>
-          <Text style={styles.textChildLogin}>Belum punya akun?</Text>
-          <Text
-            style={styles.textChildLogin1}
-            onPress={() => {
-              console.log('Daftar');
-              navigation.navigate('CarouselHeader');
-            }}>
-            Daftar
+          <Text style={styles.textChildLogin}>
+            Silahkan masukkan alamat email anda saat mendaftar
           </Text>
         </View>
-        {/* <View style={styles.boxLogo}>
-          <Image
-            style={styles.logo}
-            source={require('../assets/healingcircle.png')}></Image>
-        </View> */}
         <View style={styles.container}>
           <View>
             <Text style={styles.text}>Email</Text>
@@ -129,49 +139,10 @@ function login({navigation}) {
               onChangeText={val => setEmail(val)}
               placeholder="Email"></TextInput>
           </View>
-          <View style={{marginTop: 25}}>
-            <Text style={styles.text}>Kata Sandi</Text>
-          </View>
-          <View style={styles.boxInputPassword}>
-            <View style={{width: '85%'}}>
-              <TextInput
-                style={styles.textInput}
-                secureTextEntry={passwordVisible}
-                onChangeText={val => setPassword(val)}
-                placeholder="Password"></TextInput>
-            </View>
-            <View style={{justifyContent: 'center'}}>
-              {passwordVisible ? (
-                <FontAwesomeIcon
-                  size={30}
-                  icon={faEyeSlash}
-                  onPress={() => {
-                    setPasswordVisible(!passwordVisible);
-                  }}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  size={30}
-                  icon={faEye}
-                  onPress={() => {
-                    setPasswordVisible(!passwordVisible);
-                  }}
-                />
-              )}
-            </View>
-          </View>
-          <View style={styles.lupa}>
-            <Text
-              style={styles.textChildLogin1}
-              onPress={() => {
-                navigation.navigate('LupaPassword');
-              }}>
-              Lupa kata sandi?
-            </Text>
-          </View>
+
           <View style={styles.boxButton}>
             <TouchableOpacity style={styles.buttonLogin} onPress={login}>
-              <Text style={styles.textButton}>Login</Text>
+              <Text style={styles.textButton}>Kirim</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -249,12 +220,12 @@ const styles = {
   text: {
     fontWeight: 'bold',
     fontSize: 18,
-    fontWeight: 'bold',
     margin: 5,
     color: 'black',
   },
   textInput: {
     marginLeft: 10,
+    fontWeight: 'bold',
     fontSize: 16,
     color: '#000000',
   },
@@ -303,27 +274,12 @@ const styles = {
     fontWeight: 'bold',
   },
   boxChildLogin: {
-    flexDirection: 'row',
     marginLeft: 30,
     marginTop: 10,
   },
   textChildLogin: {
     color: 'grey',
-    fontSize: 16,
-    // fontWeight: 'bold',
-  },
-  textChildLogin1: {
-    marginLeft: 10,
-    color: 'blue',
-    fontSize: 16,
-  },
-  lupa: {
-    marginTop: 10,
-    // borderWidth: 1,
-    // flex: 1,
-    borderColor: 'grey',
-    width: '100%',
-    alignItems: 'flex-end',
+    fontSize: 12,
   },
 };
-export default login;
+export default lupaPassword;
