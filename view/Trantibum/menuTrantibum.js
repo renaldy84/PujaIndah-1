@@ -59,7 +59,11 @@ const MenuTrantibum = ({navigation}) => {
             </Text>
           </View>
           <View style={styles.footer}>
-            <TouchableOpacity style={styles.boxKonten}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('PeringatanDini');
+              }}
+              style={styles.boxKonten}>
               <View style={styles.boxIconRight}>
                 <Image
                   style={{width: 40, height: 40}}

@@ -20,6 +20,7 @@ import {
   faFolderOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 function BuatPengaduan({navigation}) {
   const modalizeRef = useRef(null);
@@ -34,6 +35,7 @@ function BuatPengaduan({navigation}) {
   const [detailPengaduan, setDetailPengaduan] = useState('');
   const [foto, setFoto] = useState(null);
   const [dataFoto, setDataFoto] = useState(null);
+  const [namaFoto, setNamaFoto] = useState('Unggah Foto');
   const [modalVisible, setModalVisible] = useState(false);
   const pilihKategori = [
     {id: 1, namaKategori: 'Kategori 1'},
@@ -47,8 +49,77 @@ function BuatPengaduan({navigation}) {
   };
 
   const pilihFoto = () => {
-    console.log('tessssssss');
     modalizeRef.current?.open();
+  };
+
+  const ambilDariCamera = () => {
+    modalizeRef.current?.close();
+    launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        console.log(response.assets[0].fileName);
+        if (!response.didCancel) {
+          setFoto(response.assets[0].uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.assets[0].fileName);
+        }
+        // if (!response.didCancel) {
+        //   let formData = new FormData();
+        //   formData.append('foto', {
+        //     uri: response.uri,
+        //     name: `izin.jpg`,
+        //     type: 'image/jpeg',
+        //   });
+        //   formData.append('nopeg', auth.nopeg);
+        //   formData.append('tgl_awal', tanggal);
+        //   formData.append('keterangan', keterangan);
+        //   formData.append('keperluan', 'Terlambat');
+        //   setDataFoto(formData);
+        //   setFoto(response.uri);
+        // }
+      },
+    );
+  };
+
+  const ambilDariGalery = () => {
+    modalizeRef.current?.close();
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        console.log(response);
+        if (!response.didCancel) {
+          setFoto(response.assets[0].uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.assets[0].fileName);
+        }
+        // if (!response.didCancel) {
+        //   let formData = new FormData();
+        //   formData.append('foto', {
+        //     uri: response.uri,
+        //     name: `izin.jpg`,
+        //     type: 'image/jpeg',
+        //   });
+        //   formData.append('nopeg', auth.nopeg);
+        //   formData.append('tgl_awal', tanggal);
+        //   formData.append('keterangan', keterangan);
+        //   formData.append('keperluan', 'Terlambat');
+        //   setDataFoto(formData);
+        //   setFoto(response.uri);
+        // }
+      },
+    );
   };
 
   return (
@@ -262,9 +333,11 @@ function BuatPengaduan({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
+                value={namaFoto}
                 style={[styles.textInput, {flex: 5}]}
-                onChangeText={val => setJudulPengaduan(val)}
-                placeholder="Judul Pengaduan"></TextInput>
+                // onChangeText={val => setJudulPengaduan(val)}
+                // placeholder="Judul Pengaduan"
+                editable={false}></TextInput>
               <TouchableOpacity
                 onPress={pilihFoto}
                 style={{
@@ -296,6 +369,7 @@ function BuatPengaduan({navigation}) {
       >
         <View style={{marginLeft: 30, marginTop: 20}}>
           <TouchableOpacity
+            onPress={ambilDariCamera}
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
@@ -319,6 +393,7 @@ function BuatPengaduan({navigation}) {
             }}
           />
           <TouchableOpacity
+            onPress={ambilDariGalery}
             style={{
               flexDirection: 'row',
               justifyContent: 'center',

@@ -22,6 +22,7 @@ import carouselHeader from './view/carousel';
 import navigationBottom from './view/navigationBottom';
 import menuTrantibum from './view/Trantibum/menuTrantibum';
 import BuatPengaduan from './view/Trantibum/buatPengaduan';
+import PeringatanDini from './view/Trantibum/peringatanDini';
 
 const Stack = createStackNavigator();
 function SettingNav() {
@@ -41,6 +42,13 @@ function SettingNav() {
           }}
           name="MenuTrantibum"
           component={menuTrantibum}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="PeringatanDini"
+          component={PeringatanDini}
         />
         <Stack.Screen
           options={{
