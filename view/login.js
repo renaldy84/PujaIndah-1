@@ -28,7 +28,8 @@ function login({navigation}) {
     if (email === 'user@gmail.com' && password === '1234') {
       dispatch({type: 'LOGIN'});
     } else {
-      setModalVisible(true);
+      dispatch({type: 'LOGIN'});
+      // setModalVisible(true);
     }
   };
 
@@ -108,8 +109,7 @@ function login({navigation}) {
           <Text
             style={styles.textChildLogin1}
             onPress={() => {
-              console.log('Daftar');
-              navigation.navigate('CarouselHeader');
+              navigation.navigate('DaftarAkun');
             }}>
             Daftar
           </Text>

@@ -11,7 +11,6 @@ import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
-
 import MenuAwal from './view/menuAwal.js';
 import Login from './view/login';
 import HomePage from './view/home';
@@ -19,7 +18,10 @@ import psikiater from './view/psikiater';
 import history from './view/history';
 import lupaPassword from './view/lupaPassword';
 import daftarAkun from './view/daftarAkun';
-import carouselHeader from './view/carousel.js';
+import carouselHeader from './view/carousel';
+import navigationBottom from './view/navigationBottom';
+import menuTrantibum from './view/Trantibum/menuTrantibum';
+import BuatPengaduan from './view/Trantibum/buatPengaduan';
 
 const Stack = createStackNavigator();
 function SettingNav() {
@@ -30,18 +32,32 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
-          name="Home"
-          component={HomePage}
+          name="NavigationBottom"
+          component={navigationBottom}
         />
         <Stack.Screen
           options={{
-            headerShown: true,
+            headerShown: false,
+          }}
+          name="MenuTrantibum"
+          component={menuTrantibum}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BuatPengaduan"
+          component={BuatPengaduan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
             headerStyle: {
-              backgroundColor: 'rgb(188, 89, 213)',
+              backgroundColor: 'white',
             },
           }}
-          name="Psikiater"
-          component={psikiater}
+          name="CarouselHeader"
+          component={carouselHeader}
         />
         <Stack.Screen
           options={{
@@ -100,16 +116,7 @@ function SettingNavAwal() {
           name="DaftarAkun"
           component={daftarAkun}
         />
-        <Stack.Screen
-          options={{
-            headerShown: false,
-            headerStyle: {
-              backgroundColor: 'white',
-            },
-          }}
-          name="CarouselHeader"
-          component={carouselHeader}
-        />
+
         {/* <Stack.Screen
           options={{
             headerShown: true,
@@ -136,7 +143,7 @@ const App = () => {
       <Stack.Navigator headerMode="none">
         {LOGIN ? (
           <>
-            <Stack.Screen name="Home" component={SettingNav} />
+            <Stack.Screen name="NavigationBottom" component={SettingNav} />
           </>
         ) : (
           <>

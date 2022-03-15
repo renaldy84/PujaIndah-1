@@ -5,18 +5,19 @@ import Carousel, {Pagination} from 'react-native-snap-carousel';
 const data = [
   {
     id: 1,
-    name: 'React JS',
-    url: 'https://icon-library.com/images/react-icon/react-icon-29.jpg',
+    url: 'https://www.payfazz.com/wp-content/uploads/2019/09/BLOG_PAYFAZZ_agenpayfazz.jpg',
   },
   {
     id: 2,
-    name: 'JavaScript',
-    url: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Javascript_Logo.png',
+    url: 'https://www.payfazz.com/wp-content/uploads/2016/01/BLOG_PAYFAZZ_promopayfazz.jpg',
   },
   {
     id: 3,
-    name: 'Node JS',
-    url: 'https://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png',
+    url: 'https://www.payfazz.com/wp-content/uploads/2021/06/BLOG_2021_PAYFAZZ_press.jpg',
+  },
+  {
+    id: 4,
+    url: 'https://www.payfazz.com/wp-content/uploads/2020/06/BLOG-Akun-Resmi-Revisi.jpg',
   },
 ];
 
@@ -24,16 +25,25 @@ const renderItem = ({item}) => {
   return (
     <View
       style={{
-        borderWidth: 1,
-        padding: 20,
-        borderRadius: 20,
+        // borderWidth: 1,
+        // padding: 20,
+
         alignItems: 'center',
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
       }}>
-      <Image source={{uri: item.url}} style={{width: 100, height: 100}} />
-      <Text style={{marginVertical: 10, fontSize: 20, fontWeight: 'bold'}}>
+      <Image
+        source={{uri: item.url}}
+        style={{
+          width: '100%',
+          height: 175,
+          aspectRatio: 2,
+          resizeMode: 'contain',
+          borderRadius: 20,
+        }}
+      />
+      {/* <Text style={{marginVertical: 10, fontSize: 20, fontWeight: 'bold'}}>
         {item.name}
-      </Text>
+      </Text> */}
     </View>
   );
 };
@@ -45,21 +55,15 @@ const CarouselHeader = () => {
   const isCarousel = useRef(null);
   return (
     <View style={{marginVertical: 10}}>
-      {/* <Carousel
-        data={data}
-        renderItem={renderItem}
-        sliderWidth={SLIDER_WIDTH}
-        itemWidth={ITEM_WIDTH}
-      /> */}
       <Carousel
-        // layout={'default'}
+        layout={'default'}
         ref={isCarousel}
         data={data}
         renderItem={renderItem}
         sliderWidth={SLIDER_WIDTH}
         itemWidth={ITEM_WIDTH}
         onSnapToItem={index => setIndex(index)}
-        hasParallaxImages={true}
+        // hasParallaxImages={true}
         autoplay={true}
         loop={true}
       />
@@ -86,20 +90,19 @@ const CarouselHeader = () => {
         carouselRef={isCarousel}
         dotsLength={data.length}
         activeDotIndex={index}
-        containerStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+        // containerStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
         dotStyle={{
-          width: 10,
-          height: 10,
-          borderRadius: 5,
-          marginHorizontal: 8,
-          backgroundColor: 'rgba(255, 255, 255, 0.92)',
+          width: 6,
+          height: 6,
+          borderRadius: 3,
+          marginHorizontal: 0,
+          backgroundColor: '#063A69',
         }}
         tappableDots={true}
-        inactiveDotStyle={
-          {
-            // Define styles for inactive dots here
-          }
-        }
+        inactiveDotStyle={{
+          // Define styles for inactive dots
+          backgroundColor: 'grey',
+        }}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
       />
