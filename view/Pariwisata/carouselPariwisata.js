@@ -6,19 +6,19 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 const data = [
   {
     id: 1,
-    url: 'https://www.payfazz.com/wp-content/uploads/2019/09/BLOG_PAYFAZZ_agenpayfazz.jpg',
+    url: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Indonesia_-_Lake_Toba_%2826224127503%29.jpg',
   },
   {
     id: 2,
-    url: 'https://www.payfazz.com/wp-content/uploads/2016/01/BLOG_PAYFAZZ_promopayfazz.jpg',
+    url: 'https://www.adira.co.id/sahabatlokal/img/frontend/news/danautobapng.png',
   },
   {
     id: 3,
-    url: 'https://www.payfazz.com/wp-content/uploads/2021/06/BLOG_2021_PAYFAZZ_press.jpg',
+    url: 'https://img.beritasatu.com/cache/beritasatu/600x350-2/1518092128.jpg',
   },
   {
     id: 4,
-    url: 'https://www.payfazz.com/wp-content/uploads/2020/06/BLOG-Akun-Resmi-Revisi.jpg',
+    url: 'https://jid.storage.googleapis.com/wp-content/uploads/2021/12/14134239/danau-toba.jpg',
   },
 ];
 
@@ -28,18 +28,17 @@ const renderItem = ({item}) => {
       style={{
         // borderWidth: 1,
         // padding: 20,
-
+        marginTop: 20,
+        width: wp('100%'),
         alignItems: 'center',
-        // backgroundColor: 'white',
       }}>
       <Image
         source={{uri: item.url}}
         style={{
-          width: '100%',
-          height: 175,
+          width: wp('100%'),
+          height: 200,
           // aspectRatio: 2,
-          // resizeMode: 'contain',
-          borderRadius: 15,
+          //   resizeMode: 'contain',
         }}
       />
       {/* <Text style={{marginVertical: 10, fontSize: 20, fontWeight: 'bold'}}>
@@ -50,12 +49,12 @@ const renderItem = ({item}) => {
 };
 
 export const SLIDER_WIDTH = wp('100%');
-export const ITEM_WIDTH = wp('85%');
-const CarouselHeader = () => {
+export const ITEM_WIDTH = wp('100%');
+const carauselPariwisata = () => {
   const [index, setIndex] = useState(0);
   const isCarousel = useRef(null);
   return (
-    <View style={{marginVertical: 10}}>
+    <View>
       <Carousel
         layout={'default'}
         ref={isCarousel}
@@ -111,4 +110,4 @@ const CarouselHeader = () => {
   );
 };
 
-export default CarouselHeader;
+export default carauselPariwisata;

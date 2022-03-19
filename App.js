@@ -23,6 +23,9 @@ import navigationBottom from './view/navigationBottom';
 import menuTrantibum from './view/Trantibum/menuTrantibum';
 import BuatPengaduan from './view/Trantibum/buatPengaduan';
 import PeringatanDini from './view/Trantibum/peringatanDini';
+import RiwayatPengaduan from './view/Trantibum/riwayatPengaduan';
+import ListPariwisata from './view/Pariwisata/listPariwisata';
+import DetailPariwisata from './view/Pariwisata/detailPariwisata';
 
 const Stack = createStackNavigator();
 function SettingNav() {
@@ -56,6 +59,27 @@ function SettingNav() {
           }}
           name="BuatPengaduan"
           component={BuatPengaduan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="RiwayatPengaduan"
+          component={RiwayatPengaduan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="ListPariwisata"
+          component={ListPariwisata}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailPariwisata"
+          component={DetailPariwisata}
         />
         <Stack.Screen
           options={{

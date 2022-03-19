@@ -95,7 +95,11 @@ const MenuTrantibum = ({navigation}) => {
                 <FontAwesome name="caret-right" size={35} color="#0323C4" />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.boxKonten}>
+            <TouchableOpacity
+              style={styles.boxKonten}
+              onPress={() => {
+                navigation.navigate('RiwayatPengaduan');
+              }}>
               <View style={styles.boxIconRight}>
                 <Image
                   style={{width: 40, height: 40}}

@@ -11,6 +11,8 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import CarauselHeader from './carousel';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 function home({navigation}) {
   const dispatch = useDispatch();
@@ -21,8 +23,67 @@ function home({navigation}) {
   return (
     <>
       <View style={styles.containerHeader}>
-        <SafeAreaView style={styles.child1}>
+        <View
+          style={{
+            width: wp('80%'),
+            // borderWidth: 1,
+            marginTop: 30,
+            // marginRight: 50,
+            alignItems: 'flex-end',
+          }}>
+          <Fontisto
+            color="white"
+            size={30}
+            name="bell"
+            onPress={() => {
+              navigation.navigate('MenuTrantibum');
+            }}
+          />
           <View
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: 10,
+              backgroundColor: 'red',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'absolute',
+              top: -5,
+              right: -8,
+            }}>
+            <Text style={{color: 'white', fontSize: 10, textAlign: 'center'}}>
+              2
+            </Text>
+          </View>
+        </View>
+        <View style={styles.child1}>
+          <View>
+            <Image
+              source={{
+                uri: 'https://blogger.googleusercontent.com/img/a/AVvXsEisUBhb8W_4oOgwJmAGcw_131KKxTtzyX28LkAhuG7-nDSGb3XGeLxrLXEombzEpKKN2GDsPvBPFQmQBUGiO_W0-KQSF-Uz686SJQiCTwiH3zHdv8Dc4WmNzq8prp8c6EGV_QRZBc6hCV-e7mEwzQYx0FdttYEWYboMnwJEmJiDz3nP-V6nTQ9tORHdyA=s16000',
+              }}
+              style={{
+                width: 60,
+                height: 60,
+                marginLeft: 0,
+                // aspectRatio: 2,
+                // resizeMode: 'contain',
+                borderRadius: 30,
+              }}
+            />
+          </View>
+          <View style={{justifyContent: 'center'}}>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                marginLeft: 20,
+                color: 'white',
+              }}>
+              Hi, Dara
+            </Text>
+          </View>
+          {/* <View
             style={{
               borderWidth: 1,
               width: '50%',
@@ -44,12 +105,12 @@ function home({navigation}) {
               asjdhgjasbdkjashdkjasdjkasndkjas xjansbcjkasjdbasj
               cjkabsdjasndkjas kajs
             </Text>
-          </View>
-        </SafeAreaView>
+          </View> */}
+        </View>
       </View>
       <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
         <CarauselHeader />
-        <View style={[styles.iconMenuBOX, {margin: 15, marginBottom: 20}]}>
+        <View style={[styles.iconMenuBOX, {margin: 10, marginBottom: 20}]}>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             <View>
               <TouchableOpacity
@@ -70,7 +131,7 @@ function home({navigation}) {
             <View>
               <TouchableOpacity
                 onPress={() => {
-                  // navigation.navigate('History Absensi');
+                  navigation.navigate('ListPariwisata');
                 }}
                 style={[
                   styles.iconMenuContainer,
@@ -245,7 +306,7 @@ function home({navigation}) {
             </View>
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -279,7 +340,7 @@ function home({navigation}) {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </>
   );
@@ -289,13 +350,13 @@ const styles = {
   containerHeader: {
     backgroundColor: '#0323C4',
     height: '20%',
+    alignItems: 'center',
   },
   child1: {
+    width: wp('90%'),
+    // borderWidth: 1,
     flexDirection: 'row',
-    marginTop: 20,
-    width: '100%',
-    // height: 50,
-    borderWidth: 1,
+    marginBottom: 20,
   },
   container: {
     flex: 1,
@@ -330,14 +391,14 @@ const styles = {
   },
   iconMenuContainer: {
     backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowOpacity: 0.51,
-    shadowRadius: 13.16,
-    elevation: 20,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 10,
+    // },
+    // shadowOpacity: 0.51,
+    // shadowRadius: 13.16,
+    // elevation: 20,
     height: 62,
     width: 72,
     borderTopLeftRadius: 50,

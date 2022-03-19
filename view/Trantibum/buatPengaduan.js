@@ -360,7 +360,8 @@ function BuatPengaduan({navigation}) {
 
       <Modalize
         ref={modalizeRef}
-        snapPoint={150}
+        // snapPoint={150}
+        modalHeight={150}
         // HeaderComponent={
         //   <View style={{alignItems: 'center', margin: 20}}>
         //     <Text style={{fontSize: 24}}>Pilih </Text>

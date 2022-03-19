@@ -117,7 +117,7 @@ function login({navigation}) {
         {/* <View style={styles.boxLogo}>
           <Image
             style={styles.logo}
-            source={require('../assets/healingcircle.png')}></Image>
+            source={require('../assets/PujaIndahcircle.png')}></Image>
         </View> */}
         <View style={styles.container}>
           <View>

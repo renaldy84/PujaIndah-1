@@ -44,7 +44,11 @@ function navigationBottom() {
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#0323C4',
-          tabBarStyle: {height: 70},
+          tabBarStyle: {
+            height: 70,
+            elevation: 10,
+            marginTop: 3,
+          },
           tabBarLabel: 'Home',
           tabBarLabelStyle: {
             marginTop: -10,
@@ -63,7 +67,7 @@ function navigationBottom() {
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#0323C4',
-          tabBarStyle: {height: 70},
+          tabBarStyle: {height: 70, elevation: 10, marginTop: 3},
           tabBarLabel: 'Activity',
           tabBarLabelStyle: {
             marginTop: -10,
@@ -82,7 +86,7 @@ function navigationBottom() {
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#0323C4',
-          tabBarStyle: {height: 70},
+          tabBarStyle: {height: 70, elevation: 10, marginTop: 3},
           tabBarLabel: 'Layanan',
           tabBarLabelStyle: {
             marginTop: -10,
@@ -101,7 +105,7 @@ function navigationBottom() {
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#0323C4',
-          tabBarStyle: {height: 70},
+          tabBarStyle: {height: 70, elevation: 10, marginTop: 3},
           tabBarLabel: 'Account',
           tabBarLabelStyle: {
             marginTop: -10,

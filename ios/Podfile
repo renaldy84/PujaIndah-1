@@ -12,7 +12,7 @@ target 'PujaIndah' do
     :hermes_enabled => false
   )
 
-  target 'HealingTests' do
+  target 'PujaIndahTests' do
     inherit! :complete
     # Pods for testing
   end
