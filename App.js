@@ -26,6 +26,7 @@ import PeringatanDini from './view/Trantibum/peringatanDini';
 import RiwayatPengaduan from './view/Trantibum/riwayatPengaduan';
 import ListPariwisata from './view/Pariwisata/listPariwisata';
 import DetailPariwisata from './view/Pariwisata/detailPariwisata';
+import UlasanPariwisata from './view/Pariwisata/ulasanPariwisata';
 
 const Stack = createStackNavigator();
 function SettingNav() {
@@ -78,9 +79,17 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="UlasanPariwisata"
+          component={UlasanPariwisata}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DetailPariwisata"
           component={DetailPariwisata}
         />
+
         <Stack.Screen
           options={{
             headerShown: false,

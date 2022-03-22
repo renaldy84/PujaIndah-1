@@ -36,7 +36,7 @@ function home({navigation}) {
             size={30}
             name="bell"
             onPress={() => {
-              navigation.navigate('MenuTrantibum');
+              // navigation.navigate('MenuTrantibum');
             }}
           />
           <View
