@@ -53,7 +53,13 @@ function UlasanPariwisata({navigation}) {
                 Nilai Pengalaman Anda (harus diisi)
               </Text>
             </View>
-            <View style={{marginTop: 12}}>
+            <View
+              style={{
+                marginTop: 12,
+                // borderWidth: 1,
+                width: '80%',
+                alignItems: 'flex-start',
+              }}>
               <Rating
                 type="star"
                 ratingCount={5} //jumlah rating

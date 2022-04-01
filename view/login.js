@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Component} from 'react';
 import {
   View,
   Text,
@@ -16,21 +16,44 @@ import {
   faEye,
   faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons';
+import Axios from 'axios';
+import url from '../config';
+import {BallIndicator} from 'react-native-indicators';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function login({navigation}) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
 
   const login = () => {
-    if (email === 'user@gmail.com' && password === '1234') {
-      dispatch({type: 'LOGIN'});
-    } else {
-      dispatch({type: 'LOGIN'});
-      // setModalVisible(true);
-    }
+    setModalLoading(true);
+    Axios({
+      url: url + '/api/auth/login',
+      method: 'post',
+      data: {
+        email: email,
+        password: password,
+      },
+    })
+      .then(async response => {
+        // console.log(response.data);
+        setModalLoading(false);
+        try {
+          await AsyncStorage.setItem('email', email);
+          await AsyncStorage.setItem('password', password);
+        } catch (error) {}
+        dispatch({type: 'LOGIN', data: response.data.data});
+      })
+      .catch(error => {
+        setModalVisible(true);
+        setMessage(error.response.data.message);
+        setModalLoading(false);
+      });
   };
 
   return (
@@ -41,28 +64,24 @@ function login({navigation}) {
             <Image
               style={{width: 50, height: 50}}
               source={require('../assets/image/warning.png')}></Image>
-            {email === '' || password === '' ? (
+
+            <View style={{alignItems: 'center'}}>
               <Text
                 style={{
                   fontWeight: 'bold',
                   fontSize: 14,
                   marginTop: 20,
+                  justifyContent: 'center',
                 }}>
-                Email atau Password Anda Kosong
+                {message}
               </Text>
-            ) : (
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 14,
-                  marginTop: 20,
-                }}>
-                Email atau Pasword Anda Salah
-              </Text>
-            )}
+            </View>
 
             <Pressable
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                setMessage('');
+              }}
               style={{
                 backgroundColor: '#ff0000',
                 marginTop: 20,
@@ -84,6 +103,15 @@ function login({navigation}) {
         </View>
       </Modal>
 
+      <Modal animationType="fade" transparent={true} visible={modalLoading}>
+        <View style={styles.centeredView}>
+          <View>
+            <View style={{alignItems: 'center'}}>
+              <BallIndicator color="white" />
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View
         style={{
           // margin: 20,
@@ -274,21 +302,22 @@ const styles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#080a1a99',
   },
   modalView: {
     margin: 20,
     backgroundColor: '#ffffff',
     borderRadius: 20,
-    padding: 35,
+    padding: 30,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
   },
   arrow: {
     marginTop: 50,

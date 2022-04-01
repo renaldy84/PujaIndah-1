@@ -63,7 +63,6 @@ function BuatPengaduan({navigation}) {
         quality: 0.3,
       },
       response => {
-        console.log(response.assets[0].fileName);
         if (!response.didCancel) {
           setFoto(response.assets[0].uri);
           // setDataFoto(response.data);
@@ -98,7 +97,6 @@ function BuatPengaduan({navigation}) {
         quality: 0.3,
       },
       response => {
-        console.log(response);
         if (!response.didCancel) {
           setFoto(response.assets[0].uri);
           // setDataFoto(response.data);
@@ -362,62 +360,55 @@ function BuatPengaduan({navigation}) {
         ref={modalizeRef}
         // snapPoint={150}
         modalHeight={150}
-        // HeaderComponent={
-        //   <View style={{alignItems: 'center', margin: 20}}>
-        //     <Text style={{fontSize: 24}}>Pilih </Text>
-        //   </View>
-        // }
-      >
-        <View style={{marginLeft: 30, marginTop: 20}}>
-          <TouchableOpacity
-            onPress={ambilDariCamera}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 40,
-            }}>
-            <View>
-              <FontAwesomeIcon color="grey" size={25} icon={faCamera} />
-            </View>
-            <View style={{flex: 4, marginLeft: 10, justifyContent: 'center'}}>
-              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                Pilih dari Camera
-              </Text>
-            </View>
-          </TouchableOpacity>
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <View
             style={{
-              borderBottomColor: 'grey',
-              borderBottomWidth: 2,
-              marginRight: 20,
-            }}
-          />
-          <TouchableOpacity
-            onPress={ambilDariGalery}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 40,
-              marginTop: 10,
+              marginHorizontal: 30,
+              width: 100,
             }}>
-            <View>
-              <FontAwesomeIcon color="grey" size={25} icon={faFolderOpen} />
-            </View>
-            <View style={{flex: 4, marginLeft: 10, justifyContent: 'center'}}>
-              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                Pilih dari Galery
-              </Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={ambilDariCamera}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#2F80ED" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
           <View
             style={{
-              borderBottomColor: 'grey',
-              borderBottomWidth: 2,
-              marginRight: 20,
-            }}
-          />
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGalery}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#2F80ED"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modalize>
     </>

@@ -16,10 +16,14 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 
 function home({navigation}) {
   const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
   const logout = () => {
     dispatch({type: 'LOGOUT'});
   };
 
+  useEffect(() => {
+    console.log(auth.name);
+  });
   return (
     <>
       <View style={styles.containerHeader}>
@@ -36,6 +40,7 @@ function home({navigation}) {
             size={30}
             name="bell"
             onPress={() => {
+              logout();
               // navigation.navigate('MenuTrantibum');
             }}
           />
@@ -60,7 +65,7 @@ function home({navigation}) {
           <View>
             <Image
               source={{
-                uri: 'https://blogger.googleusercontent.com/img/a/AVvXsEisUBhb8W_4oOgwJmAGcw_131KKxTtzyX28LkAhuG7-nDSGb3XGeLxrLXEombzEpKKN2GDsPvBPFQmQBUGiO_W0-KQSF-Uz686SJQiCTwiH3zHdv8Dc4WmNzq8prp8c6EGV_QRZBc6hCV-e7mEwzQYx0FdttYEWYboMnwJEmJiDz3nP-V6nTQ9tORHdyA=s16000',
+                uri: auth.fotoProfile,
               }}
               style={{
                 width: 60,
@@ -80,7 +85,7 @@ function home({navigation}) {
                 marginLeft: 20,
                 color: 'white',
               }}>
-              Hi, Dara
+              Hi, {auth.name}
             </Text>
           </View>
           {/* <View

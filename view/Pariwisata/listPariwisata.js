@@ -10,21 +10,126 @@ import {
   Keyboard,
   Dimensions,
   Platform,
+  FlatList,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft, faSearch} from '@fortawesome/free-solid-svg-icons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Rating} from 'react-native-ratings';
+import Axios from 'axios';
+import url from '../../config';
+import {ActivityIndicator} from 'react-native-paper';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const ListPariwisata = ({navigation}) => {
+  const auth = useSelector(state => state.auth);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const [filter, setFilter] = useState('');
+
+  const getListPariwisata = () => {
+    setIsLoading(true);
+    Axios({
+      url:
+        url +
+        `/api/pariwisata/pariwisata/getall?page=${pageCurrent}&per_page=10&order=name+asc&nama_daerah=${filter}`,
+      method: 'get',
+      headers: {Authorization: 'Bearer ' + auth.apiToken},
+    })
+      .then(response => {
+        // console.log(response.data.page);
+        setData(data.concat(response.data.data));
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    // console.log(item.wilayah[0].nama);
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          console.log(item);
+          // navigation.navigate('DetailPariwisata');
+        }}
+        style={styles.boxKonten}>
+        <View style={styles.boxIconRight}>
+          {item.image ? (
+            <Image
+              style={{width: 120, height: 100, borderRadius: 10}}
+              source={{
+                uri: item.image,
+              }}
+            />
+          ) : (
+            <Image
+              style={{width: 120, height: 100, borderRadius: 10}}
+              source={{
+                uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Indonesia_-_Lake_Toba_%2826224127503%29.jpg',
+              }}
+            />
+          )}
+        </View>
+        <View style={styles.boxText}>
+          <View>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>{item.name}</Text>
+          </View>
+
+          <View
+            style={{
+              alignItems: 'flex-start',
+              marginVertical: 5,
+              flexDirection: 'row',
+            }}>
+            <Rating
+              type="star"
+              ratingCount={5} //jumlah rating
+              imageSize={15}
+              // onFinishRating={getRating} //get value
+              readonly={true}
+              startingValue={item.total_rating}
+              fractions={1} //untuk desimal
+            />
+            <Text style={{fontSize: 10, color: 'grey', marginLeft: 5}}>
+              {item.total_ulasan} Reviews
+            </Text>
+          </View>
+          <View>
+            <Text style={{fontSize: 12}}>Daerah {item.wilayah[0].nama}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderFooter = () => {
+    return isLoading ? (
+      <View style={{marginTop: 10, alignItems: 'center'}}>
+        <ActivityIndicator size={'small'} />
+      </View>
+    ) : null;
+  };
+
+  const handleLoadMore = () => {
+    setPageCurrent(pageCurrent + 1);
+    setIsLoading(true);
+    // getListPariwisata();
+  };
   function getRating(rating) {
     console.log(rating);
   }
+
+  useEffect(() => {
+    getListPariwisata();
+  }, [pageCurrent]);
+
   return (
     <>
       <TouchableWithoutFeedback onPress={() => {}}>
@@ -63,7 +168,9 @@ const ListPariwisata = ({navigation}) => {
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
                 style={[styles.textInput, {fontSize: 12, height: 40, flex: 5}]}
-                // onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => {
+                  setFilter(val);
+                }}
                 placeholder="Pencarian berdasarkan daerah"></TextInput>
               <TouchableOpacity
                 onPress={() => {}}
@@ -76,14 +183,23 @@ const ListPariwisata = ({navigation}) => {
                 <FontAwesomeIcon color="grey" size={20} icon={faSearch} />
               </TouchableOpacity>
             </View>
-            <ScrollView
+            <FlatList
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              ListFooterComponent={renderFooter}
+              onEndReached={handleLoadMore}
+              onEndReachedThreshold={0}
+            />
+
+            {/* <ScrollView
               contentContainerStyle={{
                 flexGrow: 1,
                 marginTop: 20,
                 marginRight: 10,
                 paddingBottom: 30,
-              }}>
-              <TouchableOpacity
+              }}> */}
+            {/* <TouchableOpacity
                 onPress={() => {
                   console.log('test');
                   navigation.navigate('DetailPariwisata');
@@ -129,193 +245,8 @@ const ListPariwisata = ({navigation}) => {
                     </Text>
                   </View>
                 </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('DetailPariwisata');
-                }}
-                style={styles.boxKonten}>
-                <View style={styles.boxIconRight}>
-                  <Image
-                    style={{width: 120, height: 100, borderRadius: 10}}
-                    source={{
-                      uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Indonesia_-_Lake_Toba_%2826224127503%29.jpg',
-                    }}
-                  />
-                </View>
-                <View style={styles.boxText}>
-                  <View>
-                    <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                      Danau Toba
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      alignItems: 'flex-start',
-                      marginVertical: 5,
-                      flexDirection: 'row',
-                    }}>
-                    <Rating
-                      type="star"
-                      ratingCount={5} //jumlah rating
-                      imageSize={15}
-                      onFinishRating={getRating} //get value
-                      readonly={true}
-                      startingValue={2.5}
-                      fractions={1} //untuk desimal
-                    />
-                    <Text style={{fontSize: 10, color: 'grey', marginLeft: 5}}>
-                      255 Reviews
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={{fontSize: 12}}>
-                      Daerah Provinsi Sumatra Utara
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('DetailPariwisata');
-                }}
-                style={styles.boxKonten}>
-                <View style={styles.boxIconRight}>
-                  <Image
-                    style={{width: 120, height: 100, borderRadius: 10}}
-                    source={{
-                      uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Indonesia_-_Lake_Toba_%2826224127503%29.jpg',
-                    }}
-                  />
-                </View>
-                <View style={styles.boxText}>
-                  <View>
-                    <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                      Danau Toba
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      alignItems: 'flex-start',
-                      marginVertical: 5,
-                      flexDirection: 'row',
-                    }}>
-                    <Rating
-                      type="star"
-                      ratingCount={5} //jumlah rating
-                      imageSize={15}
-                      onFinishRating={getRating} //get value
-                      readonly={true}
-                      startingValue={2.5}
-                      fractions={1} //untuk desimal
-                    />
-                    <Text style={{fontSize: 10, color: 'grey', marginLeft: 5}}>
-                      255 Reviews
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={{fontSize: 12}}>
-                      Daerah Provinsi Sumatra Utara
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('DetailPariwisata');
-                }}
-                style={styles.boxKonten}>
-                <View style={styles.boxIconRight}>
-                  <Image
-                    style={{width: 120, height: 100, borderRadius: 10}}
-                    source={{
-                      uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Indonesia_-_Lake_Toba_%2826224127503%29.jpg',
-                    }}
-                  />
-                </View>
-                <View style={styles.boxText}>
-                  <View>
-                    <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                      Danau Toba
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      alignItems: 'flex-start',
-                      marginVertical: 5,
-                      flexDirection: 'row',
-                    }}>
-                    <Rating
-                      type="star"
-                      ratingCount={5} //jumlah rating
-                      imageSize={15}
-                      onFinishRating={getRating} //get value
-                      readonly={true}
-                      startingValue={2.5}
-                      fractions={1} //untuk desimal
-                    />
-                    <Text style={{fontSize: 10, color: 'grey', marginLeft: 5}}>
-                      255 Reviews
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={{fontSize: 12}}>
-                      Daerah Provinsi Sumatra Utara
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('DetailPariwisata');
-                }}
-                style={styles.boxKonten}>
-                <View style={styles.boxIconRight}>
-                  <Image
-                    style={{width: 120, height: 100, borderRadius: 10}}
-                    source={{
-                      uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Indonesia_-_Lake_Toba_%2826224127503%29.jpg',
-                    }}
-                  />
-                </View>
-                <View style={styles.boxText}>
-                  <View>
-                    <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                      Danau Toba
-                    </Text>
-                  </View>
-
-                  <View
-                    style={{
-                      alignItems: 'flex-start',
-                      marginVertical: 5,
-                      flexDirection: 'row',
-                    }}>
-                    <Rating
-                      type="star"
-                      ratingCount={5} //jumlah rating
-                      imageSize={15}
-                      onFinishRating={getRating} //get value
-                      readonly={true}
-                      startingValue={2.5}
-                      fractions={1} //untuk desimal
-                    />
-                    <Text style={{fontSize: 10, color: 'grey', marginLeft: 5}}>
-                      255 Reviews
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={{fontSize: 12}}>
-                      Daerah Provinsi Sumatra Utara
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </ScrollView>
+              </TouchableOpacity> */}
+            {/* </ScrollView> */}
           </View>
         </View>
       </TouchableWithoutFeedback>

@@ -6,7 +6,11 @@
  * @flow strict-local
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import Axios from 'axios';
+import url from './config';
+import AsyncStorage from '@react-native-community/async-storage';
 import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -27,7 +31,7 @@ import RiwayatPengaduan from './view/Trantibum/riwayatPengaduan';
 import ListPariwisata from './view/Pariwisata/listPariwisata';
 import DetailPariwisata from './view/Pariwisata/detailPariwisata';
 import UlasanPariwisata from './view/Pariwisata/ulasanPariwisata';
-
+const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 function SettingNav() {
   return (
@@ -173,12 +177,54 @@ function SettingNavAwal() {
   );
 }
 const App = () => {
-  useEffect(() => {
-    RNBootSplash.hide({fade: true, duration: 500});
-  }, []);
-
   const LOGIN = useSelector(state => state.auth.status);
+  const dispatch = useDispatch();
+  let cancelLogin;
+  const login = (email, password) => {
+    Axios({
+      cancelToken: new CancelToken(function executor(c) {
+        cancelLogin = c;
+      }),
+      url: url + '/api/auth/login',
+      method: 'post',
+      data: {
+        email: email,
+        password: password,
+      },
+    })
+      .then(({response}) => {
+        console.log(response.data);
+        dispatch({type: 'LOGIN', data: response.data.data});
+        RNBootSplash.hide({duration: 5000}); // fade
+      })
+      .catch(error => {
+        // console.log(error.response.data);
+        // dispatch({type: 'LOGOUT'});
+        RNBootSplash.hide({duration: 5000}); // fade
+      });
+    setTimeout(() => {
+      cancelLogin();
+    }, 5000);
+  };
+  const check = async () => {
+    try {
+      const email = await AsyncStorage.getItem('email');
+      const password = await AsyncStorage.getItem('password');
+      console.log(email, password);
+      if (email && password) {
+        login(email, password);
+      } else {
+        RNBootSplash.hide({duration: 5000}); // fade
+      }
+    } catch (e) {
+      // error reading value
+    }
+  };
 
+  useEffect(() => {
+    check();
+    // RNBootSplash.hide({fade: true, duration: 500});
+  }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
