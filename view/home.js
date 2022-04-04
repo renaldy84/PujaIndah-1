@@ -13,16 +13,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import CarauselHeader from './carousel';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function home({navigation}) {
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
-  const logout = () => {
-    dispatch({type: 'LOGOUT'});
-  };
+  const responLogin = useSelector(state => state.responLogin);
+  // const logout = () => {
+  //   dispatch({type: 'LOGOUT'});
+  // };
 
-  useEffect(() => {
-    console.log(auth.name);
+  useEffect(async () => {
+    console.log(responLogin);
+    console.log('ini token dari local', await AsyncStorage.getItem('token'));
   });
   return (
     <>
@@ -40,7 +42,7 @@ function home({navigation}) {
             size={30}
             name="bell"
             onPress={() => {
-              logout();
+              // logout();
               // navigation.navigate('MenuTrantibum');
             }}
           />
@@ -65,7 +67,7 @@ function home({navigation}) {
           <View>
             <Image
               source={{
-                uri: auth.fotoProfile,
+                uri: responLogin.profilPic,
               }}
               style={{
                 width: 60,
@@ -85,7 +87,7 @@ function home({navigation}) {
                 marginLeft: 20,
                 color: 'white',
               }}>
-              Hi, {auth.name}
+              Hi, {responLogin.name}
             </Text>
           </View>
           {/* <View

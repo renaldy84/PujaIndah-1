@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useDispatch} from 'react-redux';
 import Home from './home';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
@@ -21,9 +23,22 @@ function ActivityScreen() {
 }
 
 function AccountScreen() {
+  const dispatch = useDispatch();
+  const logout = async () => {
+    await AsyncStorage.clear();
+    dispatch({
+      type: 'LOGOUT',
+    });
+    dispatch({type: 'RESPON_LOGOUT'});
+  };
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Account!</Text>
+      <View>
+        <TouchableOpacity onPress={logout}>
+          <Text>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

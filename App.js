@@ -11,7 +11,6 @@ import {useDispatch} from 'react-redux';
 import Axios from 'axios';
 import url from './config';
 import AsyncStorage from '@react-native-community/async-storage';
-import RNBootSplash from 'react-native-bootsplash';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
@@ -31,8 +30,17 @@ import RiwayatPengaduan from './view/Trantibum/riwayatPengaduan';
 import ListPariwisata from './view/Pariwisata/listPariwisata';
 import DetailPariwisata from './view/Pariwisata/detailPariwisata';
 import UlasanPariwisata from './view/Pariwisata/ulasanPariwisata';
+import SplashScreen from './view/splashScreen';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
+
+function Loading() {
+  return (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name="SplashScreen" component={SplashScreen} />
+    </Stack.Navigator>
+  );
+}
 function SettingNav() {
   return (
     <>
@@ -177,14 +185,15 @@ function SettingNavAwal() {
   );
 }
 const App = () => {
-  const LOGIN = useSelector(state => state.auth.status);
+  const token = useSelector(state => state.auth.authToken);
+  console.log('ini Token', token);
+  // const isLoading = useSelector(state => state.auth.isLoading);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  let cancelLogin;
-  const login = (email, password) => {
+  const init = async () => {
+    let email = await AsyncStorage.getItem('email');
+    let password = await AsyncStorage.getItem('password');
     Axios({
-      cancelToken: new CancelToken(function executor(c) {
-        cancelLogin = c;
-      }),
       url: url + '/api/auth/login',
       method: 'post',
       data: {
@@ -192,49 +201,42 @@ const App = () => {
         password: password,
       },
     })
-      .then(({response}) => {
-        console.log(response.data);
-        dispatch({type: 'LOGIN', data: response.data.data});
-        RNBootSplash.hide({duration: 5000}); // fade
+      .then(async res => {
+        console.log('>>>>>>>>>>>>>>>', res.data.data.api_token);
+        await AsyncStorage.setItem('token', res.data.data.api_token);
+        dispatch({type: 'LOGIN', payload: res.data.data.api_token});
+        dispatch({type: 'RESPON_LOGIN', payload: res.data.data});
+        setTimeout(() => {
+          setLoading(false);
+        }, 5000);
       })
-      .catch(error => {
-        // console.log(error.response.data);
-        // dispatch({type: 'LOGOUT'});
-        RNBootSplash.hide({duration: 5000}); // fade
+      .catch(async error => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 5000);
+        console.log('AAAAAAAAAAAAAAA');
+        dispatch({type: 'LOGOUT'});
+        dispatch({type: 'RESPON_LOGOUT'});
+        await AsyncStorage.clear();
       });
-    setTimeout(() => {
-      cancelLogin();
-    }, 5000);
-  };
-  const check = async () => {
-    try {
-      const email = await AsyncStorage.getItem('email');
-      const password = await AsyncStorage.getItem('password');
-      console.log(email, password);
-      if (email && password) {
-        login(email, password);
-      } else {
-        RNBootSplash.hide({duration: 5000}); // fade
-      }
-    } catch (e) {
-      // error reading value
-    }
   };
 
   useEffect(() => {
-    check();
-    // RNBootSplash.hide({fade: true, duration: 500});
+    console.log(token);
+    init();
   }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
-        {LOGIN ? (
+        {loading ? (
+          <Stack.Screen name="Loading" component={Loading} />
+        ) : token === null ? (
           <>
-            <Stack.Screen name="NavigationBottom" component={SettingNav} />
+            <Stack.Screen name="MenuAwal" component={SettingNavAwal} />
           </>
         ) : (
           <>
-            <Stack.Screen name="MenuAwal" component={SettingNavAwal} />
+            <Stack.Screen name="NavigationBottom" component={SettingNav} />
           </>
         )}
       </Stack.Navigator>

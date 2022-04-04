@@ -68,7 +68,8 @@ function TravelAgen() {
     </ScrollView>
   );
 }
-function TopTab() {
+function TopTab({item}) {
+  console.log('ini dari list pariwisata', item.narasi);
   return (
     <View
       horizontal={true}

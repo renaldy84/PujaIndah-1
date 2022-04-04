@@ -21,28 +21,29 @@ import {Rating} from 'react-native-ratings';
 import Axios from 'axios';
 import url from '../../config';
 import {ActivityIndicator} from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const ListPariwisata = ({navigation}) => {
-  const auth = useSelector(state => state.auth);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pageCurrent, setPageCurrent] = useState(1);
   const [filter, setFilter] = useState('');
 
-  const getListPariwisata = () => {
+  const getListPariwisata = async () => {
     setIsLoading(true);
     Axios({
       url:
         url +
         `/api/pariwisata/pariwisata/getall?page=${pageCurrent}&per_page=10&order=name+asc&nama_daerah=${filter}`,
       method: 'get',
-      headers: {Authorization: 'Bearer ' + auth.apiToken},
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
     })
       .then(response => {
-        // console.log(response.data.page);
         setData(data.concat(response.data.data));
         setIsLoading(false);
       })
@@ -56,8 +57,8 @@ const ListPariwisata = ({navigation}) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log(item);
-          // navigation.navigate('DetailPariwisata');
+          // console.log(item.id);
+          navigation.navigate('DetailPariwisata', {idPariwisata: item.id});
         }}
         style={styles.boxKonten}>
         <View style={styles.boxIconRight}>

@@ -30,7 +30,20 @@ function login({navigation}) {
   const [modalLoading, setModalLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
 
-  const login = () => {
+  const login = async () => {
+    // let token = null;
+    // let username = 'vishal';
+    // let password = '1234';
+    // if (username === 'vishal' && password == '1234') {
+    //   token = username + password;
+    //   // here we can use login api to get token and then store it
+    //   await AsyncStorage.setItem('token', token);
+    //   console.log('token stored');
+    // }
+    // dispatch({
+    //   type: 'LOGIN',
+    //   payload: token,
+    // });
     setModalLoading(true);
     Axios({
       url: url + '/api/auth/login',
@@ -40,14 +53,16 @@ function login({navigation}) {
         password: password,
       },
     })
-      .then(async response => {
-        // console.log(response.data);
+      .then(async res => {
+        console.log(res.data.data.api_token);
         setModalLoading(false);
         try {
           await AsyncStorage.setItem('email', email);
           await AsyncStorage.setItem('password', password);
+          await AsyncStorage.setItem('token', res.data.data.api_token);
         } catch (error) {}
-        dispatch({type: 'LOGIN', data: response.data.data});
+        dispatch({type: 'LOGIN', payload: res.data.data.api_token});
+        dispatch({type: 'RESPON_LOGIN', payload: res.data.data});
       })
       .catch(error => {
         setModalVisible(true);

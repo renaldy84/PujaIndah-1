@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -20,8 +20,155 @@ import CarouselPariwisata from './carouselPariwisata';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import TopTabView from './topTabView';
 import {Rating} from 'react-native-ratings';
+import Axios from 'axios';
+import url from '../../config';
+import AsyncStorage from '@react-native-community/async-storage';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {ScrollView as ScrollGesture} from 'react-native-gesture-handler';
 
-function DetailPariwisata({navigation}) {
+const Tab = createMaterialTopTabNavigator();
+
+function DetailPariwisata({navigation, route}) {
+  const pariwisataId = route.params.idPariwisata;
+  const [detail, setDetail] = useState({});
+  const [transportasi, setTransportasi] = useState([]);
+
+  const getDetail = async () => {
+    Axios({
+      url: url + `/api/pariwisata/pariwisata/getid/${pariwisataId}`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        if (response.data.status === 1) {
+          setDetail(response.data.data);
+          setTransportasi(response.data.data.transportasi);
+        } else {
+          console.log('Silahkan refresh halaman ini');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
+
+  function Deskripsi() {
+    return (
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        <View style={{margin: 10}}>
+          <Text>{detail.narasi}</Text>
+        </View>
+      </ScrollView>
+    );
+  }
+
+  function Transportasi() {
+    return (
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        {transportasi.map((val, index) => {
+          return (
+            <View style={{margin: 10}} key={index}>
+              <View style={{flexDirection: 'row'}}>
+                <View>
+                  <Text>{index + 1}. </Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{width: '20%'}}>
+                      <Text>Nama</Text>
+                    </View>
+                    <View style={{width: '2%'}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{width: '78%'}}>
+                      <Text>{val.nama}</Text>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{width: '20%'}}>
+                      <Text>Jenis</Text>
+                    </View>
+                    <View style={{width: '2%'}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{width: '78%'}}>
+                      <Text>{val.jenis}</Text>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{width: '20%'}}>
+                      <Text>Waktu</Text>
+                    </View>
+                    <View style={{width: '2%'}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{width: '78%'}}>
+                      <Text>{val.waktu}</Text>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{width: '20%'}}>
+                      <Text>Biaya</Text>
+                    </View>
+                    <View style={{width: '2%'}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{width: '78%'}}>
+                      <Text>{val.biaya}</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          );
+        })}
+        {/* <View style={{margin: 10}}>
+          <Text></Text>
+        </View> */}
+      </ScrollView>
+    );
+  }
+
+  function Kuliner() {
+    return (
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        <View style={{margin: 10}}>
+          <Text>Kuliner!</Text>
+        </View>
+      </ScrollView>
+    );
+  }
+
+  function Penginapan() {
+    return (
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        <View style={{margin: 10}}>
+          <Text>Penginapan!</Text>
+        </View>
+      </ScrollView>
+    );
+  }
+
+  function TravelAgen() {
+    return (
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        <View style={{margin: 10}}>
+          <Text>Travel Agen!</Text>
+        </View>
+      </ScrollView>
+    );
+  }
   function getRating(rating) {
     console.log(rating);
   }
@@ -34,7 +181,13 @@ function DetailPariwisata({navigation}) {
           // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
-        <View style={{flexDirection: 'row', marginBottom: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginBottom: 20,
+            marginHorizontal: 20,
+            // borderWidth: 1,
+          }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
               size={30}
@@ -45,7 +198,7 @@ function DetailPariwisata({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Danau Toba</Text>
+            <Text style={styles.textJudul}>{detail.name}</Text>
           </View>
         </View>
 
@@ -54,7 +207,25 @@ function DetailPariwisata({navigation}) {
           <View>
             <YoutubePlayer height={200} videoId={'Za2zEoGcfmU'} />
           </View>
-          <TopTabView />
+          {/* <TopTabView item={detail} /> */}
+          <View
+            horizontal={true}
+            style={{
+              flex: 1,
+              marginVertical: 20,
+              height: 300,
+            }}>
+            <Tab.Navigator
+              screenOptions={{
+                tabBarScrollEnabled: true,
+              }}>
+              <Tab.Screen name="Deskripsi" component={Deskripsi} />
+              <Tab.Screen name="Transportasi" component={Transportasi} />
+              <Tab.Screen name="Kuliner" component={Kuliner} />
+              <Tab.Screen name="Penginapan" component={Penginapan} />
+              <Tab.Screen name="Travel Agen" component={TravelAgen} />
+            </Tab.Navigator>
+          </View>
           <View
             style={{
               marginTop: 15,
@@ -418,13 +589,16 @@ function DetailPariwisata({navigation}) {
 
 const styles = StyleSheet.create({
   arrow: {
+    justifyContent: 'center',
     // borderWidth: 1,
     marginTop: 30,
-    marginLeft: 30,
+    // marginLeft: 30,
   },
   boxJudul: {
+    flex: 1,
+    justifyContent: 'center',
     // borderWidth: 1,
-    marginLeft: 30,
+    marginLeft: 20,
     marginTop: 30,
   },
   textJudul: {
