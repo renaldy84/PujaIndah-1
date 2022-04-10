@@ -5,24 +5,168 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  Image,
+  Pressable,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {Rating} from 'react-native-ratings';
+import Axios from 'axios';
+import url from '../../config';
+import AsyncStorage from '@react-native-community/async-storage';
+import {BallIndicator} from 'react-native-indicators';
 
-function UlasanPariwisata({navigation}) {
+function UlasanPariwisata({navigation, route}) {
+  const pariwisataId = route.params.idPariwisata;
   const [judul, setJudul] = useState('');
   const [detailUlasan, setDetailUlasan] = useState('');
+  const [rating, setRating] = useState(0);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const kirim = () => {
-    // navigation.navigate('MenuTrantibum');
-    navigation.navigate('DetailPariwisata');
+  const kirim = async () => {
+    setModalLoading(true);
+    Axios({
+      url: url + `/api/pariwisata/pariwisata-comment/create`,
+      method: 'post',
+      data: {
+        pesan: detailUlasan,
+        pariwisata_id: pariwisataId,
+        rating: rating,
+        judul: judul,
+      },
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(respon => {
+        setModalLoading(false);
+        setModalVisibleSukses(true);
+        console.log(respon.data);
+        setMessage(respon.data.message);
+      })
+      .catch(err => {
+        setModalVisible(true);
+        setModalLoading(false);
+        setMessage(err.response.data.message);
+      });
+    // navigation.navigate('DetailPariwisata');
   };
   function getRating(rating) {
+    setRating(rating);
     console.log(rating);
   }
   return (
     <>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisibleSukses}>
+        <View style={styles.centeredViewModal}>
+          <View style={styles.modalView}>
+            <Image
+              style={{width: 50, height: 50}}
+              source={require('../../assets/image/success.png')}></Image>
+
+            <View style={{alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                }}>
+                {message}
+              </Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                setModalVisibleSukses(!modalVisibleSukses);
+                setDetailUlasan('');
+                setJudul('');
+                setRating(0);
+                navigation.navigate('DetailPariwisata', {
+                  idPariwisata: pariwisataId,
+                });
+                // setMessage('');
+              }}
+              style={{
+                backgroundColor: '#246EE9',
+                marginTop: 20,
+                borderRadius: 10,
+                width: 100,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#ffffff',
+                  fontSize: 14,
+                  margin: 10,
+                }}>
+                Ok
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
+        <View style={styles.centeredViewModal}>
+          <View style={styles.modalView}>
+            <Image
+              style={{width: 50, height: 50}}
+              source={require('../../assets/image/warning.png')}></Image>
+
+            <View style={{alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                }}>
+                {message}
+              </Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                setMessage('');
+              }}
+              style={{
+                backgroundColor: '#ff0000',
+                marginTop: 20,
+                borderRadius: 10,
+                width: 100,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#ffffff',
+                  fontSize: 14,
+                  margin: 10,
+                }}>
+                Close
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal animationType="fade" transparent={true} visible={modalLoading}>
+        <View style={styles.centeredViewModal}>
+          <View>
+            <View style={{alignItems: 'center'}}>
+              <BallIndicator color="white" />
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View
         style={{
           // margin: 20,
@@ -66,8 +210,9 @@ function UlasanPariwisata({navigation}) {
                 imageSize={30}
                 onFinishRating={getRating} //get value
                 // readonly={true}
-                startingValue={2.5}
-                fractions={1} //untuk desimal
+                // jumpValue={1}
+                startingValue={0}
+                fractions={0} //untuk desimal
               />
             </View>
             <View style={{marginTop: 20}}>
@@ -182,6 +327,27 @@ const styles = {
   textLogin: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  centeredViewModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#080a1a99',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 30,
+    alignItems: 'center',
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
   },
 };
 export default UlasanPariwisata;

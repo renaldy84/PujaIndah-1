@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -17,12 +18,12 @@ import {faArrowLeft, faSearch, faBars} from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
 import MapView, {Marker} from 'react-native-maps';
 import {RadioButton} from 'react-native-paper';
+import Axios from 'axios';
+import url from '../../config';
+import AsyncStorage from '@react-native-community/async-storage';
+import {ActivityIndicator} from 'react-native-paper';
+import moment from 'moment';
 
-var status = [
-  {id: 1, jenisStatus: 'Siaga'},
-  {id: 2, jenisStatus: 'Waspada'},
-  {id: 3, jenisStatus: 'Awas'},
-];
 var bencana = [
   {id: 1, jenisBencana: 'Gempa Bumi'},
   {id: 2, jenisBencana: 'Tanah Longsor'},
@@ -33,31 +34,188 @@ var bencana = [
   {id: 7, jenisBencana: 'Angin topan'},
 ];
 
-var bencanaTampil = bencana.slice(0, 3);
-
-var lokasi = [
-  {id: 1, tempat: 'DKI Jakarta'},
-  {id: 2, tempat: 'Jawa Barat'},
-  {id: 3, tempat: 'Jawa Tengah'},
-  {id: 4, tempat: 'Banten'},
-  {id: 5, tempat: 'Jawa Timur'},
-  {id: 6, tempat: 'Bali'},
-  {id: 7, tempat: 'Nusa Tenggara Barat'},
-  {id: 8, tempat: 'Nusa Tenggara Timur'},
+var status = [
+  {id: 1, jenisStatus: 'Siaga'},
+  {id: 2, jenisStatus: 'Waspada'},
+  {id: 3, jenisStatus: 'Awas'},
 ];
-
-var lokasiTampil = lokasi.slice(0, 3);
-
 function PeringatanDini({navigation}) {
   const modalizeRef = useRef(null);
   const modalizeRefBencana = useRef(null);
   const modalizeRefLokasi = useRef(null);
-  const [checkedBencana, setCheckedBencana] = React.useState('');
-  const [checkedLokasi, setCheckedLokasi] = React.useState('');
+
   const filterModal = () => {
     modalizeRef.current?.open();
   };
+  const [filterPeringatan, setFilterePeringatan] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listPeringatan, setListPeringatan] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const [namaStatus, setNamaStatus] = useState('');
+  //bencana
+  const [checkedBencana, setCheckedBencana] = useState('');
+  const [filterBencana, setFilterBencana] = useState([
+    {id: 1, jenisBencana: 'Gempa Bumi'},
+    {id: 2, jenisBencana: 'Tanah Longsor'},
+    {id: 3, jenisBencana: 'Banjir'},
+    {id: 4, jenisBencana: 'Tsunami'},
+    {id: 5, jenisBencana: 'Letusan gunung api'},
+    {id: 6, jenisBencana: 'Banjir bandang'},
+    {id: 7, jenisBencana: 'Angin topan'},
+  ]);
+  const [namaBencana, setNamaBencana] = useState('');
+  //Provinsi
+  const [checkedLokasi, setCheckedLokasi] = useState('');
+  const [namaProvinsi, setNamaProvinsi] = useState('');
+  const [provinsi, setProvinsi] = useState([]);
+  const [chooseProvinsi, setChooseProvinsi] = useState({});
+  const [filterProvTxt, setFilterProvTxt] = useState('');
+  const [filterProvinsi, setFilterProvinsi] = useState([]);
+
+  var bencanaTampil = bencana.slice(0, 3);
+
+  const getProvinsi = () => {
+    Axios({
+      url: url + `/api/master/m-daerah/getall?order=nama+asc&tingkat=1`,
+      method: 'get',
+    })
+      .then(response => {
+        setProvinsi(response.data.data);
+        setFilterProvinsi(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const hasilFilter = async data => {
+    console.log('ini dari hasil filer', data);
+    setIsLoading(true);
+    Axios({
+      url:
+        url +
+        `/api/trantibumlinmas/peringatan-dini/getall?level_peringatan=${data.namaStatus}&nama_peringatan=${data.namaBencana}&nama_daerah=${data.namaProvinsi}&order=nama_peringatan+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setIsLoading(false);
+        setListPeringatan(response.data.data);
+        setFilterePeringatan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (provinsi.length !== 0) {
+      setFilterProvinsi(
+        provinsi.filter(x =>
+          x.nama.toLowerCase().includes(filterProvTxt.toLowerCase()),
+        ),
+      );
+    }
+  }, [filterProvTxt]);
+  const getListPeringatan = async () => {
+    setIsLoading(true);
+    Axios({
+      url:
+        url +
+        `/api/trantibumlinmas/peringatan-dini/getall?order=nama_peringatan+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        // console.log(response.data.data);
+        setIsLoading(false);
+        setListPeringatan(response.data.data);
+        setFilterePeringatan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <>
+        <View style={styles.container}>
+          <View style={styles.map}>
+            <MapView
+              style={{...StyleSheet.absoluteFillObject, borderRadius: 20}}
+              initialRegion={{
+                latitude: item.lat === null ? 0.0 : parseFloat(item.lat),
+                longitude: item.lon === null ? 0.0 : parseFloat(item.lon),
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+              }}>
+              <Marker
+                coordinate={{
+                  latitude: item.lat === null ? 0.0 : parseFloat(item.lat),
+                  longitude: item.lon === null ? 0.0 : parseFloat(item.lon),
+                }}></Marker>
+            </MapView>
+          </View>
+          <View style={styles.content}>
+            <View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#0094FF',
+                  fontSize: 18,
+                }}>
+                {item.nama_peringatan}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Lokasi:</Text>{' '}
+                {item.nama_provinsi}
+              </Text>
+              <Text>
+                <Text style={{fontWeight: 'bold'}}>Uraian Peringatan:</Text>{' '}
+                {item.uraian_peringatan}
+              </Text>
+              <Text>
+                {' '}
+                <Text style={{fontWeight: 'bold'}}>Tanggal:</Text>{' '}
+                {moment(new Date(item.tanggal)).format('DD-MM-YYYY')}
+              </Text>
+              <Text>
+                {' '}
+                <Text style={{fontWeight: 'bold'}}>Waktu:</Text>{' '}
+                {item.waktu_mulai} - {item.waktu_selesai} WIB
+              </Text>
+              <Text>
+                {' '}
+                <Text style={{fontWeight: 'bold'}}>Status:</Text>{' '}
+                {item.level_peringatan}{' '}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </>
+    );
+  };
+
+  useEffect(() => {
+    getListPeringatan();
+    getProvinsi();
+  }, []);
+
+  useEffect(() => {
+    if (listPeringatan.length !== 0) {
+      setFilterePeringatan(
+        listPeringatan.filter(x =>
+          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
+        ),
+      );
+    }
+  }, [filter]);
   return (
     <>
       <View
@@ -85,7 +243,7 @@ function PeringatanDini({navigation}) {
           <View style={[styles.boxInput, {flexDirection: 'row', flex: 4}]}>
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-              // onChangeText={val => setJudulPengaduan(val)}
+              onChangeText={val => setFilter(val)}
               placeholder="Pencarian berdasarkan daerah"></TextInput>
             <TouchableOpacity
               onPress={() => {}}
@@ -119,204 +277,42 @@ function PeringatanDini({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1, margin: 20}}>
-          <View style={styles.container}>
-            <View style={styles.map}>
-              <MapView
-                style={{...StyleSheet.absoluteFillObject, borderRadius: 20}}
-                initialRegion={{
-                  latitude: -8.025799249673277,
-                  longitude: 110.3342902104315,
-                  latitudeDelta: 0.05,
-                  longitudeDelta: 0.05,
-                }}>
-                <Marker
-                  coordinate={{
-                    latitude: -8.025799249673277,
-                    longitude: 110.3342902104315,
-                  }}></Marker>
-              </MapView>
-            </View>
-            <View style={styles.content}>
-              <View>
-                <Text
-                  style={{fontWeight: 'bold', color: '#0094FF', fontSize: 18}}>
-                  Waspada Banjir Bandang!
-                </Text>
-                <Text style={{marginTop: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>Lokasi:</Text> Kecamatan
-                  Oebobo, Kota Kupang, Provinisi NTT
-                </Text>
-                <Text>
-                  <Text style={{fontWeight: 'bold'}}>Uraian Peringatan:</Text>{' '}
-                  Masyarakat harap segera mengungsi ke tempat yang lebih tinggi
-                  !!!
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Tanggal:</Text> 31 Desember
-                  2021 - 10 Januari 2022
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Waktu:</Text> 13:00 - 17:00
-                  WIB
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Status:</Text> Siaga{' '}
-                </Text>
-              </View>
-            </View>
+        {/* <ScrollView contentContainerStyle={{flexGrow: 1, margin: 20}}>
+          {listPeringatan.map((val, index) => {
+            console.log(val);
+            return (
+              
+            );
+          })}
+        </ScrollView> */}
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
           </View>
-          <View style={styles.container}>
-            <View style={styles.map}>
-              <MapView
-                style={{...StyleSheet.absoluteFillObject, borderRadius: 20}}
-                initialRegion={{
-                  latitude: -8.025799249673277,
-                  longitude: 110.3342902104315,
-                  latitudeDelta: 0.05,
-                  longitudeDelta: 0.05,
-                }}>
-                <Marker
-                  coordinate={{
-                    latitude: -8.025799249673277,
-                    longitude: 110.3342902104315,
-                  }}></Marker>
-              </MapView>
-            </View>
-            <View style={styles.content}>
-              <View>
-                <Text
-                  style={{fontWeight: 'bold', color: '#0094FF', fontSize: 18}}>
-                  Waspada Banjir Bandang!
-                </Text>
-                <Text style={{marginTop: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>Lokasi:</Text> Kecamatan
-                  Oebobo, Kota Kupang, Provinisi NTT
-                </Text>
-                <Text>
-                  <Text style={{fontWeight: 'bold'}}>Uraian Peringatan:</Text>{' '}
-                  Masyarakat harap segera mengungsi ke tempat yang lebih tinggi
-                  !!!
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Tanggal:</Text> 31 Desember
-                  2021 - 10 Januari 2022
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Waktu:</Text> 13:00 - 17:00
-                  WIB
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Status:</Text> Siaga{' '}
-                </Text>
-              </View>
-            </View>
+        ) : filterPeringatan.length !== 0 ? (
+          <View style={{flex: 1, margin: 20}}>
+            <FlatList
+              data={filterPeringatan}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ListFooterComponent={renderFooter}
+              // onEndReached={handleLoadMore}
+              // onEndReachedThreshold={0}
+            />
           </View>
-          <View style={styles.container}>
-            <View style={styles.map}>
-              <MapView
-                style={{...StyleSheet.absoluteFillObject, borderRadius: 20}}
-                initialRegion={{
-                  latitude: -8.025799249673277,
-                  longitude: 110.3342902104315,
-                  latitudeDelta: 0.05,
-                  longitudeDelta: 0.05,
-                }}>
-                <Marker
-                  coordinate={{
-                    latitude: -8.025799249673277,
-                    longitude: 110.3342902104315,
-                  }}></Marker>
-              </MapView>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
             </View>
-            <View style={styles.content}>
-              <View>
-                <Text
-                  style={{fontWeight: 'bold', color: '#0094FF', fontSize: 18}}>
-                  Waspada Banjir Bandang!
-                </Text>
-                <Text style={{marginTop: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>Lokasi:</Text> Kecamatan
-                  Oebobo, Kota Kupang, Provinisi NTT
-                </Text>
-                <Text>
-                  <Text style={{fontWeight: 'bold'}}>Uraian Peringatan:</Text>{' '}
-                  Masyarakat harap segera mengungsi ke tempat yang lebih tinggi
-                  !!!
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Tanggal:</Text> 31 Desember
-                  2021 - 10 Januari 2022
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Waktu:</Text> 13:00 - 17:00
-                  WIB
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Status:</Text> Siaga{' '}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.container}>
-            <View style={styles.map}>
-              <MapView
-                style={{...StyleSheet.absoluteFillObject, borderRadius: 20}}
-                initialRegion={{
-                  latitude: -8.025799249673277,
-                  longitude: 110.3342902104315,
-                  latitudeDelta: 0.05,
-                  longitudeDelta: 0.05,
-                }}>
-                <Marker
-                  coordinate={{
-                    latitude: -8.025799249673277,
-                    longitude: 110.3342902104315,
-                  }}></Marker>
-              </MapView>
-            </View>
-            <View style={styles.content}>
-              <View>
-                <Text
-                  style={{fontWeight: 'bold', color: '#0094FF', fontSize: 18}}>
-                  Waspada Banjir Bandang!
-                </Text>
-                <Text style={{marginTop: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>Lokasi:</Text> Kecamatan
-                  Oebobo, Kota Kupang, Provinisi NTT
-                </Text>
-                <Text>
-                  <Text style={{fontWeight: 'bold'}}>Uraian Peringatan:</Text>{' '}
-                  Masyarakat harap segera mengungsi ke tempat yang lebih tinggi
-                  !!!
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Tanggal:</Text> 31 Desember
-                  2021 - 10 Januari 2022
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Waktu:</Text> 13:00 - 17:00
-                  WIB
-                </Text>
-                <Text>
-                  {' '}
-                  <Text style={{fontWeight: 'bold'}}>Status:</Text> Siaga{' '}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
+          </>
+        )}
       </View>
       {/* Modal Filter Pertama */}
       <Modalize
@@ -330,7 +326,24 @@ function PeringatanDini({navigation}) {
         }>
         <View style={{marginHorizontal: 20}}>
           <View>
-            <Text style={{fontWeight: 'bold', fontSize: 14}}>Status</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View>
+                <Text style={{fontWeight: 'bold', fontSize: 14}}>Status</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  setNamaStatus('');
+                }}
+                style={{
+                  flex: 1,
+                  alignItems: 'flex-end',
+                }}>
+                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                  reset status
+                </Text>
+              </TouchableOpacity>
+            </View>
+
             <View
               style={{
                 flexDirection: 'row',
@@ -339,17 +352,29 @@ function PeringatanDini({navigation}) {
               {status.map((item, index) => {
                 return (
                   <TouchableOpacity
-                    key={item.id}
+                    onPress={() => {
+                      setNamaStatus(item.jenisStatus);
+                    }}
+                    key={index}
                     style={{
-                      borderWidth: 1,
+                      borderWidth: namaStatus === item.jenisStatus ? 2 : 1,
                       marginTop: 10,
                       alignSelf: 'flex-start',
                       paddingHorizontal: 15,
                       paddingVertical: 5,
                       borderRadius: 5,
                       margin: 5,
+                      borderColor:
+                        namaStatus === item.jenisStatus ? 'blue' : 'black',
                     }}>
-                    <Text style={{fontSize: 12}}>{item.jenisStatus}</Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color:
+                          namaStatus === item.jenisStatus ? 'blue' : 'black',
+                      }}>
+                      {item.jenisStatus}
+                    </Text>
                   </TouchableOpacity>
                 );
               })}
@@ -386,17 +411,30 @@ function PeringatanDini({navigation}) {
               {bencanaTampil.map((item, index) => {
                 return (
                   <TouchableOpacity
-                    key={item.id}
+                    onPress={() => {
+                      setNamaBencana(item.jenisBencana);
+                      setCheckedBencana(item.id);
+                    }}
+                    key={index}
                     style={{
-                      borderWidth: 1,
+                      borderWidth: namaBencana === item.jenisBencana ? 2 : 1,
                       marginTop: 10,
                       alignSelf: 'flex-start',
                       paddingHorizontal: 15,
                       paddingVertical: 5,
                       borderRadius: 5,
                       margin: 5,
+                      borderColor:
+                        namaBencana === item.jenisBencana ? 'blue' : 'black',
                     }}>
-                    <Text style={{fontSize: 12}}>{item.jenisBencana}</Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color:
+                          namaBencana === item.jenisBencana ? 'blue' : 'black',
+                      }}>
+                      {item.jenisBencana}
+                    </Text>
                   </TouchableOpacity>
                 );
               })}
@@ -429,20 +467,33 @@ function PeringatanDini({navigation}) {
                 flexDirection: 'row',
                 flexWrap: 'wrap',
               }}>
-              {lokasiTampil.map((item, index) => {
+              {provinsi.slice(0, 3).map((item, index) => {
                 return (
                   <TouchableOpacity
-                    key={item.id}
+                    onPress={() => {
+                      setChooseProvinsi(item);
+                      setCheckedLokasi(item.id);
+                      setNamaProvinsi(item.nama);
+                    }}
+                    key={index}
                     style={{
-                      borderWidth: 1,
+                      borderWidth: namaProvinsi === item.nama ? 3 : 1,
                       marginTop: 10,
                       alignSelf: 'flex-start',
                       paddingHorizontal: 15,
                       paddingVertical: 5,
                       borderRadius: 5,
                       margin: 5,
+                      borderColor:
+                        namaProvinsi === item.nama ? 'blue' : 'black',
                     }}>
-                    <Text style={{fontSize: 12}}>{item.tempat}</Text>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        color: namaProvinsi === item.nama ? 'blue' : 'black',
+                      }}>
+                      {item.nama}
+                    </Text>
                   </TouchableOpacity>
                 );
               })}
@@ -454,6 +505,7 @@ function PeringatanDini({navigation}) {
               style={styles.buttonTerapkan}
               onPress={() => {
                 modalizeRef.current?.close();
+                hasilFilter({namaStatus, namaProvinsi, namaBencana});
               }}>
               <Text style={styles.textButton}>Terapkan</Text>
             </TouchableOpacity>
@@ -479,7 +531,13 @@ function PeringatanDini({navigation}) {
               ]}>
               <TextInput
                 style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-                // onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val =>
+                  setFilterBencana(
+                    bencana.filter(x =>
+                      x.jenisBencana.toLowerCase().includes(val.toLowerCase()),
+                    ),
+                  )
+                }
                 placeholder="Pencarian berdasarkan bencana"></TextInput>
               <TouchableOpacity
                 onPress={() => {}}
@@ -502,6 +560,7 @@ function PeringatanDini({navigation}) {
                   style={styles.buttonReset}
                   onPress={() => {
                     setCheckedBencana('');
+                    setNamaBencana('');
                   }}>
                   <Text style={styles.textButtonReset}>Reset</Text>
                 </TouchableOpacity>
@@ -512,6 +571,15 @@ function PeringatanDini({navigation}) {
                   onPress={() => {
                     modalizeRef.current?.open();
                     modalizeRefBencana.current?.close();
+                    setFilterBencana([
+                      {id: 1, jenisBencana: 'Gempa Bumi'},
+                      {id: 2, jenisBencana: 'Tanah Longsor'},
+                      {id: 3, jenisBencana: 'Banjir'},
+                      {id: 4, jenisBencana: 'Tsunami'},
+                      {id: 5, jenisBencana: 'Letusan gunung api'},
+                      {id: 6, jenisBencana: 'Banjir bandang'},
+                      {id: 7, jenisBencana: 'Angin topan'},
+                    ]);
                   }}>
                   <Text style={styles.textButton}>Terapkan</Text>
                 </TouchableOpacity>
@@ -520,11 +588,11 @@ function PeringatanDini({navigation}) {
           </>
         }>
         <View style={{marginTop: 20, marginLeft: 20}}>
-          {bencana.map((item, index) => {
+          {filterBencana.map((item, index) => {
             return (
               <>
                 <View
-                  key={item.id}
+                  key={index}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -536,13 +604,17 @@ function PeringatanDini({navigation}) {
                     status={
                       checkedBencana === item.id ? 'checked' : 'unchecked'
                     }
-                    onPress={() => setCheckedBencana(item.id)}
+                    onPress={() => {
+                      setCheckedBencana(item.id);
+                      setNamaBencana(item.jenisBencana);
+                    }}
                   />
                   <View>
                     <Text style={{fontSize: 12}}>{item.jenisBencana}</Text>
                   </View>
                 </View>
                 <View
+                  key={index}
                   style={{
                     borderBottomColor: '#EBEBEB',
                     borderBottomWidth: 1,
@@ -570,8 +642,9 @@ function PeringatanDini({navigation}) {
                 {flexDirection: 'row', marginHorizontal: 20},
               ]}>
               <TextInput
+                value={filterProvTxt}
                 style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-                // onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setFilterProvTxt(val)}
                 placeholder="Pencarian berdasarkan lokasi"></TextInput>
               <TouchableOpacity
                 onPress={() => {}}
@@ -594,6 +667,10 @@ function PeringatanDini({navigation}) {
                   style={styles.buttonReset}
                   onPress={() => {
                     setCheckedLokasi('');
+                    setFilterProvTxt('');
+                    getProvinsi();
+                    setNamaProvinsi('');
+                    setChooseProvinsi({});
                   }}>
                   <Text style={styles.textButtonReset}>Reset</Text>
                 </TouchableOpacity>
@@ -604,6 +681,8 @@ function PeringatanDini({navigation}) {
                   onPress={() => {
                     modalizeRef.current?.open();
                     modalizeRefLokasi.current?.close();
+                    setNamaProvinsi(chooseProvinsi.nama);
+                    setFilterProvTxt('');
                   }}>
                   <Text style={styles.textButton}>Terapkan</Text>
                 </TouchableOpacity>
@@ -612,10 +691,11 @@ function PeringatanDini({navigation}) {
           </>
         }>
         <View style={{marginTop: 20, marginLeft: 20}}>
-          {lokasi.map((item, index) => {
+          {filterProvinsi.map((item, index) => {
             return (
               <>
                 <View
+                  key={index}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -625,13 +705,17 @@ function PeringatanDini({navigation}) {
                     color="#246EE9"
                     value="first"
                     status={checkedLokasi === item.id ? 'checked' : 'unchecked'}
-                    onPress={() => setCheckedLokasi(item.id)}
+                    onPress={() => {
+                      setChooseProvinsi(item);
+                      setCheckedLokasi(item.id);
+                    }}
                   />
                   <View>
-                    <Text style={{fontSize: 12}}>{item.tempat}</Text>
+                    <Text style={{fontSize: 12}}>{item.nama}</Text>
                   </View>
                 </View>
                 <View
+                  key={item.id}
                   style={{
                     borderBottomColor: '#EBEBEB',
                     borderBottomWidth: 1,

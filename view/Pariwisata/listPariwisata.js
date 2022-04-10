@@ -30,21 +30,21 @@ const ListPariwisata = ({navigation}) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pageCurrent, setPageCurrent] = useState(1);
+  const [filterPariwisata, setFilterePariwisata] = useState([]);
   const [filter, setFilter] = useState('');
 
   const getListPariwisata = async () => {
     setIsLoading(true);
     Axios({
-      url:
-        url +
-        `/api/pariwisata/pariwisata/getall?page=${pageCurrent}&per_page=10&order=name+asc&nama_daerah=${filter}`,
+      url: url + `/api/pariwisata/pariwisata/getall?order=name+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        setData(data.concat(response.data.data));
+        setData(response.data.data);
+        setFilterePariwisata(response.data.data);
         setIsLoading(false);
       })
       .catch(error => {
@@ -110,26 +110,23 @@ const ListPariwisata = ({navigation}) => {
     );
   };
 
-  const renderFooter = () => {
-    return isLoading ? (
-      <View style={{marginTop: 10, alignItems: 'center'}}>
-        <ActivityIndicator size={'small'} />
-      </View>
-    ) : null;
-  };
-
-  const handleLoadMore = () => {
-    setPageCurrent(pageCurrent + 1);
-    setIsLoading(true);
-    // getListPariwisata();
-  };
   function getRating(rating) {
     console.log(rating);
   }
 
   useEffect(() => {
     getListPariwisata();
-  }, [pageCurrent]);
+  }, []);
+
+  useEffect(() => {
+    if (data.length !== 0) {
+      setFilterePariwisata(
+        data.filter(x =>
+          x.wilayah[0].nama.toLowerCase().includes(filter.toLowerCase()),
+        ),
+      );
+    }
+  }, [filter]);
 
   return (
     <>
@@ -184,14 +181,26 @@ const ListPariwisata = ({navigation}) => {
                 <FontAwesomeIcon color="grey" size={20} icon={faSearch} />
               </TouchableOpacity>
             </View>
-            <FlatList
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-              ListFooterComponent={renderFooter}
-              onEndReached={handleLoadMore}
-              onEndReachedThreshold={0}
-            />
+            {isLoading ? (
+              <View style={{marginTop: 10, alignItems: 'center'}}>
+                <ActivityIndicator size={'small'} />
+              </View>
+            ) : filterPariwisata.length !== 0 ? (
+              <FlatList
+                data={filterPariwisata}
+                renderItem={renderItem}
+                keyExtractor={(item, index) => index.toString()}
+                // ListFooterComponent={renderFooter}
+                // onEndReached={handleLoadMore}
+                // onEndReachedThreshold={0}
+              />
+            ) : (
+              <>
+                <View style={{alignItems: 'center', marginTop: 30}}>
+                  <Text>Data tidak ditemukan</Text>
+                </View>
+              </>
+            )}
 
             {/* <ScrollView
               contentContainerStyle={{

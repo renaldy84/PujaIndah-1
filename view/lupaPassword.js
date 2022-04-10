@@ -68,7 +68,7 @@ function lupaPassword({navigation}) {
                 }}>
                 <Text
                   style={{
-                    ffontWeight: 'bold',
+                    fontWeight: 'bold',
                     color: '#ffffff',
                     fontSize: 14,
                     margin: 10,

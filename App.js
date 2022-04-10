@@ -16,9 +16,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
 import MenuAwal from './view/menuAwal.js';
 import Login from './view/login';
-import HomePage from './view/home';
-import psikiater from './view/psikiater';
-import history from './view/history';
 import lupaPassword from './view/lupaPassword';
 import daftarAkun from './view/daftarAkun';
 import carouselHeader from './view/carousel';
@@ -112,16 +109,6 @@ function SettingNav() {
           name="CarouselHeader"
           component={carouselHeader}
         />
-        <Stack.Screen
-          options={{
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: 'rgb(188, 89, 213)',
-            },
-          }}
-          name="History"
-          component={history}
-        />
       </Stack.Navigator>
     </>
   );
@@ -202,19 +189,19 @@ const App = () => {
       },
     })
       .then(async res => {
-        console.log('>>>>>>>>>>>>>>>', res.data.data.api_token);
+        // console.log('>>>>>>>>>>>>>>>', res.data.data.api_token);
         await AsyncStorage.setItem('token', res.data.data.api_token);
         dispatch({type: 'LOGIN', payload: res.data.data.api_token});
         dispatch({type: 'RESPON_LOGIN', payload: res.data.data});
         setTimeout(() => {
           setLoading(false);
-        }, 5000);
+        }, 2000);
       })
       .catch(async error => {
         setTimeout(() => {
           setLoading(false);
         }, 5000);
-        console.log('AAAAAAAAAAAAAAA');
+        // console.log('AAAAAAAAAAAAAAA');
         dispatch({type: 'LOGOUT'});
         dispatch({type: 'RESPON_LOGOUT'});
         await AsyncStorage.clear();

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -21,9 +21,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Axios from 'axios';
+import url from '../../config';
+import {ActivityIndicator} from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function BuatPengaduan({navigation}) {
   const modalizeRef = useRef(null);
+  const modalizeRefKTP = useRef(null);
   const dispatch = useDispatch();
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
@@ -36,7 +41,13 @@ function BuatPengaduan({navigation}) {
   const [foto, setFoto] = useState(null);
   const [dataFoto, setDataFoto] = useState(null);
   const [namaFoto, setNamaFoto] = useState('Unggah Foto');
+  const [fotoKTP, setFotoKTP] = useState(null);
+  const [dataFotoKTP, setDataFotoKTP] = useState({});
+  const [namaFotoKTP, setNamaFotoKTP] = useState('Unggah Foto');
   const [modalVisible, setModalVisible] = useState(false);
+  const [kategoriAduan, setKategoriAduan] = useState([]);
+  const [dinasTerkait, setDinasTerkait] = useState([]);
+  const [profil, setProfil] = useState({});
   const pilihKategori = [
     {id: 1, namaKategori: 'Kategori 1'},
     {id: 2, namaKategori: 'Kategori 2'},
@@ -50,6 +61,26 @@ function BuatPengaduan({navigation}) {
 
   const pilihFoto = () => {
     modalizeRef.current?.open();
+  };
+
+  const pilihFotoKTP = () => {
+    modalizeRefKTP.current?.open();
+  };
+
+  const getProfil = async () => {
+    Axios({
+      url: url + `/api/master/profile/user-detail`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setProfil(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const ambilDariCamera = () => {
@@ -68,20 +99,6 @@ function BuatPengaduan({navigation}) {
           // setDataFoto(response.data);
           setNamaFoto(response.assets[0].fileName);
         }
-        // if (!response.didCancel) {
-        //   let formData = new FormData();
-        //   formData.append('foto', {
-        //     uri: response.uri,
-        //     name: `izin.jpg`,
-        //     type: 'image/jpeg',
-        //   });
-        //   formData.append('nopeg', auth.nopeg);
-        //   formData.append('tgl_awal', tanggal);
-        //   formData.append('keterangan', keterangan);
-        //   formData.append('keperluan', 'Terlambat');
-        //   setDataFoto(formData);
-        //   setFoto(response.uri);
-        // }
       },
     );
   };
@@ -102,24 +119,113 @@ function BuatPengaduan({navigation}) {
           // setDataFoto(response.data);
           setNamaFoto(response.assets[0].fileName);
         }
-        // if (!response.didCancel) {
-        //   let formData = new FormData();
-        //   formData.append('foto', {
-        //     uri: response.uri,
-        //     name: `izin.jpg`,
-        //     type: 'image/jpeg',
-        //   });
-        //   formData.append('nopeg', auth.nopeg);
-        //   formData.append('tgl_awal', tanggal);
-        //   formData.append('keterangan', keterangan);
-        //   formData.append('keperluan', 'Terlambat');
-        //   setDataFoto(formData);
-        //   setFoto(response.uri);
-        // }
       },
     );
   };
 
+  const ambilDariCameraKTP = async () => {
+    modalizeRefKTP.current?.close();
+    launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKTP(response.assets[0].uri);
+          // setDataFoto(response.data);
+          setNamaFotoKTP(response.assets[0].fileName);
+
+          formData.append('file', {
+            uri: response.assets[0].uri,
+            name: response.assets[0].fileName,
+            type: response.assets[0].type,
+          });
+          console.log(response.assets[0].uri);
+          setDataFotoKTP(formData);
+          kirimFotoKTP();
+        }
+      },
+    );
+  };
+
+  const ambilDariGaleryKTP = () => {
+    modalizeRefKTP.current?.close();
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          setFotoKTP(response.assets[0].uri);
+          // setDataFoto(response.data);
+          setNamaFotoKTP(response.assets[0].fileName);
+          let formData = new FormData();
+          formData.append('file', {uri: response.uri});
+        }
+      },
+    );
+  };
+
+  const kirimFotoKTP = async () => {
+    Axios({
+      url: url + '/api/master/media/upload',
+      method: 'post',
+      data: dataFotoKTP,
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err.response.data);
+      });
+  };
+
+  const getKategoriAduan = async () => {
+    Axios({
+      url:
+        url + `/api/trantibumlinmas/kategori-aduan/getall?order=kategori+asc`,
+      method: 'get',
+    })
+      .then(response => {
+        setKategoriAduan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const getDinasTerkait = async () => {
+    Axios({
+      url:
+        url + `/api/trantibumlinmas/dinas-terkait/getall?order=nama_dinas+asc`,
+      method: 'get',
+    })
+      .then(response => {
+        setDinasTerkait(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getKategoriAduan();
+    getDinasTerkait();
+    getProfil();
+  }, []);
   return (
     <>
       {/* <Modal animationType="fade" transparent={true} visible={modalVisible}>
@@ -201,6 +307,8 @@ function BuatPengaduan({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
+                editable={false}
+                value={profil.name}
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
@@ -210,6 +318,8 @@ function BuatPengaduan({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
+                editable={false}
+                value={profil.email}
                 style={styles.textInput}
                 onChangeText={val => setEmail(val)}
                 placeholder="Email"></TextInput>
@@ -219,6 +329,8 @@ function BuatPengaduan({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
+                editable={false}
+                value={profil.nik}
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
                 placeholder="NIK"></TextInput>
@@ -228,6 +340,8 @@ function BuatPengaduan({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
+                editable={profil.phone === null ? true : false}
+                value={profil.phone === null ? null : profil.phone}
                 style={styles.textInput}
                 onChangeText={val => setTelp(val)}
                 placeholder="No Telp/HP"></TextInput>
@@ -238,6 +352,7 @@ function BuatPengaduan({navigation}) {
             </View>
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
+                mode="dropdown"
                 selectedValue={idKategoriAduan}
                 onValueChange={(itemValue, itemIndex) => {
                   setIdKategoriAduan(itemValue);
@@ -247,26 +362,16 @@ function BuatPengaduan({navigation}) {
                   value=""
                   style={{color: '#b0b0b0'}}
                 />
-                <Picker.Item
-                  label="Kategori 1"
-                  value="1"
-                  style={{color: '#000000'}}
-                />
-                <Picker.Item
-                  label="Kategori 2"
-                  value="2"
-                  style={{color: '#000000'}}
-                />
-                <Picker.Item
-                  label="Kategori 3"
-                  value="3"
-                  style={{color: '#000000'}}
-                />
-                <Picker.Item
-                  label="Kategori 4"
-                  value="4"
-                  style={{color: '#000000'}}
-                />
+                {kategoriAduan.map((val, index) => {
+                  return (
+                    <Picker.Item
+                      key={val.id}
+                      label={val.kategori}
+                      value={val.id}
+                      style={{color: '#000000'}}
+                    />
+                  );
+                })}
               </Picker>
             </View>
 
@@ -275,6 +380,7 @@ function BuatPengaduan({navigation}) {
             </View>
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
+                mode="dropdown"
                 selectedValue={idDinasTerkait}
                 onValueChange={(itemValue, itemIndex) => {
                   setIdDinasTerkait(itemValue);
@@ -284,26 +390,16 @@ function BuatPengaduan({navigation}) {
                   value=""
                   style={{color: '#b0b0b0'}}
                 />
-                <Picker.Item
-                  label="Dinas 1"
-                  value="1"
-                  style={{color: '#000000'}}
-                />
-                <Picker.Item
-                  label="Dinas 2"
-                  value="2"
-                  style={{color: '#000000'}}
-                />
-                <Picker.Item
-                  label="Dinas 3"
-                  value="3"
-                  style={{color: '#000000'}}
-                />
-                <Picker.Item
-                  label="Dinas 4"
-                  value="4"
-                  style={{color: '#000000'}}
-                />
+                {dinasTerkait.map((val, index) => {
+                  return (
+                    <Picker.Item
+                      key={val.id}
+                      label={val.nama_dinas}
+                      value={val.id}
+                      style={{color: '#000000'}}
+                    />
+                  );
+                })}
               </Picker>
             </View>
             <View>
@@ -327,7 +423,28 @@ function BuatPengaduan({navigation}) {
                 placeholder="Detail Pengaduan"></TextInput>
             </View>
             <View>
-              <Text style={styles.text}>Unggah Gambar/Foto</Text>
+              <Text style={styles.text}>Unggah Gambar/Foto KTP</Text>
+            </View>
+            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
+              <TextInput
+                value={namaFotoKTP}
+                style={[styles.textInput, {flex: 5}]}
+                // onChangeText={val => setJudulPengaduan(val)}
+                // placeholder="Judul Pengaduan"
+                editable={false}></TextInput>
+              <TouchableOpacity
+                onPress={pilihFotoKTP}
+                style={{
+                  flex: 1,
+                  // borderWidth: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <FontAwesomeIcon color="grey" size={25} icon={faCamera} />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.text}>Unggah Gambar/Foto Kejadian</Text>
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
@@ -396,6 +513,62 @@ function BuatPengaduan({navigation}) {
             }}>
             <TouchableOpacity
               onPress={ambilDariGalery}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#2F80ED"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+
+      <Modalize
+        ref={modalizeRefKTP}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCameraKTP}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#2F80ED" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGaleryKTP}
               style={{alignItems: 'center'}}>
               <View>
                 <FontAwesomeIcon

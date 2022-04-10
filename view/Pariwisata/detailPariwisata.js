@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  useWindowDimensions,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -25,13 +26,21 @@ import url from '../../config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {ScrollView as ScrollGesture} from 'react-native-gesture-handler';
+import {WebView} from 'react-native-webview';
+import RenderHtml from 'react-native-render-html';
+import {useFocusEffect} from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
 function DetailPariwisata({navigation, route}) {
   const pariwisataId = route.params.idPariwisata;
   const [detail, setDetail] = useState({});
-  const [transportasi, setTransportasi] = useState([]);
+  const [urlVideo, setUrlVideo] = useState('');
+  const [rating, setRating] = useState({});
+  const [foto, setFoto] = useState(
+    'https://www.barantum.com/blog/wp-content/uploads/2019/01/Wisata-Indonesia-Mempunyai-Peluang-Bisnis.jpg',
+  );
+  const [ulasan, setUlasan] = useState([]);
 
   const getDetail = async () => {
     Axios({
@@ -43,135 +52,40 @@ function DetailPariwisata({navigation, route}) {
     })
       .then(response => {
         if (response.data.status === 1) {
+          // console.log(response.data.data);
           setDetail(response.data.data);
-          setTransportasi(response.data.data.transportasi);
+
+          if (response.data.data.foto[0].image !== '') {
+            setFoto(response.data.data.foto[0].image);
+          }
+          if (response.data.data.video.url === null) {
+            setUrlVideo('');
+          } else {
+            setUrlVideo(response.data.data.video.url);
+          }
+          setRating(response.data.data.rating);
+          setUlasan(response.data.data.ulasan);
         } else {
           console.log('Silahkan refresh halaman ini');
         }
       })
       .catch(error => {
-        console.log(error);
+        console.log(error.response.data);
       });
   };
 
   useEffect(() => {
     getDetail();
   }, []);
-
-  function Deskripsi() {
-    return (
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
-        <View style={{margin: 10}}>
-          <Text>{detail.narasi}</Text>
-        </View>
-      </ScrollView>
-    );
-  }
-
-  function Transportasi() {
-    return (
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
-        {transportasi.map((val, index) => {
-          return (
-            <View style={{margin: 10}} key={index}>
-              <View style={{flexDirection: 'row'}}>
-                <View>
-                  <Text>{index + 1}. </Text>
-                </View>
-                <View style={{flex: 1}}>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{width: '20%'}}>
-                      <Text>Nama</Text>
-                    </View>
-                    <View style={{width: '2%'}}>
-                      <Text>:</Text>
-                    </View>
-                    <View style={{width: '78%'}}>
-                      <Text>{val.nama}</Text>
-                    </View>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{width: '20%'}}>
-                      <Text>Jenis</Text>
-                    </View>
-                    <View style={{width: '2%'}}>
-                      <Text>:</Text>
-                    </View>
-                    <View style={{width: '78%'}}>
-                      <Text>{val.jenis}</Text>
-                    </View>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{width: '20%'}}>
-                      <Text>Waktu</Text>
-                    </View>
-                    <View style={{width: '2%'}}>
-                      <Text>:</Text>
-                    </View>
-                    <View style={{width: '78%'}}>
-                      <Text>{val.waktu}</Text>
-                    </View>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{width: '20%'}}>
-                      <Text>Biaya</Text>
-                    </View>
-                    <View style={{width: '2%'}}>
-                      <Text>:</Text>
-                    </View>
-                    <View style={{width: '78%'}}>
-                      <Text>{val.biaya}</Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          );
-        })}
-        {/* <View style={{margin: 10}}>
-          <Text></Text>
-        </View> */}
-      </ScrollView>
-    );
-  }
-
-  function Kuliner() {
-    return (
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
-        <View style={{margin: 10}}>
-          <Text>Kuliner!</Text>
-        </View>
-      </ScrollView>
-    );
-  }
-
-  function Penginapan() {
-    return (
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
-        <View style={{margin: 10}}>
-          <Text>Penginapan!</Text>
-        </View>
-      </ScrollView>
-    );
-  }
-
-  function TravelAgen() {
-    return (
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
-        <View style={{margin: 10}}>
-          <Text>Travel Agen!</Text>
-        </View>
-      </ScrollView>
-    );
-  }
+  useFocusEffect(
+    React.useCallback(() => {
+      getDetail();
+    }, []),
+  );
   function getRating(rating) {
     console.log(rating);
   }
+
   return (
     <>
       <View
@@ -203,29 +117,27 @@ function DetailPariwisata({navigation, route}) {
         </View>
 
         <ScrollView contentContainerStyle={{flexGrow: 1, marginHorizontal: 20}}>
-          <CarouselPariwisata />
+          {/* <CarouselPariwisata /> */}
+          <Image
+            style={{width: '100%', height: 200, marginBottom: 20}}
+            source={{
+              uri: foto,
+            }}
+          />
           <View>
-            <YoutubePlayer height={200} videoId={'Za2zEoGcfmU'} />
+            {/* <YoutubePlayer
+              height={200}
+              videoId={urlVideo.split('watch?v=')[1]}
+            /> */}
+            <WebView
+              style={{height: 200, opacity: 0.99}}
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+              source={{uri: `${urlVideo.split('watch?v=').join('embed/')}`}}
+            />
           </View>
-          {/* <TopTabView item={detail} /> */}
-          <View
-            horizontal={true}
-            style={{
-              flex: 1,
-              marginVertical: 20,
-              height: 300,
-            }}>
-            <Tab.Navigator
-              screenOptions={{
-                tabBarScrollEnabled: true,
-              }}>
-              <Tab.Screen name="Deskripsi" component={Deskripsi} />
-              <Tab.Screen name="Transportasi" component={Transportasi} />
-              <Tab.Screen name="Kuliner" component={Kuliner} />
-              <Tab.Screen name="Penginapan" component={Penginapan} />
-              <Tab.Screen name="Travel Agen" component={TravelAgen} />
-            </Tab.Navigator>
-          </View>
+          <TopTabView item={detail} />
+
           <View
             style={{
               marginTop: 15,
@@ -237,7 +149,9 @@ function DetailPariwisata({navigation, route}) {
             <TouchableOpacity
               style={styles.buttonLogin}
               onPress={() => {
-                navigation.navigate('UlasanPariwisata');
+                navigation.navigate('UlasanPariwisata', {
+                  idPariwisata: pariwisataId,
+                });
               }}>
               <Text style={styles.textButton}>Tulis ulasan anda</Text>
             </TouchableOpacity>
@@ -247,17 +161,18 @@ function DetailPariwisata({navigation, route}) {
             <View style={{flex: 1}}>
               <View>
                 <Text style={{color: '#A9A9A9', fontSize: 14}}>
-                  Ulasan (238)
+                  Ulasan ({rating.total_ulasan})
                 </Text>
               </View>
               <View style={{marginTop: 10}}>
                 <Text style={{fontSize: 13, fontWeight: 'bold'}}>
-                  Wisata Danau Toba
+                  {detail.name}
                 </Text>
               </View>
               <View>
                 <Text style={{fontSize: 36, fontWeight: 'bold'}}>
-                  4.9<Text style={{fontSize: 14, color: '#B1A0A0'}}>/5</Text>
+                  {rating.total_rating}
+                  <Text style={{fontSize: 14, color: '#B1A0A0'}}>/5</Text>
                 </Text>
               </View>
               <View style={{alignItems: 'flex-start'}}>
@@ -267,7 +182,7 @@ function DetailPariwisata({navigation, route}) {
                   imageSize={17}
                   onFinishRating={getRating} //get value
                   readonly={true}
-                  startingValue={2.5}
+                  startingValue={rating.total_rating}
                   fractions={1} //untuk desimal
                 />
               </View>
@@ -289,8 +204,13 @@ function DetailPariwisata({navigation, route}) {
                 <View style={{flex: 1, marginHorizontal: 2}}>
                   <View
                     style={{
-                      borderWidth: 4,
-                      width: '100%',
+                      borderWidth: rating.bintangLima === 0 ? 0 : 4,
+                      width:
+                        rating.bintangLima === 0
+                          ? '0%'
+                          : `${Math.ceil(
+                              (rating.bintangLima / rating.total_ulasan) * 100,
+                            )}%`,
                       borderColor: '#2F80ED',
                       borderRadius: 4,
                       marginHorizontal: 2,
@@ -305,7 +225,7 @@ function DetailPariwisata({navigation, route}) {
                       fontSize: 12,
                       marginHorizontal: 5,
                     }}>
-                    259
+                    {rating.bintangLima}
                   </Text>
                 </View>
               </View>
@@ -325,8 +245,13 @@ function DetailPariwisata({navigation, route}) {
                 <View style={{flex: 1, marginHorizontal: 2}}>
                   <View
                     style={{
-                      borderWidth: 4,
-                      width: '80%',
+                      borderWidth: rating.bintangEmpat === 0 ? 0 : 4,
+                      width:
+                        rating.bintangEmpat === 0
+                          ? '0%'
+                          : `${Math.ceil(
+                              (rating.bintangEmpat / rating.total_ulasan) * 100,
+                            )}%`,
                       borderColor: '#2F80ED',
                       borderRadius: 4,
                       marginHorizontal: 2,
@@ -341,7 +266,7 @@ function DetailPariwisata({navigation, route}) {
                       fontSize: 12,
                       marginHorizontal: 5,
                     }}>
-                    259
+                    {rating.bintangEmpat}
                   </Text>
                 </View>
               </View>
@@ -361,8 +286,13 @@ function DetailPariwisata({navigation, route}) {
                 <View style={{flex: 1, marginHorizontal: 2}}>
                   <View
                     style={{
-                      borderWidth: 4,
-                      width: '50%',
+                      borderWidth: rating.bintangTiga === 0 ? 0 : 4,
+                      width:
+                        rating.bintangTiga === 0
+                          ? '0%'
+                          : `${Math.ceil(
+                              (rating.bintangTiga / rating.total_ulasan) * 100,
+                            )}%`,
                       borderColor: '#2F80ED',
                       borderRadius: 4,
                       marginHorizontal: 2,
@@ -377,7 +307,7 @@ function DetailPariwisata({navigation, route}) {
                       fontSize: 12,
                       marginHorizontal: 5,
                     }}>
-                    259
+                    {rating.bintangTiga}
                   </Text>
                 </View>
               </View>
@@ -397,8 +327,13 @@ function DetailPariwisata({navigation, route}) {
                 <View style={{flex: 1, marginHorizontal: 2}}>
                   <View
                     style={{
-                      borderWidth: 4,
-                      width: '75%',
+                      borderWidth: rating.bintangDua === 0 ? 0 : 4,
+                      width:
+                        rating.bintangDua === 0
+                          ? '0%'
+                          : `${Math.ceil(
+                              (rating.bintangDua / rating.total_ulasan) * 100,
+                            )}%`,
                       borderColor: '#2F80ED',
                       borderRadius: 4,
                       marginHorizontal: 2,
@@ -413,7 +348,7 @@ function DetailPariwisata({navigation, route}) {
                       fontSize: 12,
                       marginHorizontal: 5,
                     }}>
-                    259
+                    {rating.bintangDua}
                   </Text>
                 </View>
               </View>
@@ -428,8 +363,13 @@ function DetailPariwisata({navigation, route}) {
                 <View style={{flex: 1, marginHorizontal: 2}}>
                   <View
                     style={{
-                      borderWidth: 4,
-                      width: '20%',
+                      borderWidth: rating.bintangSatu === 0 ? 0 : 4,
+                      width:
+                        rating.bintangSatu === 0
+                          ? '0%'
+                          : `${Math.ceil(
+                              (rating.bintangSatu / rating.total_ulasan) * 100,
+                            )}%`,
                       borderColor: '#2F80ED',
                       borderRadius: 4,
                       marginHorizontal: 2,
@@ -444,143 +384,81 @@ function DetailPariwisata({navigation, route}) {
                       fontSize: 12,
                       marginHorizontal: 5,
                     }}>
-                    259
+                    {rating.bintangSatu}
                   </Text>
                 </View>
               </View>
             </View>
           </View>
 
-          <View>
-            <View
-              style={{
-                borderBottomColor: '#E4E4E4',
-                borderBottomWidth: 1,
-              }}
-            />
-            <View style={{flexDirection: 'row', marginTop: 15}}>
-              <View>
-                <Image
-                  source={{
-                    uri: 'https://blogger.googleusercontent.com/img/a/AVvXsEisUBhb8W_4oOgwJmAGcw_131KKxTtzyX28LkAhuG7-nDSGb3XGeLxrLXEombzEpKKN2GDsPvBPFQmQBUGiO_W0-KQSF-Uz686SJQiCTwiH3zHdv8Dc4WmNzq8prp8c6EGV_QRZBc6hCV-e7mEwzQYx0FdttYEWYboMnwJEmJiDz3nP-V6nTQ9tORHdyA=s16000',
-                  }}
-                  style={{
-                    width: 52,
-                    height: 52,
-                    marginLeft: 0,
-                    // aspectRatio: 2,
-                    // resizeMode: 'contain',
-                    borderRadius: 26,
-                  }}
-                />
-              </View>
-              <View style={{justifyContent: 'center'}}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                    marginLeft: 10,
-                    color: 'black',
-                  }}>
-                  Dave
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    marginLeft: 10,
-                    color: 'black',
-                  }}>
-                  Pamulang, Kota Tanggerang Selatan
-                </Text>
-              </View>
-            </View>
-            <View style={{alignItems: 'flex-start', marginTop: 10}}>
-              <Rating
-                type="star"
-                ratingCount={5} //jumlah rating
-                imageSize={17}
-                onFinishRating={getRating} //get value
-                readonly={true}
-                startingValue={2.5}
-                fractions={1} //untuk desimal
-              />
-            </View>
-            <View style={{marginTop: 10}}>
-              <Text style={{fontWeight: 'bold', fontSize: 14}}>
-                Liburan ke Danau Toba
-              </Text>
-            </View>
-            <View style={{marginTop: 10, marginBottom: 30}}>
-              <Text style={{fontSize: 12}}>
-                Tempatnya benar-benar indah dan lingkungan asri serta fasilitas
-                yang menunjang. Biayanya juga tidak terlalu mahal
-              </Text>
-            </View>
-          </View>
-          <View>
-            <View
-              style={{
-                borderBottomColor: '#E4E4E4',
-                borderBottomWidth: 1,
-              }}
-            />
-            <View style={{flexDirection: 'row', marginTop: 15}}>
-              <View>
-                <Image
-                  source={{
-                    uri: 'https://blogger.googleusercontent.com/img/a/AVvXsEisUBhb8W_4oOgwJmAGcw_131KKxTtzyX28LkAhuG7-nDSGb3XGeLxrLXEombzEpKKN2GDsPvBPFQmQBUGiO_W0-KQSF-Uz686SJQiCTwiH3zHdv8Dc4WmNzq8prp8c6EGV_QRZBc6hCV-e7mEwzQYx0FdttYEWYboMnwJEmJiDz3nP-V6nTQ9tORHdyA=s16000',
-                  }}
-                  style={{
-                    width: 52,
-                    height: 52,
-                    marginLeft: 0,
-                    // aspectRatio: 2,
-                    // resizeMode: 'contain',
-                    borderRadius: 26,
-                  }}
-                />
-              </View>
-              <View style={{justifyContent: 'center'}}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                    marginLeft: 10,
-                    color: 'black',
-                  }}>
-                  Ratna
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    marginLeft: 10,
-                    color: 'black',
-                  }}>
-                  Pasar Minggu, Kota Jakarta Selatan
-                </Text>
-              </View>
-            </View>
-            <View style={{alignItems: 'flex-start', marginTop: 10}}>
-              <Rating
-                type="star"
-                ratingCount={5} //jumlah rating
-                imageSize={17}
-                onFinishRating={getRating} //get value
-                readonly={true}
-                startingValue={2.5}
-                fractions={1} //untuk desimal
-              />
-            </View>
-            <View style={{marginTop: 10}}>
-              <Text style={{fontWeight: 'bold', fontSize: 14}}>Main Saja</Text>
-            </View>
-            <View style={{marginTop: 10, marginBottom: 30}}>
-              <Text style={{fontSize: 12}}>
-                Tempatnya benar-benar indah dan lingkungan asri serta fasilitas
-                yang menunjang. Biayanya juga tidak terlalu mahal
-              </Text>
-            </View>
-          </View>
+          {ulasan &&
+            ulasan.map((val, index) => {
+              return (
+                <View key={index}>
+                  <View
+                    style={{
+                      borderBottomColor: '#E4E4E4',
+                      borderBottomWidth: 1,
+                    }}
+                  />
+                  <View style={{flexDirection: 'row', marginTop: 15}}>
+                    <View>
+                      <Image
+                        source={{
+                          uri: val.profile_pic,
+                        }}
+                        style={{
+                          width: 52,
+                          height: 52,
+                          marginLeft: 0,
+                          // aspectRatio: 2,
+                          // resizeMode: 'contain',
+                          borderRadius: 26,
+                        }}
+                      />
+                    </View>
+                    <View style={{justifyContent: 'center'}}>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 'bold',
+                          marginLeft: 10,
+                          color: 'black',
+                        }}>
+                        {val.name}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          marginLeft: 10,
+                          color: 'black',
+                        }}>
+                        {val.nama_kabkot}, {val.nama_kecamatan}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{alignItems: 'flex-start', marginTop: 10}}>
+                    <Rating
+                      type="star"
+                      ratingCount={5} //jumlah rating
+                      imageSize={17}
+                      onFinishRating={getRating} //get value
+                      readonly={true}
+                      startingValue={val.rating}
+                      fractions={1} //untuk desimal
+                    />
+                  </View>
+                  <View style={{marginTop: 10}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 14}}>
+                      {val.judul}
+                    </Text>
+                  </View>
+                  <View style={{marginTop: 10, marginBottom: 30}}>
+                    <Text style={{fontSize: 12}}>{val.pesan}</Text>
+                  </View>
+                </View>
+              );
+            })}
         </ScrollView>
       </View>
     </>

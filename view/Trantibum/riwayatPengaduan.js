@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -21,10 +22,62 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Axios from 'axios';
+import url from '../../config';
+import {ActivityIndicator} from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
+import moment from 'moment';
 
 function RiwayatPengaduan({navigation}) {
   const modalizeRef = useRef(null);
   const dispatch = useDispatch();
+  const [riwayat, setRiwayat] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getRiwayat = async () => {
+    setIsLoading(true);
+    Axios({
+      url:
+        url +
+        `/api/trantibumlinmas/pengaduan/history-pengaduan?order=created_at+desc `,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data);
+        setRiwayat(response.data.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    // console.log(item.wilayah[0].nama);
+    return (
+      <>
+        <View style={styles.container}>
+          <Text style={styles.judul}>{item.judul_laporan}</Text>
+          <Text>Kategori : {item.nama_kategori}</Text>
+          <Text>
+            Tanggal : {moment(new Date(item.created_at)).format('DD-MM-YYYY')}
+          </Text>
+          <View style={styles.containerStatus}>
+            <Text style={{margin: 10}}>
+              Status Laporan : {item.status_text}
+            </Text>
+          </View>
+        </View>
+      </>
+    );
+  };
+
+  useEffect(() => {
+    getRiwayat();
+  }, []);
 
   return (
     <>
@@ -50,57 +103,33 @@ function RiwayatPengaduan({navigation}) {
             <Text style={styles.textLogin}>Riwayat Pengaduan</Text>
           </View>
         </View>
-
-        <ScrollView contentContainerStyle={{flexGrow: 1, marginHorizontal: 20}}>
-          <View style={styles.container}>
-            <Text style={styles.judul}>Orang Gila Ngamuk di Jalan</Text>
-            <Text>Kategori : Ketentraman Masyarakat</Text>
-            <Text>Tanggal : 30 Februari 2022</Text>
-            <View style={styles.containerStatus}>
-              <Text style={{margin: 10}}>Status Laporan : Aktif</Text>
+        <View style={{marginHorizontal: 20, flex: 1}}>
+          {isLoading ? (
+            <View
+              style={{
+                marginTop: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 1,
+              }}>
+              <ActivityIndicator size={30} />
             </View>
-          </View>
-          <View style={styles.container}>
-            <Text style={styles.judul}>Orang Gila Ngamuk di Jalan</Text>
-            <Text>Kategori : Ketentraman Masyarakat</Text>
-            <Text>Tanggal : 30 Februari 2022</Text>
-            <View style={styles.containerStatus}>
-              <Text style={{margin: 10}}>Status Laporan : Aktif</Text>
-            </View>
-          </View>
-          <View style={styles.container}>
-            <Text style={styles.judul}>Orang Gila Ngamuk di Jalan</Text>
-            <Text>Kategori : Ketentraman Masyarakat</Text>
-            <Text>Tanggal : 30 Februari 2022</Text>
-            <View style={styles.containerStatus}>
-              <Text style={{margin: 10}}>Status Laporan : Aktif</Text>
-            </View>
-          </View>
-          <View style={styles.container}>
-            <Text style={styles.judul}>Orang Gila Ngamuk di Jalan</Text>
-            <Text>Kategori : Ketentraman Masyarakat</Text>
-            <Text>Tanggal : 30 Februari 2022</Text>
-            <View style={styles.containerStatus}>
-              <Text style={{margin: 10}}>Status Laporan : Aktif</Text>
-            </View>
-          </View>
-          <View style={styles.container}>
-            <Text style={styles.judul}>Orang Gila Ngamuk di Jalan</Text>
-            <Text>Kategori : Ketentraman Masyarakat</Text>
-            <Text>Tanggal : 30 Februari 2022</Text>
-            <View style={styles.containerStatus}>
-              <Text style={{margin: 10}}>Status Laporan : Aktif</Text>
-            </View>
-          </View>
-          <View style={styles.container}>
-            <Text style={styles.judul}>Orang Gila Ngamuk di Jalan</Text>
-            <Text>Kategori : Ketentraman Masyarakat</Text>
-            <Text>Tanggal : 30 Februari 2022</Text>
-            <View style={styles.containerStatus}>
-              <Text style={{margin: 10}}>Status Laporan : Aktif</Text>
-            </View>
-          </View>
-        </ScrollView>
+          ) : (
+            <FlatList
+              data={riwayat}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ListFooterComponent={renderFooter}
+              // onEndReached={handleLoadMore}
+              // onEndReachedThreshold={0}
+            />
+          )}
+        </View>
+        {/* <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            marginHorizontal: 20,
+          }}></ScrollView> */}
       </View>
     </>
   );
