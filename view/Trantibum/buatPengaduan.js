@@ -25,11 +25,12 @@ import Axios from 'axios';
 import url from '../../config';
 import {ActivityIndicator} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
+import {BallIndicator} from 'react-native-indicators';
 
 function BuatPengaduan({navigation}) {
   const modalizeRef = useRef(null);
   const modalizeRefKTP = useRef(null);
-  const dispatch = useDispatch();
+  const [modalHandleFoto, setModalHandleFoto] = useState(false);
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [nik, setNik] = useState('');
@@ -38,25 +39,65 @@ function BuatPengaduan({navigation}) {
   const [idDinasTerkait, setIdDinasTerkait] = useState('');
   const [judulPengaduan, setJudulPengaduan] = useState('');
   const [detailPengaduan, setDetailPengaduan] = useState('');
+  const [solusi, setSolusi] = useState('');
+  const [linkLokasi, setLinkLokasi] = useState('');
+  const [lat, setLat] = useState(0);
+  const [long, setLong] = useState(0);
   const [foto, setFoto] = useState(null);
-  const [dataFoto, setDataFoto] = useState(null);
   const [namaFoto, setNamaFoto] = useState('Unggah Foto');
+  const [dataFotoKejadian, setDataFotoKejadian] = useState({});
+  const [linkFotoKejadian, setLinkFotoKejadian] = useState('');
   const [fotoKTP, setFotoKTP] = useState(null);
   const [dataFotoKTP, setDataFotoKTP] = useState({});
   const [namaFotoKTP, setNamaFotoKTP] = useState('Unggah Foto');
+  const [linkFotoKTP, setLinkFotoKTP] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
   const [kategoriAduan, setKategoriAduan] = useState([]);
   const [dinasTerkait, setDinasTerkait] = useState([]);
   const [profil, setProfil] = useState({});
-  const pilihKategori = [
-    {id: 1, namaKategori: 'Kategori 1'},
-    {id: 2, namaKategori: 'Kategori 2'},
-    {id: 3, namaKategori: 'Kategori 3'},
-    {id: 4, namaKategori: 'Kategori 4'},
-  ];
+  const [modalLoading, setModalLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const kirim = () => {
-    navigation.navigate('MenuTrantibum');
+  const cekKirim = () => {
+    linkFotoKTP === '' && linkFotoKejadian === ''
+      ? setModalHandleFoto(true)
+      : kirim();
+  };
+  const kirim = async () => {
+    setModalLoading(true);
+    Axios({
+      url: url + '/api/trantibumlinmas/pengaduan/create',
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+      data: {
+        judul_laporan: judulPengaduan,
+        kategori_laporan: idKategoriAduan,
+        uraian_kejadian: detailPengaduan,
+        solusi: solusi,
+        dinas_terkait: idDinasTerkait,
+        link_lokasi: linkLokasi,
+        foto_kejadian: linkFotoKejadian,
+        foto_ktp: linkFotoKTP,
+        lat: parseInt(lat),
+        lon: parseInt(long),
+      },
+    })
+      .then(async res => {
+        setMessage(res.data.message);
+        setModalVisibleSukses(true);
+        setModalLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
+      });
+
+    // : navigation.navigate('MenuTrantibum');
   };
 
   const pilihFoto = () => {
@@ -95,9 +136,17 @@ function BuatPengaduan({navigation}) {
       },
       response => {
         if (!response.didCancel) {
+          let formData = new FormData();
           setFoto(response.assets[0].uri);
           // setDataFoto(response.data);
           setNamaFoto(response.assets[0].fileName);
+          formData.append('file', {
+            uri: response.assets[0].uri,
+            name: response.assets[0].fileName,
+            type: response.assets[0].type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
         }
       },
     );
@@ -115,12 +164,39 @@ function BuatPengaduan({navigation}) {
       },
       response => {
         if (!response.didCancel) {
+          let formData = new FormData();
           setFoto(response.assets[0].uri);
           // setDataFoto(response.data);
           setNamaFoto(response.assets[0].fileName);
+          formData.append('file', {
+            uri: response.assets[0].uri,
+            name: response.assets[0].fileName,
+            type: response.assets[0].type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
         }
       },
     );
+  };
+
+  const kirimFotoKejadian = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        setLinkFotoKejadian(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Kejadian');
+      });
   };
 
   const ambilDariCameraKTP = async () => {
@@ -145,9 +221,8 @@ function BuatPengaduan({navigation}) {
             name: response.assets[0].fileName,
             type: response.assets[0].type,
           });
-          console.log(response.assets[0].uri);
-          setDataFotoKTP(formData);
-          kirimFotoKTP();
+          // setDataFotoKTP(formData);
+          kirimFotoKTP(formData);
         }
       },
     );
@@ -165,31 +240,39 @@ function BuatPengaduan({navigation}) {
       },
       response => {
         if (!response.didCancel) {
+          let formData = new FormData();
           setFotoKTP(response.assets[0].uri);
           // setDataFoto(response.data);
           setNamaFotoKTP(response.assets[0].fileName);
-          let formData = new FormData();
-          formData.append('file', {uri: response.uri});
+
+          formData.append('file', {
+            uri: response.assets[0].uri,
+            name: response.assets[0].fileName,
+            type: response.assets[0].type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoKTP(formData);
         }
       },
     );
   };
 
-  const kirimFotoKTP = async () => {
-    Axios({
-      url: url + '/api/master/media/upload',
+  const kirimFotoKTP = async formData => {
+    fetch(url + '/api/master/media/upload', {
       method: 'post',
-      data: dataFotoKTP,
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-        'Content-Type': 'multipart/form-data',
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
       },
+      body: formData,
     })
-      .then(res => {
-        console.log(res.data);
+      .then(async res => {
+        let data = await res.json();
+        setLinkFotoKTP(data.data.path);
       })
       .catch(err => {
-        console.log(err.response.data);
+        console.log('Gagal KTP');
       });
   };
 
@@ -228,34 +311,78 @@ function BuatPengaduan({navigation}) {
   }, []);
   return (
     <>
-      {/* <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <View style={styles.centeredView}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisibleSukses}>
+        <View style={styles.centeredViewModal}>
+          <View style={styles.modalView}>
+            <Image
+              style={{width: 50, height: 50}}
+              source={require('../../assets/image/success.png')}></Image>
+
+            <View style={{alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                }}>
+                {message}
+              </Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                setModalVisibleSukses(!modalVisibleSukses);
+                setMessage('');
+                navigation.navigate('MenuTrantibum');
+              }}
+              style={{
+                backgroundColor: '#246EE9',
+                marginTop: 20,
+                borderRadius: 10,
+                width: 100,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#ffffff',
+                  fontSize: 14,
+                  margin: 10,
+                }}>
+                Ok
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
+        <View style={styles.centeredViewModal}>
           <View style={styles.modalView}>
             <Image
               style={{width: 50, height: 50}}
               source={require('../../assets/image/warning.png')}></Image>
-            {email === '' || password === '' ? (
+
+            <View style={{alignItems: 'center'}}>
               <Text
                 style={{
                   fontWeight: 'bold',
                   fontSize: 14,
                   marginTop: 20,
+                  justifyContent: 'center',
                 }}>
-                Email atau Password Anda Kosong
+                {message}
               </Text>
-            ) : (
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 14,
-                  marginTop: 20,
-                }}>
-                Email atau Pasword Anda Salah
-              </Text>
-            )}
+            </View>
 
             <Pressable
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                setMessage('');
+              }}
               style={{
                 backgroundColor: '#ff0000',
                 marginTop: 20,
@@ -275,7 +402,16 @@ function BuatPengaduan({navigation}) {
             </Pressable>
           </View>
         </View>
-      </Modal> */}
+      </Modal>
+      <Modal animationType="fade" transparent={true} visible={modalLoading}>
+        <View style={styles.centeredView}>
+          <View>
+            <View style={{alignItems: 'center'}}>
+              <BallIndicator color="white" />
+            </View>
+          </View>
+        </View>
+      </Modal>
 
       <View
         style={{
@@ -341,7 +477,7 @@ function BuatPengaduan({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 editable={profil.phone === null ? true : false}
-                value={profil.phone === null ? null : profil.phone}
+                // value={profil.phone === null ? '' : profil.phone}
                 style={styles.textInput}
                 onChangeText={val => setTelp(val)}
                 placeholder="No Telp/HP"></TextInput>
@@ -423,6 +559,17 @@ function BuatPengaduan({navigation}) {
                 placeholder="Detail Pengaduan"></TextInput>
             </View>
             <View>
+              <Text style={styles.text}>Solusi</Text>
+            </View>
+            <View style={styles.boxInput}>
+              <TextInput
+                multiline={true}
+                numberOfLines={4}
+                style={[styles.textInput, {textAlignVertical: 'top'}]}
+                onChangeText={val => setSolusi(val)}
+                placeholder="Solusi"></TextInput>
+            </View>
+            <View>
               <Text style={styles.text}>Unggah Gambar/Foto KTP</Text>
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
@@ -464,8 +611,35 @@ function BuatPengaduan({navigation}) {
                 <FontAwesomeIcon color="grey" size={25} icon={faCamera} />
               </TouchableOpacity>
             </View>
+            <View>
+              <Text style={styles.text}>Link Lokasi</Text>
+            </View>
+            <View style={styles.boxInput}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={val => setLinkLokasi(val)}
+                placeholder="Link Lokasi"></TextInput>
+            </View>
+            <View>
+              <Text style={styles.text}>Latitude</Text>
+            </View>
+            <View style={styles.boxInput}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={val => setLat(val)}
+                placeholder="Latitude"></TextInput>
+            </View>
+            <View>
+              <Text style={styles.text}>Longitude</Text>
+            </View>
+            <View style={styles.boxInput}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={val => setLong(val)}
+                placeholder="Longitude"></TextInput>
+            </View>
             <View style={styles.boxButton}>
-              <TouchableOpacity style={styles.buttonLogin} onPress={kirim}>
+              <TouchableOpacity style={styles.buttonLogin} onPress={cekKirim}>
                 <Text style={styles.textButton}>Kirim</Text>
               </TouchableOpacity>
             </View>
@@ -584,6 +758,50 @@ function BuatPengaduan({navigation}) {
           </View>
         </View>
       </Modalize>
+
+      <Modal animationType="fade" transparent={true} visible={modalHandleFoto}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Image
+              style={{width: 50, height: 50}}
+              source={require('../../assets/image/warning.png')}></Image>
+
+            <View style={{alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                }}>
+                Harap melengkapi foto terlebih dahulu
+              </Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                setModalHandleFoto(!modalHandleFoto);
+              }}
+              style={{
+                backgroundColor: '#ff0000',
+                marginTop: 20,
+                borderRadius: 10,
+                width: 100,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#ffffff',
+                  fontSize: 14,
+                  margin: 10,
+                }}>
+                Close
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }

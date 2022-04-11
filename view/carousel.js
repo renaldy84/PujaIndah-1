@@ -6,19 +6,19 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 const data = [
   {
     id: 1,
-    url: 'https://www.payfazz.com/wp-content/uploads/2019/09/BLOG_PAYFAZZ_agenpayfazz.jpg',
+    url: 'https://previews.123rf.com/images/ammit/ammit2005/ammit200500200/147598154-tungurahua-volcano-view-from-the-same-level-as-the-erupting-point-small-amount-of-noise-may-be-visib.jpg',
   },
   {
     id: 2,
-    url: 'https://www.payfazz.com/wp-content/uploads/2016/01/BLOG_PAYFAZZ_promopayfazz.jpg',
+    url: 'https://previews.123rf.com/images/tamara1k/tamara1k1904/tamara1k190400158/120290893-gran-canaria-marzo-paisajes-de-reserva-natural-estricta-inagua-%C3%A1reas-reforestadas.jpg',
   },
   {
     id: 3,
-    url: 'https://www.payfazz.com/wp-content/uploads/2021/06/BLOG_2021_PAYFAZZ_press.jpg',
+    url: 'https://previews.123rf.com/images/tamara1k/tamara1k1904/tamara1k190400049/120290494-gran-canaria-march-landscapes-of-strict-nature-reserve-inagua-canarian-pine-trees.jpg',
   },
   {
     id: 4,
-    url: 'https://www.payfazz.com/wp-content/uploads/2020/06/BLOG-Akun-Resmi-Revisi.jpg',
+    url: 'https://previews.123rf.com/images/tamara1k/tamara1k1905/tamara1k190500559/122983009-gran-canaria-pilancones-natural-park-reforested-slopes-canary-pine.jpg',
   },
 ];
 
