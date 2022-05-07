@@ -5,6 +5,11 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useDispatch} from 'react-redux';
 import Home from './home';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 function LayananScreen() {
   return (
@@ -55,19 +60,19 @@ function navigationBottom() {
           headerLeft: null,
           headerShown: false,
           tabBarIcon: ({color}) => (
-            <FontAwesome name="home" size={30} color={color} />
+            <FontAwesome name="home" size={RFPercentage(4)} color={color} />
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#0323C4',
           tabBarStyle: {
-            height: 70,
+            height: hp('10%'),
             elevation: 10,
-            marginTop: 3,
+            marginTop: hp('1%'),
           },
           tabBarLabel: 'Home',
           tabBarLabelStyle: {
-            marginTop: -10,
-            marginBottom: 15,
+            marginTop: -hp('2%'),
+            marginBottom: hp('1%'),
           },
         }}
       />
@@ -78,15 +83,19 @@ function navigationBottom() {
           headerLeft: null,
           headerShown: false,
           tabBarIcon: ({color}) => (
-            <FontAwesome name="clock" size={30} color={color} />
+            <FontAwesome name="clock" size={RFPercentage(4)} color={color} />
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#0323C4',
-          tabBarStyle: {height: 70, elevation: 10, marginTop: 3},
+          tabBarStyle: {
+            height: hp('10%'),
+            elevation: 10,
+            marginTop: hp('1%'),
+          },
           tabBarLabel: 'Activity',
           tabBarLabelStyle: {
-            marginTop: -10,
-            marginBottom: 15,
+            marginTop: -hp('2%'),
+            marginBottom: hp('1%'),
           },
         }}
       />
@@ -97,15 +106,19 @@ function navigationBottom() {
           headerLeft: null,
           headerShown: false,
           tabBarIcon: ({color}) => (
-            <FontAwesome name="th-large" size={30} color={color} />
+            <FontAwesome name="th-large" size={RFPercentage(4)} color={color} />
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#0323C4',
-          tabBarStyle: {height: 70, elevation: 10, marginTop: 3},
+          tabBarStyle: {
+            height: hp('10%'),
+            elevation: 10,
+            marginTop: hp('1%'),
+          },
           tabBarLabel: 'Layanan',
           tabBarLabelStyle: {
-            marginTop: -10,
-            marginBottom: 15,
+            marginTop: -hp('2%'),
+            marginBottom: hp('1%'),
           },
         }}
       />
@@ -116,15 +129,23 @@ function navigationBottom() {
           headerLeft: null,
           headerShown: false,
           tabBarIcon: ({color}) => (
-            <FontAwesome name="user-circle" size={30} color={color} />
+            <FontAwesome
+              name="user-circle"
+              size={RFPercentage(4)}
+              color={color}
+            />
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#0323C4',
-          tabBarStyle: {height: 70, elevation: 10, marginTop: 3},
+          tabBarStyle: {
+            height: hp('10%'),
+            elevation: 10,
+            marginTop: hp('1%'),
+          },
           tabBarLabel: 'Account',
           tabBarLabelStyle: {
-            marginTop: -10,
-            marginBottom: 15,
+            marginTop: -hp('2%'),
+            marginBottom: hp('1%'),
           },
         }}
       />

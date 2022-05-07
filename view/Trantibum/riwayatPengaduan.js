@@ -27,6 +27,10 @@ import url from '../../config';
 import {ActivityIndicator} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import moment from 'moment';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 function RiwayatPengaduan({navigation}) {
   const modalizeRef = useRef(null);
@@ -89,7 +93,12 @@ function RiwayatPengaduan({navigation}) {
           // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
-        <View style={{flexDirection: 'row', marginBottom: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginBottom: hp('2%'),
+            marginTop: hp('5%'),
+          }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
               size={30}
@@ -138,20 +147,19 @@ function RiwayatPengaduan({navigation}) {
 const styles = {
   arrow: {
     // borderWidth: 1,
-    marginTop: 30,
+
     marginLeft: 30,
   },
   boxLogin: {
     // borderWidth: 1,
     marginLeft: 30,
-    marginTop: 30,
   },
   textLogin: {
     fontSize: 20,
     fontWeight: 'bold',
   },
   container: {
-    marginTop: 20,
+    marginTop: hp('2%'),
     width: '100%',
     padding: 5,
     borderBottomWidth: 1,

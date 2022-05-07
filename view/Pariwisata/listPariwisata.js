@@ -22,6 +22,10 @@ import Axios from 'axios';
 import url from '../../config';
 import {ActivityIndicator} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -154,7 +158,7 @@ const ListPariwisata = ({navigation}) => {
             </View>
           </View>
           <View style={styles.boxIsi}>
-            <Text style={{color: 'white', textAlign: 'left'}}>
+            <Text style={{color: 'white', textAlign: 'justify'}}>
               Layanan Pekerjaan Umum adalah layanan masyarakat Reference site
               about Lorem Ipsum, giving information on its origins, as well as a
               random Lipsum generator. giving information on its origins, as
@@ -267,22 +271,25 @@ const primaryColor = 'rgb(242, 69, 53)';
 const disabledPrimaryColor = 'rgb(204, 88, 78)';
 const styles = {
   header: {
-    // flex: 1,
     flexDirection: 'row',
-    width: screenWidth,
+    // borderWidth: 1,
+    marginTop: hp('5%'),
   },
   arrow: {
     // borderWidth: 1,
-    marginTop: 50,
+    justifyContent: 'center',
     marginLeft: 30,
   },
   boxJudul: {
+    width: '80%',
+    justifyContent: 'center',
     // borderWidth: 1,
-    marginTop: 50,
-    paddingLeft: 30,
+    marginLeft: 20,
+    paddingRight: 10,
   },
   boxIsi: {
     // borderWidth: 1,
+    marginTop: hp('3%'),
     marginLeft: 30,
     margin: 30,
   },
@@ -293,7 +300,7 @@ const styles = {
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingVertical: 20,
-    paddingTop: 30,
+    paddingTop: hp('5%'),
     backgroundColor: '#F2F2F2',
   },
   boxKonten: {

@@ -11,6 +11,10 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 function menuAwal({navigation}) {
   const dispatch = useDispatch();
@@ -36,7 +40,7 @@ function menuAwal({navigation}) {
           colors={['#116FD5', '#2288E5', '#369FF4']}
           style={styles.lingkaran2}>
           <Image
-            style={{width: 120, height: 150}}
+            style={{width: hp('12%'), height: hp('15%')}}
             source={require('../assets/image/logoPuja.png')}></Image>
         </LinearGradient>
         <View style={styles.boxButtonLogin}>
@@ -69,13 +73,13 @@ const styles = {
     shadowOpacity: 0.51,
     shadowRadius: 13.16,
     elevation: 20,
-    height: 400,
-    width: 400,
-    borderRadius: 400 / 2,
+    height: hp('50%'),
+    width: hp('50%'),
+    borderRadius: hp('50%') / 2,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -100,
-    marginLeft: -150,
+    marginTop: -hp('10%'),
+    marginLeft: -hp('15%'),
   },
   lingkaran2: {
     backgroundColor: 'white',
@@ -87,12 +91,12 @@ const styles = {
     shadowOpacity: 0.51,
     shadowRadius: 13.16,
     elevation: 20,
-    height: 200,
-    width: 200,
-    borderRadius: 200 / 2,
+    height: hp('25%'),
+    width: hp('25%'),
+    borderRadius: hp('25%') / 2,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -250,
+    marginTop: -hp('35%'),
   },
   textButtonLogin: {
     textAlign: 'center',
@@ -102,12 +106,12 @@ const styles = {
     color: 'black',
   },
   boxButtonLogin: {
-    marginTop: 300,
+    marginTop: hp('40%'),
     alignItems: 'center',
   },
   buttonLogin: {
     borderRadius: 10,
-    width: 350,
+    width: wp('90%'),
     height: 50,
     backgroundColor: '#FFFFFF',
     marginTop: 20,
@@ -122,7 +126,7 @@ const styles = {
     elevation: 14,
   },
   boxButtonDaftar: {
-    marginTop: 10,
+    marginTop: hp('0.5%'),
     alignItems: 'center',
   },
   textButtonDaftar: {
@@ -134,7 +138,7 @@ const styles = {
   },
   buttonDaftar: {
     borderRadius: 10,
-    width: 350,
+    width: wp('90%'),
     height: 50,
     backgroundColor: '#369FF4',
     marginTop: 20,

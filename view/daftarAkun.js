@@ -24,6 +24,10 @@ import Axios from 'axios';
 import url from '../config';
 import {ActivityIndicator} from 'react-native-paper';
 import {BallIndicator} from 'react-native-indicators';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 function daftarAkun({navigation}) {
   const dispatch = useDispatch();
@@ -577,17 +581,8 @@ const styles = {
     backgroundColor: '#C67FEF',
     height: '100%',
   },
-  boxLogo: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 35,
-  },
-  logo: {
-    width: 150,
-    height: 150,
-  },
   container: {
-    marginTop: 70,
+    marginTop: hp('8%'),
     margin: 30,
     borderRadius: 10,
     justifyContent: 'flex-start',
@@ -661,38 +656,15 @@ const styles = {
   },
   boxButton: {
     width: '100%',
-    marginTop: 40,
+    marginTop: hp('5%'),
   },
-
-  // centeredView: {
-  //   backgroundColor: '#0C1c1c1c',
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
-  // modalView: {
-  //   width: '80%',
-  //   height: '50%',
-  //   // margin: 20,
-  //   backgroundColor: '#ffffff',
-  //   padding: 15,
-  //   // alignItems: 'center',
-  //   shadowColor: '#000',
-  //   shadowOffset: {
-  //     width: 0,
-  //     height: 2,
-  //   },
-  //   shadowOpacity: 0.25,
-  //   shadowRadius: 4,
-  //   elevation: 5,
-  // },
   arrow: {
-    marginTop: 50,
+    marginTop: hp('5%'),
     marginLeft: 30,
   },
   boxLogin: {
     marginLeft: 30,
-    marginTop: 30,
+    marginTop: hp('2%'),
   },
   textLogin: {
     fontSize: 30,
@@ -701,7 +673,7 @@ const styles = {
   boxChildLogin: {
     flexDirection: 'row',
     marginLeft: 30,
-    marginTop: 10,
+    marginTop: hp('2%'),
   },
   textChildLogin: {
     color: 'grey',
@@ -712,14 +684,6 @@ const styles = {
     marginLeft: 10,
     color: 'blue',
     fontSize: 16,
-  },
-  lupa: {
-    marginTop: 10,
-    // borderWidth: 1,
-    // flex: 1,
-    borderColor: 'grey',
-    width: '100%',
-    alignItems: 'flex-end',
   },
 
   drbDown: {

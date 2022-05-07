@@ -1,7 +1,10 @@
 import React, {useState, useRef} from 'react';
 import {Text, View, Dimensions, Image} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const data = [
   {
@@ -26,25 +29,16 @@ const renderItem = ({item}) => {
   return (
     <View
       style={{
-        // borderWidth: 1,
-        // padding: 20,
-
         alignItems: 'center',
-        // backgroundColor: 'white',
       }}>
       <Image
         source={{uri: item.url}}
         style={{
           width: '100%',
           height: 175,
-          // aspectRatio: 2,
-          // resizeMode: 'contain',
           borderRadius: 15,
         }}
       />
-      {/* <Text style={{marginVertical: 10, fontSize: 20, fontWeight: 'bold'}}>
-        {item.name}
-      </Text> */}
     </View>
   );
 };

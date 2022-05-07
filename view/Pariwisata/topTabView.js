@@ -286,6 +286,7 @@ function TopTab({item}) {
         height: 300,
       }}>
       <Tab.Navigator
+        backBehavior="none"
         screenOptions={{
           tabBarScrollEnabled: true,
         }}>

@@ -8,6 +8,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -15,17 +16,21 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faArrowLeft,
   faCamera,
-  faEye,
-  faEyeSlash,
   faFolderOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
 import Axios from 'axios';
 import url from '../../config';
 import {ActivityIndicator} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import {BallIndicator} from 'react-native-indicators';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import MapView, {Marker} from 'react-native-maps';
+import GetLocation from 'react-native-get-location';
 
 function BuatPengaduan({navigation}) {
   const modalizeRef = useRef(null);
@@ -41,8 +46,8 @@ function BuatPengaduan({navigation}) {
   const [detailPengaduan, setDetailPengaduan] = useState('');
   const [solusi, setSolusi] = useState('');
   const [linkLokasi, setLinkLokasi] = useState('');
-  const [lat, setLat] = useState(0);
-  const [long, setLong] = useState(0);
+  const [lat, setLat] = useState(0.0);
+  const [long, setLong] = useState(0.0);
   const [foto, setFoto] = useState(null);
   const [namaFoto, setNamaFoto] = useState('Unggah Foto');
   const [dataFotoKejadian, setDataFotoKejadian] = useState({});
@@ -58,6 +63,8 @@ function BuatPengaduan({navigation}) {
   const [profil, setProfil] = useState({});
   const [modalLoading, setModalLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [latMarker, setLatMarker] = useState(0.0);
+  const [longMarker, setLongMarker] = useState(0.0);
 
   const cekKirim = () => {
     linkFotoKTP === '' && linkFotoKejadian === ''
@@ -65,6 +72,7 @@ function BuatPengaduan({navigation}) {
       : kirim();
   };
   const kirim = async () => {
+    console.log(`http://maps.google.com/maps?q=${latMarker},${longMarker}`);
     setModalLoading(true);
     Axios({
       url: url + '/api/trantibumlinmas/pengaduan/create',
@@ -78,11 +86,11 @@ function BuatPengaduan({navigation}) {
         uraian_kejadian: detailPengaduan,
         solusi: solusi,
         dinas_terkait: idDinasTerkait,
-        link_lokasi: linkLokasi,
+        link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
         foto_kejadian: linkFotoKejadian,
         foto_ktp: linkFotoKTP,
-        lat: parseInt(lat),
-        lon: parseInt(long),
+        lat: parseInt(latMarker),
+        lon: parseInt(longMarker),
       },
     })
       .then(async res => {
@@ -126,7 +134,7 @@ function BuatPengaduan({navigation}) {
 
   const ambilDariCamera = () => {
     modalizeRef.current?.close();
-    launchCamera(
+    ImagePicker.launchCamera(
       {
         mediaType: 'photo',
         includeBase64: false,
@@ -137,13 +145,13 @@ function BuatPengaduan({navigation}) {
       response => {
         if (!response.didCancel) {
           let formData = new FormData();
-          setFoto(response.assets[0].uri);
+          setFoto(response.uri);
           // setDataFoto(response.data);
-          setNamaFoto(response.assets[0].fileName);
+          setNamaFoto(response.fileName);
           formData.append('file', {
-            uri: response.assets[0].uri,
-            name: response.assets[0].fileName,
-            type: response.assets[0].type,
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
           });
           // setDataFotoKejadian(formData);
           kirimFotoKejadian(formData);
@@ -154,7 +162,7 @@ function BuatPengaduan({navigation}) {
 
   const ambilDariGalery = () => {
     modalizeRef.current?.close();
-    launchImageLibrary(
+    ImagePicker.launchImageLibrary(
       {
         mediaType: 'photo',
         includeBase64: false,
@@ -165,13 +173,13 @@ function BuatPengaduan({navigation}) {
       response => {
         if (!response.didCancel) {
           let formData = new FormData();
-          setFoto(response.assets[0].uri);
+          setFoto(response.uri);
           // setDataFoto(response.data);
-          setNamaFoto(response.assets[0].fileName);
+          setNamaFoto(response.fileName);
           formData.append('file', {
-            uri: response.assets[0].uri,
-            name: response.assets[0].fileName,
-            type: response.assets[0].type,
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
           });
           // setDataFotoKejadian(formData);
           kirimFotoKejadian(formData);
@@ -192,6 +200,7 @@ function BuatPengaduan({navigation}) {
     })
       .then(async res => {
         let data = await res.json();
+        console.log(data);
         setLinkFotoKejadian(data.data.path);
       })
       .catch(err => {
@@ -201,7 +210,7 @@ function BuatPengaduan({navigation}) {
 
   const ambilDariCameraKTP = async () => {
     modalizeRefKTP.current?.close();
-    launchCamera(
+    ImagePicker.launchCamera(
       {
         mediaType: 'photo',
         includeBase64: false,
@@ -212,14 +221,14 @@ function BuatPengaduan({navigation}) {
       response => {
         if (!response.didCancel) {
           let formData = new FormData();
-          setFotoKTP(response.assets[0].uri);
+          setFotoKTP(response.uri);
           // setDataFoto(response.data);
-          setNamaFotoKTP(response.assets[0].fileName);
+          setNamaFotoKTP(response.fileName);
 
           formData.append('file', {
-            uri: response.assets[0].uri,
-            name: response.assets[0].fileName,
-            type: response.assets[0].type,
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
           });
           // setDataFotoKTP(formData);
           kirimFotoKTP(formData);
@@ -230,7 +239,7 @@ function BuatPengaduan({navigation}) {
 
   const ambilDariGaleryKTP = () => {
     modalizeRefKTP.current?.close();
-    launchImageLibrary(
+    ImagePicker.launchImageLibrary(
       {
         mediaType: 'photo',
         includeBase64: false,
@@ -241,14 +250,14 @@ function BuatPengaduan({navigation}) {
       response => {
         if (!response.didCancel) {
           let formData = new FormData();
-          setFotoKTP(response.assets[0].uri);
+          setFotoKTP(response.uri);
           // setDataFoto(response.data);
-          setNamaFotoKTP(response.assets[0].fileName);
+          setNamaFotoKTP(response.fileName);
 
           formData.append('file', {
-            uri: response.assets[0].uri,
-            name: response.assets[0].fileName,
-            type: response.assets[0].type,
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
           });
           // setDataFotoKTP(formData);
           kirimFotoKTP(formData);
@@ -269,6 +278,7 @@ function BuatPengaduan({navigation}) {
     })
       .then(async res => {
         let data = await res.json();
+        console.log(data);
         setLinkFotoKTP(data.data.path);
       })
       .catch(err => {
@@ -304,10 +314,27 @@ function BuatPengaduan({navigation}) {
       });
   };
 
+  const getCurrentLocation = () => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        setLat(location.latitude);
+        setLong(location.longitude);
+        setLatMarker(location.latitude);
+        setLongMarker(location.longitude);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
+  };
   useEffect(() => {
     getKategoriAduan();
     getDinasTerkait();
     getProfil();
+    getCurrentLocation();
   }, []);
   return (
     <>
@@ -315,7 +342,7 @@ function BuatPengaduan({navigation}) {
         animationType="fade"
         transparent={true}
         visible={modalVisibleSukses}>
-        <View style={styles.centeredViewModal}>
+        <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Image
               style={{width: 50, height: 50}}
@@ -360,7 +387,7 @@ function BuatPengaduan({navigation}) {
         </View>
       </Modal>
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <View style={styles.centeredViewModal}>
+        <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Image
               style={{width: 50, height: 50}}
@@ -421,7 +448,13 @@ function BuatPengaduan({navigation}) {
           // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
-        <View style={{flexDirection: 'row', marginBottom: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: hp('5%'),
+            alignItems: 'center',
+            marginBottom: hp('2%'),
+          }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
               size={30}
@@ -611,7 +644,7 @@ function BuatPengaduan({navigation}) {
                 <FontAwesomeIcon color="grey" size={25} icon={faCamera} />
               </TouchableOpacity>
             </View>
-            <View>
+            {/* <View>
               <Text style={styles.text}>Link Lokasi</Text>
             </View>
             <View style={styles.boxInput}>
@@ -619,8 +652,8 @@ function BuatPengaduan({navigation}) {
                 style={styles.textInput}
                 onChangeText={val => setLinkLokasi(val)}
                 placeholder="Link Lokasi"></TextInput>
-            </View>
-            <View>
+            </View> */}
+            {/* <View>
               <Text style={styles.text}>Latitude</Text>
             </View>
             <View style={styles.boxInput}>
@@ -637,7 +670,33 @@ function BuatPengaduan({navigation}) {
                 style={styles.textInput}
                 onChangeText={val => setLong(val)}
                 placeholder="Longitude"></TextInput>
+            </View> */}
+            <View>
+              <Text style={styles.text}>Tentukan Lokasi Kejadian</Text>
             </View>
+            <View style={styles.map}>
+              <MapView
+                pitchEnabled={true}
+                onPress={val => {
+                  console.log('coor', val.nativeEvent.coordinate);
+                  setLatMarker(val.nativeEvent.coordinate.latitude);
+                  setLongMarker(val.nativeEvent.coordinate.longitude);
+                }}
+                style={{width: wp('85%'), height: hp('30%')}}
+                region={{
+                  latitude: latMarker,
+                  longitude: longMarker,
+                  latitudeDelta: 0.05,
+                  longitudeDelta: 0.05,
+                }}>
+                <Marker
+                  coordinate={{
+                    latitude: latMarker,
+                    longitude: longMarker,
+                  }}></Marker>
+              </MapView>
+            </View>
+
             <View style={styles.boxButton}>
               <TouchableOpacity style={styles.buttonLogin} onPress={cekKirim}>
                 <Text style={styles.textButton}>Kirim</Text>
@@ -806,22 +865,25 @@ function BuatPengaduan({navigation}) {
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
+  map: {
+    marginTop: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 10,
+  },
   background: {
     backgroundColor: '#C67FEF',
     height: '100%',
   },
-  boxLogo: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 35,
-  },
-  logo: {
-    width: 150,
-    height: 150,
-  },
+
   container: {
-    marginTop: 20,
+    marginTop: hp('2%'),
     margin: 30,
     borderRadius: 10,
     justifyContent: 'flex-start',
@@ -833,14 +895,6 @@ const styles = {
     width: '100%',
     backgroundColor: '#ffffff',
     borderWidth: 1,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 7,
-    // },
-    // shadowOpacity: 0.41,
-    // shadowRadius: 9.11,
-    // elevation: 14,
   },
   boxInputPassword: {
     flexDirection: 'row',
@@ -849,14 +903,6 @@ const styles = {
     width: '100%',
     backgroundColor: '#ffffff',
     borderWidth: 1,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 7,
-    // },
-    // shadowOpacity: 0.41,
-    // shadowRadius: 9.11,
-    // elevation: 14,
   },
   buttonLogin: {
     borderRadius: 10,
@@ -920,13 +966,13 @@ const styles = {
   },
   arrow: {
     // borderWidth: 1,
-    marginTop: 30,
+    // marginTop: 30,
     marginLeft: 30,
   },
   boxLogin: {
     // borderWidth: 1,
     marginLeft: 30,
-    marginTop: 30,
+    // marginTop: 30,
   },
   textLogin: {
     fontSize: 20,
@@ -952,5 +998,5 @@ const styles = {
     padding: 10,
     color: '#000000',
   },
-};
+});
 export default BuatPengaduan;

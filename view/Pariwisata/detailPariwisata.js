@@ -29,6 +29,10 @@ import {ScrollView as ScrollGesture} from 'react-native-gesture-handler';
 import {WebView} from 'react-native-webview';
 import RenderHtml from 'react-native-render-html';
 import {useFocusEffect} from '@react-navigation/native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -98,8 +102,9 @@ function DetailPariwisata({navigation, route}) {
         <View
           style={{
             flexDirection: 'row',
-            marginBottom: 20,
+            marginBottom: hp('2%'),
             marginHorizontal: 20,
+            marginTop: hp('5%'),
             // borderWidth: 1,
           }}>
           <View style={styles.arrow}>
@@ -469,7 +474,7 @@ const styles = StyleSheet.create({
   arrow: {
     justifyContent: 'center',
     // borderWidth: 1,
-    marginTop: 30,
+
     // marginLeft: 30,
   },
   boxJudul: {
@@ -477,7 +482,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // borderWidth: 1,
     marginLeft: 20,
-    marginTop: 30,
   },
   textJudul: {
     fontSize: 20,
@@ -492,14 +496,14 @@ const styles = StyleSheet.create({
   },
   boxButton: {
     width: 151,
-    marginBottom: 20,
+    marginBottom: hp('2%'),
   },
   buttonLogin: {
     borderRadius: 10,
     width: '100%',
     height: 55,
     backgroundColor: '#246EE9',
-    marginTop: 20,
+    marginTop: hp('2%'),
     justifyContent: 'center',
   },
 });

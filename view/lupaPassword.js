@@ -8,10 +8,15 @@ import {
   Modal,
   Pressable,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 function lupaPassword({navigation}) {
   const dispatch = useDispatch();
@@ -129,44 +134,33 @@ function lupaPassword({navigation}) {
             Silahkan masukkan alamat email anda saat mendaftar
           </Text>
         </View>
-        <View style={styles.container}>
-          <View>
-            <Text style={styles.text}>Email</Text>
-          </View>
-          <View style={styles.boxInput}>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={val => setEmail(val)}
-              placeholder="Email"></TextInput>
-          </View>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <View style={styles.container}>
+            <View>
+              <Text style={styles.text}>Email</Text>
+            </View>
+            <View style={styles.boxInput}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={val => setEmail(val)}
+                placeholder="Email"></TextInput>
+            </View>
 
-          <View style={styles.boxButton}>
-            <TouchableOpacity style={styles.buttonLogin} onPress={login}>
-              <Text style={styles.textButton}>Kirim</Text>
-            </TouchableOpacity>
+            <View style={styles.boxButton}>
+              <TouchableOpacity style={styles.buttonLogin} onPress={login}>
+                <Text style={styles.textButton}>Kirim</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </View>
     </>
   );
 }
 
 const styles = {
-  background: {
-    backgroundColor: '#C67FEF',
-    height: '100%',
-  },
-  boxLogo: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 35,
-  },
-  logo: {
-    width: 150,
-    height: 150,
-  },
   container: {
-    marginTop: 70,
+    marginTop: hp('8%'),
     margin: 30,
     borderRadius: 10,
     justifyContent: 'flex-start',
@@ -238,7 +232,7 @@ const styles = {
   },
   boxButton: {
     width: '100%',
-    marginTop: 40,
+    marginTop: hp('5%'),
   },
 
   centeredView: {
@@ -262,12 +256,12 @@ const styles = {
     elevation: 5,
   },
   arrow: {
-    marginTop: 50,
+    marginTop: hp('5%'),
     marginLeft: 30,
   },
   boxLogin: {
     marginLeft: 30,
-    marginTop: 30,
+    marginTop: hp('2%'),
   },
   textLogin: {
     fontSize: 30,
@@ -275,7 +269,7 @@ const styles = {
   },
   boxChildLogin: {
     marginLeft: 30,
-    marginTop: 10,
+    marginTop: hp('2%'),
   },
   textChildLogin: {
     color: 'grey',

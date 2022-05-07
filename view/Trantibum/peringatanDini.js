@@ -23,6 +23,10 @@ import url from '../../config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {ActivityIndicator} from 'react-native-paper';
 import moment from 'moment';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 var bencana = [
   {id: 1, jenisBencana: 'Gempa Bumi'},
@@ -225,7 +229,12 @@ function PeringatanDini({navigation}) {
           // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
-        <View style={{flexDirection: 'row', marginBottom: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: hp('5%'),
+            alignItems: 'center',
+          }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
               size={30}
@@ -239,7 +248,12 @@ function PeringatanDini({navigation}) {
             <Text style={styles.textJudul}>Peringatan Dini</Text>
           </View>
         </View>
-        <View style={{flexDirection: 'row', marginHorizontal: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginHorizontal: 20,
+            marginTop: hp('2%'),
+          }}>
           <View style={[styles.boxInput, {flexDirection: 'row', flex: 4}]}>
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
@@ -747,13 +761,13 @@ const styles = StyleSheet.create({
   },
   arrow: {
     // borderWidth: 1,
-    marginTop: 30,
+    // marginTop: 30,
     marginLeft: 30,
   },
   boxJudul: {
     // borderWidth: 1,
     marginLeft: 30,
-    marginTop: 30,
+    // marginTop: 30,
   },
   textJudul: {
     fontSize: 20,
@@ -761,7 +775,7 @@ const styles = StyleSheet.create({
   },
   container: {
     // marginTop: 5,
-    marginBottom: 40,
+    marginBottom: hp('3%'),
     width: '100%',
     borderRadius: 20,
     backgroundColor: 'white',
@@ -772,8 +786,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.37,
     shadowRadius: 7.49,
-
-    elevation: 12,
+    elevation: 5,
   },
   map: {
     height: 200,

@@ -16,6 +16,10 @@ import Axios from 'axios';
 import url from '../../config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {BallIndicator} from 'react-native-indicators';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 function UlasanPariwisata({navigation, route}) {
   const pariwisataId = route.params.idPariwisata;
@@ -76,7 +80,7 @@ function UlasanPariwisata({navigation, route}) {
                 style={{
                   fontWeight: 'bold',
                   fontSize: 14,
-                  marginTop: 20,
+                  marginTop: hp('5%'),
                   justifyContent: 'center',
                 }}>
                 {message}
@@ -126,7 +130,7 @@ function UlasanPariwisata({navigation, route}) {
                 style={{
                   fontWeight: 'bold',
                   fontSize: 14,
-                  marginTop: 20,
+                  marginTop: hp('5%'),
                   justifyContent: 'center',
                 }}>
                 {message}
@@ -175,7 +179,12 @@ function UlasanPariwisata({navigation, route}) {
           // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
-        <View style={{flexDirection: 'row', marginBottom: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginBottom: hp('2%'),
+            marginTop: hp('5%'),
+          }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
               size={30}
@@ -260,7 +269,7 @@ const styles = {
   },
 
   container: {
-    marginTop: 20,
+    marginTop: hp('2%'),
     margin: 30,
     borderRadius: 10,
     justifyContent: 'flex-start',
@@ -291,10 +300,8 @@ const styles = {
     elevation: 14,
   },
   text: {
-    // fontWeight: 'bold',
-    // fontSize: 18,
     margin: 5,
-    marginTop: 15,
+    marginTop: hp('2%'),
     color: 'black',
   },
   textInput: {
@@ -311,18 +318,15 @@ const styles = {
   },
   boxButton: {
     width: '100%',
-    marginTop: 40,
+    marginTop: hp('2%'),
   },
 
   arrow: {
-    // borderWidth: 1,
-    marginTop: 30,
     marginLeft: 30,
   },
   boxLogin: {
     // borderWidth: 1,
     marginLeft: 30,
-    marginTop: 30,
   },
   textLogin: {
     fontSize: 20,
@@ -340,14 +344,6 @@ const styles = {
     borderRadius: 20,
     padding: 30,
     alignItems: 'center',
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 5,
   },
 };
 export default UlasanPariwisata;
