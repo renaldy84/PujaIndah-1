@@ -266,7 +266,7 @@ const styles = {
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#246EE9',
+    backgroundColor: '#2F80ED',
     marginTop: 20,
     justifyContent: 'center',
     shadowColor: '#000',
@@ -347,7 +347,7 @@ const styles = {
   },
   textChildLogin1: {
     marginLeft: 10,
-    color: 'blue',
+    color: '#2F80ED',
     fontSize: 16,
   },
   lupa: {

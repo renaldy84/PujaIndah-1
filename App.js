@@ -27,7 +27,19 @@ import RiwayatPengaduan from './view/Trantibum/riwayatPengaduan';
 import ListPariwisata from './view/Pariwisata/listPariwisata';
 import DetailPariwisata from './view/Pariwisata/detailPariwisata';
 import UlasanPariwisata from './view/Pariwisata/ulasanPariwisata';
+import DashboardPekerjaanUmum from './view/PekerjaanUmum/dashboard';
 import SplashScreen from './view/splashScreen';
+import LokasiTitikRawan from './view/PekerjaanUmum/lokasiTitikRawan';
+import DataInfrastruktur from './view/PekerjaanUmum/dataInfrastruktur';
+import DetailInfrastruktur from './view/PekerjaanUmum/detailInfrastruktur';
+import ListAlatBerat from './view/PekerjaanUmum/listAlatBerat';
+import DetailAlatBerat from './view/PekerjaanUmum/detailAlatBerat';
+import BookingAlat from './view/PekerjaanUmum/bookingAlat';
+import RiwayatSewaAlat from './view/PekerjaanUmum/riwayatSewaAlat';
+import BuatPengaduanPekerjaanUmum from './view/PekerjaanUmum/buatPengaduanPU';
+import RiwayatPengaduanPekerjaanUmum from './view/PekerjaanUmum/riwayatPengaduanPU';
+import ManajemenProyek from './view/PekerjaanUmum/manajemenProyek';
+import DetailManajemenProyek from './view/PekerjaanUmum/detailManajemenProyek';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -108,6 +120,90 @@ function SettingNav() {
           }}
           name="CarouselHeader"
           component={carouselHeader}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardPekerjaanUmum"
+          component={DashboardPekerjaanUmum}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="LokasiTitikRawan"
+          component={LokasiTitikRawan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DataInfrastruktur"
+          component={DataInfrastruktur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailInfrastruktur"
+          component={DetailInfrastruktur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="ListAlatBerat"
+          component={ListAlatBerat}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailAlatBerat"
+          component={DetailAlatBerat}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BookingAlat"
+          component={BookingAlat}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="RiwayatSewaAlat"
+          component={RiwayatSewaAlat}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BuatPengaduanPekerjaanUmum"
+          component={BuatPengaduanPekerjaanUmum}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="RiwayatPengaduanPekerjaanUmum"
+          component={RiwayatPengaduanPekerjaanUmum}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="ManajemenProyek"
+          component={ManajemenProyek}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailManajemenProyek"
+          component={DetailManajemenProyek}
         />
       </Stack.Navigator>
     </>

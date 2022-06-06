@@ -63,7 +63,7 @@ function navigationBottom() {
             <FontAwesome name="home" size={RFPercentage(4)} color={color} />
           ),
           tabBarInactiveTintColor: '#8E8E93',
-          tabBarActiveTintColor: '#0323C4',
+          tabBarActiveTintColor: '#2F80ED',
           tabBarStyle: {
             height: hp('10%'),
             elevation: 10,
@@ -86,7 +86,7 @@ function navigationBottom() {
             <FontAwesome name="clock" size={RFPercentage(4)} color={color} />
           ),
           tabBarInactiveTintColor: '#8E8E93',
-          tabBarActiveTintColor: '#0323C4',
+          tabBarActiveTintColor: '#2F80ED',
           tabBarStyle: {
             height: hp('10%'),
             elevation: 10,
@@ -109,7 +109,7 @@ function navigationBottom() {
             <FontAwesome name="th-large" size={RFPercentage(4)} color={color} />
           ),
           tabBarInactiveTintColor: '#8E8E93',
-          tabBarActiveTintColor: '#0323C4',
+          tabBarActiveTintColor: '#2F80ED',
           tabBarStyle: {
             height: hp('10%'),
             elevation: 10,
@@ -136,7 +136,7 @@ function navigationBottom() {
             />
           ),
           tabBarInactiveTintColor: '#8E8E93',
-          tabBarActiveTintColor: '#0323C4',
+          tabBarActiveTintColor: '#2F80ED',
           tabBarStyle: {
             height: hp('10%'),
             elevation: 10,

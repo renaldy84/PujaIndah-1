@@ -39,36 +39,36 @@ var bencana = [
 ];
 
 var status = [
-  {id: 1, jenisStatus: 'Siaga'},
-  {id: 2, jenisStatus: 'Waspada'},
-  {id: 3, jenisStatus: 'Awas'},
+  {id: 1, jenisStatus: 'Baik'},
+  {id: 2, jenisStatus: 'Rusak Ringan'},
+  {id: 3, jenisStatus: 'Rusak Berat'},
 ];
-function PeringatanDini({navigation}) {
+function DataInfrastruktur({navigation}) {
   const modalizeRef = useRef(null);
-  const modalizeRefBencana = useRef(null);
+  const modalizeRefInfrastruktur = useRef(null);
   const modalizeRefLokasi = useRef(null);
 
   const filterModal = () => {
     modalizeRef.current?.open();
   };
-  const [filterPeringatan, setFilterePeringatan] = useState([]);
+  const [filterListInfrastruktur, setFilterListInfrastruktur] = useState([]);
   const [filter, setFilter] = useState('');
-  const [listPeringatan, setListPeringatan] = useState([]);
+  const [listInfrastruktur, setListInfrastruktur] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [namaStatus, setNamaStatus] = useState('');
   //bencana
-  const [checkedBencana, setCheckedBencana] = useState('');
-  const [filterBencana, setFilterBencana] = useState([
-    {id: 1, jenisBencana: 'Gempa Bumi'},
-    {id: 2, jenisBencana: 'Tanah Longsor'},
-    {id: 3, jenisBencana: 'Banjir'},
-    {id: 4, jenisBencana: 'Tsunami'},
-    {id: 5, jenisBencana: 'Letusan gunung api'},
-    {id: 6, jenisBencana: 'Banjir bandang'},
-    {id: 7, jenisBencana: 'Angin topan'},
-  ]);
-  const [namaBencana, setNamaBencana] = useState('');
+  //   const [checkedBencana, setCheckedBencana] = useState('');
+  //   const [filterBencana, setFilterBencana] = useState([
+  //     {id: 1, jenisBencana: 'Gempa Bumi'},
+  //     {id: 2, jenisBencana: 'Tanah Longsor'},
+  //     {id: 3, jenisBencana: 'Banjir'},
+  //     {id: 4, jenisBencana: 'Tsunami'},
+  //     {id: 5, jenisBencana: 'Letusan gunung api'},
+  //     {id: 6, jenisBencana: 'Banjir bandang'},
+  //     {id: 7, jenisBencana: 'Angin topan'},
+  //   ]);
+  //   const [namaBencana, setNamaBencana] = useState('');
   //Provinsi
   const [checkedLokasi, setCheckedLokasi] = useState('');
   const [namaProvinsi, setNamaProvinsi] = useState('');
@@ -76,6 +76,14 @@ function PeringatanDini({navigation}) {
   const [chooseProvinsi, setChooseProvinsi] = useState({});
   const [filterProvTxt, setFilterProvTxt] = useState('');
   const [filterProvinsi, setFilterProvinsi] = useState([]);
+
+  //Infrastruktur
+  const [checkedInfrastruktur, setCheckedInfrastruktur] = useState('');
+  const [namaInfrastruktur, setNamaInfrastruktur] = useState('');
+  const [infrastruktur, setInfrastruktur] = useState([]);
+  const [chooseInfrastruktur, setChooseInfrastruktur] = useState({});
+  const [filterInfrastrukturTxt, setFilterInfrastrukturTxt] = useState('');
+  const [filterInfrastruktur, setFilterInfrastruktur] = useState([]);
 
   var bencanaTampil = bencana.slice(0, 3);
 
@@ -93,13 +101,30 @@ function PeringatanDini({navigation}) {
       });
   };
 
+  const getInfrastruktur = async () => {
+    Axios({
+      url: url + `/api/pu/infrastruktur-jenis/getall?order=id+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setInfrastruktur(response.data.data);
+        setFilterInfrastruktur(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const hasilFilter = async data => {
     console.log('ini dari hasil filer', data);
     setIsLoading(true);
     Axios({
       url:
         url +
-        `/api/trantibumlinmas/peringatan-dini/getall?level_peringatan=${data.namaStatus}&nama_peringatan=${data.namaBencana}&nama_daerah=${data.namaProvinsi}&order=nama_peringatan+asc`,
+        `/api/trantibumlinmas/peringatan-dini/getall?level_peringatan=${data.namaStatus}&nama_peringatan=${data.namaInfrastruktur}&nama_daerah=${data.namaProvinsi}&order=nama_peringatan+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -107,8 +132,8 @@ function PeringatanDini({navigation}) {
     })
       .then(response => {
         setIsLoading(false);
-        setListPeringatan(response.data.data);
-        setFilterePeringatan(response.data.data);
+        setListInfrastruktur(response.data.data);
+        setFilterListInfrastruktur(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -124,12 +149,20 @@ function PeringatanDini({navigation}) {
       );
     }
   }, [filterProvTxt]);
-  const getListPeringatan = async () => {
+
+  useEffect(() => {
+    if (infrastruktur.length !== 0) {
+      setFilterInfrastruktur(
+        infrastruktur.filter(x =>
+          x.nama.toLowerCase().includes(filterInfrastrukturTxt.toLowerCase()),
+        ),
+      );
+    }
+  }, [filterInfrastrukturTxt]);
+  const getListInfrastruktur = async () => {
     setIsLoading(true);
     Axios({
-      url:
-        url +
-        `/api/trantibumlinmas/peringatan-dini/getall?order=nama_peringatan+asc`,
+      url: url + `/api/pu/infrastruktur/getall?order=id+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -138,8 +171,8 @@ function PeringatanDini({navigation}) {
       .then(response => {
         // console.log(response.data.data);
         setIsLoading(false);
-        setListPeringatan(response.data.data);
-        setFilterePeringatan(response.data.data);
+        setListInfrastruktur(response.data.data);
+        setFilterListInfrastruktur(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -149,72 +182,59 @@ function PeringatanDini({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <View style={styles.container}>
-          <View style={styles.map}>
-            <MapView
-              style={{...StyleSheet.absoluteFillObject, borderRadius: 20}}
-              initialRegion={{
-                latitude: item.lat === null ? 0.0 : parseFloat(item.lat),
-                longitude: item.lon === null ? 0.0 : parseFloat(item.lon),
-                latitudeDelta: 0.05,
-                longitudeDelta: 0.05,
-              }}>
-              <Marker
-                coordinate={{
-                  latitude: item.lat === null ? 0.0 : parseFloat(item.lat),
-                  longitude: item.lon === null ? 0.0 : parseFloat(item.lon),
-                }}></Marker>
-            </MapView>
-          </View>
+        <TouchableOpacity
+          onPress={() => {
+            console.log(item.id);
+            navigation.navigate('DetailInfrastruktur', {
+              idInfrastruktur: item.id,
+            });
+          }}
+          style={styles.container}>
           <View style={styles.content}>
             <View>
               <Text
                 style={{
                   fontWeight: 'bold',
-                  color: '#0094FF',
+                  color: 'black',
                   fontSize: 18,
                 }}>
-                {item.nama_peringatan}
+                {item.nama}
               </Text>
               <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Lokasi:</Text>{' '}
-                {item.nama_provinsi}
+                <Text style={{fontWeight: 'bold'}}>Jenis Infrastruktur:</Text>{' '}
+                {item.pu_infrastruktur_jenis_id}
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Uraian Peringatan:</Text>{' '}
-                {item.uraian_peringatan}
+                <Text style={{fontWeight: 'bold'}}>
+                  Kelas/Type Infrastruktur:
+                </Text>{' '}
+                {item.kelas}
               </Text>
               <Text>
-                {' '}
-                <Text style={{fontWeight: 'bold'}}>Tanggal:</Text>{' '}
-                {moment(new Date(item.tanggal)).format('DD-MM-YYYY')}
+                <Text style={{fontWeight: 'bold'}}>Dimensi/Ukuran:</Text>{' '}
+                {item.ukuran}
               </Text>
               <Text>
-                {' '}
-                <Text style={{fontWeight: 'bold'}}>Waktu:</Text>{' '}
-                {item.waktu_mulai} - {item.waktu_selesai} WIB
-              </Text>
-              <Text>
-                {' '}
-                <Text style={{fontWeight: 'bold'}}>Status:</Text>{' '}
-                {item.level_peringatan}{' '}
+                <Text style={{fontWeight: 'bold'}}>Kondisi:</Text>{' '}
+                {item.kondisi}
               </Text>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </>
     );
   };
 
   useEffect(() => {
-    getListPeringatan();
+    getListInfrastruktur();
     getProvinsi();
+    getInfrastruktur();
   }, []);
 
   useEffect(() => {
-    if (listPeringatan.length !== 0) {
-      setFilterePeringatan(
-        listPeringatan.filter(x =>
+    if (listInfrastruktur.length !== 0) {
+      setFilterListInfrastruktur(
+        listInfrastruktur.filter(x =>
           x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
         ),
       );
@@ -240,12 +260,12 @@ function PeringatanDini({navigation}) {
               size={30}
               icon={faArrowLeft}
               onPress={() => {
-                navigation.navigate('MenuTrantibum');
+                navigation.navigate('DashboardPekerjaanUmum');
               }}
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Peringatan Dini</Text>
+            <Text style={styles.textJudul}>Data Infrastruktur</Text>
           </View>
         </View>
         <View
@@ -309,10 +329,10 @@ function PeringatanDini({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterPeringatan.length !== 0 ? (
+        ) : filterListInfrastruktur.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={filterPeringatan}
+              data={filterListInfrastruktur}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
               // ListFooterComponent={renderFooter}
@@ -342,7 +362,7 @@ function PeringatanDini({navigation}) {
           <View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View>
-                <Text style={{fontWeight: 'bold', fontSize: 14}}>Status</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 14}}>Kondisi</Text>
               </View>
               <TouchableOpacity
                 onPress={() => {
@@ -353,7 +373,7 @@ function PeringatanDini({navigation}) {
                   alignItems: 'flex-end',
                 }}>
                 <Text style={{fontSize: 12, color: '#0094FF'}}>
-                  reset status
+                  reset kondisi
                 </Text>
               </TouchableOpacity>
             </View>
@@ -398,14 +418,14 @@ function PeringatanDini({navigation}) {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View>
                 <Text style={{fontWeight: 'bold', fontSize: 14}}>
-                  Jenis Bencana
+                  Jenis Infrastruktur
                 </Text>
               </View>
 
               <TouchableOpacity
                 onPress={() => {
                   modalizeRef.current?.close();
-                  modalizeRefBencana.current?.open();
+                  modalizeRefInfrastruktur.current?.open();
                 }}
                 style={{
                   flex: 1,
@@ -422,16 +442,17 @@ function PeringatanDini({navigation}) {
                 flexDirection: 'row',
                 flexWrap: 'wrap',
               }}>
-              {bencanaTampil.map((item, index) => {
+              {infrastruktur.slice(0, 3).map((item, index) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setNamaBencana(item.jenisBencana);
-                      setCheckedBencana(item.id);
+                      setChooseInfrastruktur(item);
+                      setCheckedInfrastruktur(item.id);
+                      setNamaInfrastruktur(item.nama);
                     }}
                     key={index}
                     style={{
-                      borderWidth: namaBencana === item.jenisBencana ? 2 : 1,
+                      borderWidth: namaInfrastruktur === item.nama ? 3 : 1,
                       marginTop: 10,
                       alignSelf: 'flex-start',
                       paddingHorizontal: 15,
@@ -439,15 +460,15 @@ function PeringatanDini({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaBencana === item.jenisBencana ? 'blue' : 'black',
+                        namaInfrastruktur === item.nama ? 'blue' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
                         color:
-                          namaBencana === item.jenisBencana ? 'blue' : 'black',
+                          namaInfrastruktur === item.nama ? 'blue' : 'black',
                       }}>
-                      {item.jenisBencana}
+                      {item.nama}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -519,7 +540,7 @@ function PeringatanDini({navigation}) {
               style={styles.buttonTerapkan}
               onPress={() => {
                 modalizeRef.current?.close();
-                hasilFilter({namaStatus, namaProvinsi, namaBencana});
+                hasilFilter({namaStatus, namaProvinsi, namaInfrastruktur});
               }}>
               <Text style={styles.textButton}>Terapkan</Text>
             </TouchableOpacity>
@@ -528,14 +549,14 @@ function PeringatanDini({navigation}) {
       </Modalize>
       {/* Modal Jenis Bencana */}
       <Modalize
-        ref={modalizeRefBencana}
+        ref={modalizeRefInfrastruktur}
         // snapPoint={150}
         modalHeight={450}
         HeaderComponent={
           <>
             <View style={{alignItems: 'flex-start', margin: 20}}>
               <Text style={{fontSize: 24, fontWeight: 'bold'}}>
-                Jenis Bencana{' '}
+                Jenis Infrastruktur{' '}
               </Text>
             </View>
             <View
@@ -545,14 +566,8 @@ function PeringatanDini({navigation}) {
               ]}>
               <TextInput
                 style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-                onChangeText={val =>
-                  setFilterBencana(
-                    bencana.filter(x =>
-                      x.jenisBencana.toLowerCase().includes(val.toLowerCase()),
-                    ),
-                  )
-                }
-                placeholder="Pencarian berdasarkan bencana"></TextInput>
+                onChangeText={val => setFilterInfrastrukturTxt(val)}
+                placeholder="Pencarian berdasarkan infrastruktur"></TextInput>
               <TouchableOpacity
                 onPress={() => {}}
                 style={{
@@ -573,8 +588,11 @@ function PeringatanDini({navigation}) {
                 <TouchableOpacity
                   style={styles.buttonReset}
                   onPress={() => {
-                    setCheckedBencana('');
-                    setNamaBencana('');
+                    setCheckedInfrastruktur('');
+                    setFilterInfrastrukturTxt('');
+                    getInfrastruktur();
+                    setNamaInfrastruktur('');
+                    setChooseInfrastruktur({});
                   }}>
                   <Text style={styles.textButtonReset}>Reset</Text>
                 </TouchableOpacity>
@@ -584,16 +602,9 @@ function PeringatanDini({navigation}) {
                   style={styles.buttonBencana}
                   onPress={() => {
                     modalizeRef.current?.open();
-                    modalizeRefBencana.current?.close();
-                    setFilterBencana([
-                      {id: 1, jenisBencana: 'Gempa Bumi'},
-                      {id: 2, jenisBencana: 'Tanah Longsor'},
-                      {id: 3, jenisBencana: 'Banjir'},
-                      {id: 4, jenisBencana: 'Tsunami'},
-                      {id: 5, jenisBencana: 'Letusan gunung api'},
-                      {id: 6, jenisBencana: 'Banjir bandang'},
-                      {id: 7, jenisBencana: 'Angin topan'},
-                    ]);
+                    modalizeRefInfrastruktur.current?.close();
+                    setNamaInfrastruktur(chooseInfrastruktur.nama);
+                    setFilterInfrastrukturTxt('');
                   }}>
                   <Text style={styles.textButton}>Terapkan</Text>
                 </TouchableOpacity>
@@ -602,7 +613,7 @@ function PeringatanDini({navigation}) {
           </>
         }>
         <View style={{marginTop: 20, marginLeft: 20}}>
-          {filterBencana.map((item, index) => {
+          {filterInfrastruktur.map((item, index) => {
             return (
               <>
                 <View
@@ -616,19 +627,19 @@ function PeringatanDini({navigation}) {
                     color="#246EE9"
                     value="first"
                     status={
-                      checkedBencana === item.id ? 'checked' : 'unchecked'
+                      checkedInfrastruktur === item.id ? 'checked' : 'unchecked'
                     }
                     onPress={() => {
-                      setCheckedBencana(item.id);
-                      setNamaBencana(item.jenisBencana);
+                      setChooseInfrastruktur(item);
+                      setCheckedInfrastruktur(item.id);
                     }}
                   />
                   <View>
-                    <Text style={{fontSize: 12}}>{item.jenisBencana}</Text>
+                    <Text style={{fontSize: 12}}>{item.nama}</Text>
                   </View>
                 </View>
                 <View
-                  key={index}
+                  key={item.id}
                   style={{
                     borderBottomColor: '#EBEBEB',
                     borderBottomWidth: 1,
@@ -775,17 +786,18 @@ const styles = StyleSheet.create({
   },
   container: {
     // marginTop: 5,
+    marginLeft: 10,
     marginBottom: hp('3%'),
-    width: '100%',
+    width: wp('85%'),
     borderRadius: 20,
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 7,
     },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
     elevation: 5,
   },
   map: {
@@ -855,4 +867,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default PeringatanDini;
+export default DataInfrastruktur;

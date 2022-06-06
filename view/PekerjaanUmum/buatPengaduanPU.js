@@ -32,7 +32,7 @@ import {
 import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
-function BuatPengaduan({navigation}) {
+function BuatPengaduanPekerjaanUmum({navigation}) {
   const modalizeRef = useRef(null);
   const modalizeRefKTP = useRef(null);
   const [modalHandleFoto, setModalHandleFoto] = useState(false);
@@ -40,14 +40,8 @@ function BuatPengaduan({navigation}) {
   const [email, setEmail] = useState('');
   const [nik, setNik] = useState('');
   const [telp, setTelp] = useState('');
-  const [idKategoriAduan, setIdKategoriAduan] = useState();
-  const [idDinasTerkait, setIdDinasTerkait] = useState('');
   const [judulPengaduan, setJudulPengaduan] = useState('');
   const [detailPengaduan, setDetailPengaduan] = useState('');
-  const [solusi, setSolusi] = useState('');
-  const [linkLokasi, setLinkLokasi] = useState('');
-  const [lat, setLat] = useState(0.0);
-  const [long, setLong] = useState(0.0);
   const [foto, setFoto] = useState(null);
   const [namaFoto, setNamaFoto] = useState('Unggah Foto');
   const [dataFotoKejadian, setDataFotoKejadian] = useState({});
@@ -58,13 +52,9 @@ function BuatPengaduan({navigation}) {
   const [linkFotoKTP, setLinkFotoKTP] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
-  const [kategoriAduan, setKategoriAduan] = useState([]);
-  const [dinasTerkait, setDinasTerkait] = useState([]);
   const [profil, setProfil] = useState({});
   const [modalLoading, setModalLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [latMarker, setLatMarker] = useState(0.0);
-  const [longMarker, setLongMarker] = useState(0.0);
 
   const cekKirim = () => {
     linkFotoKTP === '' && linkFotoKejadian === ''
@@ -72,39 +62,32 @@ function BuatPengaduan({navigation}) {
       : kirim();
   };
   const kirim = async () => {
-    console.log(`http://maps.google.com/maps?q=${latMarker},${longMarker}`);
-    setModalLoading(true);
-    Axios({
-      url: url + '/api/trantibumlinmas/pengaduan/create',
-      method: 'post',
-      headers: {
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-      },
-      data: {
-        judul_laporan: judulPengaduan,
-        kategori_laporan: idKategoriAduan,
-        uraian_kejadian: detailPengaduan,
-        solusi: solusi,
-        dinas_terkait: idDinasTerkait,
-        link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
-        foto_kejadian: linkFotoKejadian,
-        foto_ktp: linkFotoKTP,
-        lat: parseInt(latMarker),
-        lon: parseInt(longMarker),
-      },
-    })
-      .then(async res => {
-        setMessage(res.data.message);
-        setModalVisibleSukses(true);
-        setModalLoading(false);
-      })
-      .catch(error => {
-        console.log(error.response);
-        setModalLoading(false);
-        // setMessage(error.response.data.message);
-        setModalVisible(true);
-      });
-
+    // setModalLoading(true);
+    // Axios({
+    //   url: url + '/api/trantibumlinmas/pengaduan/create',
+    //   method: 'post',
+    //   headers: {
+    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+    //   },
+    //   data: {
+    //     judul_laporan: judulPengaduan,
+    //     uraian_kejadian: detailPengaduan,
+    //     link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
+    //     foto_kejadian: linkFotoKejadian,
+    //     foto_ktp: linkFotoKTP,
+    //   },
+    // })
+    //   .then(async res => {
+    //     setMessage(res.data.message);
+    //     setModalVisibleSukses(true);
+    //     setModalLoading(false);
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response);
+    //     setModalLoading(false);
+    //     // setMessage(error.response.data.message);
+    //     setModalVisible(true);
+    //   });
     // : navigation.navigate('MenuTrantibum');
   };
 
@@ -189,23 +172,23 @@ function BuatPengaduan({navigation}) {
   };
 
   const kirimFotoKejadian = async formData => {
-    fetch(url + '/api/master/media/upload', {
-      method: 'post',
-      headers: {
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-        'Content-Type': 'multipart/form-data',
-        Accept: 'application/json',
-      },
-      body: formData,
-    })
-      .then(async res => {
-        let data = await res.json();
-        console.log(data);
-        setLinkFotoKejadian(data.data.path);
-      })
-      .catch(err => {
-        console.log('Gagal Kejadian');
-      });
+    // fetch(url + '/api/master/media/upload', {
+    //   method: 'post',
+    //   headers: {
+    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+    //     'Content-Type': 'multipart/form-data',
+    //     Accept: 'application/json',
+    //   },
+    //   body: formData,
+    // })
+    //   .then(async res => {
+    //     let data = await res.json();
+    //     console.log(data);
+    //     setLinkFotoKejadian(data.data.path);
+    //   })
+    //   .catch(err => {
+    //     console.log('Gagal Kejadian');
+    //   });
   };
 
   const ambilDariCameraKTP = async () => {
@@ -267,74 +250,27 @@ function BuatPengaduan({navigation}) {
   };
 
   const kirimFotoKTP = async formData => {
-    fetch(url + '/api/master/media/upload', {
-      method: 'post',
-      headers: {
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-        // 'Content-Type': 'multipart/form-data',
-        Accept: '*/*',
-      },
-      body: formData,
-    })
-      .then(async res => {
-        let data = await res.json();
-        console.log(data);
-        setLinkFotoKTP(data.data.path);
-      })
-      .catch(err => {
-        console.log('Gagal KTP');
-      });
+    // fetch(url + '/api/master/media/upload', {
+    //   method: 'post',
+    //   headers: {
+    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+    //     // 'Content-Type': 'multipart/form-data',
+    //     Accept: '*/*',
+    //   },
+    //   body: formData,
+    // })
+    //   .then(async res => {
+    //     let data = await res.json();
+    //     console.log(data);
+    //     setLinkFotoKTP(data.data.path);
+    //   })
+    //   .catch(err => {
+    //     console.log('Gagal KTP');
+    //   });
   };
 
-  const getKategoriAduan = async () => {
-    Axios({
-      url:
-        url + `/api/trantibumlinmas/kategori-aduan/getall?order=kategori+asc`,
-      method: 'get',
-    })
-      .then(response => {
-        setKategoriAduan(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const getDinasTerkait = async () => {
-    Axios({
-      url:
-        url + `/api/trantibumlinmas/dinas-terkait/getall?order=nama_dinas+asc`,
-      method: 'get',
-    })
-      .then(response => {
-        setDinasTerkait(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const getCurrentLocation = () => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 15000,
-    })
-      .then(location => {
-        setLat(location.latitude);
-        setLong(location.longitude);
-        setLatMarker(location.latitude);
-        setLongMarker(location.longitude);
-      })
-      .catch(error => {
-        const {code, message} = error;
-        console.warn(code, message);
-      });
-  };
   useEffect(() => {
-    getKategoriAduan();
-    getDinasTerkait();
     getProfil();
-    getCurrentLocation();
   }, []);
   return (
     <>
@@ -364,7 +300,7 @@ function BuatPengaduan({navigation}) {
               onPress={() => {
                 setModalVisibleSukses(!modalVisibleSukses);
                 setMessage('');
-                navigation.navigate('MenuTrantibum');
+                navigation.navigate('DashboardPekerjaanUmum');
               }}
               style={{
                 backgroundColor: '#246EE9',
@@ -460,7 +396,7 @@ function BuatPengaduan({navigation}) {
               size={30}
               icon={faArrowLeft}
               onPress={() => {
-                navigation.navigate('MenuTrantibum');
+                navigation.navigate('DashboardPekerjaanUmum');
               }}
             />
           </View>
@@ -516,61 +452,6 @@ function BuatPengaduan({navigation}) {
                 placeholder="No Telp/HP"></TextInput>
             </View>
 
-            <View style={{marginTop: 5}}>
-              <Text style={styles.text}>Kategori Aduan</Text>
-            </View>
-            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
-              <Picker
-                mode="dropdown"
-                selectedValue={idKategoriAduan}
-                onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
-                }}>
-                <Picker.Item
-                  label="Pilih Kategori"
-                  value=""
-                  style={{color: '#b0b0b0'}}
-                />
-                {kategoriAduan.map((val, index) => {
-                  return (
-                    <Picker.Item
-                      key={val.id}
-                      label={val.kategori}
-                      value={val.id}
-                      style={{color: '#000000'}}
-                    />
-                  );
-                })}
-              </Picker>
-            </View>
-
-            <View style={{marginTop: 5}}>
-              <Text style={styles.text}>Dinas Terkait</Text>
-            </View>
-            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
-              <Picker
-                mode="dropdown"
-                selectedValue={idDinasTerkait}
-                onValueChange={(itemValue, itemIndex) => {
-                  setIdDinasTerkait(itemValue);
-                }}>
-                <Picker.Item
-                  label="Pilih Dinas Terkait Aduan"
-                  value=""
-                  style={{color: '#b0b0b0'}}
-                />
-                {dinasTerkait.map((val, index) => {
-                  return (
-                    <Picker.Item
-                      key={val.id}
-                      label={val.nama_dinas}
-                      value={val.id}
-                      style={{color: '#000000'}}
-                    />
-                  );
-                })}
-              </Picker>
-            </View>
             <View>
               <Text style={styles.text}>Judul Pengaduan</Text>
             </View>
@@ -591,17 +472,7 @@ function BuatPengaduan({navigation}) {
                 onChangeText={val => setDetailPengaduan(val)}
                 placeholder="Detail Pengaduan"></TextInput>
             </View>
-            <View>
-              <Text style={styles.text}>Solusi</Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                multiline={true}
-                numberOfLines={4}
-                style={[styles.textInput, {textAlignVertical: 'top'}]}
-                onChangeText={val => setSolusi(val)}
-                placeholder="Solusi"></TextInput>
-            </View>
+
             <View>
               <Text style={styles.text}>Unggah Gambar/Foto KTP</Text>
             </View>
@@ -643,58 +514,6 @@ function BuatPengaduan({navigation}) {
                 }}>
                 <FontAwesomeIcon color="grey" size={25} icon={faCamera} />
               </TouchableOpacity>
-            </View>
-            {/* <View>
-              <Text style={styles.text}>Link Lokasi</Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={val => setLinkLokasi(val)}
-                placeholder="Link Lokasi"></TextInput>
-            </View> */}
-            {/* <View>
-              <Text style={styles.text}>Latitude</Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={val => setLat(val)}
-                placeholder="Latitude"></TextInput>
-            </View>
-            <View>
-              <Text style={styles.text}>Longitude</Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={val => setLong(val)}
-                placeholder="Longitude"></TextInput>
-            </View> */}
-            <View>
-              <Text style={styles.text}>Tentukan Lokasi Kejadian</Text>
-            </View>
-            <View style={styles.map}>
-              <MapView
-                pitchEnabled={true}
-                onPress={val => {
-                  console.log('coor', val.nativeEvent.coordinate);
-                  setLatMarker(val.nativeEvent.coordinate.latitude);
-                  setLongMarker(val.nativeEvent.coordinate.longitude);
-                }}
-                style={{width: wp('85%'), height: hp('30%')}}
-                region={{
-                  latitude: latMarker,
-                  longitude: longMarker,
-                  latitudeDelta: 0.05,
-                  longitudeDelta: 0.05,
-                }}>
-                <Marker
-                  coordinate={{
-                    latitude: latMarker,
-                    longitude: longMarker,
-                  }}></Marker>
-              </MapView>
             </View>
 
             <View style={styles.boxButton}>
@@ -908,7 +727,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#246EE9',
     marginTop: 20,
     justifyContent: 'center',
     shadowColor: '#000',
@@ -999,4 +818,4 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
 });
-export default BuatPengaduan;
+export default BuatPengaduanPekerjaanUmum;

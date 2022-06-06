@@ -12,6 +12,8 @@ target 'PujaIndah' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-blob-util', :path => '../node_modules/react-native-blob-util'
+
   target 'PujaIndahTests' do
     inherit! :complete
     # Pods for testing

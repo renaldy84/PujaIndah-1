@@ -138,7 +138,7 @@ const ListPariwisata = ({navigation}) => {
         <View
           style={{
             flex: 1,
-            backgroundColor: '#0323C4',
+            backgroundColor: '#2F80ED',
           }}>
           <View style={styles.header}>
             <View style={styles.arrow}>

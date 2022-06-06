@@ -28,7 +28,7 @@ import {
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const MenuTrantibum = ({navigation}) => {
+const DashboardPekerjaanUmum = ({navigation}) => {
   return (
     <>
       <TouchableWithoutFeedback onPress={() => {}}>
@@ -50,13 +50,13 @@ const MenuTrantibum = ({navigation}) => {
             </View>
             <View style={styles.boxJudul}>
               <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>
-                Trantibum Linmas
+                Pekerjaan Umum
               </Text>
             </View>
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Trantibum Linmas adalah layanan masyarakat Reference site
+              Layanan Pekerjaan Umum adalah layanan masyarakat Reference site
               about Lorem Ipsum, giving information on its origins, as well as a
               random Lipsum generator. giving information on its origins, as
               well as a random Lipsum generator. giving information on its
@@ -67,17 +67,71 @@ const MenuTrantibum = ({navigation}) => {
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('PeringatanDini');
+                  navigation.navigate('LokasiTitikRawan');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconTrantibum/trantibumLokasi.png')}
+                    source={require('../../assets/image/iconPekerjaanUmum/pekerjaanUmumLokasi.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
-                  <Text style={{fontSize: 16}}>Peringatan Dini</Text>
+                  <Text style={{fontSize: 16}}>Lokasi Titik Rawan</Text>
+                </View>
+                <View style={styles.boxIconLeft}>
+                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('DataInfrastruktur');
+                }}
+                style={styles.boxKonten}>
+                <View style={styles.boxIconRight}>
+                  <Image
+                    style={{width: 40, height: 40}}
+                    source={require('../../assets/image/iconPekerjaanUmum/dataInfrastruktur.png')}
+                  />
+                </View>
+                <View style={styles.boxText}>
+                  <Text style={{fontSize: 16}}>Data Infrastruktur</Text>
+                </View>
+                <View style={styles.boxIconLeft}>
+                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('ListAlatBerat');
+                }}
+                style={styles.boxKonten}>
+                <View style={styles.boxIconRight}>
+                  <Image
+                    style={{width: 40, height: 40}}
+                    source={require('../../assets/image/iconPekerjaanUmum/sewaAlatBerat.png')}
+                  />
+                </View>
+                <View style={styles.boxText}>
+                  <Text style={{fontSize: 16}}>Sewa Alat Berat</Text>
+                </View>
+                <View style={styles.boxIconLeft}>
+                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RiwayatSewaAlat');
+                }}
+                style={styles.boxKonten}>
+                <View style={styles.boxIconRight}>
+                  <Image
+                    style={{width: 40, height: 40}}
+                    source={require('../../assets/image/iconPekerjaanUmum/riwayatSewaAlat.png')}
+                  />
+                </View>
+                <View style={styles.boxText}>
+                  <Text style={{fontSize: 16}}>Riwayat Sewa Alat</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
                   <FontAwesome name="caret-right" size={35} color="#0323C4" />
@@ -86,12 +140,12 @@ const MenuTrantibum = ({navigation}) => {
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  navigation.navigate('BuatPengaduan');
+                  navigation.navigate('BuatPengaduanPekerjaanUmum');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconTrantibum/trantibumPengaduan.png')}
+                    source={require('../../assets/image/iconPekerjaanUmum/pekerjaanUmumPengaduan.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
@@ -104,16 +158,34 @@ const MenuTrantibum = ({navigation}) => {
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  navigation.navigate('RiwayatPengaduan');
+                  navigation.navigate('RiwayatPengaduanPekerjaanUmum');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconTrantibum/trantibumRiwayat.png')}
+                    source={require('../../assets/image/iconPekerjaanUmum/riwayatPengaduan.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Riwayat Pengaduan</Text>
+                </View>
+                <View style={styles.boxIconLeft}>
+                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.boxKonten}
+                onPress={() => {
+                  navigation.navigate('ManajemenProyek');
+                }}>
+                <View style={styles.boxIconRight}>
+                  <Image
+                    style={{width: 40, height: 40}}
+                    source={require('../../assets/image/iconPekerjaanUmum/riwayatPengaduan.png')}
+                  />
+                </View>
+                <View style={styles.boxText}>
+                  <Text style={{fontSize: 16}}>Manajemen Proyek</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
                   <FontAwesome name="caret-right" size={35} color="#0323C4" />
@@ -198,4 +270,4 @@ const styles = {
   },
 };
 
-export default MenuTrantibum;
+export default DashboardPekerjaanUmum;

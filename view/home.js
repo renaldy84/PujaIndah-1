@@ -33,38 +33,6 @@ function home({navigation}) {
   return (
     <>
       <View style={styles.containerHeader}>
-        <View
-          style={{
-            width: wp('80%'),
-            marginTop: hp('3%'),
-            alignItems: 'flex-end',
-          }}>
-          <Fontisto
-            color="white"
-            size={30}
-            name="bell"
-            onPress={() => {
-              // logout();
-              // navigation.navigate('MenuTrantibum');
-            }}
-          />
-          <View
-            style={{
-              width: 20,
-              height: 20,
-              borderRadius: 10,
-              backgroundColor: 'red',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'absolute',
-              top: -5,
-              right: -8,
-            }}>
-            <Text style={{color: 'white', fontSize: 10, textAlign: 'center'}}>
-              2
-            </Text>
-          </View>
-        </View>
         <View style={styles.child1}>
           <View>
             <Image
@@ -91,6 +59,40 @@ function home({navigation}) {
               }}>
               Hi, {responLogin.name}
             </Text>
+          </View>
+          <View style={{justifyContent: 'center', flex: 1}}>
+            <View
+              style={{
+                alignItems: 'flex-end',
+                // borderWidth: 1,
+              }}>
+              <Fontisto
+                color="white"
+                size={30}
+                name="bell"
+                onPress={() => {
+                  // logout();
+                  // navigation.navigate('MenuTrantibum');
+                }}
+              />
+              <View
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: 10,
+                  backgroundColor: 'red',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  top: -5,
+                  right: -8,
+                }}>
+                <Text
+                  style={{color: 'white', fontSize: 10, textAlign: 'center'}}>
+                  2
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
       </View>
@@ -164,7 +166,7 @@ function home({navigation}) {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate('History Absensi');
+                    navigation.navigate('DashboardPekerjaanUmum');
                   }}
                   style={[
                     styles.iconMenuContainer,
@@ -436,13 +438,15 @@ function home({navigation}) {
 
 const styles = {
   containerHeader: {
-    backgroundColor: '#0323C4',
-    height: hp('20%'),
+    backgroundColor: '#2F80ED',
     alignItems: 'center',
   },
   child1: {
     width: wp('90%'),
     flexDirection: 'row',
+    margin: 20,
+    paddingRight: 20,
+    // borderWidth: 1,
   },
   iconMenuBOX: {
     marginLeft: wp('4%'),
