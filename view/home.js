@@ -99,8 +99,13 @@ function home({navigation}) {
       <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
         <CarauselHeader />
         <View style={[styles.iconMenuBOX]}>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <View style={styles.boxIcon}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+            }}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -126,11 +131,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Trantibum{'\n'}Limnas</Text>
               </View>
             </View>
-            <View
-              style={[
-                styles.boxIcon,
-                {marginLeft: wp('4%'), marginRight: wp('2%')},
-              ]}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -156,7 +157,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Pariwisata</Text>
               </View>
             </View>
-            <View style={styles.boxIcon}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -182,7 +183,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Pekerjaan{'\n'}Umum</Text>
               </View>
             </View>
-            <View style={styles.boxIcon}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -208,11 +209,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Perhubungan</Text>
               </View>
             </View>
-            <View
-              style={[
-                styles.boxIcon,
-                {marginLeft: wp('4%'), marginRight: wp('2%')},
-              ]}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -238,7 +235,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Sosial</Text>
               </View>
             </View>
-            <View style={styles.boxIcon}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -264,7 +261,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Aspirasi</Text>
               </View>
             </View>
-            <View style={styles.boxIcon}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -290,11 +287,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Ketenagakerjaan</Text>
               </View>
             </View>
-            <View
-              style={[
-                styles.boxIcon,
-                {marginLeft: wp('4%'), marginRight: wp('2%')},
-              ]}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -320,7 +313,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Komoditas</Text>
               </View>
             </View>
-            <View style={styles.boxIcon}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -346,7 +339,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Perizinan</Text>
               </View>
             </View>
-            <View style={styles.boxIcon}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -372,11 +365,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Kependudukan</Text>
               </View>
             </View>
-            <View
-              style={[
-                styles.boxIcon,
-                {marginLeft: wp('4%'), marginRight: wp('2%')},
-              ]}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -403,7 +392,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Kesehatan</Text>
               </View>
             </View>
-            <View style={styles.boxIcon}>
+            <View style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -449,11 +438,13 @@ const styles = {
     // borderWidth: 1,
   },
   iconMenuBOX: {
-    marginLeft: wp('4%'),
-    marginRight: wp('2%'),
+    marginLeft: wp('6%'),
+    marginRight: wp('6%'),
     marginTop: -hp('2%'),
     backgroundColor: 'white',
     // borderWidth: 1,
+    // paddingLeft: 20,
+    // paddingRight: 20,
   },
   // iconMenuContainer: {
   //   backgroundColor: 'white',
@@ -493,12 +484,14 @@ const styles = {
     textAlign: 'center',
     fontSize: RFPercentage(1.5),
     color: 'grey',
+    // borderWidth: 1,
   },
   boxIcon: {
+    // borderWidth: 1,
     marginTop: hp('1%'),
     marginBottom: hp('1%'),
-    marginRight: hp('1%'),
-    marginLeft: hp('2%'),
+    // marginRight: hp('1%'),
+    // marginLeft: hp('1%'),
   },
 };
 export default home;

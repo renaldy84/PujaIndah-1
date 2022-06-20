@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: hp('2%'),
     borderBottomWidth: 1,
-    borderBottomColor: 'grey',
+    borderBottomColor: '#bdbdbd',
   },
 });
 

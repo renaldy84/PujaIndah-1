@@ -167,7 +167,7 @@ function DetailManajemenProyek({navigation, route}) {
               70%
             </Text>
           </View>
-          <View style={styles.containerPDF}>
+          {/* <View style={styles.containerPDF}>
             <Pdf
               trustAllCerts={false}
               source={source}
@@ -185,7 +185,7 @@ function DetailManajemenProyek({navigation, route}) {
               }}
               style={styles.pdf}
             />
-          </View>
+          </View> */}
           <TouchableOpacity style={{marginTop: 25, alignItems: 'center'}}>
             <View>
               <FontAwesomeIcon size={45} icon={faFilePdf} />
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: hp('2%'),
     borderBottomWidth: 1,
-    borderBottomColor: 'grey',
+    borderBottomColor: '#bdbdbd',
   },
   containerPDF: {
     flex: 1,

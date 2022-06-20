@@ -68,14 +68,14 @@ const ListPariwisata = ({navigation}) => {
         <View style={styles.boxIconRight}>
           {item.image ? (
             <Image
-              style={{width: 120, height: 100, borderRadius: 10}}
+              style={{width: 130, height: 110, borderRadius: 10}}
               source={{
                 uri: item.image,
               }}
             />
           ) : (
             <Image
-              style={{width: 120, height: 100, borderRadius: 10}}
+              style={{width: 130, height: 110, borderRadius: 10}}
               source={{
                 uri: 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Indonesia_-_Lake_Toba_%2826224127503%29.jpg',
               }}
@@ -84,7 +84,7 @@ const ListPariwisata = ({navigation}) => {
         </View>
         <View style={styles.boxText}>
           <View>
-            <Text style={{fontSize: 16, fontWeight: 'bold'}}>{item.name}</Text>
+            <Text style={{fontSize: 14, fontWeight: 'bold'}}>{item.name}</Text>
           </View>
 
           <View
@@ -308,7 +308,7 @@ const styles = {
     width: '100%',
     height: 150,
     // borderWidth: 1,
-    marginRight: 40,
+    // marginRight: 40,
     borderRadius: 10,
     // shadowColor: '#000',
     // shadowOffset: {
@@ -324,7 +324,7 @@ const styles = {
   boxIconRight: {
     // borderWidth: 1,
     width: 150,
-    margin: 10,
+    // margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
