@@ -193,7 +193,7 @@ function home({navigation}) {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate('History Absensi');
+                    navigation.navigate('DashboardPerhubungan');
                   }}
                   style={[
                     styles.iconMenuContainer,

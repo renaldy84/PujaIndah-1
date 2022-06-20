@@ -40,6 +40,11 @@ import BuatPengaduanPekerjaanUmum from './view/PekerjaanUmum/buatPengaduanPU';
 import RiwayatPengaduanPekerjaanUmum from './view/PekerjaanUmum/riwayatPengaduanPU';
 import ManajemenProyek from './view/PekerjaanUmum/manajemenProyek';
 import DetailManajemenProyek from './view/PekerjaanUmum/detailManajemenProyek';
+import DashboardPerhubungan from './view/Perhubungan/dashboard';
+import LokasiKeur from './view/Perhubungan/lokasiKeur';
+import JadwalKeur from './view/Perhubungan/jadwalKeur';
+import PengajuanKeur from './view/Perhubungan/pengajuanKeur';
+import PerpanjangKeur from './view/Perhubungan/perpanjangKeur';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -204,6 +209,41 @@ function SettingNav() {
           }}
           name="DetailManajemenProyek"
           component={DetailManajemenProyek}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardPerhubungan"
+          component={DashboardPerhubungan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="LokasiKeur"
+          component={LokasiKeur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="JadwalKeur"
+          component={JadwalKeur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="PengajuanKeur"
+          component={PengajuanKeur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="PerpanjangKeur"
+          component={PerpanjangKeur}
         />
       </Stack.Navigator>
     </>
