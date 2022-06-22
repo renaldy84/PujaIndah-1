@@ -53,24 +53,13 @@ function DataLKS({navigation}) {
   const filterModal = () => {
     modalizeRef.current?.open();
   };
-  const [filterListInfrastruktur, setFilterListInfrastruktur] = useState([]);
+  const [filterListDataLks, setFilterListDataLks] = useState([]);
   const [filter, setFilter] = useState('');
-  const [listInfrastruktur, setListInfrastruktur] = useState([]);
+  const [listDataLks, setListDataLks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [namaStatus, setNamaStatus] = useState('');
-  //bencana
-  //   const [checkedBencana, setCheckedBencana] = useState('');
-  //   const [filterBencana, setFilterBencana] = useState([
-  //     {id: 1, jenisBencana: 'Gempa Bumi'},
-  //     {id: 2, jenisBencana: 'Tanah Longsor'},
-  //     {id: 3, jenisBencana: 'Banjir'},
-  //     {id: 4, jenisBencana: 'Tsunami'},
-  //     {id: 5, jenisBencana: 'Letusan gunung api'},
-  //     {id: 6, jenisBencana: 'Banjir bandang'},
-  //     {id: 7, jenisBencana: 'Angin topan'},
-  //   ]);
-  //   const [namaBencana, setNamaBencana] = useState('');
+ 
   //Provinsi
   const [checkedLokasi, setCheckedLokasi] = useState('');
   const [namaProvinsi, setNamaProvinsi] = useState('');
@@ -89,44 +78,83 @@ function DataLKS({navigation}) {
 
   var bencanaTampil = bencana.slice(0, 3);
 
-  const getProvinsi = () => {
-    Axios({
-      url: url + `/api/master/m-daerah/getall?order=nama+asc&tingkat=1`,
-      method: 'get',
-    })
-      .then(response => {
-        setProvinsi(response.data.data);
-        setFilterProvinsi(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  // const getProvinsi = () => {
+  //   Axios({
+  //     url: url + `/api/master/m-daerah/getall?order=nama+asc&tingkat=1`,
+  //     method: 'get',
+  //   })
+  //     .then(response => {
+  //       setProvinsi(response.data.data);
+  //       setFilterProvinsi(response.data.data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
-  const getInfrastruktur = async () => {
-    Axios({
-      url: url + `/api/pu/infrastruktur-jenis/getall?order=id+asc`,
-      method: 'get',
-      headers: {
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-      },
-    })
-      .then(response => {
-        setInfrastruktur(response.data.data);
-        setFilterInfrastruktur(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  // const getInfrastruktur = async () => {
+  //   Axios({
+  //     url: url + `/api/pu/infrastruktur-jenis/getall?order=id+asc`,
+  //     method: 'get',
+  //     headers: {
+  //       Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+  //     },
+  //   })
+  //     .then(response => {
+  //       setInfrastruktur(response.data.data);
+  //       setFilterInfrastruktur(response.data.data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
-  const hasilFilter = async data => {
-    console.log('ini dari hasil filer', data);
+  // const hasilFilter = async data => {
+  //   console.log('ini dari hasil filer', data);
+  //   setIsLoading(true);
+  //   Axios({
+  //     url:
+  //       url +
+  //       `/api/trantibumlinmas/peringatan-dini/getall?level_peringatan=${data.namaStatus}&nama_peringatan=${data.namaInfrastruktur}&nama_daerah=${data.namaProvinsi}&order=nama_peringatan+asc`,
+  //     method: 'get',
+  //     headers: {
+  //       Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+  //     },
+  //   })
+  //     .then(response => {
+  //       setIsLoading(false);
+  //       setListInfrastruktur(response.data.data);
+  //       setFilterListInfrastruktur(response.data.data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   if (provinsi.length !== 0) {
+  //     setFilterProvinsi(
+  //       provinsi.filter(x =>
+  //         x.nama.toLowerCase().includes(filterProvTxt.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+  // }, [filterProvTxt]);
+
+  // useEffect(() => {
+  //   if (infrastruktur.length !== 0) {
+  //     setFilterInfrastruktur(
+  //       infrastruktur.filter(x =>
+  //         x.nama.toLowerCase().includes(filterInfrastrukturTxt.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+  // }, [filterInfrastrukturTxt]);
+
+  const getListDataLKS = async () => {
     setIsLoading(true);
     Axios({
-      url:
-        url +
-        `/api/trantibumlinmas/peringatan-dini/getall?level_peringatan=${data.namaStatus}&nama_peringatan=${data.namaInfrastruktur}&nama_daerah=${data.namaProvinsi}&order=nama_peringatan+asc`,
+      url: url + `/api/sosial/lks/getall?order=nama+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -134,47 +162,8 @@ function DataLKS({navigation}) {
     })
       .then(response => {
         setIsLoading(false);
-        setListInfrastruktur(response.data.data);
-        setFilterListInfrastruktur(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    if (provinsi.length !== 0) {
-      setFilterProvinsi(
-        provinsi.filter(x =>
-          x.nama.toLowerCase().includes(filterProvTxt.toLowerCase()),
-        ),
-      );
-    }
-  }, [filterProvTxt]);
-
-  useEffect(() => {
-    if (infrastruktur.length !== 0) {
-      setFilterInfrastruktur(
-        infrastruktur.filter(x =>
-          x.nama.toLowerCase().includes(filterInfrastrukturTxt.toLowerCase()),
-        ),
-      );
-    }
-  }, [filterInfrastrukturTxt]);
-  const getListInfrastruktur = async () => {
-    setIsLoading(true);
-    Axios({
-      url: url + `/api/pu/infrastruktur/getall?order=id+asc`,
-      method: 'get',
-      headers: {
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-      },
-    })
-      .then(response => {
-        // console.log(response.data.data);
-        setIsLoading(false);
-        setListInfrastruktur(response.data.data);
-        setFilterListInfrastruktur(response.data.data);
+        setListDataLks(response.data.data);
+        setFilterListDataLks(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -186,10 +175,10 @@ function DataLKS({navigation}) {
       <>
         <TouchableOpacity
           onPress={() => {
-            console.log(item.id);
-            navigation.navigate('DetailInfrastruktur', {
-              idInfrastruktur: item.id,
-            });
+            // console.log(item.id);
+            // navigation.navigate('DetailInfrastruktur', {
+            //   idInfrastruktur: item.id,
+            // });
           }}
           style={styles.container}>
           <View style={styles.content}>
@@ -201,24 +190,29 @@ function DataLKS({navigation}) {
                   fontSize: 18,
                 }}>
                 {item.nama}
+              
               </Text>
               <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Jenis Infrastruktur:</Text>{' '}
-                {item.pu_infrastruktur_jenis_id}
+                <Text style={{fontWeight: 'bold'}}>Jenis :</Text>{' '}
+                {item.sos_lks_jenis_id}
               </Text>
               <Text>
                 <Text style={{fontWeight: 'bold'}}>
-                  Kelas/Type Infrastruktur:
+                  Bidang :
                 </Text>{' '}
-                {item.kelas}
+                Sosial Care
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Penanggung Jawab:</Text>{' '}
-                Ahmad Mansur
+                <Text style={{fontWeight: 'bold'}}>No.Tlp/HP :</Text>{' '}
+               {item.no_telp}
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Kondisi:</Text>{' '}
-                {item.kondisi}
+                <Text style={{fontWeight: 'bold'}}>Penanggung Jawab :</Text>{' '}
+                {item.penanggung_jawab}
+              </Text>
+              <Text>
+                <Text style={{fontWeight: 'bold'}}>Alamat :</Text>{' '}
+                {item.alamat}
               </Text>
             </View>
           </View>
@@ -227,21 +221,23 @@ function DataLKS({navigation}) {
     );
   };
 
-  useEffect(() => {
-    getListInfrastruktur();
-    getProvinsi();
-    getInfrastruktur();
-  }, []);
 
   useEffect(() => {
-    if (listInfrastruktur.length !== 0) {
-      setFilterListInfrastruktur(
-        listInfrastruktur.filter(x =>
-          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
-        ),
-      );
-    }
-  }, [filter]);
+    getListDataLKS();
+    // getProvinsi();
+    // getInfrastruktur();
+  }, []);
+
+  // useEffect(() => {
+  //   if (listInfrastruktur.length !== 0) {
+  //     setFilterListInfrastruktur(
+  //       listInfrastruktur.filter(x =>
+  //         x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+  // }, [filter]);
+
   return (
     <>
       <View
@@ -331,15 +327,13 @@ function DataLKS({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterListInfrastruktur.length !== 0 ? (
+        ) : filterListDataLks.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={filterListInfrastruktur}
+              data={filterListDataLks}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
-              // ListFooterComponent={renderFooter}
-              // onEndReached={handleLoadMore}
-              // onEndReachedThreshold={0}
+             
             />
           </View>
         ) : (
@@ -672,7 +666,7 @@ function DataLKS({navigation}) {
                 value={filterProvTxt}
                 style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
                 onChangeText={val => setFilterProvTxt(val)}
-                placeholder="Pencarian berdasarkan lokasi"></TextInput>
+                placeholder="Ketik Daerah Yang Ingin Dicari"></TextInput>
               <TouchableOpacity
                 onPress={() => {}}
                 style={{
