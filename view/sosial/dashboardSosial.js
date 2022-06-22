@@ -85,7 +85,7 @@ const DashboardSosial = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('JadwalKeur');
+                  navigation.navigate('DataBansos');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
@@ -103,7 +103,7 @@ const DashboardSosial = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('PengajuanKeur');
+                  navigation.navigate('AksiSosial');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>

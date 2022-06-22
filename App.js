@@ -48,6 +48,8 @@ import PerpanjangKeur from './view/Perhubungan/perpanjangKeur';
 import DashboardSosial from './view/sosial/dashboardSosial';
 import DataLKS from './view/sosial/dataLks';
 import DataPMKS from './view/sosial/dataPmks';
+import DataBansos from './view/sosial/dataBansos';
+import AksiSosial from './view/sosial/aksiSosial';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -268,6 +270,20 @@ function SettingNav() {
           }}
           name="DataPMKS"
           component={DataPMKS}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DataBansos"
+          component={DataBansos}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AksiSosial"
+          component={AksiSosial}
         />
       </Stack.Navigator>
     </>
