@@ -54,6 +54,8 @@ function DataLKS({navigation}) {
     modalizeRef.current?.open();
   };
   const [filterListDataLks, setFilterListDataLks] = useState([]);
+  const [filterJenisDataLks,setFilterJenisDataLks ] = useState([]);
+  const [jenisDataLks,setJenisDataLks] = useState([]);
   const [filter, setFilter] = useState('');
   const [listDataLks, setListDataLks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -180,9 +182,10 @@ function DataLKS({navigation}) {
       },
     })
       .then(response => {
+        // console.log(response.data,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         setIsLoading(false);
         setJenisDataLks(response.data.data);
-        setFilterListDataLks(response.data.data);
+        setFilterJenisDataLks(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -378,7 +381,7 @@ function DataLKS({navigation}) {
           <View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View>
-                <Text style={{fontWeight: 'bold', fontSize: 14}}>Kondisi</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 14}}>Jenis Infrastruktur</Text>
               </View>
               <TouchableOpacity
                 onPress={() => {
@@ -434,7 +437,7 @@ function DataLKS({navigation}) {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View>
                 <Text style={{fontWeight: 'bold', fontSize: 14}}>
-                  Jenis Infrastruktur
+                  kondisi
                 </Text>
               </View>
 
