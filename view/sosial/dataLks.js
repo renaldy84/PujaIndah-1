@@ -170,6 +170,25 @@ function DataLKS({navigation}) {
       });
   };
 
+  const getJenisDataLks = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/sosial/lks-jenis/getall?order=nama+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setIsLoading(false);
+        setJenisDataLks(response.data.data);
+        setFilterListDataLks(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const renderItem = ({item}) => {
     return (
       <>
@@ -224,6 +243,7 @@ function DataLKS({navigation}) {
 
   useEffect(() => {
     getListDataLKS();
+    getJenisDataLks();
     // getProvinsi();
     // getInfrastruktur();
   }, []);
@@ -586,7 +606,7 @@ function DataLKS({navigation}) {
                   onPress={() => {
                     setCheckedInfrastruktur('');
                     setFilterInfrastrukturTxt('');
-                    getInfrastruktur();
+                    getJenisDataLks();
                     setNamaInfrastruktur('');
                     setChooseInfrastruktur({});
                   }}>
