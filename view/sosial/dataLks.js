@@ -47,17 +47,27 @@ var status = [
 
 function DataLKS({navigation}) {
   const modalizeRef = useRef(null);
-  const modalizeRefInfrastruktur = useRef(null);
+  const modalizeRefJenisLks = useRef(null);
   const modalizeRefLokasi = useRef(null);
 
   const filterModal = () => {
     modalizeRef.current?.open();
   };
+
+  const [listDataLks, setListDataLks] = useState([]);
   const [filterListDataLks, setFilterListDataLks] = useState([]);
+  const [filter, setFilter] = useState('');
+
+
+  //Jenis LKS
   const [filterJenisDataLks,setFilterJenisDataLks ] = useState([]);
   const [jenisDataLks,setJenisDataLks] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [listDataLks, setListDataLks] = useState([]);
+  const [chooseJeninLks,setChooseJenisLks] = useState({})
+  const [checkedJenisLks,setCheckedJenisLks] = useState("")
+  const [namaJenisLks,setNamaJenisLks] = useState("")
+  const [filterJenisLksTxt, setFilterJenisLksTxt] = useState('');
+  
+ 
   const [isLoading, setIsLoading] = useState(false);
 
   const [namaStatus, setNamaStatus] = useState('');
@@ -78,7 +88,7 @@ function DataLKS({navigation}) {
   const [filterInfrastrukturTxt, setFilterInfrastrukturTxt] = useState('');
   const [filterInfrastruktur, setFilterInfrastruktur] = useState([]);
 
-  var bencanaTampil = bencana.slice(0, 3);
+
 
   // const getProvinsi = () => {
   //   Axios({
@@ -111,27 +121,7 @@ function DataLKS({navigation}) {
   //     });
   // };
 
-  // const hasilFilter = async data => {
-  //   console.log('ini dari hasil filer', data);
-  //   setIsLoading(true);
-  //   Axios({
-  //     url:
-  //       url +
-  //       `/api/trantibumlinmas/peringatan-dini/getall?level_peringatan=${data.namaStatus}&nama_peringatan=${data.namaInfrastruktur}&nama_daerah=${data.namaProvinsi}&order=nama_peringatan+asc`,
-  //     method: 'get',
-  //     headers: {
-  //       Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-  //     },
-  //   })
-  //     .then(response => {
-  //       setIsLoading(false);
-  //       setListInfrastruktur(response.data.data);
-  //       setFilterListInfrastruktur(response.data.data);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  
 
   // useEffect(() => {
   //   if (provinsi.length !== 0) {
@@ -172,6 +162,28 @@ function DataLKS({navigation}) {
       });
   };
 
+  const hasilFilter = async data => {
+    console.log('ini dari hasil filer', data);
+    setIsLoading(true);
+    Axios({
+      url:
+        url +
+        `/api/sosial/lks/getall?sos_lks_jenis_id=5&nama_daerah=SUMATERA UTARA&order=nama+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setIsLoading(false);
+        setListDataLks(response.data.data);
+        setFilterListDataLks(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const getJenisDataLks = async () => {
     setIsLoading(true);
     Axios({
@@ -182,8 +194,6 @@ function DataLKS({navigation}) {
       },
     })
       .then(response => {
-        // console.log(response.data,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        setIsLoading(false);
         setJenisDataLks(response.data.data);
         setFilterJenisDataLks(response.data.data);
       })
@@ -251,15 +261,15 @@ function DataLKS({navigation}) {
     // getInfrastruktur();
   }, []);
 
-  // useEffect(() => {
-  //   if (listInfrastruktur.length !== 0) {
-  //     setFilterListInfrastruktur(
-  //       listInfrastruktur.filter(x =>
-  //         x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
-  //       ),
-  //     );
-  //   }
-  // }, [filter]);
+  useEffect(() => {
+    if (listDataLks.length !== 0) {
+      setFilterListDataLks(
+        listDataLks.filter(x =>
+          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
+        ),
+      );
+    }
+  }, [filter]);
 
   return (
     <>
@@ -378,73 +388,19 @@ function DataLKS({navigation}) {
           </View>
         }>
         <View style={{marginHorizontal: 20}}>
-          <View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View>
-                <Text style={{fontWeight: 'bold', fontSize: 14}}>Jenis Infrastruktur</Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  setNamaStatus('');
-                }}
-                style={{
-                  flex: 1,
-                  alignItems: 'flex-end',
-                }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
-                  reset kondisi
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-              }}>
-              {status.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setNamaStatus(item.jenisStatus);
-                    }}
-                    key={index}
-                    style={{
-                      borderWidth: namaStatus === item.jenisStatus ? 2 : 1,
-                      marginTop: 10,
-                      alignSelf: 'flex-start',
-                      paddingHorizontal: 15,
-                      paddingVertical: 5,
-                      borderRadius: 5,
-                      margin: 5,
-                      borderColor:
-                        namaStatus === item.jenisStatus ? 'blue' : 'black',
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        color:
-                          namaStatus === item.jenisStatus ? 'blue' : 'black',
-                      }}>
-                      {item.jenisStatus}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
+          
           <View style={{marginTop: 20}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View>
                 <Text style={{fontWeight: 'bold', fontSize: 14}}>
-                  kondisi
+                  Jenis LKS
                 </Text>
               </View>
 
               <TouchableOpacity
                 onPress={() => {
                   modalizeRef.current?.close();
-                  modalizeRefInfrastruktur.current?.open();
+                  modalizeRefJenisLks.current?.open();
                 }}
                 style={{
                   flex: 1,
@@ -461,17 +417,17 @@ function DataLKS({navigation}) {
                 flexDirection: 'row',
                 flexWrap: 'wrap',
               }}>
-              {infrastruktur.slice(0, 3).map((item, index) => {
+              {jenisDataLks.slice(0, 3).map((item, index) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setChooseInfrastruktur(item);
-                      setCheckedInfrastruktur(item.id);
-                      setNamaInfrastruktur(item.nama);
+                      setChooseJenisLks(item)
+                      setCheckedJenisLks(item.id)
+                      setNamaJenisLks(item.nama)
                     }}
                     key={index}
                     style={{
-                      borderWidth: namaInfrastruktur === item.nama ? 3 : 1,
+                      borderWidth: namaJenisLks === item.nama ? 3 : 1,
                       marginTop: 10,
                       alignSelf: 'flex-start',
                       paddingHorizontal: 15,
@@ -479,13 +435,13 @@ function DataLKS({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaInfrastruktur === item.nama ? 'blue' : 'black',
+                        namaJenisLks === item.nama ? 'blue' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
                         color:
-                          namaInfrastruktur === item.nama ? 'blue' : 'black',
+                          namaJenisLks === item.nama ? 'blue' : 'black',
                       }}>
                       {item.nama}
                     </Text>
@@ -568,14 +524,14 @@ function DataLKS({navigation}) {
       </Modalize>
       {/* Modal Jenis Bencana */}
       <Modalize
-        ref={modalizeRefInfrastruktur}
+        ref={modalizeRefJenisLks}
         // snapPoint={150}
         modalHeight={450}
         HeaderComponent={
           <>
             <View style={{alignItems: 'flex-start', margin: 20}}>
               <Text style={{fontSize: 24, fontWeight: 'bold'}}>
-                Jenis Infrastruktur{' '}
+                Jenis Data LKS{' '}
               </Text>
             </View>
             <View
@@ -585,8 +541,8 @@ function DataLKS({navigation}) {
               ]}>
               <TextInput
                 style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-                onChangeText={val => setFilterInfrastrukturTxt(val)}
-                placeholder="Pencarian berdasarkan infrastruktur"></TextInput>
+                onChangeText={val => setFilterJenisLksTxt(val)}
+                placeholder="Pencarian berdasarkan Jenis Lks"></TextInput>
               <TouchableOpacity
                 onPress={() => {}}
                 style={{
@@ -607,11 +563,11 @@ function DataLKS({navigation}) {
                 <TouchableOpacity
                   style={styles.buttonReset}
                   onPress={() => {
-                    setCheckedInfrastruktur('');
-                    setFilterInfrastrukturTxt('');
+                    setCheckedJenisLks('');
+                    setFilterJenisLksTxt('');
                     getJenisDataLks();
-                    setNamaInfrastruktur('');
-                    setChooseInfrastruktur({});
+                    setNamaJenisLks('');
+                    setChooseJenisLks({});
                   }}>
                   <Text style={styles.textButtonReset}>Reset</Text>
                 </TouchableOpacity>
@@ -621,9 +577,9 @@ function DataLKS({navigation}) {
                   style={styles.buttonBencana}
                   onPress={() => {
                     modalizeRef.current?.open();
-                    modalizeRefInfrastruktur.current?.close();
-                    setNamaInfrastruktur(chooseInfrastruktur.nama);
-                    setFilterInfrastrukturTxt('');
+                    modalizeRefJenisLks.current?.close();
+                    setNamaJenisLks(chooseJeninLks.nama);
+                    setFilterJenisLksTxt('');
                   }}>
                   <Text style={styles.textButton}>Terapkan</Text>
                 </TouchableOpacity>
@@ -632,7 +588,7 @@ function DataLKS({navigation}) {
           </>
         }>
         <View style={{marginTop: 20, marginLeft: 20}}>
-          {filterInfrastruktur.map((item, index) => {
+          {filterJenisDataLks.map((item, index) => {
             return (
               <>
                 <View
@@ -646,11 +602,11 @@ function DataLKS({navigation}) {
                     color="#246EE9"
                     value="first"
                     status={
-                      checkedInfrastruktur === item.id ? 'checked' : 'unchecked'
+                      checkedJenisLks === item.id ? 'checked' : 'unchecked'
                     }
                     onPress={() => {
-                      setChooseInfrastruktur(item);
-                      setCheckedInfrastruktur(item.id);
+                      setChooseJenisLks(item);
+                      setCheckedJenisLks(item.id);
                     }}
                   />
                   <View>
