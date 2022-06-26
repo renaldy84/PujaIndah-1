@@ -90,19 +90,19 @@ function DataLKS({navigation}) {
 
 
 
-  // const getProvinsi = () => {
-  //   Axios({
-  //     url: url + `/api/master/m-daerah/getall?order=nama+asc&tingkat=1`,
-  //     method: 'get',
-  //   })
-  //     .then(response => {
-  //       setProvinsi(response.data.data);
-  //       setFilterProvinsi(response.data.data);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  const getProvinsi = () => {
+    Axios({
+      url: url + `/api/master/m-daerah/getall?order=nama+asc&tingkat=1`,
+      method: 'get',
+    })
+      .then(response => {
+        setProvinsi(response.data.data);
+        setFilterProvinsi(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   // const getInfrastruktur = async () => {
   //   Axios({
@@ -123,15 +123,15 @@ function DataLKS({navigation}) {
 
   
 
-  // useEffect(() => {
-  //   if (provinsi.length !== 0) {
-  //     setFilterProvinsi(
-  //       provinsi.filter(x =>
-  //         x.nama.toLowerCase().includes(filterProvTxt.toLowerCase()),
-  //       ),
-  //     );
-  //   }
-  // }, [filterProvTxt]);
+  useEffect(() => {
+    if (provinsi.length !== 0) {
+      setFilterProvinsi(
+        provinsi.filter(x =>
+          x.nama.toLowerCase().includes(filterProvTxt.toLowerCase()),
+        ),
+      );
+    }
+  }, [filterProvTxt]);
 
   // useEffect(() => {
   //   if (infrastruktur.length !== 0) {
@@ -257,7 +257,7 @@ function DataLKS({navigation}) {
   useEffect(() => {
     getListDataLKS();
     getJenisDataLks();
-    // getProvinsi();
+    getProvinsi();
     // getInfrastruktur();
   }, []);
 
@@ -645,7 +645,7 @@ function DataLKS({navigation}) {
                 value={filterProvTxt}
                 style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
                 onChangeText={val => setFilterProvTxt(val)}
-                placeholder="Ketik Daerah Yang Ingin Dicari"></TextInput>
+                placeholder="Pencarian berdasarkan lokasi"></TextInput>
               <TouchableOpacity
                 onPress={() => {}}
                 style={{
