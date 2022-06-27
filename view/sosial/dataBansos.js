@@ -29,15 +29,15 @@ import {
 } from 'react-native-responsive-screen';
 
 function DataBansos({navigation}) {
-  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
+  const [filterDataBansos, setFilterDataBansos] = useState([]);
   const [filter, setFilter] = useState('');
-  const [listTitikRawan, setListTitikRawan] = useState([]);
+  const [listBansos, setListDataBansos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getListTitikRawan = async () => {
+  const getListDataBansos = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
+      url: url + `api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -46,8 +46,8 @@ function DataBansos({navigation}) {
       .then(response => {
         // console.log(response.data.data);
         setIsLoading(false);
-        setListTitikRawan(response.data.data);
-        setFilterTitikRawan(response.data.data);
+        setListDataBansos(response.data.data);
+        setFilterDataBansos(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -57,53 +57,66 @@ function DataBansos({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() => {
+            // console.log(item.id);
+            // navigation.navigate('DetailInfrastruktur', {
+            //   idInfrastruktur: item.id,
+            // });
+          }}
+          style={styles.container}>
           <View style={styles.content}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                margin: 10,
-                // alignItems: 'center',
-              }}>
-              <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 16,
-                    marginTop: 15,
-                  }}>
-                  PKB Pulau Gadung
-                </Text>
-              </View>
-              <View style={{marginTop: 10, marginBottom: 15}}>
-                <Text>
-                  Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
-                  City, Jakarta 13260
-                </Text>
-                <Text>
-                  <Text>Jam Mulai:</Text> 08:00 AM
-                </Text>
-                <Text>
-                  <Text>Jam Selesai:</Text> 17:00 PM
-                </Text>
-              </View>
+            <View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: 'black',
+                  fontSize: 18,
+                }}>
+                {item.nama}
+              
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Lembaga Penyalur :</Text>{' '}
+                {item.lembaga_penyalur}
+              </Text>
+              <Text>
+                <Text style={{fontWeight: 'bold'}}>
+                  Waktu Pelaksanaan :
+                </Text>{' '}
+                {item.waktu_pelaksanaan}
+              </Text>
+              <Text>
+                <Text style={{fontWeight: 'bold'}}>Jam :</Text>{' '}
+               08.00 WIB
+              </Text>
+              <Text>
+                <Text style={{fontWeight: 'bold'}}>No.Telp/HP :</Text>{' '}
+                {item.no_telp}
+              </Text>
+              <Text>
+                <Text style={{fontWeight: 'bold'}}>Tata Cara :</Text>{' '}
+                {item.tata_cara}
+              </Text>
+              <Text>
+                <Text style={{fontWeight: 'bold'}}>Alamat :</Text>{' '}
+                {item.alamat_lokasi}
+              </Text>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </>
     );
   };
 
   useEffect(() => {
-    getListTitikRawan();
+    getListDataBansos();
   }, []);
 
   useEffect(() => {
-    if (listTitikRawan.length !== 0) {
-      setFilterTitikRawan(
-        listTitikRawan.filter(x =>
+    if (listBansos.length !== 0) {
+      setFilterDataBansos(
+        listBansos.filter(x =>
           x.nama_deskel.toLowerCase().includes(filter.toLowerCase()),
         ),
       );
@@ -171,7 +184,7 @@ function DataBansos({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterTitikRawan.length !== 0 ? (
+        ) : filterDataBansos.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
               data={filterTitikRawan}
