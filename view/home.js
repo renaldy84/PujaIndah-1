@@ -245,7 +245,7 @@ function home({navigation}) {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate('History Absensi');
+                    navigation.navigate('DashboardAspirasi');
                   }}
                   style={[
                     styles.iconMenuContainer,

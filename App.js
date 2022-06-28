@@ -50,6 +50,8 @@ import DataLKS from './view/sosial/dataLks';
 import DataPMKS from './view/sosial/dataPmks';
 import DataBansos from './view/sosial/dataBansos';
 import AksiSosial from './view/sosial/aksiSosial';
+import DashboardAspirasi from './view/Aspirasi/dashboardAspirasi';
+import RiwayatAspirasi from './view/Aspirasi/daftarAspirasiDprd';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -284,6 +286,20 @@ function SettingNav() {
           }}
           name="AksiSosial"
           component={AksiSosial}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardAspirasi"
+          component={DashboardAspirasi}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="RiwayatAspirasi"
+          component={RiwayatAspirasi}
         />
       </Stack.Navigator>
     </>
