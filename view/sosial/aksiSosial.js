@@ -37,7 +37,7 @@ function AksiSosial({navigation}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
+      url: url + `/api/sosial/aksos/getall?order=pelaksana_aksi+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -66,7 +66,7 @@ function AksiSosial({navigation}) {
                 margin: 10,
                 // alignItems: 'center',
               }}>
-              <View>
+              {/* <View>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -74,10 +74,34 @@ function AksiSosial({navigation}) {
                     fontSize: 16,
                     marginTop: 15,
                   }}>
-                  PKB Pulau Gadung
+                  {item.}
                 </Text>
-              </View>
-              <View style={{marginTop: 10, marginBottom: 15}}>
+              </View> */}
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Pelaksana Aksi :</Text>{' '}
+                {item.pelaksana_aksi}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Keterangan :</Text>{' '}
+                {item.uraian}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Jam :</Text>{' '}
+                {moment(new Date(item.waktu_pelaksanaan)).format('HH:mm')}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>No.Tlp/Hp :</Text>{' '}
+                {item.no_telp}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Tata Cara :</Text>{' '}
+                {item.tata_cara}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Alamat :</Text>{' '}
+                {item.alamat_lokasi}
+              </Text>
+              {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
                   Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
                   City, Jakarta 13260
@@ -88,7 +112,7 @@ function AksiSosial({navigation}) {
                 <Text>
                   <Text>Jam Selesai:</Text> 17:00 PM
                 </Text>
-              </View>
+              </View> */}
             </View>
           </View>
         </View>
@@ -104,7 +128,7 @@ function AksiSosial({navigation}) {
     if (listTitikRawan.length !== 0) {
       setFilterTitikRawan(
         listTitikRawan.filter(x =>
-          x.nama_deskel.toLowerCase().includes(filter.toLowerCase()),
+          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
         ),
       );
     }

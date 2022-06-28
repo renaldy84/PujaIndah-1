@@ -37,14 +37,14 @@ function DataBansos({navigation}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
+      url: url + `/api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        // console.log(response.data.data);
+        console.log(response.data.data);
         setIsLoading(false);
         setListTitikRawan(response.data.data);
         setFilterTitikRawan(response.data.data);
@@ -74,10 +74,34 @@ function DataBansos({navigation}) {
                     fontSize: 16,
                     marginTop: 15,
                   }}>
-                  PKB Pulau Gadung
+                  {item.uraian}
                 </Text>
               </View>
-              <View style={{marginTop: 10, marginBottom: 15}}>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Lembaga Penyalur :</Text>{' '}
+                {item.pemberi_bansos}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Waktu Pelaksanaan :</Text>{' '}
+                {moment(new Date(item.waktu_pelaksanaan)).format('DD-MM-YYYY')}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Jam :</Text>{' '}
+                {moment(new Date(item.waktu_pelaksanaan)).format('HH:mm')}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>No.Tlp/Hp :</Text>{' '}
+                {item.no_telp}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Tata Cara :</Text>{' '}
+                {item.tata_cara}
+              </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Alamat :</Text>{' '}
+                {item.alamat_lokasi}
+              </Text>
+              {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
                   Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
                   City, Jakarta 13260
@@ -88,7 +112,7 @@ function DataBansos({navigation}) {
                 <Text>
                   <Text>Jam Selesai:</Text> 17:00 PM
                 </Text>
-              </View>
+              </View> */}
             </View>
           </View>
         </View>
@@ -104,7 +128,7 @@ function DataBansos({navigation}) {
     if (listTitikRawan.length !== 0) {
       setFilterTitikRawan(
         listTitikRawan.filter(x =>
-          x.nama_deskel.toLowerCase().includes(filter.toLowerCase()),
+          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
         ),
       );
     }
