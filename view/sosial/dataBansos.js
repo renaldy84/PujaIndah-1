@@ -37,14 +37,14 @@ function DataBansos({navigation}) {
   const getListDataBansos = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
+      url: url + `/api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        // console.log(response.data.data);
+        console.log(response.data.data);
         setIsLoading(false);
         setListDataBansos(response.data.data);
         setFilterDataBansos(response.data.data);
@@ -66,42 +66,60 @@ function DataBansos({navigation}) {
           }}
           style={styles.container}>
           <View style={styles.content}>
-            <View>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  color: 'black',
-                  fontSize: 18,
-                }}>
-                {item.nama}
-              
-              </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                margin: 10,
+                // alignItems: 'center',
+              }}>
+              <View>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    color: 'black',
+                    fontSize: 16,
+                    marginTop: 15,
+                  }}>
+                  {item.uraian}
+                </Text>
+              </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Lembaga Penyalur :</Text>{' '}
-                {item.lembaga_penyalur}
+                {item.pemberi_bansos}
               </Text>
-              <Text>
-                <Text style={{fontWeight: 'bold'}}>
-                  Waktu Pelaksanaan :
-                </Text>{' '}
-                {item.waktu_pelaksanaan}
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Waktu Pelaksanaan :</Text>{' '}
+                {moment(new Date(item.waktu_pelaksanaan)).format('DD-MM-YYYY')}
               </Text>
-              <Text>
+              <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Jam :</Text>{' '}
-               08.00 WIB
+                {moment(new Date(item.waktu_pelaksanaan)).format('HH:mm')}
               </Text>
-              <Text>
-                <Text style={{fontWeight: 'bold'}}>No.Telp/HP :</Text>{' '}
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>No.Tlp/Hp :</Text>{' '}
                 {item.no_telp}
               </Text>
-              <Text>
+              <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Tata Cara :</Text>{' '}
                 {item.tata_cara}
               </Text>
-              <Text>
+              <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Alamat :</Text>{' '}
                 {item.alamat_lokasi}
               </Text>
+              {/* <View style={{marginTop: 10, marginBottom: 15}}>
+                <Text>
+                  Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
+                  City, Jakarta 13260
+                </Text>
+                <Text>
+                  <Text>Jam Mulai:</Text> 08:00 AM
+                </Text>
+                <Text>
+                  <Text>Jam Selesai:</Text> 17:00 PM
+                </Text>
+              </View> */}
             </View>
           </View>
         </TouchableOpacity>
@@ -114,10 +132,10 @@ function DataBansos({navigation}) {
   }, []);
 
   useEffect(() => {
-    if (listBansos.length !== 0) {
-      setFilterDataBansos(
-        listBansos.filter(x =>
-          x.nama_deskel.toLowerCase().includes(filter.toLowerCase()),
+    if (listTitikRawan.length !== 0) {
+      setFilterTitikRawan(
+        listTitikRawan.filter(x =>
+          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
         ),
       );
     }

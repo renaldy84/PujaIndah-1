@@ -140,7 +140,7 @@ const DashboardPerhubungan = ({navigation}) => {
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  navigation.navigate('BuatPengaduanPekerjaanUmum');
+                  // navigation.navigate('BuatPengaduanPekerjaanUmum');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image

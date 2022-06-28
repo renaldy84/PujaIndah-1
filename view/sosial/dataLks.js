@@ -28,23 +28,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-var bencana = [
-  {id: 1, jenisBencana: 'Gempa Bumi'},
-  {id: 2, jenisBencana: 'Tanah Longsor'},
-  {id: 3, jenisBencana: 'Banjir'},
-  {id: 4, jenisBencana: 'Tsunami'},
-  {id: 5, jenisBencana: 'Letusan gunung api'},
-  {id: 6, jenisBencana: 'Banjir bandang'},
-  {id: 7, jenisBencana: 'Angin topan'},
-];
-
-var status = [
-  {id: 1, jenisStatus: 'Baik'},
-  {id: 2, jenisStatus: 'Rusak Ringan'},
-  {id: 3, jenisStatus: 'Rusak Berat'},
-];
-
-
 function DataLKS({navigation}) {
   const modalizeRef = useRef(null);
   const modalizeRefJenisLks = useRef(null);
@@ -58,20 +41,17 @@ function DataLKS({navigation}) {
   const [filterListDataLks, setFilterListDataLks] = useState([]);
   const [filter, setFilter] = useState('');
 
-
   //Jenis LKS
-  const [filterJenisDataLks,setFilterJenisDataLks ] = useState([]);
-  const [jenisDataLks,setJenisDataLks] = useState([]);
-  const [chooseJeninLks,setChooseJenisLks] = useState({})
-  const [checkedJenisLks,setCheckedJenisLks] = useState("")
-  const [namaJenisLks,setNamaJenisLks] = useState("")
+  const [filterJenisDataLks, setFilterJenisDataLks] = useState([]);
+  const [jenisDataLks, setJenisDataLks] = useState([]);
+  const [chooseJeninLks, setChooseJenisLks] = useState({});
+  const [checkedJenisLks, setCheckedJenisLks] = useState('');
+  const [checkedIDJenisLks, setCheckedIDJenisLks] = useState('');
+  const [namaJenisLks, setNamaJenisLks] = useState('');
   const [filterJenisLksTxt, setFilterJenisLksTxt] = useState('');
-  
- 
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const [namaStatus, setNamaStatus] = useState('');
- 
   //Provinsi
   const [checkedLokasi, setCheckedLokasi] = useState('');
   const [namaProvinsi, setNamaProvinsi] = useState('');
@@ -79,16 +59,6 @@ function DataLKS({navigation}) {
   const [chooseProvinsi, setChooseProvinsi] = useState({});
   const [filterProvTxt, setFilterProvTxt] = useState('');
   const [filterProvinsi, setFilterProvinsi] = useState([]);
-
-  //Infrastruktur
-  const [checkedInfrastruktur, setCheckedInfrastruktur] = useState('');
-  const [namaInfrastruktur, setNamaInfrastruktur] = useState('');
-  const [infrastruktur, setInfrastruktur] = useState([]);
-  const [chooseInfrastruktur, setChooseInfrastruktur] = useState({});
-  const [filterInfrastrukturTxt, setFilterInfrastrukturTxt] = useState('');
-  const [filterInfrastruktur, setFilterInfrastruktur] = useState([]);
-
-
 
   const getProvinsi = () => {
     Axios({
@@ -104,25 +74,6 @@ function DataLKS({navigation}) {
       });
   };
 
-  // const getInfrastruktur = async () => {
-  //   Axios({
-  //     url: url + `/api/pu/infrastruktur-jenis/getall?order=id+asc`,
-  //     method: 'get',
-  //     headers: {
-  //       Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-  //     },
-  //   })
-  //     .then(response => {
-  //       setInfrastruktur(response.data.data);
-  //       setFilterInfrastruktur(response.data.data);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
-
-  
-
   useEffect(() => {
     if (provinsi.length !== 0) {
       setFilterProvinsi(
@@ -133,15 +84,15 @@ function DataLKS({navigation}) {
     }
   }, [filterProvTxt]);
 
-  // useEffect(() => {
-  //   if (infrastruktur.length !== 0) {
-  //     setFilterInfrastruktur(
-  //       infrastruktur.filter(x =>
-  //         x.nama.toLowerCase().includes(filterInfrastrukturTxt.toLowerCase()),
-  //       ),
-  //     );
-  //   }
-  // }, [filterInfrastrukturTxt]);
+  useEffect(() => {
+    if (jenisDataLks.length !== 0) {
+      setFilterJenisDataLks(
+        jenisDataLks.filter(x =>
+          x.nama.toLowerCase().includes(filterJenisLksTxt.toLowerCase()),
+        ),
+      );
+    }
+  }, [filterJenisLksTxt]);
 
   const getListDataLKS = async () => {
     setIsLoading(true);
@@ -163,25 +114,66 @@ function DataLKS({navigation}) {
   };
 
   const hasilFilter = async data => {
-    console.log('ini dari hasil filer', data);
     setIsLoading(true);
-    Axios({
-      url:
-        url +
-        `/api/sosial/lks/getall?sos_lks_jenis_id=5&nama_daerah=SUMATERA UTARA&order=nama+asc`,
-      method: 'get',
-      headers: {
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-      },
-    })
-      .then(response => {
-        setIsLoading(false);
-        setListDataLks(response.data.data);
-        setFilterListDataLks(response.data.data);
+
+    if (
+      (namaProvinsi != '' || namaProvinsi != undefined) &&
+      checkedJenisLks != ''
+    ) {
+      Axios({
+        url:
+          url +
+          `/api/sosial/lks/getall?sos_lks_jenis_id=${data.checkedJenisLks}&nama_daerah=${data.namaProvinsi}&order=nama+asc`,
+        method: 'get',
+        headers: {
+          Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        },
       })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(response => {
+          setIsLoading(false);
+          setListDataLks(response.data.data);
+          setFilterListDataLks(response.data.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else if (namaProvinsi != '' || namaProvinsi != undefined) {
+      Axios({
+        url:
+          url +
+          `/api/sosial/lks/getall?nama_daerah=${data.namaProvinsi}&order=nama+asc`,
+        method: 'get',
+        headers: {
+          Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        },
+      })
+        .then(response => {
+          setIsLoading(false);
+          setListDataLks(response.data.data);
+          setFilterListDataLks(response.data.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else if (checkedJenisLks != '') {
+      Axios({
+        url:
+          url +
+          `/api/sosial/lks/getall?sos_lks_jenis_id=${data.checkedJenisLks}&order=nama+asc`,
+        method: 'get',
+        headers: {
+          Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        },
+      })
+        .then(response => {
+          setIsLoading(false);
+          setListDataLks(response.data.data);
+          setFilterListDataLks(response.data.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   const getJenisDataLks = async () => {
@@ -222,29 +214,24 @@ function DataLKS({navigation}) {
                   fontSize: 18,
                 }}>
                 {item.nama}
-              
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Jenis :</Text>{' '}
                 {item.sos_lks_jenis_id}
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>
-                  Bidang :
-                </Text>{' '}
-                Sosial Care
+                <Text style={{fontWeight: 'bold'}}>Bidang :</Text> Sosial Care
               </Text>
               <Text>
                 <Text style={{fontWeight: 'bold'}}>No.Tlp/HP :</Text>{' '}
-               {item.no_telp}
+                {item.no_telp}
               </Text>
               <Text>
                 <Text style={{fontWeight: 'bold'}}>Penanggung Jawab :</Text>{' '}
                 {item.penanggung_jawab}
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Alamat :</Text>{' '}
-                {item.alamat}
+                <Text style={{fontWeight: 'bold'}}>Alamat :</Text> {item.alamat}
               </Text>
             </View>
           </View>
@@ -252,7 +239,6 @@ function DataLKS({navigation}) {
       </>
     );
   };
-
 
   useEffect(() => {
     getListDataLKS();
@@ -366,7 +352,6 @@ function DataLKS({navigation}) {
               data={filterListDataLks}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
-             
             />
           </View>
         ) : (
@@ -388,7 +373,6 @@ function DataLKS({navigation}) {
           </View>
         }>
         <View style={{marginHorizontal: 20}}>
-          
           <View style={{marginTop: 20}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View>
@@ -421,9 +405,9 @@ function DataLKS({navigation}) {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setChooseJenisLks(item)
-                      setCheckedJenisLks(item.id)
-                      setNamaJenisLks(item.nama)
+                      setChooseJenisLks(item);
+                      setCheckedJenisLks(item.id);
+                      setNamaJenisLks(item.nama);
                     }}
                     key={index}
                     style={{
@@ -440,8 +424,7 @@ function DataLKS({navigation}) {
                     <Text
                       style={{
                         fontSize: 12,
-                        color:
-                          namaJenisLks === item.nama ? 'blue' : 'black',
+                        color: namaJenisLks === item.nama ? 'blue' : 'black',
                       }}>
                       {item.nama}
                     </Text>
@@ -515,7 +498,14 @@ function DataLKS({navigation}) {
               style={styles.buttonTerapkan}
               onPress={() => {
                 modalizeRef.current?.close();
-                hasilFilter({namaStatus, namaProvinsi, namaInfrastruktur});
+                if (
+                  (namaProvinsi == undefined || namaProvinsi == '') &&
+                  checkedJenisLks == ''
+                ) {
+                  getListDataLKS();
+                } else {
+                  hasilFilter({checkedJenisLks, namaProvinsi});
+                }
               }}>
               <Text style={styles.textButton}>Terapkan</Text>
             </TouchableOpacity>
