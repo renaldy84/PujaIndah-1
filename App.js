@@ -52,6 +52,7 @@ import DataBansos from './view/sosial/dataBansos';
 import AksiSosial from './view/sosial/aksiSosial';
 import DashboardAspirasi from './view/Aspirasi/dashboardAspirasi';
 import RiwayatAspirasi from './view/Aspirasi/daftarAspirasiDprd';
+import DataAnggotaDprd from './view/Aspirasi/dataAnggotaDprd';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -300,6 +301,13 @@ function SettingNav() {
           }}
           name="RiwayatAspirasi"
           component={RiwayatAspirasi}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DataAnggotaDprd"
+          component={DataAnggotaDprd}
         />
       </Stack.Navigator>
     </>
