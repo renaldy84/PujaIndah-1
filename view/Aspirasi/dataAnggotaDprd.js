@@ -29,111 +29,164 @@ import {
 } from 'react-native-responsive-screen';
 
 function DataAnggotaDprd({navigation}) {
-  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [listTitikRawan, setListTitikRawan] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const getListTitikRawan = async () => {
-    setIsLoading(true);
-    Axios({
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
-      method: 'get',
-      headers: {
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-      },
-    })
-      .then(response => {
-        // console.log(response.data.data);
-        setIsLoading(false);
-        setListTitikRawan(response.data.data);
-        setFilterTitikRawan(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
+  ];
 
   const renderItem = ({item}) => {
     return (
       <>
-        <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() => {
+            // console.log(item.id);
+            // navigation.navigate('DetailInfrastruktur', {
+            //   idInfrastruktur: item.id,
+            // });
+          }}
+          style={styles.container}>
           <View style={styles.content}>
-            <View>
-              <Image
-                resizeMode="contain"
-                style={{width: 120, height: 120, margin: 10}}
-                source={{
-                  uri: 'https://pngimg.com/uploads/bulldozer/bulldozer_PNG16429.png',
-                }}
-              />
-            </View>
             <View
               style={{
                 flex: 1,
                 justifyContent: 'center',
+                margin: 10,
                 // alignItems: 'center',
               }}>
-              <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 16,
-                    marginTop: 10,
-                  }}>
-                  Bulldozer
-                </Text>
+              <View style={{flex: 1, flexDirection: 'row', marginTop: 15}}>
+                <View>
+                  <Image
+                    resizeMode="contain"
+                    source={require('../../assets/image/potodpr.png')}
+                  />
+                </View>
+                <View style={{paddingLeft: 10, flex: 1}}>
+                  <View>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: 'black',
+                        fontSize: 16,
+                      }}>
+                      Judul
+                    </Text>
+                  </View>
+
+                  <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                    <View style={{width:50}}>
+                      <Text style={{fontWeight: 'bold'}}>Fraksi</Text>
+                    </View>
+                    <View style={{marginHorizontal: 5}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{flex: 1}}>
+                      <Text>Fraksi Partai NasDem</Text>
+                    </View>
+                  </View>
+
+                  <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                    <View style={{width:50}}>
+                      <Text style={{fontWeight: 'bold'}}>Dapil</Text>
+                    </View>
+                    <View style={{marginHorizontal: 5}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{flex: 1}}>
+                      <Text>Nusa
+                    Tenggara Timur</Text>
+                    </View>
+                  </View>
+
+                  <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                    <View style={{width:50}}>
+                      <Text style={{fontWeight: 'bold'}}>Komisi</Text>
+                    </View>
+                    <View style={{marginHorizontal: 5}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{flex: 1}}>
+                      <Text>IV</Text>
+                    </View>
+                  </View>
+
+                  <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                    <View style={{width:50}}>
+                      <Text style={{fontWeight: 'bold'}}>Profil</Text>
+                    </View>
+                    <View style={{marginHorizontal: 5}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{flex: 1}}>
+                      <Text>Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry. Lorem Ipsum has been the industry's.</Text>
+                    </View>
+                  </View>
+                </View>
               </View>
-              <Text>
-                <Text style={{fontWeight: 'bold'}}>Harga Sewa:</Text> Rp.
-                500.000/Jam
-              </Text>
-              <Text>
-                <Text style={{fontWeight: 'bold'}}>Tersedia:</Text> 4 Unit
-              </Text>
-              <Text>
-                <Text style={{fontWeight: 'bold'}}>Tanggal Publish:</Text> 30
-                Desember 2021
-                {/* {moment(new Date(item.created_at)).format('DD-MM-YYYY')} */}
-              </Text>
-            </View>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row', margin: 10}}>
-            <View style={{justifyContent: 'center'}}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('DetailAlatBerat');
+
+              <View
+                style={{
+                  marginBottom: 10,
+                  justifyContent: 'center',
+                  flex: 1,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: 15,
                 }}>
-                <Text style={{color: '#50B6FF'}}>Lihat detail alat</Text>
-              </TouchableOpacity>
+                <View style={{flex: 1, alignItems: 'flex-start'}}>
+                  <Text style={{color: '#2F80ED'}}>Lihat Kegiatan</Text>
+                </View>
+                <View>
+                  <View
+                    style={{
+                      height: 30,
+                      width: wp('50%'),
+                      backgroundColor: '#2F80ED',
+                      borderRadius: 15,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: 12,
+                        color: '#F2F2F2',
+                      }}>
+                      Sampaikan Aspirasi Anda
+                    </Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* <View style={{marginTop: 10, marginBottom: 15}}>
+                <Text>
+                  Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
+                  City, Jakarta 13260
+                </Text>
+                <Text>
+                  <Text>Jam Mulai:</Text> 08:00 AM
+                </Text>
+                <Text>
+                  <Text>Jam Selesai:</Text> 17:00 PM
+                </Text>
+              </View> */}
             </View>
-            <TouchableOpacity
-              style={styles.buttonBooking}
-              onPress={() => {
-                navigation.navigate('BookingAlat');
-              }}>
-              <Text style={{color: 'white'}}>Booking Alat</Text>
-            </TouchableOpacity>
           </View>
-        </View>
+        </TouchableOpacity>
       </>
     );
   };
 
-  useEffect(() => {
-    getListTitikRawan();
-  }, []);
-
-  useEffect(() => {
-    if (listTitikRawan.length !== 0) {
-      setFilterTitikRawan(
-        listTitikRawan.filter(x =>
-          x.nama_deskel.toLowerCase().includes(filter.toLowerCase()),
-        ),
-      );
-    }
-  }, [filter]);
   return (
     <>
       <View
@@ -159,7 +212,7 @@ function DataAnggotaDprd({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Data Anggota DPRD</Text>
+            <Text style={styles.textJudul}>Data Anggota DPRD </Text>
           </View>
         </View>
         <View
@@ -171,8 +224,8 @@ function DataAnggotaDprd({navigation}) {
           <View style={[styles.boxInput, {flexDirection: 'row', flex: 4}]}>
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-              onChangeText={val => setFilter(val)}
-              placeholder="Pencarian berdasarkan jenis alat"></TextInput>
+              onChangeText={() => {}}
+              placeholder="Ketik daerah yang ingin dicari"></TextInput>
             <TouchableOpacity
               onPress={() => {}}
               style={{
@@ -186,7 +239,7 @@ function DataAnggotaDprd({navigation}) {
           </View>
         </View>
 
-        {isLoading ? (
+        {/* {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -196,24 +249,24 @@ function DataAnggotaDprd({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterTitikRawan.length !== 0 ? (
-          <View style={{flex: 1, margin: 20}}>
-            <FlatList
-              data={filterTitikRawan}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-              // ListFooterComponent={renderFooter}
-              // onEndReached={handleLoadMore}
-              // onEndReachedThreshold={0}
-            />
-          </View>
-        ) : (
+        ) : filterDataBansos.length !== 0 ? ( */}
+        <View style={{flex: 1, margin: 20}}>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            // ListFooterComponent={renderFooter}
+            // onEndReached={handleLoadMore}
+            // onEndReachedThreshold={0}
+          />
+        </View>
+        {/* ) : (
           <>
             <View style={{alignItems: 'center', marginTop: 30}}>
               <Text>Data tidak ditemukan</Text>
             </View>
           </>
-        )}
+        )} */}
       </View>
     </>
   );

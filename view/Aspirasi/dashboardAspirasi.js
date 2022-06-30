@@ -85,7 +85,7 @@ const DashboardAspirasi = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DataBansos');
+                  navigation.navigate('RiwayatAspirasiPemerintah');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
@@ -103,7 +103,7 @@ const DashboardAspirasi = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('AksiSosial');
+                  navigation.navigate('DataAnggotaDprd');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>

@@ -28,7 +28,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function RiwayatAspirasi({navigation}) {
+function RiwayatAspirasiPemerintah({navigation}) {
   
     const DATA = [
         {
@@ -144,7 +144,7 @@ function RiwayatAspirasi({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Riwayat Aspirasi DPRD</Text>
+            <Text style={styles.textJudul}>Riwayat Aspirasi Pemerintah</Text>
           </View>
         </View>
         <View
@@ -321,4 +321,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default RiwayatAspirasi;
+export default RiwayatAspirasiPemerintah;
