@@ -132,9 +132,9 @@ function DataBansos({navigation}) {
   }, []);
 
   useEffect(() => {
-    if (listTitikRawan.length !== 0) {
-      setFilterTitikRawan(
-        listTitikRawan.filter(x =>
+    if (listBansos.length !== 0) {
+      setFilterDataBansos(
+        listBansos.filter(x =>
           x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
         ),
       );
@@ -205,7 +205,7 @@ function DataBansos({navigation}) {
         ) : filterDataBansos.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={filterTitikRawan}
+              data={filterDataBansos}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
               // ListFooterComponent={renderFooter}
