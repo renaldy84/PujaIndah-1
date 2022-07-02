@@ -121,7 +121,7 @@ const DashboardAspirasi = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DataPMKS');
+                  navigation.navigate('DataPejabatPemerintah');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
@@ -139,7 +139,7 @@ const DashboardAspirasi = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DataPMKS');
+                  navigation.navigate('BuatAspirasi');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
@@ -157,7 +157,7 @@ const DashboardAspirasi = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DataPMKS');
+                  navigation.navigate('AgendaDprd');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>

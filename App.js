@@ -54,6 +54,9 @@ import DashboardAspirasi from './view/Aspirasi/dashboardAspirasi';
 import RiwayatAspirasi from './view/Aspirasi/daftarAspirasiDprd';
 import DataAnggotaDprd from './view/Aspirasi/dataAnggotaDprd';
 import RiwayatAspirasiPemerintah from './view/Aspirasi/daftarAspirasiPemerintah';
+import DataPejabatPemerintah from './view/Aspirasi/dataPejabatPemerintah';
+import BuatAspirasi from './view/Aspirasi/buatAspirasi';
+import AgendaDprd from './view/Aspirasi/agendaDprd';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -316,6 +319,27 @@ function SettingNav() {
           }}
           name="DataAnggotaDprd"
           component={DataAnggotaDprd}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DataPejabatPemerintah"
+          component={DataPejabatPemerintah}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BuatAspirasi"
+          component={BuatAspirasi}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AgendaDprd"
+          component={AgendaDprd}
         />
       </Stack.Navigator>
     </>
