@@ -61,75 +61,33 @@ function AgendaDprd({navigation}) {
                 flex: 1,
                 justifyContent: 'center',
                 margin: 10,
+                borderWidth:1
                 // alignItems: 'center',
               }}>
-              <View style={{flex: 1, flexDirection: 'row', marginTop: 15}}>
+              <View style={{flex: 1, flexDirection: 'row', marginTop: 30, borderWidth:1}}>
                 <View>
-                  <Image
-                    resizeMode="contain"
-                    source={require('../../assets/image/potodpr.png')}
-                  />
+                  
                 </View>
-                <View style={{paddingLeft: 10, flex: 1}}>
+
+                <View style={{paddingLeft: 10, flex: 1, borderWidth:1}}>
                   <View>
                     <Text
                       style={{
                         fontWeight: 'bold',
                         color: 'black',
-                        fontSize: 16,
+                        fontSize: 13,
                       }}>
-                      Judul
+                      Komisi I
                     </Text>
                   </View>
 
                   <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:50}}>
-                      <Text style={{fontWeight: 'bold'}}>Fraksi</Text>
-                    </View>
-                    <View style={{marginHorizontal: 5}}>
-                      <Text>:</Text>
-                    </View>
                     <View style={{flex: 1}}>
-                      <Text>Fraksi Partai NasDem</Text>
+                      <Text>
+                      Kunjungan Kerja Dalam Rangka Mendapatkan Masukan & Informasi Terkait Persiapan Analog Swict Off (ASO) Tahap Satu Wilayah Jawa Barat
+                      </Text>
                     </View>
-                  </View>
 
-                  <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:50}}>
-                      <Text style={{fontWeight: 'bold'}}>Dapil</Text>
-                    </View>
-                    <View style={{marginHorizontal: 5}}>
-                      <Text>:</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                      <Text>Nusa
-                    Tenggara Timur</Text>
-                    </View>
-                  </View>
-
-                  <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:50}}>
-                      <Text style={{fontWeight: 'bold'}}>Komisi</Text>
-                    </View>
-                    <View style={{marginHorizontal: 5}}>
-                      <Text>:</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                      <Text>IV</Text>
-                    </View>
-                  </View>
-
-                  <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:50}}>
-                      <Text style={{fontWeight: 'bold'}}>Profil</Text>
-                    </View>
-                    <View style={{marginHorizontal: 5}}>
-                      <Text>:</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                      <Text>Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's.</Text>
-                    </View>
                   </View>
                 </View>
               </View>
@@ -143,7 +101,7 @@ function AgendaDprd({navigation}) {
                   alignItems: 'center',
                   marginTop: 15,
                 }}>
-                <View style={{flex: 1, alignItems: 'flex-start'}}>
+                <View style={{flex: 1, alignItems: 'baseline', borderWidth:1}}>
                   <Text style={{color: '#2F80ED'}}>Lihat Kegiatan</Text>
                 </View>
                 <View>
@@ -155,6 +113,7 @@ function AgendaDprd({navigation}) {
                       borderRadius: 15,
                       alignItems: 'center',
                       justifyContent: 'center',
+                      borderWidth:1
                     }}>
                     <Text
                       style={{

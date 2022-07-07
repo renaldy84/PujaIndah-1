@@ -35,7 +35,7 @@ const DashboardAspirasi = ({navigation}) => {
         <View
           style={{
             flex: 1,
-            backgroundColor: '#2F80ED',
+            backgroundColor: '#274799',
           }}>
 
           <View style={styles.header}>
