@@ -63,6 +63,13 @@ import LowonganKerja from './view/Ketenagakerjaan/lowonganKerja';
 import KreditUsaha from './view/Ketenagakerjaan/kreditUsaha';
 import DetailLowonganKerja from './view/Ketenagakerjaan/detailLowonganKerja';
 import FormLamaran from './view/Ketenagakerjaan/formLamaran';
+import FasilitasKesehatan from './view/Kesehatan/fasilitasKesehatan';
+import DetailFasilitasKesehatan from './view/Kesehatan/detailFasilitasKesehatan';
+import PendaftaranPelayananKesehatan from './view/Kesehatan/PendaftaranPelayanan';
+import BerhasilDaftarLayanan from './view/Kesehatan/BerhasilDaftarLayanan';
+import RiwayatPasien from './view/Kesehatan/riwayatPasien';
+import DaftarDokter from './view/Kesehatan/daftarDokter';
+import GawatDarurat from './view/Kesehatan/gawatDarurat';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -381,6 +388,55 @@ function SettingNav() {
           }}
           name="DashboardKesehatan"
           component={DashboardKesehatan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FasilitasKesehatan"
+          component={FasilitasKesehatan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailFasilitasKesehatan"
+          component={DetailFasilitasKesehatan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="PendaftaranPelayananKesehatan"
+          component={PendaftaranPelayananKesehatan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BerhasilDaftarLayanan"
+          component={BerhasilDaftarLayanan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="RiwayatPasien"
+          component={RiwayatPasien}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarDokter"
+          component={DaftarDokter}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="GawatDarurat"
+          component={GawatDarurat}
         />
         <Stack.Screen
           options={{

@@ -18,7 +18,6 @@ import {
   faArrowLeft,
   faMapMarkerAlt,
   faBriefcase,
-  faPhoneAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
 import ImagePicker from 'react-native-image-picker';
@@ -34,7 +33,7 @@ import {
 import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
-function FasilitasKesehatan({navigation}) {
+function DaftarDokter({navigation}) {
   return (
     <>
       <View
@@ -66,7 +65,7 @@ function FasilitasKesehatan({navigation}) {
           </View>
           <View style={styles.boxLogin}>
             <Text style={[styles.textLogin, {color: 'white'}]}>
-              Fasilitas Kesehatan
+              Daftar Dokter
             </Text>
           </View>
         </View>
@@ -81,7 +80,7 @@ function FasilitasKesehatan({navigation}) {
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
               onChangeText={val => setFilter(val)}
-              placeholder="Ketik daerah yang ingin dicari"></TextInput>
+              placeholder="Ketik Rumah Sakit atau Puskesmas"></TextInput>
             <TouchableOpacity
               onPress={() => {}}
               style={{
@@ -97,161 +96,136 @@ function FasilitasKesehatan({navigation}) {
 
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.container}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailFasilitasKesehatan');
-              }}
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
+            <View style={styles.boxCard}>
               <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Puskesmas Pamulang
+                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+                  dr. R. Eddy Setiyoso, SpPD-KGEH
                 </Text>
               </View>
-
+              <View style={{marginTop: hp('1%')}}>
+                <Text style={{color: '#827474', fontSize: 12}}>
+                  Penyakit Dalam (Konsultan Gastro Entero Hepatologi)
+                </Text>
+              </View>
               <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
                 <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
+                  <FontAwesomeIcon
+                    size={20}
+                    icon={faMapMarkerAlt}
+                    color="#274799"
+                  />
                 </View>
                 <View style={{marginLeft: 10}}>
-                  <Text>
-                    Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                    Tangerang, Kota Tangerang, Banten 15111
+                  <Text style={{fontSize: 12, color: '#274799'}}>
+                    Rumah Sakit St. Carolus (RSSC)
                   </Text>
                 </View>
               </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View style={{rotation: 90}}>
-                  <FontAwesomeIcon size={20} icon={faPhoneAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>021- 29662529</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailFasilitasKesehatan');
-              }}
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
+            </View>
+            <View style={styles.boxCard}>
               <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Puskesmas Pamulang
+                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+                  dr. R. Eddy Setiyoso, SpPD-KGEH
                 </Text>
               </View>
-
+              <View style={{marginTop: hp('1%')}}>
+                <Text style={{color: '#827474', fontSize: 12}}>
+                  Penyakit Dalam (Konsultan Gastro Entero Hepatologi)
+                </Text>
+              </View>
               <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
                 <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
+                  <FontAwesomeIcon
+                    size={20}
+                    icon={faMapMarkerAlt}
+                    color="#274799"
+                  />
                 </View>
                 <View style={{marginLeft: 10}}>
-                  <Text>
-                    Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                    Tangerang, Kota Tangerang, Banten 15111
+                  <Text style={{fontSize: 12, color: '#274799'}}>
+                    Rumah Sakit St. Carolus (RSSC)
                   </Text>
                 </View>
               </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View style={{rotation: 90}}>
-                  <FontAwesomeIcon size={20} icon={faPhoneAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>021- 29662529</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailFasilitasKesehatan');
-              }}
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
+            </View>
+            <View style={styles.boxCard}>
               <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Puskesmas Pamulang
+                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+                  dr. R. Eddy Setiyoso, SpPD-KGEH
                 </Text>
               </View>
-
+              <View style={{marginTop: hp('1%')}}>
+                <Text style={{color: '#827474', fontSize: 12}}>
+                  Penyakit Dalam (Konsultan Gastro Entero Hepatologi)
+                </Text>
+              </View>
               <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
                 <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
+                  <FontAwesomeIcon
+                    size={20}
+                    icon={faMapMarkerAlt}
+                    color="#274799"
+                  />
                 </View>
                 <View style={{marginLeft: 10}}>
-                  <Text>
-                    Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                    Tangerang, Kota Tangerang, Banten 15111
+                  <Text style={{fontSize: 12, color: '#274799'}}>
+                    Rumah Sakit St. Carolus (RSSC)
                   </Text>
                 </View>
               </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View style={{rotation: 90}}>
-                  <FontAwesomeIcon size={20} icon={faPhoneAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>021- 29662529</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailFasilitasKesehatan');
-              }}
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
+            </View>
+            <View style={styles.boxCard}>
               <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Puskesmas Pamulang
+                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+                  dr. R. Eddy Setiyoso, SpPD-KGEH
                 </Text>
               </View>
-
+              <View style={{marginTop: hp('1%')}}>
+                <Text style={{color: '#827474', fontSize: 12}}>
+                  Penyakit Dalam (Konsultan Gastro Entero Hepatologi)
+                </Text>
+              </View>
               <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
                 <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
+                  <FontAwesomeIcon
+                    size={20}
+                    icon={faMapMarkerAlt}
+                    color="#274799"
+                  />
                 </View>
                 <View style={{marginLeft: 10}}>
-                  <Text>
-                    Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                    Tangerang, Kota Tangerang, Banten 15111
+                  <Text style={{fontSize: 12, color: '#274799'}}>
+                    Rumah Sakit St. Carolus (RSSC)
                   </Text>
                 </View>
               </View>
+            </View>
+            <View style={styles.boxCard}>
+              <View>
+                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+                  dr. R. Eddy Setiyoso, SpPD-KGEH
+                </Text>
+              </View>
+              <View style={{marginTop: hp('1%')}}>
+                <Text style={{color: '#827474', fontSize: 12}}>
+                  Penyakit Dalam (Konsultan Gastro Entero Hepatologi)
+                </Text>
+              </View>
               <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View style={{rotation: 90}}>
-                  <FontAwesomeIcon size={20} icon={faPhoneAlt} />
+                <View>
+                  <FontAwesomeIcon
+                    size={20}
+                    icon={faMapMarkerAlt}
+                    color="#274799"
+                  />
                 </View>
                 <View style={{marginLeft: 10}}>
-                  <Text>021- 29662529</Text>
+                  <Text style={{fontSize: 12, color: '#274799'}}>
+                    Rumah Sakit St. Carolus (RSSC)
+                  </Text>
                 </View>
               </View>
-            </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
 
@@ -301,7 +275,24 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: wp('100%'),
   },
-
+  boxCard: {
+    width: wp('90%'),
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    backgroundColor: '#EFEFEF',
+    marginTop: hp('2%'),
+    paddingVertical: hp('3%'),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 5,
+    backgroundColor: '#fff',
+    marginTop: 20,
+  },
   arrow: {
     // borderWidth: 1,
     // marginTop: 30,
@@ -317,4 +308,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-export default FasilitasKesehatan;
+export default DaftarDokter;

@@ -75,7 +75,7 @@ const DashboardKesehatan = ({navigation}) => {
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {
-                  // navigation.navigate('PeringatanDini');
+                  navigation.navigate('FasilitasKesehatan');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
@@ -94,7 +94,7 @@ const DashboardKesehatan = ({navigation}) => {
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  // navigation.navigate('BuatPengaduan');
+                  navigation.navigate('RiwayatPasien');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
@@ -112,7 +112,7 @@ const DashboardKesehatan = ({navigation}) => {
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  // navigation.navigate('RiwayatPengaduan');
+                  navigation.navigate('DaftarDokter');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
@@ -130,7 +130,7 @@ const DashboardKesehatan = ({navigation}) => {
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  // navigation.navigate('RiwayatPengaduan');
+                  navigation.navigate('GawatDarurat');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
