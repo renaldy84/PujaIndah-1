@@ -117,13 +117,10 @@ function home({navigation}) {
                   onPress={() => {
                     navigation.navigate('MenuTrantibum');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#ECF0DC'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/trantibum.png')}
+                    source={require('../assets/image/newIcon/trantibum.png')}
                   />
                 </TouchableOpacity>
               </View>
@@ -143,18 +140,15 @@ function home({navigation}) {
                   onPress={() => {
                     navigation.navigate('ListPariwisata');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#DCEFF0'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/pariwisata.png')}
+                    source={require('../assets/image/newIcon/pariwisata.png')}
                   />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Pariwisata</Text>
+                <Text style={styles.iconMenuText}>Pariwisata{'\n'}</Text>
               </View>
             </View>
             <View style={[styles.boxIcon]}>
@@ -169,13 +163,10 @@ function home({navigation}) {
                   onPress={() => {
                     navigation.navigate('DashboardPekerjaanUmum');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#FFF38B'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/pekerjaan_umum.png')}
+                    source={require('../assets/image/newIcon/pekerjaanUmum.png')}
                   />
                 </TouchableOpacity>
               </View>
@@ -195,18 +186,15 @@ function home({navigation}) {
                   onPress={() => {
                     navigation.navigate('DashboardPerhubungan');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#C7E1FF'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/perhubungan.png')}
+                    source={require('../assets/image/newIcon/perhubungan.png')}
                   />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Perhubungan</Text>
+                <Text style={styles.iconMenuText}>Perhubungan{'\n'}</Text>
               </View>
             </View>
             <View style={[styles.boxIcon]}>
@@ -221,18 +209,15 @@ function home({navigation}) {
                   onPress={() => {
                     navigation.navigate('DashboardSosial');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#EBFFC2'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/sosial.png')}
+                    source={require('../assets/image/newIcon/sosial.png')}
                   />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Sosial</Text>
+                <Text style={styles.iconMenuText}>Sosial{'\n'}</Text>
               </View>
             </View>
             <View style={[styles.boxIcon]}>
@@ -247,18 +232,38 @@ function home({navigation}) {
                   onPress={() => {
                     // navigation.navigate('History Absensi');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#8BDCFF'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/aspirasi.png')}
+                    source={require('../assets/image/newIcon/aspirasi.png')}
                   />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Aspirasi</Text>
+                <Text style={styles.iconMenuText}>Aspirasi{'\n'}</Text>
+              </View>
+            </View>
+            <View style={[styles.boxIcon]}>
+              <View
+                style={{
+                  // borderWidth: 1,
+                  alignItems: 'center',
+                  alignContent: 'center',
+                  marginLeft: 0,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('DashboardKetenagakerjaan');
+                  }}
+                  style={[styles.iconMenuContainer]}>
+                  <Image
+                    style={styles.iconMenuImage}
+                    source={require('../assets/image/newIcon/ketenagakerjaan.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.boxText}>
+                <Text style={styles.iconMenuText}>Ketenagakerjaan{'\n'}</Text>
               </View>
             </View>
             <View style={[styles.boxIcon]}>
@@ -273,18 +278,15 @@ function home({navigation}) {
                   onPress={() => {
                     // navigation.navigate('History Absensi');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#00F0F0'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/ketenagakerjaan.png')}
+                    source={require('../assets/image/newIcon/komoditas.png')}
                   />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Ketenagakerjaan</Text>
+                <Text style={styles.iconMenuText}>Komoditas{'\n'}</Text>
               </View>
             </View>
             <View style={[styles.boxIcon]}>
@@ -299,18 +301,15 @@ function home({navigation}) {
                   onPress={() => {
                     // navigation.navigate('History Absensi');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#DCEFF0'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/komoditas.png')}
+                    source={require('../assets/image/newIcon/perizinan.png')}
                   />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Komoditas</Text>
+                <Text style={styles.iconMenuText}>Perizinan{'\n'}</Text>
               </View>
             </View>
             <View style={[styles.boxIcon]}>
@@ -325,18 +324,15 @@ function home({navigation}) {
                   onPress={() => {
                     // navigation.navigate('History Absensi');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#EDEDED'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/perizinan.png')}
+                    source={require('../assets/image/newIcon/kependudukan.png')}
                   />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Perizinan</Text>
+                <Text style={styles.iconMenuText}>Kependudukan{'\n'}</Text>
               </View>
             </View>
             <View style={[styles.boxIcon]}>
@@ -349,47 +345,18 @@ function home({navigation}) {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate('History Absensi');
+                    navigation.navigate('DashboardKesehatan');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#DAF899'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/kependudukan.png')}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Kependudukan</Text>
-              </View>
-            </View>
-            <View style={[styles.boxIcon]}>
-              <View
-                style={{
-                  // borderWidth: 1,
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  marginLeft: 0,
-                }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('History Absensi');
-                  }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#C2FFD3'},
-                  ]}>
-                  <Image
-                    style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/kesehatan.png')}
+                    source={require('../assets/image/newIcon/kesehatan.png')}
                   />
                 </TouchableOpacity>
               </View>
 
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Kesehatan</Text>
+                <Text style={styles.iconMenuText}>Kesehatan{'\n'}</Text>
               </View>
             </View>
             <View style={[styles.boxIcon]}>
@@ -402,20 +369,17 @@ function home({navigation}) {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate('History Absensi');
+                    navigation.navigate('DashboardPendidikan');
                   }}
-                  style={[
-                    styles.iconMenuContainer,
-                    {backgroundColor: '#28A16E'},
-                  ]}>
+                  style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
-                    source={require('../assets/image/iconpng/pendidikan.png')}
+                    source={require('../assets/image/newIcon/pendidikan.png')}
                   />
                 </TouchableOpacity>
               </View>
               <View style={styles.boxText}>
-                <Text style={styles.iconMenuText}>Pendidikan</Text>
+                <Text style={styles.iconMenuText}>Pendidikan{'\n'}</Text>
               </View>
             </View>
           </View>
@@ -427,7 +391,7 @@ function home({navigation}) {
 
 const styles = {
   containerHeader: {
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     alignItems: 'center',
   },
   child1: {
@@ -458,6 +422,7 @@ const styles = {
   //   alignItems: 'flex-end',
   // },
   iconMenuContainer: {
+    // borderWidth: 1,
     backgroundColor: 'white',
     height: 60,
     width: 60,
@@ -470,13 +435,16 @@ const styles = {
   },
 
   iconMenuImage: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     resizeMode: 'contain',
+    marginTop: 20,
   },
   boxText: {
     alignItems: 'center',
-    // borderWidth: 1,
+    marginBottom: 10,
+    marginTop: 10,
+    padding: 2,
   },
   iconMenuText: {
     flex: 1,
@@ -490,6 +458,16 @@ const styles = {
     // borderWidth: 1,
     marginTop: hp('1%'),
     marginBottom: hp('1%'),
+    borderRadius: 10,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 14,
     // marginRight: hp('1%'),
     // marginLeft: hp('1%'),
   },

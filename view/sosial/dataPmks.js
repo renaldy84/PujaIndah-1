@@ -219,7 +219,11 @@ function DataPmks({navigation}) {
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Jenis :</Text>{' '}
-                {item.sos_pmks_jenis_id}
+                {jenisDataLks.map(val => {
+                  if (val.id == item.sos_pmks_jenis_id) {
+                    return val.nama;
+                  }
+                })}
               </Text>
               <Text>
                 <Text style={{fontWeight: 'bold'}}>Bidang :</Text> Sosial Care
@@ -271,11 +275,14 @@ function DataPmks({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -284,7 +291,7 @@ function DataPmks({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Data PMKS</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>Data PMKS</Text>
           </View>
         </View>
         <View
@@ -392,7 +399,7 @@ function DataPmks({navigation}) {
                   flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
                   lihat semua
                 </Text>
               </TouchableOpacity>
@@ -421,12 +428,12 @@ function DataPmks({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaJenisLks === item.nama ? 'blue' : 'black',
+                        namaJenisLks === item.nama ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
-                        color: namaJenisLks === item.nama ? 'blue' : 'black',
+                        color: namaJenisLks === item.nama ? '#274799' : 'black',
                       }}>
                       {item.nama}
                     </Text>
@@ -451,7 +458,7 @@ function DataPmks({navigation}) {
                   flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
                   lihat semua
                 </Text>
               </TouchableOpacity>
@@ -480,12 +487,12 @@ function DataPmks({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaProvinsi === item.nama ? 'blue' : 'black',
+                        namaProvinsi === item.nama ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
-                        color: namaProvinsi === item.nama ? 'blue' : 'black',
+                        color: namaProvinsi === item.nama ? '#274799' : 'black',
                       }}>
                       {item.nama}
                     </Text>
@@ -591,7 +598,7 @@ function DataPmks({navigation}) {
                     height: 40,
                   }}>
                   <RadioButton
-                    color="#246EE9"
+                    color="#274799"
                     value="first"
                     status={
                       checkedJenisLks === item.id ? 'checked' : 'unchecked'
@@ -694,7 +701,7 @@ function DataPmks({navigation}) {
                     height: 40,
                   }}>
                   <RadioButton
-                    color="#246EE9"
+                    color="#274799"
                     value="first"
                     status={checkedLokasi === item.id ? 'checked' : 'unchecked'}
                     onPress={() => {
@@ -790,7 +797,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: 40,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 15,
     marginLeft: 5,
     justifyContent: 'center',
@@ -812,7 +819,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderWidth: 1,
-    borderColor: '#246EE9',
+    borderColor: '#274799',
     marginTop: 15,
     justifyContent: 'center',
   },
@@ -828,7 +835,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '50%',
     height: 40,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 15,
     marginLeft: 5,
     justifyContent: 'center',

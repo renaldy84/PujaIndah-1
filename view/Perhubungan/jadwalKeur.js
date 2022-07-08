@@ -37,14 +37,15 @@ function JadwalKeur({navigation}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
+      url:
+        url + `/api/perhubungan/jadwal-keur-keliling/getall?order=tempat+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        // console.log(response.data.data);
+        console.log('keur keliling', response.data.data);
         setIsLoading(false);
         setListTitikRawan(response.data.data);
         setFilterTitikRawan(response.data.data);
@@ -74,19 +75,16 @@ function JadwalKeur({navigation}) {
                     fontSize: 16,
                     marginTop: 15,
                   }}>
-                  PKB Pulau Gadung
+                  {item.tempat}
                 </Text>
               </View>
               <View style={{marginTop: 10, marginBottom: 15}}>
+                <Text>{item.alamat}</Text>
                 <Text>
-                  Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
-                  City, Jakarta 13260
+                  <Text>Jam Mulai:</Text> {item.waktu_mulai}
                 </Text>
                 <Text>
-                  <Text>Jam Mulai:</Text> 08:00 AM
-                </Text>
-                <Text>
-                  <Text>Jam Selesai:</Text> 17:00 PM
+                  <Text>Jam Selesai:</Text> {item.waktu_selesai}
                 </Text>
               </View>
             </View>
@@ -121,11 +119,14 @@ function JadwalKeur({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -134,7 +135,9 @@ function JadwalKeur({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Jadwal KEUR</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Jadwal KEUR
+            </Text>
           </View>
         </View>
         <View

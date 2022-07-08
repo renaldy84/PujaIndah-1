@@ -183,10 +183,14 @@ function UlasanPariwisata({navigation, route}) {
           style={{
             flexDirection: 'row',
             marginBottom: hp('2%'),
-            marginTop: hp('5%'),
+            backgroundColor: '#274799',
+            height: hp('10%'),
+            alignItems: 'center',
+            // marginTop: hp('5%'),
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -195,7 +199,9 @@ function UlasanPariwisata({navigation, route}) {
             />
           </View>
           <View style={styles.boxLogin}>
-            <Text style={styles.textLogin}>Tulis ulasan anda</Text>
+            <Text style={[styles.textLogin, {color: 'white'}]}>
+              Tulis ulasan anda
+            </Text>
           </View>
         </View>
 
@@ -287,7 +293,7 @@ const styles = {
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 20,
     justifyContent: 'center',
     shadowColor: '#000',

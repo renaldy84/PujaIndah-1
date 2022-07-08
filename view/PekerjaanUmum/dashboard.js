@@ -35,7 +35,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
         <View
           style={{
             flex: 1,
-            backgroundColor: '#2F80ED',
+            backgroundColor: '#274799',
           }}>
           <View style={styles.header}>
             <View style={styles.arrow}>
@@ -80,7 +80,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Lokasi Titik Rawan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -98,7 +98,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Data Infrastruktur</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -116,7 +116,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Sewa Alat Berat</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -134,7 +134,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Riwayat Sewa Alat</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -152,7 +152,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Buat Pengaduan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -170,7 +170,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Riwayat Pengaduan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -188,7 +188,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Manajemen Proyek</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
             </View>

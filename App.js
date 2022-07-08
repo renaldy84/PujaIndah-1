@@ -50,6 +50,19 @@ import DataLKS from './view/sosial/dataLks';
 import DataPMKS from './view/sosial/dataPmks';
 import DataBansos from './view/sosial/dataBansos';
 import AksiSosial from './view/sosial/aksiSosial';
+import RiwayatPelayananKeur from './view/Perhubungan/riwayatPelayananKeur';
+import DashboardKetenagakerjaan from './view/Ketenagakerjaan/dashboardKetenagakerjaan';
+import DashboardPendidikan from './view/Pendidikan/dashboardPendidikan';
+import DashboardKesehatan from './view/Kesehatan/dashboardKesehatan';
+import BalaiLatihanKerja from './view/Ketenagakerjaan/balaiLatihan';
+import DetailBalaiLatihan from './view/Ketenagakerjaan/detailBalaiLatihan';
+import DaftarJadiAnggota from './view/Ketenagakerjaan/daftarJadiAnggota';
+import DaftarKegiatan from './view/Ketenagakerjaan/daftarKegitan';
+import TenagaAhli from './view/Ketenagakerjaan/tenagaAhli';
+import LowonganKerja from './view/Ketenagakerjaan/lowonganKerja';
+import KreditUsaha from './view/Ketenagakerjaan/kreditUsaha';
+import DetailLowonganKerja from './view/Ketenagakerjaan/detailLowonganKerja';
+import FormLamaran from './view/Ketenagakerjaan/formLamaran';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -254,6 +267,13 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="RiwayatPelayananKeur"
+          component={RiwayatPelayananKeur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DashboardSosial"
           component={DashboardSosial}
         />
@@ -285,6 +305,90 @@ function SettingNav() {
           name="AksiSosial"
           component={AksiSosial}
         />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardKetenagakerjaan"
+          component={DashboardKetenagakerjaan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BalaiLatihanKerja"
+          component={BalaiLatihanKerja}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailBalaiLatihan"
+          component={DetailBalaiLatihan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarJadiAnggota"
+          component={DaftarJadiAnggota}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarKegiatan"
+          component={DaftarKegiatan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="TenagaAhli"
+          component={TenagaAhli}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="LowonganKerja"
+          component={LowonganKerja}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailLowonganKerja"
+          component={DetailLowonganKerja}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormLamaran"
+          component={FormLamaran}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="KreditUsaha"
+          component={KreditUsaha}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardKesehatan"
+          component={DashboardKesehatan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardPendidikan"
+          component={DashboardPendidikan}
+        />
       </Stack.Navigator>
     </>
   );
@@ -294,13 +398,13 @@ function SettingNavAwal() {
   return (
     <>
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           options={{
             headerShown: false,
           }}
           name="MenuAwal"
           component={MenuAwal}
-        />
+        /> */}
 
         <Stack.Screen
           options={{

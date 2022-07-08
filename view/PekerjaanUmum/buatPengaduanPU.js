@@ -387,12 +387,15 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
             marginBottom: hp('2%'),
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -401,7 +404,9 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
             />
           </View>
           <View style={styles.boxLogin}>
-            <Text style={styles.textLogin}>Buat Pengaduan</Text>
+            <Text style={[styles.textLogin, {color: 'white'}]}>
+              Buat Pengaduan
+            </Text>
           </View>
         </View>
 
@@ -606,7 +611,7 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
               onPress={ambilDariCameraKTP}
               style={{alignItems: 'center'}}>
               <View>
-                <FontAwesomeIcon color="#2F80ED" size={35} icon={faCamera} />
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
               </View>
               <View>
                 <Text>Kamera</Text>
@@ -624,7 +629,7 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
               style={{alignItems: 'center'}}>
               <View>
                 <FontAwesomeIcon
-                  color="#2F80ED"
+                  color="#274799"
                   size={35}
                   icon={faFolderOpen}
                 />
@@ -727,7 +732,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#246EE9',
+    backgroundColor: '#274799',
     marginTop: 20,
     justifyContent: 'center',
     shadowColor: '#000',

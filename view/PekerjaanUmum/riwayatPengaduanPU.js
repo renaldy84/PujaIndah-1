@@ -97,10 +97,14 @@ function RiwayatPengaduanPekerjaanUmum({navigation}) {
           style={{
             flexDirection: 'row',
             marginBottom: hp('2%'),
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
+            alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -109,7 +113,9 @@ function RiwayatPengaduanPekerjaanUmum({navigation}) {
             />
           </View>
           <View style={styles.boxLogin}>
-            <Text style={styles.textLogin}>Riwayat Pengaduan</Text>
+            <Text style={[styles.textLogin, {color: 'white'}]}>
+              Riwayat Pengaduan
+            </Text>
           </View>
         </View>
         <View style={{marginHorizontal: 20, flex: 1}}>

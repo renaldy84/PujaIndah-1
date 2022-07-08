@@ -35,7 +35,7 @@ const DashboardPerhubungan = ({navigation}) => {
         <View
           style={{
             flex: 1,
-            backgroundColor: '#2F80ED',
+            backgroundColor: '#274799',
           }}>
           <View style={styles.header}>
             <View style={styles.arrow}>
@@ -140,7 +140,7 @@ const DashboardPerhubungan = ({navigation}) => {
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  // navigation.navigate('BuatPengaduanPekerjaanUmum');
+                  navigation.navigate('RiwayatPelayananKeur');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image

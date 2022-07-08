@@ -73,12 +73,15 @@ function PerpanjangKeur({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
             marginBottom: hp('2%'),
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -87,7 +90,9 @@ function PerpanjangKeur({navigation}) {
             />
           </View>
           <View style={styles.boxLogin}>
-            <Text style={styles.textLogin}>Perpanjang KEUR</Text>
+            <Text style={[styles.textLogin, {color: 'white'}]}>
+              Perpanjang KEUR
+            </Text>
           </View>
         </View>
 
@@ -255,7 +260,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 20,
     justifyContent: 'center',
     shadowColor: '#000',

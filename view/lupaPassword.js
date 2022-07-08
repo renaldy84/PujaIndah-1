@@ -199,7 +199,7 @@ const styles = {
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#246EE9',
+    backgroundColor: '#274799',
     marginTop: 20,
     justifyContent: 'center',
     shadowColor: '#000',

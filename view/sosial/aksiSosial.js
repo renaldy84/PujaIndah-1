@@ -145,11 +145,14 @@ function AksiSosial({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -158,7 +161,9 @@ function AksiSosial({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Aksi Sosial</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Aksi Sosial
+            </Text>
           </View>
         </View>
         <View

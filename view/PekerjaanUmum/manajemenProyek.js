@@ -138,11 +138,14 @@ function ManajemenProyek({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            backgroundColor: '#274799',
+            height: hp('10%'),
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -151,7 +154,9 @@ function ManajemenProyek({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Manajemen Proyek</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Manajemen Proyek
+            </Text>
           </View>
         </View>
         <View

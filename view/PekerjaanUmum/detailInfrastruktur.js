@@ -55,11 +55,14 @@ function DetailInfrastruktur({navigation, route}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            backgroundColor: '#274799',
+            height: hp('10%'),
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -68,7 +71,9 @@ function DetailInfrastruktur({navigation, route}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Detail Infrastruktur</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Detail Infrastruktur
+            </Text>
           </View>
         </View>
 
@@ -160,7 +165,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     margin: 15,
-    marginTop: hp('8%'),
+    marginTop: hp('5%'),
     marginBottom: hp('3%'),
     // borderWidth: 1,
     width: wp('90%'),

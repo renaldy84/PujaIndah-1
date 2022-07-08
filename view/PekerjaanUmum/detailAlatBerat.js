@@ -55,11 +55,14 @@ function DetailAlatBerat({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -68,7 +71,9 @@ function DetailAlatBerat({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Detail Alat Berat</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Detail Alat Berat
+            </Text>
           </View>
         </View>
 
@@ -160,7 +165,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     margin: 15,
-    marginTop: hp('8%'),
+    marginTop: hp('5%'),
     marginBottom: hp('3%'),
     // borderWidth: 1,
     width: wp('90%'),
@@ -180,7 +185,7 @@ const styles = StyleSheet.create({
     marginTop: hp('2%'),
   },
   buttonBooking: {
-    backgroundColor: '#2E81ED',
+    backgroundColor: '#274799',
     height: hp('8%'),
     width: wp('100%'),
     marginLeft: 0,

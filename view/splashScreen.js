@@ -13,12 +13,12 @@ export default function SplashScreen() {
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Image
             style={styles.logo}
-            source={require('../assets/image/logoPuja.png')}
+            source={require('../assets/image/logoPujaindah.png')}
           />
         </View>
 
         {/* <ActivityIndicator size="large" /> */}
-        <View style={styles.lingkaran}></View>
+        {/* <View style={styles.lingkaran}></View> */}
       </View>
     </>
   );
@@ -27,7 +27,7 @@ export default function SplashScreen() {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#2E81ED',
+    backgroundColor: '#274799',
   },
   logo: {
     width: hp('20%'),

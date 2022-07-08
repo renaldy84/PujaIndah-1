@@ -35,7 +35,7 @@ const MenuTrantibum = ({navigation}) => {
         <View
           style={{
             flex: 1,
-            backgroundColor: '#2F80ED',
+            backgroundColor: '#274799',
           }}>
           <View style={styles.header}>
             <View style={styles.arrow}>
@@ -80,7 +80,7 @@ const MenuTrantibum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Peringatan Dini</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -98,7 +98,7 @@ const MenuTrantibum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Buat Pengaduan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -116,7 +116,7 @@ const MenuTrantibum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Riwayat Pengaduan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
             </View>
