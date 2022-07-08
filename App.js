@@ -57,6 +57,7 @@ import RiwayatAspirasiPemerintah from './view/Aspirasi/daftarAspirasiPemerintah'
 import DataPejabatPemerintah from './view/Aspirasi/dataPejabatPemerintah';
 import BuatAspirasi from './view/Aspirasi/buatAspirasi';
 import AgendaDprd from './view/Aspirasi/agendaDprd';
+import DaftarJdih from './view/Aspirasi/daftarJdih';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -340,6 +341,13 @@ function SettingNav() {
           }}
           name="AgendaDprd"
           component={AgendaDprd}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarJdih"
+          component={DaftarJdih}
         />
       </Stack.Navigator>
     </>

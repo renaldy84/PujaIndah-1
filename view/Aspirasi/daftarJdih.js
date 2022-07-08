@@ -28,7 +28,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function AgendaDprd({navigation}) {
+function DaftarJdih({navigation}) {
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -58,7 +58,7 @@ function AgendaDprd({navigation}) {
           <View>
            
                 <View style={{height:hp("5%"),justifyContent:'center',paddingHorizontal:10,backgroundColor:'#EBC351'}}>
-                  <Text style={{fontWeight:"bold"}}>DPRD Kota Bandung</Text>
+                  <Text style={{fontWeight:"bold"}}>Kota Bandung</Text>
                 </View>
               <View style={{ marginTop: hp("1%"),paddingHorizontal:10}}>
                 <View style={{ flex: 1}}>
@@ -73,10 +73,10 @@ function AgendaDprd({navigation}) {
                     </Text>
                   </View>
 
-                  <View style={{ marginTop: 5}}>
+                  <View style={{ marginTop: 5, marginBottom:10}}>
                     <View style={{flex: 1}}>
-                      <Text>
-                      Kunjungan Kerja Dalam Rangka Mendapatkan Masukan & Informasi Terkait Persiapan Analog Swict Off (ASO) Tahap Satu Wilayah Jawa Barat
+                      <Text style={{color:'#274799'}}>
+                      https://jdih.dprd.bandungkab.go.id/	
                       </Text>
                     </View>
 
@@ -84,73 +84,6 @@ function AgendaDprd({navigation}) {
                 </View>
               </View>
 
-              <View
-                style={{
-                  justifyContent: 'center',
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 10,
-                  paddingHorizontal:10
-                }}>
-              
-                <View style={styles.boxIconRight}>
-                  <Image
-                    style={{width: 24, height: 24}}
-                    source={require('../../assets/image/iconAspirasi/agendaDprd.png')}
-                  />
-                </View>
-          
-                  <View
-                    style={{
-                    flex:1,
-                    marginLeft:10
-                    }}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: 12,
-                        color: '#274799'
-                      }}>
-                      Senin, 11 April 2022 / Pukul 09.00 WIB
-                    </Text>
-                  </View>
-              </View>
-
-              <View
-                style={{
-                  justifyContent: 'center',
-                  flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 5,
-                  paddingHorizontal:10
-                  ,marginBottom:10
-                }}>
-              
-                <View style={styles.boxIconRight}>
-                  <Image
-                    style={{width: 24, height: 24}}
-                    source={require('../../assets/image/iconAspirasi/agendaDprdLokasi.png')}
-                  />
-                </View>
-          
-                  <View
-                    style={{
-                    flex:1,
-                    marginLeft:10
-                    }}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: 12,
-                        color: '#274799'
-                      }}>
-                      Dinas Komunikasi & Informatika Kota Cirebon
-                    </Text>
-                  </View>
-              </View>
-              
 
               {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
@@ -196,7 +129,7 @@ function AgendaDprd({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Data Anggota DPRD </Text>
+            <Text style={styles.textJudul}>Daftar JDIH </Text>
           </View>
         </View>
         <View
@@ -373,4 +306,4 @@ const styles = StyleSheet.create({
   },
   
 });
-export default AgendaDprd;
+export default DaftarJdih;

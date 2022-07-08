@@ -175,7 +175,7 @@ const DashboardAspirasi = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DataPMKS');
+                  navigation.navigate('DaftarJdih');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
