@@ -67,11 +67,14 @@ function DetailManajemenProyek({navigation, route}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -80,7 +83,9 @@ function DetailManajemenProyek({navigation, route}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Detail Manajemen Proyek</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Detail Manajemen Proyek
+            </Text>
           </View>
         </View>
 
@@ -191,7 +196,7 @@ function DetailManajemenProyek({navigation, route}) {
               <FontAwesomeIcon size={45} icon={faFilePdf} />
             </View>
             <View style={{marginTop: 10}}>
-              <Text style={{color: '#0094FF'}}>Unduh Laporan Pekerjaan</Text>
+              <Text style={{color: '#274799'}}>Unduh Laporan Pekerjaan</Text>
             </View>
           </TouchableOpacity>
         </ScrollView>
@@ -218,7 +223,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     margin: 15,
-    marginTop: hp('8%'),
+    marginTop: hp('5%'),
     marginBottom: hp('3%'),
     // borderWidth: 1,
     width: wp('90%'),

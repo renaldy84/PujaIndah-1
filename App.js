@@ -58,6 +58,19 @@ import DataPejabatPemerintah from './view/Aspirasi/dataPejabatPemerintah';
 import BuatAspirasi from './view/Aspirasi/buatAspirasi';
 import AgendaDprd from './view/Aspirasi/agendaDprd';
 import DaftarJdih from './view/Aspirasi/daftarJdih';
+import RiwayatPelayananKeur from './view/Perhubungan/riwayatPelayananKeur';
+import DashboardKetenagakerjaan from './view/Ketenagakerjaan/dashboardKetenagakerjaan';
+import DashboardPendidikan from './view/Pendidikan/dashboardPendidikan';
+import DashboardKesehatan from './view/Kesehatan/dashboardKesehatan';
+import BalaiLatihanKerja from './view/Ketenagakerjaan/balaiLatihan';
+import DetailBalaiLatihan from './view/Ketenagakerjaan/detailBalaiLatihan';
+import DaftarJadiAnggota from './view/Ketenagakerjaan/daftarJadiAnggota';
+import DaftarKegiatan from './view/Ketenagakerjaan/daftarKegitan';
+import TenagaAhli from './view/Ketenagakerjaan/tenagaAhli';
+import LowonganKerja from './view/Ketenagakerjaan/lowonganKerja';
+import KreditUsaha from './view/Ketenagakerjaan/kreditUsaha';
+import DetailLowonganKerja from './view/Ketenagakerjaan/detailLowonganKerja';
+import FormLamaran from './view/Ketenagakerjaan/formLamaran';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -262,6 +275,13 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="RiwayatPelayananKeur"
+          component={RiwayatPelayananKeur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DashboardSosial"
           component={DashboardSosial}
         />
@@ -297,8 +317,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DashboardKetenagakerjaan"
+          component={DashboardKetenagakerjaan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DashboardAspirasi"
           component={DashboardAspirasi}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BalaiLatihanKerja"
+          component={BalaiLatihanKerja}
         />
         <Stack.Screen
           options={{
@@ -311,8 +345,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DetailBalaiLatihan"
+          component={DetailBalaiLatihan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="RiwayatAspirasiPemerintah"
           component={RiwayatAspirasiPemerintah}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarJadiAnggota"
+          component={DaftarJadiAnggota}
         />
         <Stack.Screen
           options={{
@@ -325,8 +373,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DaftarKegiatan"
+          component={DaftarKegiatan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DataPejabatPemerintah"
           component={DataPejabatPemerintah}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="TenagaAhli"
+          component={TenagaAhli}
         />
         <Stack.Screen
           options={{
@@ -339,6 +401,13 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="LowonganKerja"
+          component={LowonganKerja}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="AgendaDprd"
           component={AgendaDprd}
         />
@@ -346,8 +415,43 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DetailLowonganKerja"
+          component={DetailLowonganKerja}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DaftarJdih"
           component={DaftarJdih}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormLamaran"
+          component={FormLamaran}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="KreditUsaha"
+          component={KreditUsaha}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardKesehatan"
+          component={DashboardKesehatan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardPendidikan"
+          component={DashboardPendidikan}
         />
       </Stack.Navigator>
     </>
@@ -358,13 +462,13 @@ function SettingNavAwal() {
   return (
     <>
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           options={{
             headerShown: false,
           }}
           name="MenuAwal"
           component={MenuAwal}
-        />
+        /> */}
 
         <Stack.Screen
           options={{

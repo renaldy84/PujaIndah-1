@@ -171,7 +171,7 @@ function PeringatanDini({navigation}) {
               <Text
                 style={{
                   fontWeight: 'bold',
-                  color: '#0094FF',
+                  color: '#274799',
                   fontSize: 18,
                 }}>
                 {item.nama_peringatan}
@@ -232,11 +232,14 @@ function PeringatanDini({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
             alignItems: 'center',
+            backgroundColor: '#274799',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -352,7 +355,7 @@ function PeringatanDini({navigation}) {
                   flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
                   reset status
                 </Text>
               </TouchableOpacity>
@@ -379,13 +382,13 @@ function PeringatanDini({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaStatus === item.jenisStatus ? 'blue' : 'black',
+                        namaStatus === item.jenisStatus ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
                         color:
-                          namaStatus === item.jenisStatus ? 'blue' : 'black',
+                          namaStatus === item.jenisStatus ? '#274799' : 'black',
                       }}>
                       {item.jenisStatus}
                     </Text>
@@ -411,7 +414,7 @@ function PeringatanDini({navigation}) {
                   flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
                   lihat semua
                 </Text>
               </TouchableOpacity>
@@ -439,13 +442,15 @@ function PeringatanDini({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaBencana === item.jenisBencana ? 'blue' : 'black',
+                        namaBencana === item.jenisBencana ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
                         color:
-                          namaBencana === item.jenisBencana ? 'blue' : 'black',
+                          namaBencana === item.jenisBencana
+                            ? '#274799'
+                            : 'black',
                       }}>
                       {item.jenisBencana}
                     </Text>
@@ -470,7 +475,7 @@ function PeringatanDini({navigation}) {
                   flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
                   lihat semua
                 </Text>
               </TouchableOpacity>
@@ -499,12 +504,12 @@ function PeringatanDini({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaProvinsi === item.nama ? 'blue' : 'black',
+                        namaProvinsi === item.nama ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
-                        color: namaProvinsi === item.nama ? 'blue' : 'black',
+                        color: namaProvinsi === item.nama ? '#274799' : 'black',
                       }}>
                       {item.nama}
                     </Text>
@@ -613,7 +618,7 @@ function PeringatanDini({navigation}) {
                     height: 40,
                   }}>
                   <RadioButton
-                    color="#246EE9"
+                    color="#274799"
                     value="first"
                     status={
                       checkedBencana === item.id ? 'checked' : 'unchecked'
@@ -716,7 +721,7 @@ function PeringatanDini({navigation}) {
                     height: 40,
                   }}>
                   <RadioButton
-                    color="#246EE9"
+                    color="#274799"
                     value="first"
                     status={checkedLokasi === item.id ? 'checked' : 'unchecked'}
                     onPress={() => {
@@ -772,6 +777,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'white',
   },
   container: {
     // marginTop: 5,
@@ -811,7 +817,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: 40,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 15,
     marginLeft: 5,
     justifyContent: 'center',
@@ -833,7 +839,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderWidth: 1,
-    borderColor: '#246EE9',
+    borderColor: '#274799',
     marginTop: 15,
     justifyContent: 'center',
   },
@@ -849,7 +855,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '50%',
     height: 40,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 15,
     marginLeft: 5,
     justifyContent: 'center',

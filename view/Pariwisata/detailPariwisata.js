@@ -103,12 +103,16 @@ function DetailPariwisata({navigation, route}) {
           style={{
             flexDirection: 'row',
             marginBottom: hp('2%'),
-            marginHorizontal: 20,
-            marginTop: hp('5%'),
+            // marginHorizontal: 20,
+            height: hp('10%'),
+            alignItems: 'center',
+            backgroundColor: '#274799',
+            // marginTop: hp('5%'),
             // borderWidth: 1,
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -117,7 +121,9 @@ function DetailPariwisata({navigation, route}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>{detail.name}</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              {detail.name}
+            </Text>
           </View>
         </View>
 
@@ -216,7 +222,7 @@ function DetailPariwisata({navigation, route}) {
                           : `${Math.ceil(
                               (rating.bintangLima / rating.total_ulasan) * 100,
                             )}%`,
-                      borderColor: '#2F80ED',
+                      borderColor: '#274799',
                       borderRadius: 4,
                       marginHorizontal: 2,
                     }}
@@ -257,7 +263,7 @@ function DetailPariwisata({navigation, route}) {
                           : `${Math.ceil(
                               (rating.bintangEmpat / rating.total_ulasan) * 100,
                             )}%`,
-                      borderColor: '#2F80ED',
+                      borderColor: '#274799',
                       borderRadius: 4,
                       marginHorizontal: 2,
                     }}
@@ -298,7 +304,7 @@ function DetailPariwisata({navigation, route}) {
                           : `${Math.ceil(
                               (rating.bintangTiga / rating.total_ulasan) * 100,
                             )}%`,
-                      borderColor: '#2F80ED',
+                      borderColor: '#274799',
                       borderRadius: 4,
                       marginHorizontal: 2,
                     }}
@@ -339,7 +345,7 @@ function DetailPariwisata({navigation, route}) {
                           : `${Math.ceil(
                               (rating.bintangDua / rating.total_ulasan) * 100,
                             )}%`,
-                      borderColor: '#2F80ED',
+                      borderColor: '#274799',
                       borderRadius: 4,
                       marginHorizontal: 2,
                     }}
@@ -375,7 +381,7 @@ function DetailPariwisata({navigation, route}) {
                           : `${Math.ceil(
                               (rating.bintangSatu / rating.total_ulasan) * 100,
                             )}%`,
-                      borderColor: '#2F80ED',
+                      borderColor: '#274799',
                       borderRadius: 4,
                       marginHorizontal: 2,
                     }}
@@ -472,6 +478,7 @@ function DetailPariwisata({navigation, route}) {
 
 const styles = StyleSheet.create({
   arrow: {
+    marginLeft: 30,
     justifyContent: 'center',
     // borderWidth: 1,
 
@@ -502,7 +509,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: hp('2%'),
     justifyContent: 'center',
   },

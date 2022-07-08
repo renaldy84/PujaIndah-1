@@ -12,7 +12,7 @@ import {Provider} from 'react-redux';
 const Root = () => {
   return (
     <Provider store={store}>
-      <StatusBar animated={true} backgroundColor="#2F80ED" />
+      <StatusBar animated={true} backgroundColor="#274799" />
       <App />
     </Provider>
   );

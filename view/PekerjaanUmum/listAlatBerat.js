@@ -105,7 +105,7 @@ function ListAlatBerat({navigation}) {
                 onPress={() => {
                   navigation.navigate('DetailAlatBerat');
                 }}>
-                <Text style={{color: '#50B6FF'}}>Lihat detail alat</Text>
+                <Text style={{color: '#274799'}}>Lihat detail alat</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -146,11 +146,14 @@ function ListAlatBerat({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -159,7 +162,9 @@ function ListAlatBerat({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Sewa Alat Berat</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Sewa Alat Berat
+            </Text>
           </View>
         </View>
         <View
@@ -327,7 +332,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonBooking: {
-    backgroundColor: '#2E81ED',
+    backgroundColor: '#274799',
     borderRadius: 5,
     marginLeft: 10,
     height: hp('5%'),

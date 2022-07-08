@@ -451,12 +451,15 @@ function BuatPengaduan({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
             marginBottom: hp('2%'),
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -465,7 +468,9 @@ function BuatPengaduan({navigation}) {
             />
           </View>
           <View style={styles.boxLogin}>
-            <Text style={styles.textLogin}>Buat Pengaduan</Text>
+            <Text style={[styles.textLogin, {color: 'white'}]}>
+              Buat Pengaduan
+            </Text>
           </View>
         </View>
 
@@ -731,7 +736,7 @@ function BuatPengaduan({navigation}) {
               onPress={ambilDariCamera}
               style={{alignItems: 'center'}}>
               <View>
-                <FontAwesomeIcon color="#2F80ED" size={35} icon={faCamera} />
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
               </View>
               <View>
                 <Text>Kamera</Text>
@@ -749,7 +754,7 @@ function BuatPengaduan({navigation}) {
               style={{alignItems: 'center'}}>
               <View>
                 <FontAwesomeIcon
-                  color="#2F80ED"
+                  color="#274799"
                   size={35}
                   icon={faFolderOpen}
                 />
@@ -787,7 +792,7 @@ function BuatPengaduan({navigation}) {
               onPress={ambilDariCameraKTP}
               style={{alignItems: 'center'}}>
               <View>
-                <FontAwesomeIcon color="#2F80ED" size={35} icon={faCamera} />
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
               </View>
               <View>
                 <Text>Kamera</Text>
@@ -805,7 +810,7 @@ function BuatPengaduan({navigation}) {
               style={{alignItems: 'center'}}>
               <View>
                 <FontAwesomeIcon
-                  color="#2F80ED"
+                  color="#274799"
                   size={35}
                   icon={faFolderOpen}
                 />
@@ -908,7 +913,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 20,
     justifyContent: 'center',
     shadowColor: '#000',

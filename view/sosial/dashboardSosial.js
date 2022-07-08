@@ -35,9 +35,8 @@ const DashboardSosial = ({navigation}) => {
         <View
           style={{
             flex: 1,
-            backgroundColor: '#2F80ED',
+            backgroundColor: '#274799',
           }}>
-
           <View style={styles.header}>
             <View style={styles.arrow}>
               <FontAwesomeIcon
@@ -51,18 +50,21 @@ const DashboardSosial = ({navigation}) => {
             </View>
 
             <View style={styles.boxJudul}>
-              <Text style={{color: 'white', fontSize: 18, fontWeight:'bold'}}>
+              <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>
                 Sosial
               </Text>
             </View>
-
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-            Layanan Sosial adalah layanan masyarakat Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator. giving information on its origins, as well as a random Lipsum generator. giving information on its origins, as well as a random Lipsum generator.
+              Layanan Sosial adalah layanan masyarakat Reference site about
+              Lorem Ipsum, giving information on its origins, as well as a
+              random Lipsum generator. giving information on its origins, as
+              well as a random Lipsum generator. giving information on its
+              origins, as well as a random Lipsum generator.
             </Text>
           </View>
-          
+
           <ScrollView style={styles.footer}>
             <View style={{margin: 20}}>
               <TouchableOpacity
@@ -80,7 +82,7 @@ const DashboardSosial = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Data LKS</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -98,7 +100,7 @@ const DashboardSosial = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Bansosmas </Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -116,7 +118,7 @@ const DashboardSosial = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Aksi Sosial</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -134,7 +136,7 @@ const DashboardSosial = ({navigation}) => {
                   <Text style={{fontSize: 16}}>PMKS</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="caret-right" size={35} color="#274799" />
                 </View>
               </TouchableOpacity>
             </View>

@@ -53,6 +53,7 @@ function login({navigation}) {
     Axios({
       url: url + '/api/auth/login',
       method: 'post',
+      timeout: 1000 * 5,
       data: {
         email: email,
         password: password,
@@ -141,13 +142,13 @@ function login({navigation}) {
           backgroundColor: 'white',
         }}>
         <View style={styles.arrow}>
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             size={30}
             icon={faArrowLeft}
             onPress={() => {
               navigation.navigate('MenuAwal');
             }}
-          />
+          /> */}
         </View>
         <View style={styles.boxLogin}>
           <Text style={styles.textLogin}>Log in</Text>
@@ -266,7 +267,7 @@ const styles = {
     borderRadius: 10,
     width: '100%',
     height: 55,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 20,
     justifyContent: 'center',
     shadowColor: '#000',
@@ -347,7 +348,7 @@ const styles = {
   },
   textChildLogin1: {
     marginLeft: 10,
-    color: '#2F80ED',
+    color: '#274799',
     fontSize: 16,
   },
   lupa: {

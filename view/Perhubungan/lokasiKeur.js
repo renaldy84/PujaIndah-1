@@ -37,7 +37,7 @@ function LokasiKeur({navigation}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
+      url: url + `/api/perhubungan/lokasi-keur/getall?order=nama_tempat+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -74,14 +74,11 @@ function LokasiKeur({navigation}) {
                     fontSize: 16,
                     marginTop: 15,
                   }}>
-                  PKB Pulau Gadung
+                  {item.nama_tempat}
                 </Text>
               </View>
               <View style={{marginTop: 10, marginBottom: 15}}>
-                <Text>
-                  Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
-                  City, Jakarta 13260
-                </Text>
+                <Text>{item.lokasi}</Text>
               </View>
             </View>
           </View>
@@ -115,11 +112,14 @@ function LokasiKeur({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -128,7 +128,9 @@ function LokasiKeur({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Lokasi KEUR</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Lokasi KEUR
+            </Text>
           </View>
         </View>
         <View

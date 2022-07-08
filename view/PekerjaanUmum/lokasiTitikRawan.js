@@ -152,11 +152,14 @@ function LokasiTitikRawan({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            backgroundColor: '#274799',
+            height: hp('10%'),
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -165,7 +168,9 @@ function LokasiTitikRawan({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Lokasi Titik Rawan</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Lokasi Titik Rawan
+            </Text>
           </View>
         </View>
         <View

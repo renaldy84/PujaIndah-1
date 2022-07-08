@@ -199,11 +199,14 @@ function DataAnggotaDprd({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            height: hp('10%'),
             alignItems: 'center',
+            backgroundColor: '#274799'
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color='white'
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -299,6 +302,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
+    color:'white'
   },
   container: {
     // marginTop: 5,

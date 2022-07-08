@@ -252,11 +252,14 @@ function DataInfrastruktur({navigation}) {
         <View
           style={{
             flexDirection: 'row',
-            marginTop: hp('5%'),
+            // marginTop: hp('5%'),
+            backgroundColor: '#274799',
+            height: hp('10%'),
             alignItems: 'center',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -265,7 +268,9 @@ function DataInfrastruktur({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Data Infrastruktur</Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>
+              Data Infrastruktur
+            </Text>
           </View>
         </View>
         <View
@@ -372,7 +377,7 @@ function DataInfrastruktur({navigation}) {
                   flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
                   reset kondisi
                 </Text>
               </TouchableOpacity>
@@ -399,13 +404,13 @@ function DataInfrastruktur({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaStatus === item.jenisStatus ? 'blue' : 'black',
+                        namaStatus === item.jenisStatus ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
                         color:
-                          namaStatus === item.jenisStatus ? 'blue' : 'black',
+                          namaStatus === item.jenisStatus ? '#274799' : 'black',
                       }}>
                       {item.jenisStatus}
                     </Text>
@@ -431,7 +436,7 @@ function DataInfrastruktur({navigation}) {
                   flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
                   lihat semua
                 </Text>
               </TouchableOpacity>
@@ -460,13 +465,13 @@ function DataInfrastruktur({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaInfrastruktur === item.nama ? 'blue' : 'black',
+                        namaInfrastruktur === item.nama ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
                         color:
-                          namaInfrastruktur === item.nama ? 'blue' : 'black',
+                          namaInfrastruktur === item.nama ? '#274799' : 'black',
                       }}>
                       {item.nama}
                     </Text>
@@ -491,7 +496,7 @@ function DataInfrastruktur({navigation}) {
                   flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text style={{fontSize: 12, color: '#0094FF'}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
                   lihat semua
                 </Text>
               </TouchableOpacity>
@@ -520,12 +525,12 @@ function DataInfrastruktur({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaProvinsi === item.nama ? 'blue' : 'black',
+                        namaProvinsi === item.nama ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
-                        color: namaProvinsi === item.nama ? 'blue' : 'black',
+                        color: namaProvinsi === item.nama ? '#274799' : 'black',
                       }}>
                       {item.nama}
                     </Text>
@@ -624,7 +629,7 @@ function DataInfrastruktur({navigation}) {
                     height: 40,
                   }}>
                   <RadioButton
-                    color="#246EE9"
+                    color="#274799"
                     value="first"
                     status={
                       checkedInfrastruktur === item.id ? 'checked' : 'unchecked'
@@ -727,7 +732,7 @@ function DataInfrastruktur({navigation}) {
                     height: 40,
                   }}>
                   <RadioButton
-                    color="#246EE9"
+                    color="#274799"
                     value="first"
                     status={checkedLokasi === item.id ? 'checked' : 'unchecked'}
                     onPress={() => {
@@ -823,7 +828,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '100%',
     height: 40,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 15,
     marginLeft: 5,
     justifyContent: 'center',
@@ -845,7 +850,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderWidth: 1,
-    borderColor: '#246EE9',
+    borderColor: '#274799',
     marginTop: 15,
     justifyContent: 'center',
   },
@@ -861,7 +866,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '50%',
     height: 40,
-    backgroundColor: '#2F80ED',
+    backgroundColor: '#274799',
     marginTop: 15,
     marginLeft: 5,
     justifyContent: 'center',
