@@ -322,7 +322,7 @@ function home({navigation}) {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate('History Absensi');
+                    navigation.navigate('DashboardKependudukan');
                   }}
                   style={[styles.iconMenuContainer]}>
                   <Image
@@ -382,6 +382,7 @@ function home({navigation}) {
                 <Text style={styles.iconMenuText}>Pendidikan{'\n'}</Text>
               </View>
             </View>
+            
           </View>
         </View>
       </ScrollView>

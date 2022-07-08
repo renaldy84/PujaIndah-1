@@ -71,6 +71,7 @@ import LowonganKerja from './view/Ketenagakerjaan/lowonganKerja';
 import KreditUsaha from './view/Ketenagakerjaan/kreditUsaha';
 import DetailLowonganKerja from './view/Ketenagakerjaan/detailLowonganKerja';
 import FormLamaran from './view/Ketenagakerjaan/formLamaran';
+import DashboardKependudukan from './view/Kependudukan/dashboardKependudukan';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -452,6 +453,13 @@ function SettingNav() {
           }}
           name="DashboardPendidikan"
           component={DashboardPendidikan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardKependudukan"
+          component={DashboardKependudukan}
         />
       </Stack.Navigator>
     </>
