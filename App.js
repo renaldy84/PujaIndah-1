@@ -73,6 +73,7 @@ import DetailLowonganKerja from './view/Ketenagakerjaan/detailLowonganKerja';
 import FormLamaran from './view/Ketenagakerjaan/formLamaran';
 import DashboardKependudukan from './view/Kependudukan/dashboardKependudukan';
 import AktaKematian from './view/Kependudukan/aktaKematian';
+import FormAktaKematian from './view/Kependudukan/formAktaKematian';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -468,6 +469,13 @@ function SettingNav() {
           }}
           name="AktaKematian"
           component={AktaKematian}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormAktaKematian"
+          component={FormAktaKematian}
         />
       </Stack.Navigator>
     </>
