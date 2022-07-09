@@ -65,7 +65,7 @@ const DashboardKependudukan = ({navigation}) => {
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DataLKS');
+                  navigation.navigate('AktaKematian');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
