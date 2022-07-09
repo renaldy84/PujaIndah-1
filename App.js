@@ -70,6 +70,8 @@ import BerhasilDaftarLayanan from './view/Kesehatan/BerhasilDaftarLayanan';
 import RiwayatPasien from './view/Kesehatan/riwayatPasien';
 import DaftarDokter from './view/Kesehatan/daftarDokter';
 import GawatDarurat from './view/Kesehatan/gawatDarurat';
+import Rapor from './view/Pendidikan/rapor';
+import InformasiSiswa from './view/Pendidikan/informasiSiswa';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -444,6 +446,20 @@ function SettingNav() {
           }}
           name="DashboardPendidikan"
           component={DashboardPendidikan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Rapor"
+          component={Rapor}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="InformasiSiswa"
+          component={InformasiSiswa}
         />
       </Stack.Navigator>
     </>

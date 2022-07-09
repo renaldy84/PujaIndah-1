@@ -65,7 +65,7 @@ const DashboardPendidikan = ({navigation}) => {
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {
-                  // navigation.navigate('PeringatanDini');
+                  navigation.navigate('Rapor');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
