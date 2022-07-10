@@ -50,6 +50,14 @@ import DataLKS from './view/sosial/dataLks';
 import DataPMKS from './view/sosial/dataPmks';
 import DataBansos from './view/sosial/dataBansos';
 import AksiSosial from './view/sosial/aksiSosial';
+import DashboardAspirasi from './view/Aspirasi/dashboardAspirasi';
+import RiwayatAspirasi from './view/Aspirasi/daftarAspirasiDprd';
+import DataAnggotaDprd from './view/Aspirasi/dataAnggotaDprd';
+import RiwayatAspirasiPemerintah from './view/Aspirasi/daftarAspirasiPemerintah';
+import DataPejabatPemerintah from './view/Aspirasi/dataPejabatPemerintah';
+import BuatAspirasi from './view/Aspirasi/buatAspirasi';
+import AgendaDprd from './view/Aspirasi/agendaDprd';
+import DaftarJdih from './view/Aspirasi/daftarJdih';
 import RiwayatPelayananKeur from './view/Perhubungan/riwayatPelayananKeur';
 import DashboardKetenagakerjaan from './view/Ketenagakerjaan/dashboardKetenagakerjaan';
 import DashboardPendidikan from './view/Pendidikan/dashboardPendidikan';
@@ -81,6 +89,15 @@ import DashboardPerizinan from './view/Perizinan/dashboardPerizinan';
 import DaftarPerizinan from './view/Perizinan/daftarPerizinan';
 import DetailPerizinan from './view/Perizinan/detailPerizinan';
 import Potensi from './view/Perizinan/potensi';
+import DashboardKependudukan from './view/Kependudukan/dashboardKependudukan';
+import AktaKematian from './view/Kependudukan/aktaKematian';
+import FormAktaKematian from './view/Kependudukan/formAktaKematian';
+import AktaKelahiran from './view/Kependudukan/aktaKelahiran';
+import KartuIdentitasAnak from './view/Kependudukan/kartuIdentitasAnak';
+import FormAktaKelahiran from './view/Kependudukan/formAktaKelahiran';
+import FormKIA from './view/Kependudukan/formKIA';
+import KartuTandaPenduduk from './view/Kependudukan/kartuTandaPenduduk';
+import FormKTP from './view/Kependudukan/formKTP';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -334,8 +351,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DashboardAspirasi"
+          component={DashboardAspirasi}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="BalaiLatihanKerja"
           component={BalaiLatihanKerja}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="RiwayatAspirasi"
+          component={RiwayatAspirasi}
         />
         <Stack.Screen
           options={{
@@ -348,8 +379,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="RiwayatAspirasiPemerintah"
+          component={RiwayatAspirasiPemerintah}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DaftarJadiAnggota"
           component={DaftarJadiAnggota}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DataAnggotaDprd"
+          component={DataAnggotaDprd}
         />
         <Stack.Screen
           options={{
@@ -362,8 +407,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DataPejabatPemerintah"
+          component={DataPejabatPemerintah}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="TenagaAhli"
           component={TenagaAhli}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BuatAspirasi"
+          component={BuatAspirasi}
         />
         <Stack.Screen
           options={{
@@ -376,8 +435,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="AgendaDprd"
+          component={AgendaDprd}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DetailLowonganKerja"
           component={DetailLowonganKerja}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarJdih"
+          component={DaftarJdih}
         />
         <Stack.Screen
           options={{
@@ -467,8 +540,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DashboardKependudukan"
+          component={DashboardKependudukan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="InformasiSiswa"
           component={InformasiSiswa}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AktaKematian"
+          component={AktaKematian}
         />
         <Stack.Screen
           options={{
@@ -481,8 +568,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="FormAktaKematian"
+          component={FormAktaKematian}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="Beasiswa"
           component={Beasiswa}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AktaKelahiran"
+          component={AktaKelahiran}
         />
         <Stack.Screen
           options={{
@@ -495,8 +596,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="FormAktaKelahiran"
+          component={FormAktaKelahiran}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DashboardKomoditas"
           component={DashboardKomoditas}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="KartuIdentitasAnak"
+          component={KartuIdentitasAnak}
         />
         <Stack.Screen
           options={{
@@ -509,8 +624,22 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="FormKIA"
+          component={FormKIA}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DashboardPerizinan"
           component={DashboardPerizinan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="KartuTandaPenduduk"
+          component={KartuTandaPenduduk}
         />
         <Stack.Screen
           options={{
@@ -532,6 +661,13 @@ function SettingNav() {
           }}
           name="Potensi"
           component={Potensi}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormKTP"
+          component={FormKTP}
         />
       </Stack.Navigator>
     </>

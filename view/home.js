@@ -222,7 +222,7 @@ function home({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                // navigation.navigate('History Absensi');
+                navigation.navigate('DashboardAspirasi');
               }}
               style={[styles.boxIcon]}>
               <View
@@ -314,7 +314,7 @@ function home({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                // navigation.navigate('History Absensi');
+                navigation.navigate('DashboardKependudukan');
               }}
               style={[styles.boxIcon]}>
               <View

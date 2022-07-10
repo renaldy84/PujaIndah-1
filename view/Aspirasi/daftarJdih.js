@@ -28,31 +28,21 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function DataBansos({navigation}) {
-  const [filterDataBansos, setFilterDataBansos] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [listBansos, setListDataBansos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const getListDataBansos = async () => {
-    setIsLoading(true);
-    Axios({
-      url: url + `/api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
-      method: 'get',
-      headers: {
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-      },
-    })
-      .then(response => {
-        console.log(response.data.data);
-        setIsLoading(false);
-        setListDataBansos(response.data.data);
-        setFilterDataBansos(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+function DaftarJdih({navigation}) {
+  const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
+  ];
 
   const renderItem = ({item}) => {
     return (
@@ -65,49 +55,36 @@ function DataBansos({navigation}) {
             // });
           }}
           style={styles.container}>
-          <View style={styles.content}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                margin: 10,
-                // alignItems: 'center',
-              }}>
-              <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 16,
-                    marginTop: 15,
-                  }}>
-                  {item.uraian}
-                </Text>
+          <View>
+           
+                <View style={{height:hp("5%"),justifyContent:'center',paddingHorizontal:10,backgroundColor:'#EBC351'}}>
+                  <Text style={{fontWeight:"bold"}}>Kota Bandung</Text>
+                </View>
+              <View style={{ marginTop: hp("1%"),paddingHorizontal:10}}>
+                <View style={{ flex: 1}}>
+                  <View>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: 'black',
+                        fontSize: 13,
+                      }}>
+                      Komisi I
+                    </Text>
+                  </View>
+
+                  <View style={{ marginTop: 5, marginBottom:10}}>
+                    <View style={{flex: 1}}>
+                      <Text style={{color:'#274799'}}>
+                      https://jdih.dprd.bandungkab.go.id/	
+                      </Text>
+                    </View>
+
+                  </View>
+                </View>
               </View>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Lembaga Penyalur :</Text>{' '}
-                {item.pemberi_bansos}
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Waktu Pelaksanaan :</Text>{' '}
-                {moment(new Date(item.waktu_pelaksanaan)).format('DD-MM-YYYY')}
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Jam :</Text>{' '}
-                {moment(new Date(item.waktu_pelaksanaan)).format('HH:mm')}
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>No.Tlp/Hp :</Text>{' '}
-                {item.no_telp}
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Tata Cara :</Text>{' '}
-                {item.tata_cara}
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Alamat :</Text>{' '}
-                {item.alamat_lokasi}
-              </Text>
+
+
               {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
                   Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
@@ -120,26 +97,13 @@ function DataBansos({navigation}) {
                   <Text>Jam Selesai:</Text> 17:00 PM
                 </Text>
               </View> */}
-            </View>
+     
           </View>
         </TouchableOpacity>
       </>
     );
   };
 
-  useEffect(() => {
-    getListDataBansos();
-  }, []);
-
-  useEffect(() => {
-    if (listBansos.length !== 0) {
-      setFilterDataBansos(
-        listBansos.filter(x =>
-          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
-        ),
-      );
-    }
-  }, [filter]);
   return (
     <>
       <View
@@ -154,23 +118,21 @@ function DataBansos({navigation}) {
             flexDirection: 'row',
             // marginTop: hp('5%'),
             height: hp('10%'),
-            backgroundColor: '#274799',
             alignItems: 'center',
+            backgroundColor: '#274799'
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-              color="white"
+                color='white'
               size={30}
               icon={faArrowLeft}
               onPress={() => {
-                navigation.navigate('DashboardSosial');
+                navigation.navigate('DashboardAspirasi');
               }}
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={[styles.textJudul, {color: 'white'}]}>
-              Data Bansosmas
-            </Text>
+            <Text style={styles.textJudul}>Daftar JDIH </Text>
           </View>
         </View>
         <View
@@ -182,7 +144,7 @@ function DataBansos({navigation}) {
           <View style={[styles.boxInput, {flexDirection: 'row', flex: 4}]}>
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-              onChangeText={val => setFilter(val)}
+              onChangeText={() => {}}
               placeholder="Ketik daerah yang ingin dicari"></TextInput>
             <TouchableOpacity
               onPress={() => {}}
@@ -197,7 +159,7 @@ function DataBansos({navigation}) {
           </View>
         </View>
 
-        {isLoading ? (
+        {/* {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -207,24 +169,24 @@ function DataBansos({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterDataBansos.length !== 0 ? (
-          <View style={{flex: 1, margin: 20}}>
-            <FlatList
-              data={filterDataBansos}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-              // ListFooterComponent={renderFooter}
-              // onEndReached={handleLoadMore}
-              // onEndReachedThreshold={0}
-            />
-          </View>
-        ) : (
+        ) : filterDataBansos.length !== 0 ? ( */}
+        <View style={{flex: 1, margin: 20}}>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            // ListFooterComponent={renderFooter}
+            // onEndReached={handleLoadMore}
+            // onEndReachedThreshold={0}
+          />
+        </View>
+        {/* ) : (
           <>
             <View style={{alignItems: 'center', marginTop: 30}}>
               <Text>Data tidak ditemukan</Text>
             </View>
           </>
-        )}
+        )} */}
       </View>
     </>
   );
@@ -257,13 +219,13 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
+    color:'white'
   },
   container: {
     // marginTop: 5,
     marginBottom: hp('3%'),
     marginLeft: 10,
     width: wp('85%'),
-    borderRadius: 10,
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {
@@ -273,10 +235,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.41,
     shadowRadius: 9.11,
     elevation: 5,
-  },
-  content: {
-    flex: 1,
-    flexDirection: 'row',
   },
   textButton: {
     textAlign: 'center',
@@ -346,5 +304,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  boxIconRight: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
 });
-export default DataBansos;
+export default DaftarJdih;
