@@ -69,7 +69,7 @@ function DaftarJdih({navigation}) {
                         color: 'black',
                         fontSize: 13,
                       }}>
-                      Komisi I
+                      Situs Resmi
                     </Text>
                   </View>
 

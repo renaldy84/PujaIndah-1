@@ -78,7 +78,7 @@ function DataPejabatPemerintah({navigation}) {
                         color: 'black',
                         fontSize: 16,
                       }}>
-                      Judul
+                      Ratna
                     </Text>
                   </View>
 

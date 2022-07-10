@@ -518,12 +518,12 @@ function FormAktaKematian({navigation}) {
                 <Picker.Item
                   label="Sakit"
                   value="Sakit"
-                  style={{color: '#000000'}}
+                  style={{color: 'Black'}}
                 />
                 <Picker.Item
                   label="Kecelakaan"
                   value="Kecelakaan"
-                  style={{color: '#000000'}}
+                  style={{color: 'Black'}}
                 />
               </Picker>
             </View>

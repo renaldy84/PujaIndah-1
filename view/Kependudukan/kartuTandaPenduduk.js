@@ -65,23 +65,18 @@ function KartuTandaPenduduk({navigation}) {
                 // alignItems: 'center',
               }}>
               <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 15,
-                    marginTop: 15,
-                  }}>
-                  Nama Lengkap :
-                </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Nama Lengkap :</Text>{' '}
+                Budi Prasetya
+              </Text>
               </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NIK :</Text>{' '}
-                p
+                87878789798797
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NKK :</Text>{' '}
-                p
+                6757667576788
               </Text>
               <View style={{ marginTop:20, alignItems:'flex-end'}}>
               <View style={{height:30, width:117, backgroundColor:"#F2C94C", borderRadius:15, alignItems:'center', justifyContent:'center'}}> 

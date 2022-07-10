@@ -18,6 +18,7 @@ import {
   faCamera,
   faFolderOpen,
   faPaperclip,
+  faCalendarDays
 } from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
 import ImagePicker from 'react-native-image-picker';
@@ -32,6 +33,7 @@ import {
 } from 'react-native-responsive-screen';
 import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 function FormAktaKelahiran({navigation}) {
   const modalizeRef = useRef(null);
@@ -64,6 +66,9 @@ function FormAktaKelahiran({navigation}) {
   const [message, setMessage] = useState('');
   const [latMarker, setLatMarker] = useState(0.0);
   const [longMarker, setLongMarker] = useState(0.0);
+
+  const [showTanggal, setShowTanggal] = useState(false);
+  const [tanggal, setTanggal] = useState('');
 
   const cekKirim = () => {
     // linkFotoKTP === '' && linkFotoKejadian === ''
@@ -466,6 +471,55 @@ function FormAktaKelahiran({navigation}) {
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
             </View>
+            
+            <View>
+              <Text style={styles.text}>Tanggal Lahir</Text>
+            </View>
+            <View style={[styles.tanggal, {flexDirection: 'row'}]}>
+              <View style={{flex: 1, justifyContent: 'center'}}>
+                <TouchableOpacity onPress={() => setShowTanggal(true)}>
+                  <Text
+                    style={[
+                      styles.textCalendar,
+                      {color: !tanggal ? '#b0b0b0' : 'black', borderWidth: 0},
+                    ]}>
+                    {!tanggal ? 'Tanggal Lahir' : tanggal}
+                  </Text>
+                  <View>
+                    <DateTimePickerModal
+                      minimumDate={new Date()}
+                      isVisible={showTanggal}
+                      mode="date"
+                      onConfirm={val => {
+                        setTanggal(
+                          `${('0' + val.getDate()).slice(-2)}-${(
+                            '0' +
+                            (val.getMonth() + 1)
+                          ).slice(-2)}-${val.getFullYear()}`,
+                        );
+                        setShowTanggal(false);
+                      }}
+                      onCancel={() => {
+                        setShowTanggal(false);
+                      }}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+              <View
+                style={{
+                  padding: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <FontAwesomeIcon
+                  color="#A19C9C"
+                  size={25}
+                  icon={faCalendarDays}
+                />
+              </View>
+            </View>
 
             <View>
               <Text style={styles.text}>Tempat Lahir</Text>
@@ -474,7 +528,7 @@ function FormAktaKelahiran({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setJudulPengaduan(val)}
-                placeholder="Madas"></TextInput>
+                placeholder=" "></TextInput>
             </View>
 
             <View>
@@ -484,7 +538,7 @@ function FormAktaKelahiran({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setJudulPengaduan(val)}
-                placeholder="Dheal"></TextInput>
+                placeholder=" "></TextInput>
             </View>
 
             <View>
@@ -494,7 +548,7 @@ function FormAktaKelahiran({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setJudulPengaduan(val)}
-                placeholder="Nisa"></TextInput>
+                placeholder=" "></TextInput>
             </View>
 
             <View>
@@ -824,6 +878,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#ffffff',
     borderWidth: 1,
+    borderColor:'#A19C9C'
   },
   boxInputPassword: {
     flexDirection: 'row',
@@ -926,6 +981,21 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     padding: 10,
     color: '#000000',
+  },
+  tanggal: {
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 50,
+    borderColor: '#A19C9C',
+    width: '100%',
+    marginLeft: 5,
+    marginBottom: 0,
+    paddingLeft: 10,
+    color: '#000000',
+    justifyContent: 'center',
+  },
+  textCalendar: {
+    fontSize: 14,
   },
 });
 export default FormAktaKelahiran;

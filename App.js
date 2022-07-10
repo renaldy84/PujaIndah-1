@@ -98,6 +98,7 @@ import FormAktaKelahiran from './view/Kependudukan/formAktaKelahiran';
 import FormKIA from './view/Kependudukan/formKIA';
 import KartuTandaPenduduk from './view/Kependudukan/kartuTandaPenduduk';
 import FormKTP from './view/Kependudukan/formKTP';
+import FormBuatAspirasi from './view/Aspirasi/formBuatAspirasi';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -423,6 +424,13 @@ function SettingNav() {
           }}
           name="BuatAspirasi"
           component={BuatAspirasi}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormBuatAspirasi"
+          component={FormBuatAspirasi}
         />
         <Stack.Screen
           options={{

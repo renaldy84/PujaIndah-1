@@ -72,20 +72,20 @@ function RiwayatAspirasiPemerintah({navigation}) {
                     fontSize: 16,
                     marginTop: 15,
                   }}>
-                  judul
+                  Penmbangunan Jalan Lingkungan
                 </Text>
               </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Tanggal Pengiriman :</Text>{' '}
-                p
+                30 Desember 2022
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Untuk Anggota Dewan :</Text>{' '}
-                p
+                Julie Sutrisno
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Isi Aspirasi :</Text>{' '}
-                p
+                Isi Aspirasi: Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
               </Text>
               <Text style={{marginTop: 25}}>
                 <Text style={{fontWeight: 'bold'}}>Dokumen :</Text>{' '}

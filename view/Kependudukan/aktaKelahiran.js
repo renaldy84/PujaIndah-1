@@ -27,9 +27,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 function AktaKelahiran({navigation}) {
-  
+    
     const DATA = [
         {
           id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -44,6 +45,7 @@ function AktaKelahiran({navigation}) {
           title: 'Third Item',
         },
       ];
+      
 
   const renderItem = ({item}) => {
     return (
@@ -65,31 +67,26 @@ function AktaKelahiran({navigation}) {
                 // alignItems: 'center',
               }}>
               <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 15,
-                    marginTop: 15,
-                  }}>
-                  Nama Lengkap :
-                </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Nama Lengkap :</Text>{' '}
+                Budi Prasetya Mulia
+              </Text>
               </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Tanggal Lahir :</Text>{' '}
-                p
+                Minggu, 03 Juli 2024
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Tempat Lahir :</Text>{' '}
-                p
+                Jakarta
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Nama Ayah :</Text>{' '}
-                p
+                Agus Rahmdi
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Nama Ibu :</Text>{' '}
-                p
+                Ratna
               </Text>
               <View style={{ marginTop:20, alignItems:'flex-end'}}>
               <View style={{height:30, width:117, backgroundColor:"#F2C94C", borderRadius:15, alignItems:'center', justifyContent:'center'}}> 

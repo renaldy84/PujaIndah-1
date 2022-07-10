@@ -65,31 +65,26 @@ function AktaKematian({navigation}) {
                 // alignItems: 'center',
               }}>
               <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 16,
-                    marginTop: 15,
-                  }}>
-                  Nama :
-                </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Nama :</Text>{' '}
+                Berto Tuga
+              </Text>
               </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NIK :</Text>{' '}
-                p
+                6767767677766767
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NKK :</Text>{' '}
-                p
+                5656565656566565
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Catatan :</Text>{' '}
-                p
+                Tidak Ada
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Alamat pengambilan :</Text>{' '}
-                p
+                jln. mana saja
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Dokumen :</Text>{' '}
