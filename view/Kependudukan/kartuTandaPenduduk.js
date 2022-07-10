@@ -28,7 +28,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function AktaKematian({navigation}) {
+function KartuTandaPenduduk({navigation}) {
   
     const DATA = [
         {
@@ -69,10 +69,10 @@ function AktaKematian({navigation}) {
                   style={{
                     fontWeight: 'bold',
                     color: 'black',
-                    fontSize: 16,
+                    fontSize: 15,
                     marginTop: 15,
                   }}>
-                  Nama :
+                  Nama Lengkap :
                 </Text>
               </View>
               <Text style={{marginTop: 5}}>
@@ -82,20 +82,6 @@ function AktaKematian({navigation}) {
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NKK :</Text>{' '}
                 p
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Catatan :</Text>{' '}
-                p
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Alamat pengambilan :</Text>{' '}
-                p
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Dokumen :</Text>{' '}
-                <Text style={{color:"#2F80ED"}}> 
-                Lampiran.pdf
-                </Text>
               </Text>
               <View style={{ marginTop:20, alignItems:'flex-end'}}>
               <View style={{height:30, width:117, backgroundColor:"#F2C94C", borderRadius:15, alignItems:'center', justifyContent:'center'}}> 
@@ -151,7 +137,7 @@ function AktaKematian({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Akta Kematian</Text>
+            <Text style={styles.textJudul}>Kartu Tanda Penduduk</Text>
           </View>
 
           
@@ -188,7 +174,7 @@ function AktaKematian({navigation}) {
           </View>
           <TouchableOpacity
           onPress={() => {
-            navigation.navigate('FormAktaKematian');
+            navigation.navigate('FormKTP');
           }}
           style={{
             width: 60,
@@ -327,4 +313,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default AktaKematian;
+export default KartuTandaPenduduk;

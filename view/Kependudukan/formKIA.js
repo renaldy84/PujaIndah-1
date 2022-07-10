@@ -33,12 +33,12 @@ import {
 import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
-function FormAktaKematian({navigation}) {
+function FormKIA({navigation}) {
   const modalizeRef = useRef(null);
   const modalizeRefKTP = useRef(null);
   const [modalHandleFoto, setModalHandleFoto] = useState(false);
   const [nama, setNama] = useState('');
-  const [nkk, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [nik, setNik] = useState('');
   const [telp, setTelp] = useState('');
   const [idKategoriAduan, setIdKategoriAduan] = useState();
@@ -442,13 +442,13 @@ function FormAktaKematian({navigation}) {
               size={30}
               icon={faArrowLeft}
               onPress={() => {
-                navigation.navigate('AktaKematian');
+                navigation.navigate('KartuIdentitasAnak');
               }}
             />
           </View>
           <View style={styles.boxLogin}>
             <Text style={[styles.textLogin, {color: 'white'}]}>
-              Form Akta Kematian
+              Form Kartu Identitas Anak
             </Text>
           </View>
         </View>
@@ -456,7 +456,7 @@ function FormAktaKematian({navigation}) {
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.container}>
             <View>
-              <Text style={styles.text}>Nama</Text>
+              <Text style={styles.text}>Nama Lengkap</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
@@ -466,7 +466,7 @@ function FormAktaKematian({navigation}) {
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
             </View>
-
+            
             <View>
               <Text style={styles.text}>Nomor Induk Kependudukan (NIK)</Text>
             </View>
@@ -500,35 +500,8 @@ function FormAktaKematian({navigation}) {
                 placeholder="Catatan"></TextInput>
             </View>
 
-            <View style={{marginTop: 5}}>
-              <Text style={styles.text}>Penyebab Kematian</Text>
-            </View>
-            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
-              <Picker
-                mode="dropdown"
-                selectedValue={idKategoriAduan}
-                onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
-                }}>
-                <Picker.Item
-                  label="Pilih Kategori"
-                  value=""
-                  style={{color: '#b0b0b0'}}
-                />
-                {kategoriAduan.map((val, index) => {
-                  return (
-                    <Picker.Item
-                      key={val.id}
-                      label={val.kategori}
-                      value={val.id}
-                      style={{color: '#000000'}}
-                    />
-                  );
-                })}
-              </Picker>
-            </View>
             <View>
-              <Text style={styles.text}>Unggah Scan Pengantar RT</Text>
+              <Text style={styles.text}>Unggah Scan Akta Lahir</Text>
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
@@ -539,48 +512,6 @@ function FormAktaKematian({navigation}) {
                 editable={false}></TextInput>
               <TouchableOpacity
                 onPress={pilihFotoKTP}
-                style={{
-                  flex: 1,
-                  // borderWidth: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
-              </TouchableOpacity>
-            </View>
-            <View>
-              <Text style={styles.text}>Unggah scan KTP</Text>
-            </View>
-            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
-              <TextInput
-                value={namaFotoKTP}
-                style={[styles.textInput, {flex: 5}]}
-                // onChangeText={val => setJudulPengaduan(val)}
-                // placeholder="Judul Pengaduan"
-                editable={false}></TextInput>
-              <TouchableOpacity
-                onPress={pilihFotoKTP}
-                style={{
-                  flex: 1,
-                  // borderWidth: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
-              </TouchableOpacity>
-            </View>
-            <View>
-              <Text style={styles.text}>Unggah scan KTP</Text>
-            </View>
-            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
-              <TextInput
-                value={namaFoto}
-                style={[styles.textInput, {flex: 5}]}
-                // onChangeText={val => setJudulPengaduan(val)}
-                // placeholder="Judul Pengaduan"
-                editable={false}></TextInput>
-              <TouchableOpacity
-                onPress={pilihFoto}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -595,13 +526,13 @@ function FormAktaKematian({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFoto}
+                value={namaFotoKTP}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFoto}
+                onPress={pilihFotoKTP}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -611,6 +542,7 @@ function FormAktaKematian({navigation}) {
                 <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
               </TouchableOpacity>
             </View>
+            
             <View>
               <Text style={styles.text}>Unggah File Lainnya</Text>
             </View>
@@ -632,6 +564,7 @@ function FormAktaKematian({navigation}) {
                 <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
               </TouchableOpacity>
             </View>
+
 
             <View style={styles.boxButton}>
               <TouchableOpacity style={styles.buttonLogin} onPress={cekKirim}>
@@ -924,4 +857,4 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
 });
-export default FormAktaKematian;
+export default FormKIA;

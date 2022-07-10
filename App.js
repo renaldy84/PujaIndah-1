@@ -74,6 +74,12 @@ import FormLamaran from './view/Ketenagakerjaan/formLamaran';
 import DashboardKependudukan from './view/Kependudukan/dashboardKependudukan';
 import AktaKematian from './view/Kependudukan/aktaKematian';
 import FormAktaKematian from './view/Kependudukan/formAktaKematian';
+import AktaKelahiran from './view/Kependudukan/aktaKelahiran';
+import KartuIdentitasAnak from './view/Kependudukan/kartuIdentitasAnak';
+import FormAktaKelahiran from './view/Kependudukan/formAktaKelahiran';
+import FormKIA from './view/Kependudukan/formKIA';
+import KartuTandaPenduduk from './view/Kependudukan/kartuTandaPenduduk';
+import FormKTP from './view/Kependudukan/formKTP';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -476,6 +482,48 @@ function SettingNav() {
           }}
           name="FormAktaKematian"
           component={FormAktaKematian}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AktaKelahiran"
+          component={AktaKelahiran}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormAktaKelahiran"
+          component={FormAktaKelahiran}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="KartuIdentitasAnak"
+          component={KartuIdentitasAnak}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormKIA"
+          component={FormKIA}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="KartuTandaPenduduk"
+          component={KartuTandaPenduduk}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormKTP"
+          component={FormKTP}
         />
       </Stack.Navigator>
     </>

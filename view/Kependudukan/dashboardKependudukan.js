@@ -78,12 +78,12 @@ const DashboardKependudukan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Akta Kematian</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DataBansos');
+                  navigation.navigate('AktaKelahiran');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
@@ -96,12 +96,12 @@ const DashboardKependudukan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Akta Kelahiran </Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('AksiSosial');
+                  navigation.navigate('KartuIdentitasAnak');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
@@ -114,12 +114,12 @@ const DashboardKependudukan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Kartu Identitas Anak</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DataPMKS');
+                  navigation.navigate('KartuTandaPenduduk');
                 }}
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
@@ -132,7 +132,7 @@ const DashboardKependudukan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Kartu Tanda Penduduk</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -150,7 +150,7 @@ const DashboardKependudukan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Akta Pernikahan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>

@@ -73,14 +73,14 @@ const DashboardAspirasi = ({navigation}) => {
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconSosial/lks.png')}
+                    source={require('../../assets/image/iconAspirasi/daftarAspirasiDprd.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Daftar Aspirasi DPRD</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -91,14 +91,14 @@ const DashboardAspirasi = ({navigation}) => {
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconSosial/bansos.png')}
+                    source={require('../../assets/image/iconAspirasi/daftarAspirasiDprd.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Daftar Aspirasi Pemerintah </Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -109,14 +109,14 @@ const DashboardAspirasi = ({navigation}) => {
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconSosial/aksisosial.png')}
+                    source={require('../../assets/image/iconAspirasi/dataAnggotaDprd.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Data Anggota DPRD</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -127,14 +127,14 @@ const DashboardAspirasi = ({navigation}) => {
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconSosial/pmks.png')}
+                    source={require('../../assets/image/iconAspirasi/dataAnggotaDprd.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Data Pejabat Pemerintah</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -145,14 +145,14 @@ const DashboardAspirasi = ({navigation}) => {
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconSosial/pmks.png')}
+                    source={require('../../assets/image/iconAspirasi/buatAspirasi.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Buat Aspirasi</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -163,14 +163,14 @@ const DashboardAspirasi = ({navigation}) => {
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconSosial/pmks.png')}
+                    source={require('../../assets/image/iconAspirasi/agendaaDprd.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Agenda DPRD</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -181,14 +181,14 @@ const DashboardAspirasi = ({navigation}) => {
                 <View style={styles.boxIconRight}>
                   <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconSosial/pmks.png')}
+                    source={require('../../assets/image/iconAspirasi/daftarJdih.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Daftar JDIH</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>
