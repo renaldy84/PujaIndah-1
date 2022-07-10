@@ -70,7 +70,7 @@ const DashboardKetenagakerjaan = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconKetenagakerjaan/iconmenu.png')}
                   />
                 </View>
@@ -78,7 +78,7 @@ const DashboardKetenagakerjaan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Balai Latihan Kerja (BLK)</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -88,7 +88,7 @@ const DashboardKetenagakerjaan = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconKetenagakerjaan/lowongan.png')}
                   />
                 </View>
@@ -96,7 +96,7 @@ const DashboardKetenagakerjaan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Lowongan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -106,7 +106,7 @@ const DashboardKetenagakerjaan = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconKetenagakerjaan/kreditUsaha.png')}
                   />
                 </View>
@@ -114,7 +114,7 @@ const DashboardKetenagakerjaan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Kredit Usaha</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>

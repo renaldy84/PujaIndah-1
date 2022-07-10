@@ -80,15 +80,15 @@ const DashboardKesehatan = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconKesehatan/iconmenu.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconKesehatan/fasilitasKesehatan.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Fasilitas Kesehatan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -98,15 +98,15 @@ const DashboardKesehatan = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconKesehatan/iconmenu.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconKesehatan/riwayatPasien.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Riwayat Pasien</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -116,15 +116,15 @@ const DashboardKesehatan = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconKesehatan/iconmenu.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconKesehatan/daftarDokter.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Daftar Dokter</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -134,15 +134,15 @@ const DashboardKesehatan = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconKesehatan/iconmenu.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconKesehatan/gawatDarurat.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Gawat Darurat</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>

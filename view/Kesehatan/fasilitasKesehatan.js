@@ -97,17 +97,24 @@ function FasilitasKesehatan({navigation}) {
 
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.container}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailFasilitasKesehatan');
-              }}
+            <View
               style={{
                 width: wp('90%'),
                 paddingHorizontal: 20,
                 borderRadius: 5,
-                backgroundColor: '#EFEFEF',
+                backgroundColor: 'white',
                 marginTop: hp('2%'),
                 paddingVertical: hp('3%'),
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 7,
+                },
+                shadowOpacity: 0.41,
+                shadowRadius: 9.11,
+                elevation: 5,
+                backgroundColor: '#fff',
+                marginTop: 20,
               }}>
               <View>
                 <Text style={{fontSize: 16, fontWeight: 'bold'}}>
@@ -134,19 +141,40 @@ function FasilitasKesehatan({navigation}) {
                   <Text>021- 29662529</Text>
                 </View>
               </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('DetailFasilitasKesehatan');
+                }}
+                style={{
+                  marginTop: hp('2%'),
+                  backgroundColor: '#274799',
+                  height: 35,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontSize: 12, color: 'white'}}>Lihat Detail</Text>
+              </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailFasilitasKesehatan');
-              }}
+            <View
               style={{
                 width: wp('90%'),
                 paddingHorizontal: 20,
                 borderRadius: 5,
-                backgroundColor: '#EFEFEF',
+                backgroundColor: 'white',
                 marginTop: hp('2%'),
                 paddingVertical: hp('3%'),
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 7,
+                },
+                shadowOpacity: 0.41,
+                shadowRadius: 9.11,
+                elevation: 5,
+                backgroundColor: '#fff',
+                marginTop: 20,
               }}>
               <View>
                 <Text style={{fontSize: 16, fontWeight: 'bold'}}>
@@ -173,19 +201,40 @@ function FasilitasKesehatan({navigation}) {
                   <Text>021- 29662529</Text>
                 </View>
               </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('DetailFasilitasKesehatan');
+                }}
+                style={{
+                  marginTop: hp('2%'),
+                  backgroundColor: '#274799',
+                  height: 35,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontSize: 12, color: 'white'}}>Lihat Detail</Text>
+              </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailFasilitasKesehatan');
-              }}
+            <View
               style={{
                 width: wp('90%'),
                 paddingHorizontal: 20,
                 borderRadius: 5,
-                backgroundColor: '#EFEFEF',
+                backgroundColor: 'white',
                 marginTop: hp('2%'),
                 paddingVertical: hp('3%'),
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 7,
+                },
+                shadowOpacity: 0.41,
+                shadowRadius: 9.11,
+                elevation: 5,
+                backgroundColor: '#fff',
+                marginTop: 20,
               }}>
               <View>
                 <Text style={{fontSize: 16, fontWeight: 'bold'}}>
@@ -212,19 +261,40 @@ function FasilitasKesehatan({navigation}) {
                   <Text>021- 29662529</Text>
                 </View>
               </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('DetailFasilitasKesehatan');
+                }}
+                style={{
+                  marginTop: hp('2%'),
+                  backgroundColor: '#274799',
+                  height: 35,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontSize: 12, color: 'white'}}>Lihat Detail</Text>
+              </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailFasilitasKesehatan');
-              }}
+            <View
               style={{
                 width: wp('90%'),
                 paddingHorizontal: 20,
                 borderRadius: 5,
-                backgroundColor: '#EFEFEF',
+                backgroundColor: 'white',
                 marginTop: hp('2%'),
                 paddingVertical: hp('3%'),
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 7,
+                },
+                shadowOpacity: 0.41,
+                shadowRadius: 9.11,
+                elevation: 5,
+                backgroundColor: '#fff',
+                marginTop: 20,
               }}>
               <View>
                 <Text style={{fontSize: 16, fontWeight: 'bold'}}>
@@ -251,7 +321,21 @@ function FasilitasKesehatan({navigation}) {
                   <Text>021- 29662529</Text>
                 </View>
               </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('DetailFasilitasKesehatan');
+                }}
+                style={{
+                  marginTop: hp('2%'),
+                  backgroundColor: '#274799',
+                  height: 35,
+                  borderRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontSize: 12, color: 'white'}}>Lihat Detail</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
 

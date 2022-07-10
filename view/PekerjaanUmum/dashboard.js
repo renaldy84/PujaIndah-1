@@ -72,7 +72,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPekerjaanUmum/pekerjaanUmumLokasi.png')}
                   />
                 </View>
@@ -80,7 +80,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Lokasi Titik Rawan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -90,7 +90,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPekerjaanUmum/dataInfrastruktur.png')}
                   />
                 </View>
@@ -98,7 +98,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Data Infrastruktur</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -108,7 +108,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPekerjaanUmum/sewaAlatBerat.png')}
                   />
                 </View>
@@ -116,7 +116,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Sewa Alat Berat</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -126,7 +126,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPekerjaanUmum/riwayatSewaAlat.png')}
                   />
                 </View>
@@ -134,7 +134,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Riwayat Sewa Alat</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -144,7 +144,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPekerjaanUmum/pekerjaanUmumPengaduan.png')}
                   />
                 </View>
@@ -152,7 +152,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Buat Pengaduan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -162,7 +162,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPekerjaanUmum/riwayatPengaduan.png')}
                   />
                 </View>
@@ -170,7 +170,7 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Riwayat Pengaduan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -180,15 +180,15 @@ const DashboardPekerjaanUmum = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconPekerjaanUmum/riwayatPengaduan.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconPekerjaanUmum/manajemen.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Manajemen Proyek</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>

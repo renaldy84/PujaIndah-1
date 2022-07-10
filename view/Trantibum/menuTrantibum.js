@@ -72,7 +72,7 @@ const MenuTrantibum = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconTrantibum/trantibumLokasi.png')}
                   />
                 </View>
@@ -80,7 +80,7 @@ const MenuTrantibum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Peringatan Dini</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -90,7 +90,7 @@ const MenuTrantibum = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconTrantibum/trantibumPengaduan.png')}
                   />
                 </View>
@@ -98,7 +98,7 @@ const MenuTrantibum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Buat Pengaduan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -108,7 +108,7 @@ const MenuTrantibum = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconTrantibum/trantibumRiwayat.png')}
                   />
                 </View>
@@ -116,7 +116,7 @@ const MenuTrantibum = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Riwayat Pengaduan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>

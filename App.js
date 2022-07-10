@@ -72,6 +72,15 @@ import DaftarDokter from './view/Kesehatan/daftarDokter';
 import GawatDarurat from './view/Kesehatan/gawatDarurat';
 import Rapor from './view/Pendidikan/rapor';
 import InformasiSiswa from './view/Pendidikan/informasiSiswa';
+import ProfilSekolah from './view/Pendidikan/profilSekolah';
+import Beasiswa from './view/Pendidikan/beasiswa';
+import DaftarBeasiswa from './view/Pendidikan/daftarBeasiswa';
+import DashboardKomoditas from './view/Komoditas/dashboardKomoditas';
+import DetailKomoditas from './view/Komoditas/detailKomoditas';
+import DashboardPerizinan from './view/Perizinan/dashboardPerizinan';
+import DaftarPerizinan from './view/Perizinan/daftarPerizinan';
+import DetailPerizinan from './view/Perizinan/detailPerizinan';
+import Potensi from './view/Perizinan/potensi';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -460,6 +469,69 @@ function SettingNav() {
           }}
           name="InformasiSiswa"
           component={InformasiSiswa}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="ProfilSekolah"
+          component={ProfilSekolah}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Beasiswa"
+          component={Beasiswa}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarBeasiswa"
+          component={DaftarBeasiswa}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardKomoditas"
+          component={DashboardKomoditas}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailKomoditas"
+          component={DetailKomoditas}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DashboardPerizinan"
+          component={DashboardPerizinan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarPerizinan"
+          component={DaftarPerizinan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailPerizinan"
+          component={DetailPerizinan}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Potensi"
+          component={Potensi}
         />
       </Stack.Navigator>
     </>

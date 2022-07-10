@@ -77,7 +77,7 @@ function Rapor({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
-                placeholder="Nama"></TextInput>
+                placeholder="NISN"></TextInput>
             </View>
             <View>
               <Text style={styles.text}>Tanggal Lahir</Text>

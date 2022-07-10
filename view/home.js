@@ -105,7 +105,11 @@ function home({navigation}) {
               flexWrap: 'wrap',
               justifyContent: 'space-between',
             }}>
-            <View style={[styles.boxIcon]}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('MenuTrantibum');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -113,22 +117,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('MenuTrantibum');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/trantibum.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Trantibum{'\n'}Limnas</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ListPariwisata');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -136,22 +140,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('ListPariwisata');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/pariwisata.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Pariwisata{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DashboardPekerjaanUmum');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -159,22 +163,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('DashboardPekerjaanUmum');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/pekerjaanUmum.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Pekerjaan{'\n'}Umum</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DashboardPerhubungan');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -182,22 +186,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('DashboardPerhubungan');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/perhubungan.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Perhubungan{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DashboardSosial');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -205,22 +209,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('DashboardSosial');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/sosial.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Sosial{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                // navigation.navigate('History Absensi');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -228,22 +232,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('History Absensi');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/aspirasi.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Aspirasi{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DashboardKetenagakerjaan');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -251,22 +255,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('DashboardKetenagakerjaan');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/ketenagakerjaan.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Ketenagakerjaan{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DashboardKomoditas');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -274,22 +278,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('History Absensi');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/komoditas.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Komoditas{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DashboardPerizinan');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -297,22 +301,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('History Absensi');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/perizinan.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Perizinan{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                // navigation.navigate('History Absensi');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -320,22 +324,22 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('History Absensi');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/kependudukan.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Kependudukan{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DashboardKesehatan');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -343,23 +347,23 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('DashboardKesehatan');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/kesehatan.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
 
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Kesehatan{'\n'}</Text>
               </View>
-            </View>
-            <View style={[styles.boxIcon]}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DashboardPendidikan');
+              }}
+              style={[styles.boxIcon]}>
               <View
                 style={{
                   // borderWidth: 1,
@@ -367,21 +371,17 @@ function home({navigation}) {
                   alignContent: 'center',
                   marginLeft: 0,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('DashboardPendidikan');
-                  }}
-                  style={[styles.iconMenuContainer]}>
+                <View style={[styles.iconMenuContainer]}>
                   <Image
                     style={styles.iconMenuImage}
                     source={require('../assets/image/newIcon/pendidikan.png')}
                   />
-                </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.boxText}>
                 <Text style={styles.iconMenuText}>Pendidikan{'\n'}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

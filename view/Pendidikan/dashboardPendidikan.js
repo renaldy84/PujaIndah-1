@@ -70,51 +70,51 @@ const DashboardPendidikan = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconPendidikan/iconmenu.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconPendidikan/rapor.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Raport</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  // navigation.navigate('BuatPengaduan');
+                  navigation.navigate('ProfilSekolah');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconPendidikan/iconmenu.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconPendidikan/profilSekolah.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Profil Sekolah</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.boxKonten}
                 onPress={() => {
-                  // navigation.navigate('RiwayatPengaduan');
+                  navigation.navigate('Beasiswa');
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconPendidikan/iconmenu.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconPendidikan/beasiswa.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Beasiswa</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>

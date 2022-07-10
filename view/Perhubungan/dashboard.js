@@ -72,15 +72,15 @@ const DashboardPerhubungan = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
-                    source={require('../../assets/image/iconPekerjaanUmum/pekerjaanUmumLokasi.png')}
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconPerhubungan/lokasiKeur.png')}
                   />
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Lokasi KEUR</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -90,7 +90,7 @@ const DashboardPerhubungan = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPerhubungan/jadwalKeur.png')}
                   />
                 </View>
@@ -98,7 +98,7 @@ const DashboardPerhubungan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Jadwal KEUR Keliling</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -108,7 +108,7 @@ const DashboardPerhubungan = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPerhubungan/pengajuanKeur.png')}
                   />
                 </View>
@@ -116,7 +116,7 @@ const DashboardPerhubungan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Pengajuan KEUR Baru</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -126,7 +126,7 @@ const DashboardPerhubungan = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPerhubungan/perpanjangKeur.png')}
                   />
                 </View>
@@ -134,7 +134,7 @@ const DashboardPerhubungan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Perpanjangan KEUR</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -144,7 +144,7 @@ const DashboardPerhubungan = ({navigation}) => {
                 }}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconPerhubungan/riwayatKeur.png')}
                   />
                 </View>
@@ -152,7 +152,7 @@ const DashboardPerhubungan = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Riwayat Pelayanan KEUR</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#0323C4" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>

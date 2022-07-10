@@ -74,7 +74,7 @@ const DashboardSosial = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconSosial/lks.png')}
                   />
                 </View>
@@ -82,7 +82,7 @@ const DashboardSosial = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Data LKS</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -92,7 +92,7 @@ const DashboardSosial = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconSosial/bansos.png')}
                   />
                 </View>
@@ -100,7 +100,7 @@ const DashboardSosial = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Bansosmas </Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -110,7 +110,7 @@ const DashboardSosial = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconSosial/aksisosial.png')}
                   />
                 </View>
@@ -118,7 +118,7 @@ const DashboardSosial = ({navigation}) => {
                   <Text style={{fontSize: 16}}>Aksi Sosial</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
@@ -128,7 +128,7 @@ const DashboardSosial = ({navigation}) => {
                 style={styles.boxKonten}>
                 <View style={styles.boxIconRight}>
                   <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 30, height: 30}}
                     source={require('../../assets/image/iconSosial/pmks.png')}
                   />
                 </View>
@@ -136,7 +136,7 @@ const DashboardSosial = ({navigation}) => {
                   <Text style={{fontSize: 16}}>PMKS</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
-                  <FontAwesome name="caret-right" size={35} color="#274799" />
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
             </View>

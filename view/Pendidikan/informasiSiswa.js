@@ -35,6 +35,9 @@ function InformasiSiswa({navigation}) {
   const [profil, setProfil] = useState({});
   const [statusMapel, setStatusMapel] = useState(false);
   const [statusKehadiran, setStatusKehadiran] = useState(false);
+  const [statusNilaiSikap, setStatusNilaiSikap] = useState(false);
+  const [statusEkstrakulikuler, setStatusEkstrakulikuler] = useState(false);
+  const [statusPrestasi, setStatusPrestasi] = useState(false);
   const [showTanggal, setShowTanggal] = useState(false);
   const [tanggal, setTanggal] = useState('');
 
@@ -771,6 +774,336 @@ function InformasiSiswa({navigation}) {
                           ajhsgdjhsad jhsagdjhas jhasdhjs 12312312314234
                           kjshdjksd jkhsdjkasd kjshdkas kjshdkjasd{' '}
                         </Text>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              ) : null}
+            </View>
+
+            {/* Nilai Sikap */}
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: hp('3%'),
+                alignItems: 'center',
+              }}>
+              <View>
+                <FontAwesomeIcon color="#ACA3A3" size={30} icon={faFileLines} />
+              </View>
+              <View style={{flex: 1, marginLeft: 5}}>
+                <Text style={{color: '#ACA3A3', fontSize: 18}}>
+                  Nilai Sikap
+                </Text>
+              </View>
+              <View>
+                {statusNilaiSikap ? (
+                  <FontAwesomeIcon
+                    onPress={() => {
+                      setStatusNilaiSikap(false);
+                    }}
+                    color="#ACA3A3"
+                    size={30}
+                    icon={faCircleChevronDown}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    onPress={() => {
+                      setStatusNilaiSikap(true);
+                    }}
+                    color="#ACA3A3"
+                    size={30}
+                    icon={faCircleChevronUp}
+                  />
+                )}
+              </View>
+            </View>
+
+            {/* Isi Nilai Sikap */}
+            <View
+              style={{
+                marginTop: hp('1%'),
+              }}>
+              {statusNilaiSikap ? (
+                <>
+                  <View style={styles.cardMapel}>
+                    <View style={{marginTop: hp('1%')}}>
+                      <View style={{flexDirection: 'row'}}>
+                        <View style={{width: wp('40%')}}>
+                          <Text>Predikat Spritual</Text>
+                        </View>
+                        <View>
+                          <Text>:</Text>
+                        </View>
+                        <View style={{marginLeft: 10, flex: 1}}>
+                          <Text>A</Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View style={{marginTop: hp('1%')}}>
+                      <View style={{flexDirection: 'row'}}>
+                        <View style={{width: wp('40%')}}>
+                          <Text>Keterangan Spritual</Text>
+                        </View>
+                        <View>
+                          <Text>:</Text>
+                        </View>
+                        <View style={{marginLeft: 10, flex: 1}}>
+                          <Text>A</Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View style={{marginTop: hp('1%')}}>
+                      <View style={{flexDirection: 'row'}}>
+                        <View style={{width: wp('40%')}}>
+                          <Text>Predikat Sosial</Text>
+                        </View>
+                        <View>
+                          <Text>:</Text>
+                        </View>
+                        <View style={{marginLeft: 10, flex: 1}}>
+                          <Text>Baik</Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View style={{marginTop: hp('1%')}}>
+                      <View style={{flexDirection: 'row'}}>
+                        <View style={{width: wp('40%')}}>
+                          <Text>Keterangan Sosial</Text>
+                        </View>
+                        <View>
+                          <Text>:</Text>
+                        </View>
+                        <View style={{marginLeft: 10, flex: 1}}>
+                          <Text>Baik</Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </>
+              ) : null}
+            </View>
+
+            {/* Ekstrakulikuler */}
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: hp('3%'),
+                alignItems: 'center',
+              }}>
+              <View>
+                <FontAwesomeIcon color="#ACA3A3" size={30} icon={faFileLines} />
+              </View>
+              <View style={{flex: 1, marginLeft: 5}}>
+                <Text style={{color: '#ACA3A3', fontSize: 18}}>
+                  Ekstrakulikuler
+                </Text>
+              </View>
+              <View>
+                {statusEkstrakulikuler ? (
+                  <FontAwesomeIcon
+                    onPress={() => {
+                      setStatusEkstrakulikuler(false);
+                    }}
+                    color="#ACA3A3"
+                    size={30}
+                    icon={faCircleChevronDown}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    onPress={() => {
+                      setStatusEkstrakulikuler(true);
+                    }}
+                    color="#ACA3A3"
+                    size={30}
+                    icon={faCircleChevronUp}
+                  />
+                )}
+              </View>
+            </View>
+
+            {/* Isi Ekstrakulikuler */}
+            <View
+              style={{
+                marginTop: hp('1%'),
+              }}>
+              {statusEkstrakulikuler ? (
+                <>
+                  <View style={[styles.cardMapel, {height: 200}]}>
+                    <View>
+                      <ScrollView nestedScrollEnabled={true}>
+                        <View
+                          style={{
+                            borderBottomWidth: 1,
+                            borderColor: '#F0E4E4',
+                            paddingBottom: 20,
+                            marginTop: hp('2%'),
+                          }}>
+                          <View>
+                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                              Kegiatan Pramuka
+                            </Text>
+                          </View>
+                          <View
+                            style={{flexDirection: 'row', marginTop: hp('1%')}}>
+                            <View style={{width: wp('30%')}}>
+                              <Text>Predikat</Text>
+                            </View>
+                            <View>
+                              <Text>:</Text>
+                            </View>
+                            <View style={{flex: 1, marginLeft: 10}}>
+                              <Text>A</Text>
+                            </View>
+                          </View>
+                          <View
+                            style={{flexDirection: 'row', marginTop: hp('1%')}}>
+                            <View style={{width: wp('30%')}}>
+                              <Text>Keterangan</Text>
+                            </View>
+                            <View>
+                              <Text>:</Text>
+                            </View>
+                            <View style={{flex: 1, marginLeft: 10}}>
+                              <Text>Bagus</Text>
+                            </View>
+                          </View>
+                        </View>
+
+                        <View
+                          style={{
+                            borderBottomWidth: 1,
+                            borderColor: '#F0E4E4',
+                            paddingBottom: 20,
+                            marginTop: hp('2%'),
+                          }}>
+                          <View>
+                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                              Kegiatan Musik
+                            </Text>
+                          </View>
+                          <View
+                            style={{flexDirection: 'row', marginTop: hp('1%')}}>
+                            <View style={{width: wp('30%')}}>
+                              <Text>Predikat</Text>
+                            </View>
+                            <View>
+                              <Text>:</Text>
+                            </View>
+                            <View style={{flex: 1, marginLeft: 10}}>
+                              <Text>A</Text>
+                            </View>
+                          </View>
+                          <View
+                            style={{flexDirection: 'row', marginTop: hp('1%')}}>
+                            <View style={{width: wp('30%')}}>
+                              <Text>Keterangan</Text>
+                            </View>
+                            <View>
+                              <Text>:</Text>
+                            </View>
+                            <View style={{flex: 1, marginLeft: 10}}>
+                              <Text>Bagus</Text>
+                            </View>
+                          </View>
+                        </View>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              ) : null}
+            </View>
+
+            {/* Prestasi */}
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: hp('3%'),
+                alignItems: 'center',
+              }}>
+              <View>
+                <FontAwesomeIcon color="#ACA3A3" size={30} icon={faFileLines} />
+              </View>
+              <View style={{flex: 1, marginLeft: 5}}>
+                <Text style={{color: '#ACA3A3', fontSize: 18}}>Prestasi</Text>
+              </View>
+              <View>
+                {statusPrestasi ? (
+                  <FontAwesomeIcon
+                    onPress={() => {
+                      setStatusPrestasi(false);
+                    }}
+                    color="#ACA3A3"
+                    size={30}
+                    icon={faCircleChevronDown}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    onPress={() => {
+                      setStatusPrestasi(true);
+                    }}
+                    color="#ACA3A3"
+                    size={30}
+                    icon={faCircleChevronUp}
+                  />
+                )}
+              </View>
+            </View>
+
+            {/* Isi Prestasi */}
+            <View
+              style={{
+                marginTop: hp('1%'),
+              }}>
+              {statusPrestasi ? (
+                <>
+                  <View style={[styles.cardMapel, {height: 200}]}>
+                    <View>
+                      <ScrollView nestedScrollEnabled={true}>
+                        <View
+                          style={{
+                            borderBottomWidth: 1,
+                            borderColor: '#F0E4E4',
+                            paddingBottom: 15,
+                            marginTop: hp('2%'),
+                          }}>
+                          <View>
+                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                              Juara Lomba Sains Fisika Antar Kabupaten
+                            </Text>
+                          </View>
+                        </View>
+
+                        <View
+                          style={{
+                            borderBottomWidth: 1,
+                            borderColor: '#F0E4E4',
+                            paddingBottom: 15,
+                            marginTop: hp('2%'),
+                          }}>
+                          <View>
+                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                              Juara Lomba Olimpiade Matematika
+                            </Text>
+                          </View>
+                        </View>
+
+                        <View
+                          style={{
+                            borderBottomWidth: 1,
+                            borderColor: '#F0E4E4',
+                            paddingBottom: 15,
+                            marginTop: hp('2%'),
+                          }}>
+                          <View>
+                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                              Juara Lomba Debate Bahasa Inggris
+                            </Text>
+                          </View>
+                        </View>
                       </ScrollView>
                     </View>
                   </View>
