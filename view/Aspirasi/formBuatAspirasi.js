@@ -526,13 +526,13 @@ function FormBuatAspirasi({navigation}) {
                   style={{color: '#b0b0b0'}}
                 />
                 <Picker.Item
-                  label="MPR"
-                  value="MPR"
+                  label="DPRD"
+                  value="DPRD"
                   style={{color: 'Black'}}
                 />
                 <Picker.Item
-                  label="DPR"
-                  value="DPR"
+                  label="EKSEKUTIF"
+                  value="EKSEKUTIF"
                   style={{color: 'Black'}}
                 />
               </Picker>
@@ -554,13 +554,13 @@ function FormBuatAspirasi({navigation}) {
                   style={{color: '#b0b0b0'}}
                 />
                 <Picker.Item
-                  label="DPRD"
-                  value="DPRD"
+                  label="DPR"
+                  value="DPR"
                   style={{color: 'Black'}}
                 />
                 <Picker.Item
-                  label="EKSEKUTIF"
-                  value="EKSEKUTIF"
+                  label="MPR"
+                  value="MPR"
                   style={{color: 'Black'}}
                 />
               </Picker>

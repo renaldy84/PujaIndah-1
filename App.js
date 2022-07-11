@@ -99,6 +99,7 @@ import FormKIA from './view/Kependudukan/formKIA';
 import KartuTandaPenduduk from './view/Kependudukan/kartuTandaPenduduk';
 import FormKTP from './view/Kependudukan/formKTP';
 import FormBuatAspirasi from './view/Aspirasi/formBuatAspirasi';
+import DetailPejabatEksekutif from './view/Aspirasi/detailPejabatEksekutif';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -410,6 +411,13 @@ function SettingNav() {
           }}
           name="DataPejabatPemerintah"
           component={DataPejabatPemerintah}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailPejabatEksekutif"
+          component={DetailPejabatEksekutif}
         />
         <Stack.Screen
           options={{
