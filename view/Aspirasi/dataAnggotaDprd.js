@@ -47,13 +47,7 @@ function DataAnggotaDprd({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View style={styles.content}>
             <View
@@ -143,9 +137,12 @@ function DataAnggotaDprd({navigation}) {
                   alignItems: 'center',
                   marginTop: 15,
                 }}>
-                <View style={{flex: 1, alignItems: 'flex-start'}}>
+                <TouchableOpacity onPress={() => {
+                  navigation.navigate('DetailAnggotaDprd');
+                }} 
+                style={{flex: 1, alignItems: 'flex-start',}}>
                   <Text style={{color: '#2F80ED'}}>Lihat Kegiatan</Text>
-                </View>
+                </TouchableOpacity>
                 <View>
                   <View
                     style={{
@@ -182,7 +179,7 @@ function DataAnggotaDprd({navigation}) {
               </View> */}
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };

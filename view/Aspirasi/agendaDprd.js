@@ -47,13 +47,7 @@ function AgendaDprd({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View>
            
@@ -166,7 +160,7 @@ function AgendaDprd({navigation}) {
               </View> */}
      
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };
@@ -199,7 +193,7 @@ function AgendaDprd({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Data Anggota DPRD </Text>
+            <Text style={styles.textJudul}>Agenda DPRD </Text>
           </View>
         </View>
         <View

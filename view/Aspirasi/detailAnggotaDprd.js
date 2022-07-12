@@ -28,7 +28,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function DetailPejabatEksekutif({navigation}) {
+function DetailAnggotaDprd({navigation}) {
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -64,7 +64,7 @@ function DetailPejabatEksekutif({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Detail Pejabat Eksekutif</Text>
+            <Text style={styles.textJudul}>Detail Anggota DPRD</Text>
           </View>
         </View>
 
@@ -118,10 +118,96 @@ function DetailPejabatEksekutif({navigation}) {
               </View>
             </View>
           </View>
-        </ScrollView>
+          <View
+            style={{
+              alignItems: 'flex-start',
+              borderBottomWidth: 1,
+              paddingBottom: 10,
+              marginLeft: 20,
+              marginRight: 20,
+            }}>
+            <Text style={{marginTop: 20}}>Kegiatan</Text>
+          </View>
 
+          <View style={{borderBottomWidth:1, paddingBottom:15, marginLeft: 20,
+              marginRight: 20,}}>
+            <View>
+              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
+                Kunjungan Kerja Ke Kecamatan ABC
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Tanggal : 30 Desember 2022
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Tempat : Kecamatan ABC
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Detail Kegiatan : Lorem Ipsum is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the
+                industry's.
+              </Text>
+            </View>
+          </View>
 
-        <View style={{borderWidth:1,alignItems:'center'}}>
+          <View style={{borderBottomWidth:1, paddingBottom:15, marginLeft: 20,
+              marginRight: 20,}}>
+            <View>
+              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
+                Kunjungan Kerja Ke Kecamatan ABC
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Tanggal : 30 Desember 2022
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Tempat : Kecamatan ABC
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Detail Kegiatan : Lorem Ipsum is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the
+                industry's.
+              </Text>
+            </View>
+          </View>
+
+          <View style={{borderBottomWidth:1, paddingBottom:15, marginLeft: 20,
+              marginRight: 20,}}>
+            <View>
+              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
+                Kunjungan Kerja Ke Kecamatan ABC
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Tanggal : 30 Desember 2022
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Tempat : Kecamatan ABC
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Detail Kegiatan : Lorem Ipsum is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the
+                industry's.
+              </Text>
+            </View>
+          </View>
+
+          <View style={{marginVertical:hp('3%'), alignItems: 'center'}}>
           <TouchableOpacity
             style={{
               height: 30,
@@ -130,8 +216,7 @@ function DetailPejabatEksekutif({navigation}) {
               borderRadius: 15,
               alignItems: 'center',
               justifyContent: 'center',
-              position:'absolute',
-              bottom:15
+              
             }}>
             <Text
               style={{
@@ -142,7 +227,8 @@ function DetailPejabatEksekutif({navigation}) {
               Sampaikan Aspirasi Anda
             </Text>
           </TouchableOpacity>
-          </View>
+        </View>
+        </ScrollView>
       </View>
     </>
   );
@@ -266,4 +352,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default DetailPejabatEksekutif;
+export default DetailAnggotaDprd;

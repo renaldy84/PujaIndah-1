@@ -47,13 +47,7 @@ function DaftarJdih({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View>
            
@@ -99,7 +93,7 @@ function DaftarJdih({navigation}) {
               </View> */}
      
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };

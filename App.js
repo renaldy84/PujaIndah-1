@@ -54,7 +54,7 @@ import DashboardAspirasi from './view/Aspirasi/dashboardAspirasi';
 import RiwayatAspirasi from './view/Aspirasi/daftarAspirasiDprd';
 import DataAnggotaDprd from './view/Aspirasi/dataAnggotaDprd';
 import RiwayatAspirasiPemerintah from './view/Aspirasi/daftarAspirasiPemerintah';
-import DataPejabatPemerintah from './view/Aspirasi/dataPejabatPemerintah';
+import DataPejabatEksekutif from './view/Aspirasi/dataPejabatEksekutif';
 import BuatAspirasi from './view/Aspirasi/buatAspirasi';
 import AgendaDprd from './view/Aspirasi/agendaDprd';
 import DaftarJdih from './view/Aspirasi/daftarJdih';
@@ -100,6 +100,7 @@ import KartuTandaPenduduk from './view/Kependudukan/kartuTandaPenduduk';
 import FormKTP from './view/Kependudukan/formKTP';
 import FormBuatAspirasi from './view/Aspirasi/formBuatAspirasi';
 import DetailPejabatEksekutif from './view/Aspirasi/detailPejabatEksekutif';
+import DetailAnggotaDprd from './view/Aspirasi/detailAnggotaDprd';
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -402,6 +403,13 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DetailAnggotaDprd"
+          component={DetailAnggotaDprd}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DaftarKegiatan"
           component={DaftarKegiatan}
         />
@@ -409,8 +417,8 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
-          name="DataPejabatPemerintah"
-          component={DataPejabatPemerintah}
+          name="DataPejabatEksekutif"
+          component={DataPejabatEksekutif}
         />
         <Stack.Screen
           options={{

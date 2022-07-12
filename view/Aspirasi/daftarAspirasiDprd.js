@@ -48,13 +48,7 @@ function RiwayatAspirasi({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View style={styles.content}>
             <View
@@ -114,7 +108,7 @@ function RiwayatAspirasi({navigation}) {
               </View> */}
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };
