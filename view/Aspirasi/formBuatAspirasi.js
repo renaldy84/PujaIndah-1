@@ -569,11 +569,15 @@ function FormBuatAspirasi({navigation}) {
             <View>
               <Text style={styles.text}>Isi Aspirasi</Text>
             </View>
-            <View style={styles.boxInput}>
+            <View style={[styles.boxInput,{height: 100}]}>
               <TextInput
-                style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
-                placeholder="Keahlian"></TextInput>
+                multiline={true}
+                numberOfLines={4}
+                style={[styles.textInput, {textAlignVertical: 'top'}]}
+                onChangeText={val => setNik(val)}
+                placeholder=" "
+                >
+                </TextInput>
             </View>
 
             <View>

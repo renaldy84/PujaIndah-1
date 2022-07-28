@@ -44,6 +44,31 @@ function AgendaDprd({navigation}) {
     },
   ];
 
+  const [filterAgendaDprd, setFilterAgendaDprd] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listAgendaDprd, setListAgendaDprd] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getListAgendaDprd = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/kependudukan/ktp/getall?order=id+desc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListDataBansos(response.data.data);
+        setFilterDataBansos(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const renderItem = ({item}) => {
     return (
       <>
@@ -165,6 +190,20 @@ function AgendaDprd({navigation}) {
     );
   };
 
+  useEffect(() => {
+    getListAgendaDprd();
+  }, []);
+
+  useEffect(() => {
+    if (listAgendaDprd.length !== 0) {
+      setFilterAgendaDprd(
+        listAgendaDprd.filter(x =>
+          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
+        ),
+      );
+    }
+  }, [filter]);
+
   return (
     <>
       <View
@@ -220,7 +259,7 @@ function AgendaDprd({navigation}) {
           </View>
         </View>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -230,7 +269,7 @@ function AgendaDprd({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterDataBansos.length !== 0 ? ( */}
+        ) : DATA.length !== 0 ? (
         <View style={{flex: 1, margin: 20}}>
           <FlatList
             data={DATA}
@@ -241,13 +280,13 @@ function AgendaDprd({navigation}) {
             // onEndReachedThreshold={0}
           />
         </View>
-        {/* ) : (
+        ) : (
           <>
             <View style={{alignItems: 'center', marginTop: 30}}>
               <Text>Data tidak ditemukan</Text>
             </View>
           </>
-        )} */}
+        )}
       </View>
     </>
   );

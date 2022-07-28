@@ -45,16 +45,31 @@ function KartuTandaPenduduk({navigation}) {
         },
       ];
 
+  const [listKTP,setListKTP]=useState([])
+  const [isLoading,setIsLoading]=useState(false)
+  const getListKTP=async()=>{
+  setIsLoading(true);
+    Axios({
+      url: url + `/api/kependudukan/ktp/getall?order=id+desc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log('Kartu Tanda Penduduk : ', response.data)
+        setListKTP(response.data.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+ }
+
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View style={styles.content}>
             <View
@@ -99,10 +114,14 @@ function KartuTandaPenduduk({navigation}) {
               </View> */}
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };
+
+  useEffect(() => {
+    getListKTP();
+  }, []);
 
   return (
     <>
@@ -146,7 +165,7 @@ function KartuTandaPenduduk({navigation}) {
          
         </View>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -156,7 +175,7 @@ function KartuTandaPenduduk({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterDataBansos.length !== 0 ? ( */}
+        ) : DATA.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
               data={DATA}
@@ -166,7 +185,15 @@ function KartuTandaPenduduk({navigation}) {
               // onEndReached={handleLoadMore}
               // onEndReachedThreshold={0}
             />
+          </View>):
+          (
+          <View>
+            <Text>
+              Data Tidak ditemukan
+            </Text>
           </View>
+          )}
+
           <TouchableOpacity
           onPress={() => {
             navigation.navigate('FormKTP');

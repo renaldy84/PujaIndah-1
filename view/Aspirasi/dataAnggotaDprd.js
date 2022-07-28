@@ -44,6 +44,31 @@ function DataAnggotaDprd({navigation}) {
     },
   ];
 
+  const [filterAnggotaDprd, setFilterAnggotaDprd] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listAnggotaDprd, setListAnggotaDprd] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getListAnggotaDprd = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/aspirasi/dprd-anggota/getall?order=id+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListAnggotaDprd(response.data.data);
+        setFilterAnggotaDprd(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const renderItem = ({item}) => {
     return (
       <>
@@ -72,7 +97,7 @@ function DataAnggotaDprd({navigation}) {
                         color: 'black',
                         fontSize: 16,
                       }}>
-                      Ratna
+                      {item.nama}
                     </Text>
                   </View>
 
@@ -84,7 +109,7 @@ function DataAnggotaDprd({navigation}) {
                       <Text>:</Text>
                     </View>
                     <View style={{flex: 1}}>
-                      <Text>Fraksi Partai NasDem</Text>
+                      <Text>{!item.fraksi?'-':item.fraksi}</Text>
                     </View>
                   </View>
 
@@ -109,7 +134,7 @@ function DataAnggotaDprd({navigation}) {
                       <Text>:</Text>
                     </View>
                     <View style={{flex: 1}}>
-                      <Text>IV</Text>
+                      <Text>{!item.komisi?'-':item.komisi}</Text>
                     </View>
                   </View>
 
@@ -121,8 +146,7 @@ function DataAnggotaDprd({navigation}) {
                       <Text>:</Text>
                     </View>
                     <View style={{flex: 1}}>
-                      <Text>Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's.</Text>
+                      <Text>{item.profil}</Text>
                     </View>
                   </View>
                 </View>
@@ -184,6 +208,20 @@ function DataAnggotaDprd({navigation}) {
     );
   };
 
+  useEffect(() => {
+    getListAnggotaDprd();
+  }, []);
+
+  useEffect(() => {
+    if (listAnggotaDprd.length !== 0) {
+      setFilterAnggotaDprd(
+        listAnggotaDprd.filter(x =>
+          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
+        ),
+      );
+    }
+  }, [filter]);
+
   return (
     <>
       <View
@@ -239,7 +277,7 @@ function DataAnggotaDprd({navigation}) {
           </View>
         </View>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -249,10 +287,10 @@ function DataAnggotaDprd({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterDataBansos.length !== 0 ? ( */}
+        ) : listAnggotaDprd.length !== 0 ? (
         <View style={{flex: 1, margin: 20}}>
           <FlatList
-            data={DATA}
+            data={listAnggotaDprd}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
             // ListFooterComponent={renderFooter}
@@ -260,13 +298,13 @@ function DataAnggotaDprd({navigation}) {
             // onEndReachedThreshold={0}
           />
         </View>
-        {/* ) : (
+        ) : (
           <>
             <View style={{alignItems: 'center', marginTop: 30}}>
               <Text>Data tidak ditemukan</Text>
             </View>
           </>
-        )} */}
+        )}
       </View>
     </>
   );

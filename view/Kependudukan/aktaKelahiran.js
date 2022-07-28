@@ -31,7 +31,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 function AktaKelahiran({navigation}) {
     
-    const DATA = [
+  const DATA = [
         {
           id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
           title: 'First Item',
@@ -45,18 +45,32 @@ function AktaKelahiran({navigation}) {
           title: 'Third Item',
         },
       ];
-      
+
+  const [listKelahiran,setListKelahiran]=useState([])
+  const [isLoading,setIsLoading]=useState(false)
+  const getListKelahiran=async()=>{
+  setIsLoading(true);
+    Axios({
+      url: url + `/api/kependudukan/kelahiran/getall?order=id+desc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log('Data Kelahiran : ', response.data)
+        setListKelahiran(response.data.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
 
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View style={styles.content}>
             <View
@@ -109,10 +123,14 @@ function AktaKelahiran({navigation}) {
               </View> */}
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };
+
+  useEffect(() => {
+    getListKelahiran();
+  }, []);
 
   return (
     <>
@@ -156,7 +174,7 @@ function AktaKelahiran({navigation}) {
          
         </View>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -166,7 +184,7 @@ function AktaKelahiran({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterDataBansos.length !== 0 ? ( */}
+        ) : DATA.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
               data={DATA}
@@ -176,7 +194,15 @@ function AktaKelahiran({navigation}) {
               // onEndReached={handleLoadMore}
               // onEndReachedThreshold={0}
             />
+          </View>):
+          (
+          <View>
+            <Text>
+              Data Tidak ditemukan
+            </Text>
           </View>
+          )}
+          
           <TouchableOpacity
           onPress={() => {
             navigation.navigate('FormAktaKelahiran');
