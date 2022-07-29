@@ -45,6 +45,32 @@ function RiwayatAspirasi({navigation}) {
         },
       ];
 
+  const [filterAspirasiDprd, setFilterAspirasiDprd] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listAspirasiDprd, setListAspirasiDprd] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getListAspirasiDprd = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/aspirasi/dprd-aspirasi/getall?order=id+asc
+      `,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListAspirasiDprd(response.data.data);
+        setFilterAspirasiDprd(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const renderItem = ({item}) => {
     return (
       <>
@@ -113,6 +139,20 @@ function RiwayatAspirasi({navigation}) {
     );
   };
 
+  useEffect(() => {
+    getListAspirasiDprd();
+  }, []);
+
+  useEffect(() => {
+    if (listAspirasiDprd.length !== 0) {
+      setFilterAspirasiDprd(
+        listAspirasiDprd.filter(x =>
+          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
+        ),
+      );
+    }
+  }, [filter]);
+
   return (
     <>
       <View
@@ -168,7 +208,7 @@ function RiwayatAspirasi({navigation}) {
           </View>
         </View>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -178,10 +218,10 @@ function RiwayatAspirasi({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterDataBansos.length !== 0 ? ( */}
+        ) : filterAspirasiDprd.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={DATA}
+              data={filterAspirasiDprd}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
               // ListFooterComponent={renderFooter}
@@ -189,13 +229,13 @@ function RiwayatAspirasi({navigation}) {
               // onEndReachedThreshold={0}
             />
           </View>
-        {/* ) : (
+        ) : (
           <>
             <View style={{alignItems: 'center', marginTop: 30}}>
               <Text>Data tidak ditemukan</Text>
             </View>
           </>
-        )} */}
+        )}
       </View>
     </>
   );
