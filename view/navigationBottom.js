@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useDispatch} from 'react-redux';
 import Home from './home';
+import Profil from './profil';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
@@ -141,7 +142,7 @@ function navigationBottom() {
       />
       <Tab.Screen
         name="Account"
-        component={AccountScreen}
+        component={Profil}
         options={{
           headerLeft: null,
           headerShown: false,

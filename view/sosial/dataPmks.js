@@ -30,25 +30,25 @@ import {
 
 function DataPmks({navigation}) {
   const modalizeRef = useRef(null);
-  const modalizeRefJenisLks = useRef(null);
+  const modalizeRefJenisPMKS = useRef(null);
   const modalizeRefLokasi = useRef(null);
 
   const filterModal = () => {
     modalizeRef.current?.open();
   };
 
-  const [listDataLks, setListDataLks] = useState([]);
-  const [filterListDataLks, setFilterListDataLks] = useState([]);
+  const [listDataPMKS, setListDataPMKS] = useState([]);
+  const [filterListDataPMKS, setFilterListDataPMKS] = useState([]);
   const [filter, setFilter] = useState('');
 
-  //Jenis LKS
-  const [filterJenisDataLks, setFilterJenisDataLks] = useState([]);
-  const [jenisDataLks, setJenisDataLks] = useState([]);
-  const [chooseJeninLks, setChooseJenisLks] = useState({});
-  const [checkedJenisLks, setCheckedJenisLks] = useState('');
-  const [checkedIDJenisLks, setCheckedIDJenisLks] = useState('');
-  const [namaJenisLks, setNamaJenisLks] = useState('');
-  const [filterJenisLksTxt, setFilterJenisLksTxt] = useState('');
+  //Jenis PMKS
+  const [filterJenisDataPMKS, setFilterJenisDataPMKS] = useState([]);
+  const [jenisDataPMKS, setJenisDataPMKS] = useState([]);
+  const [chooseJeninPMKS, setChooseJenisPMKS] = useState({});
+  const [checkedJenisPMKS, setCheckedJenisPMKS] = useState('');
+  const [checkedIDJenisPMKS, setCheckedIDJenisPMKS] = useState('');
+  const [namaJenisPMKS, setNamaJenisPMKS] = useState('');
+  const [filterJenisPMKSTxt, setFilterJenisPMKSTxt] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -85,16 +85,16 @@ function DataPmks({navigation}) {
   }, [filterProvTxt]);
 
   useEffect(() => {
-    if (jenisDataLks.length !== 0) {
-      setFilterJenisDataLks(
-        jenisDataLks.filter(x =>
-          x.nama.toLowerCase().includes(filterJenisLksTxt.toLowerCase()),
+    if (jenisDataPMKS.length !== 0) {
+      setFilterJenisDataPMKS(
+        jenisDataPMKS.filter(x =>
+          x.nama.toLowerCase().includes(filterJenisPMKSTxt.toLowerCase()),
         ),
       );
     }
-  }, [filterJenisLksTxt]);
+  }, [filterJenisPMKSTxt]);
 
-  const getListDataLKS = async () => {
+  const getListDataPMKS = async () => {
     setIsLoading(true);
     Axios({
       url: url + `/api/sosial/pmks/getall?order=nama_program+desc`,
@@ -105,8 +105,8 @@ function DataPmks({navigation}) {
     })
       .then(response => {
         setIsLoading(false);
-        setListDataLks(response.data.data);
-        setFilterListDataLks(response.data.data);
+        setListDataPMKS(response.data.data);
+        setFilterListDataPMKS(response.data.data);
       })
       .catch(error => {
         console.log('asu');
@@ -119,12 +119,12 @@ function DataPmks({navigation}) {
 
     if (
       (namaProvinsi != '' || namaProvinsi != undefined) &&
-      checkedJenisLks != ''
+      checkedJenisPMKS != ''
     ) {
       Axios({
         url:
           url +
-          `/api/sosial/pmks/getall?order=nama_program+desc&sos_pmks_jenis_id=${data.checkedJenisLks}&nama_daerah=${data.namaProvinsi}`,
+          `/api/sosial/pmks/getall?order=nama_program+desc&sos_pmks_jenis_id=${data.checkedJenisPMKS}&nama_daerah=${data.namaProvinsi}`,
         method: 'get',
         headers: {
           Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -132,8 +132,8 @@ function DataPmks({navigation}) {
       })
         .then(response => {
           setIsLoading(false);
-          setListDataLks(response.data.data);
-          setFilterListDataLks(response.data.data);
+          setListDataPMKS(response.data.data);
+          setFilterListDataPMKS(response.data.data);
         })
         .catch(error => {
           console.log(error);
@@ -150,17 +150,17 @@ function DataPmks({navigation}) {
       })
         .then(response => {
           setIsLoading(false);
-          setListDataLks(response.data.data);
-          setFilterListDataLks(response.data.data);
+          setListDataPMKS(response.data.data);
+          setFilterListDataPMKS(response.data.data);
         })
         .catch(error => {
           console.log(error);
         });
-    } else if (checkedJenisLks != '') {
+    } else if (checkedJenisPMKS != '') {
       Axios({
         url:
           url +
-          `/api/sosial/pmks/getall?order=nama_program+desc&sos_pmks_jenis_id=${data.checkedJenisLks}`,
+          `/api/sosial/pmks/getall?order=nama_program+desc&sos_pmks_jenis_id=${data.checkedJenisPMKS}`,
         method: 'get',
         headers: {
           Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -168,8 +168,8 @@ function DataPmks({navigation}) {
       })
         .then(response => {
           setIsLoading(false);
-          setListDataLks(response.data.data);
-          setFilterListDataLks(response.data.data);
+          setListDataPMKS(response.data.data);
+          setFilterListDataPMKS(response.data.data);
         })
         .catch(error => {
           console.log(error);
@@ -177,7 +177,7 @@ function DataPmks({navigation}) {
     }
   };
 
-  const getJenisDataLks = async () => {
+  const getJenisDataPMKS = async () => {
     setIsLoading(true);
     Axios({
       url: url + `/api/sosial/pmks-jenis/getall?order=nama+asc`,
@@ -188,8 +188,8 @@ function DataPmks({navigation}) {
     })
       .then(response => {
         console.log('jenis PMKS', response.data.data);
-        setJenisDataLks(response.data.data);
-        setFilterJenisDataLks(response.data.data);
+        setJenisDataPMKS(response.data.data);
+        setFilterJenisDataPMKS(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -215,11 +215,11 @@ function DataPmks({navigation}) {
                   color: 'black',
                   fontSize: 18,
                 }}>
-                {item.nama}
+                {item.nama_program}
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Jenis :</Text>{' '}
-                {jenisDataLks.map(val => {
+                {jenisDataPMKS.map(val => {
                   if (val.id == item.sos_pmks_jenis_id) {
                     return val.nama;
                   }
@@ -247,16 +247,16 @@ function DataPmks({navigation}) {
   };
 
   useEffect(() => {
-    getListDataLKS();
-    getJenisDataLks();
+    getListDataPMKS();
+    getJenisDataPMKS();
     getProvinsi();
     // getInfrastruktur();
   }, []);
 
   useEffect(() => {
-    if (listDataLks.length !== 0) {
-      setFilterListDataLks(
-        listDataLks.filter(x =>
+    if (listDataPMKS.length !== 0) {
+      setFilterListDataPMKS(
+        listDataPMKS.filter(x =>
           x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
         ),
       );
@@ -355,10 +355,10 @@ function DataPmks({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterListDataLks.length !== 0 ? (
+        ) : filterListDataPMKS.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={filterListDataLks}
+              data={filterListDataPMKS}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
             />
@@ -393,7 +393,7 @@ function DataPmks({navigation}) {
               <TouchableOpacity
                 onPress={() => {
                   modalizeRef.current?.close();
-                  modalizeRefJenisLks.current?.open();
+                  modalizeRefJenisPMKS.current?.open();
                 }}
                 style={{
                   flex: 1,
@@ -410,17 +410,17 @@ function DataPmks({navigation}) {
                 flexDirection: 'row',
                 flexWrap: 'wrap',
               }}>
-              {jenisDataLks.slice(0, 3).map((item, index) => {
+              {jenisDataPMKS.slice(0, 3).map((item, index) => {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      setChooseJenisLks(item);
-                      setCheckedJenisLks(item.id);
-                      setNamaJenisLks(item.nama);
+                      setChooseJenisPMKS(item);
+                      setCheckedJenisPMKS(item.id);
+                      setNamaJenisPMKS(item.nama);
                     }}
                     key={index}
                     style={{
-                      borderWidth: namaJenisLks === item.nama ? 3 : 1,
+                      borderWidth: namaJenisPMKS === item.nama ? 3 : 1,
                       marginTop: 10,
                       alignSelf: 'flex-start',
                       paddingHorizontal: 15,
@@ -428,12 +428,13 @@ function DataPmks({navigation}) {
                       borderRadius: 5,
                       margin: 5,
                       borderColor:
-                        namaJenisLks === item.nama ? '#274799' : 'black',
+                        namaJenisPMKS === item.nama ? '#274799' : 'black',
                     }}>
                     <Text
                       style={{
                         fontSize: 12,
-                        color: namaJenisLks === item.nama ? '#274799' : 'black',
+                        color:
+                          namaJenisPMKS === item.nama ? '#274799' : 'black',
                       }}>
                       {item.nama}
                     </Text>
@@ -509,11 +510,11 @@ function DataPmks({navigation}) {
                 modalizeRef.current?.close();
                 if (
                   (namaProvinsi == undefined || namaProvinsi == '') &&
-                  checkedJenisLks == ''
+                  checkedJenisPMKS == ''
                 ) {
-                  getListDataLKS();
+                  getListDataPMKS();
                 } else {
-                  hasilFilter({checkedJenisLks, namaProvinsi});
+                  hasilFilter({checkedJenisPMKS, namaProvinsi});
                 }
               }}>
               <Text style={styles.textButton}>Terapkan</Text>
@@ -523,7 +524,7 @@ function DataPmks({navigation}) {
       </Modalize>
       {/* Modal Jenis Bencana */}
       <Modalize
-        ref={modalizeRefJenisLks}
+        ref={modalizeRefJenisPMKS}
         // snapPoint={150}
         modalHeight={450}
         HeaderComponent={
@@ -540,7 +541,7 @@ function DataPmks({navigation}) {
               ]}>
               <TextInput
                 style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-                onChangeText={val => setFilterJenisLksTxt(val)}
+                onChangeText={val => setFilterJenisPMKSTxt(val)}
                 placeholder="Pencarian berdasarkan Jenis PMKS"></TextInput>
               <TouchableOpacity
                 onPress={() => {}}
@@ -562,11 +563,11 @@ function DataPmks({navigation}) {
                 <TouchableOpacity
                   style={styles.buttonReset}
                   onPress={() => {
-                    setCheckedJenisLks('');
-                    setFilterJenisLksTxt('');
-                    getJenisDataLks();
-                    setNamaJenisLks('');
-                    setChooseJenisLks({});
+                    setCheckedJenisPMKS('');
+                    setFilterJenisPMKSTxt('');
+                    getJenisDataPMKS();
+                    setNamaJenisPMKS('');
+                    setChooseJenisPMKS({});
                   }}>
                   <Text style={styles.textButtonReset}>Reset</Text>
                 </TouchableOpacity>
@@ -576,9 +577,9 @@ function DataPmks({navigation}) {
                   style={styles.buttonBencana}
                   onPress={() => {
                     modalizeRef.current?.open();
-                    modalizeRefJenisLks.current?.close();
-                    setNamaJenisLks(chooseJeninLks.nama);
-                    setFilterJenisLksTxt('');
+                    modalizeRefJenisPMKS.current?.close();
+                    setNamaJenisPMKS(chooseJeninPMKS.nama);
+                    setFilterJenisPMKSTxt('');
                   }}>
                   <Text style={styles.textButton}>Terapkan</Text>
                 </TouchableOpacity>
@@ -587,7 +588,7 @@ function DataPmks({navigation}) {
           </>
         }>
         <View style={{marginTop: 20, marginLeft: 20}}>
-          {filterJenisDataLks.map((item, index) => {
+          {filterJenisDataPMKS.map((item, index) => {
             return (
               <>
                 <View
@@ -601,11 +602,11 @@ function DataPmks({navigation}) {
                     color="#274799"
                     value="first"
                     status={
-                      checkedJenisLks === item.id ? 'checked' : 'unchecked'
+                      checkedJenisPMKS === item.id ? 'checked' : 'unchecked'
                     }
                     onPress={() => {
-                      setChooseJenisLks(item);
-                      setCheckedJenisLks(item.id);
+                      setChooseJenisPMKS(item);
+                      setCheckedJenisPMKS(item.id);
                     }}
                   />
                   <View>

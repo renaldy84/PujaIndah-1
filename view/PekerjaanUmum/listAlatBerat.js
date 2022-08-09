@@ -29,15 +29,15 @@ import {
 } from 'react-native-responsive-screen';
 
 function ListAlatBerat({navigation}) {
-  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
+  const [filterAlatBerat, setFilterAlatBerat] = useState([]);
   const [filter, setFilter] = useState('');
-  const [listTitikRawan, setListTitikRawan] = useState([]);
+  const [listAlatBerat, setListAlatBerat] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getListTitikRawan = async () => {
+  const getListAlatBerat = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
+      url: url + `/api/pu/alat/getall?order=id+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -46,8 +46,8 @@ function ListAlatBerat({navigation}) {
       .then(response => {
         // console.log(response.data.data);
         setIsLoading(false);
-        setListTitikRawan(response.data.data);
-        setFilterTitikRawan(response.data.data);
+        setListAlatBerat(response.data.data);
+        setFilterAlatBerat(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -82,20 +82,21 @@ function ListAlatBerat({navigation}) {
                     fontSize: 16,
                     marginTop: 10,
                   }}>
-                  Bulldozer
+                  {item.nama}
                 </Text>
               </View>
               <Text>
                 <Text style={{fontWeight: 'bold'}}>Harga Sewa:</Text> Rp.
-                500.000/Jam
+                {item.harga_sewa}/Jam
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Tersedia:</Text> 4 Unit
+                <Text style={{fontWeight: 'bold'}}>Tersedia:</Text>{' '}
+                {item.ketersediaan} Unit
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Tanggal Publish:</Text> 30
-                Desember 2021
-                {/* {moment(new Date(item.created_at)).format('DD-MM-YYYY')} */}
+                <Text style={{fontWeight: 'bold'}}>Tanggal Publish:</Text>
+                {/* 30 Desember 2021 */}{' '}
+                {moment(new Date(item.created_at)).format('DD-MM-YYYY')}
               </Text>
             </View>
           </View>
@@ -103,7 +104,9 @@ function ListAlatBerat({navigation}) {
             <View style={{justifyContent: 'center'}}>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('DetailAlatBerat');
+                  navigation.navigate('DetailAlatBerat', {
+                    idAlat: item.id,
+                  });
                 }}>
                 <Text style={{color: '#274799'}}>Lihat detail alat</Text>
               </TouchableOpacity>
@@ -122,14 +125,14 @@ function ListAlatBerat({navigation}) {
   };
 
   useEffect(() => {
-    getListTitikRawan();
+    getListAlatBerat();
   }, []);
 
   useEffect(() => {
-    if (listTitikRawan.length !== 0) {
-      setFilterTitikRawan(
-        listTitikRawan.filter(x =>
-          x.nama_deskel.toLowerCase().includes(filter.toLowerCase()),
+    if (listAlatBerat.length !== 0) {
+      setFilterAlatBerat(
+        listAlatBerat.filter(x =>
+          x.nama.toLowerCase().includes(filter.toLowerCase()),
         ),
       );
     }
@@ -201,10 +204,10 @@ function ListAlatBerat({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterTitikRawan.length !== 0 ? (
+        ) : filterAlatBerat.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={filterTitikRawan}
+              data={filterAlatBerat}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
               // ListFooterComponent={renderFooter}

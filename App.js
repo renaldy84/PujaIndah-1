@@ -98,6 +98,11 @@ import FormAktaKelahiran from './view/Kependudukan/formAktaKelahiran';
 import FormKIA from './view/Kependudukan/formKIA';
 import KartuTandaPenduduk from './view/Kependudukan/kartuTandaPenduduk';
 import FormKTP from './view/Kependudukan/formKTP';
+import UbahPassword from './view/ubahPassword';
+import UbahProfile from './view/ubahProfile';
+import BukuDigital from './view/Pendidikan/bukuDigital';
+import MajalahDigital from './view/Pendidikan/majalahDigital';
+
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
 
@@ -668,6 +673,34 @@ function SettingNav() {
           }}
           name="FormKTP"
           component={FormKTP}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="UbahPassword"
+          component={UbahPassword}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="UbahProfile"
+          component={UbahProfile}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="BukuDigital"
+          component={BukuDigital}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="MajalahDigital"
+          component={MajalahDigital}
         />
       </Stack.Navigator>
     </>

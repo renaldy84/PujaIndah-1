@@ -117,6 +117,42 @@ const DashboardPendidikan = ({navigation}) => {
                   <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.boxKonten}
+                onPress={() => {
+                  navigation.navigate('BukuDigital');
+                }}>
+                <View style={styles.boxIconRight}>
+                  <Image
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconPendidikan/bukudigital.png')}
+                  />
+                </View>
+                <View style={styles.boxText}>
+                  <Text style={{fontSize: 16}}>Buku Digital</Text>
+                </View>
+                <View style={styles.boxIconLeft}>
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.boxKonten}
+                onPress={() => {
+                  navigation.navigate('MajalahDigital');
+                }}>
+                <View style={styles.boxIconRight}>
+                  <Image
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconPendidikan/majalahdigital.png')}
+                  />
+                </View>
+                <View style={styles.boxText}>
+                  <Text style={{fontSize: 16}}>Majalah Digital</Text>
+                </View>
+                <View style={styles.boxIconLeft}>
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
+                </View>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>
