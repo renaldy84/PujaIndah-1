@@ -28,7 +28,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function DataPejabatPemerintah({navigation}) {
+function DataPejabatEksekutif({navigation}) {
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -47,13 +47,7 @@ function DataPejabatPemerintah({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View style={styles.content}>
             <View
@@ -78,7 +72,7 @@ function DataPejabatPemerintah({navigation}) {
                         color: 'black',
                         fontSize: 16,
                       }}>
-                      Judul
+                      Ratna
                     </Text>
                   </View>
 
@@ -130,9 +124,14 @@ function DataPejabatPemerintah({navigation}) {
                   alignItems: 'center',
                   marginTop: 15,
                 }}>
-                <View style={{flex: 1, alignItems: 'flex-start'}}>
+                <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('DetailPejabatEksekutif');
+                }} 
+                style={{flex: 1, alignItems: 'flex-start'}}>
                   <Text style={{color: '#2F80ED'}}>Lihat Kegiatan</Text>
-                </View>
+                </TouchableOpacity>
+
                 <View>
                   <View
                     style={{
@@ -169,7 +168,7 @@ function DataPejabatPemerintah({navigation}) {
               </View> */}
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };
@@ -380,4 +379,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-export default DataPejabatPemerintah;
+export default DataPejabatEksekutif;

@@ -30,31 +30,46 @@ import {
 
 function AktaKematian({navigation}) {
   
-    const DATA = [
-        {
-          id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-          title: 'First Item',
-        },
-        {
-          id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-          title: 'Second Item',
-        },
-        {
-          id: '58694a0f-3da1-471f-bd96-145571e29d72',
-          title: 'Third Item',
-        },
-      ];
+  const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
+  ];
+
+ const [listKematian,setListKematian]=useState([])
+ const [isLoading,setIsLoading]=useState(false)
+ const getListKematian=async()=>{
+  setIsLoading(true);
+    Axios({
+      url: url + `/api/kependudukan/kematian/getall?order=id+desc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log('Data Kematian : ', response.data)
+        setListKematian(response.data.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+ }
 
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View style={styles.content}>
             <View
@@ -65,31 +80,26 @@ function AktaKematian({navigation}) {
                 // alignItems: 'center',
               }}>
               <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 16,
-                    marginTop: 15,
-                  }}>
-                  Nama :
-                </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Nama :</Text>{' '}
+                Berto Tuga
+              </Text>
               </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NIK :</Text>{' '}
-                p
+                6767767677766767
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NKK :</Text>{' '}
-                p
+                5656565656566565
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Catatan :</Text>{' '}
-                p
+                Tidak Ada
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Alamat pengambilan :</Text>{' '}
-                p
+                jln. mana saja
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Dokumen :</Text>{' '}
@@ -118,10 +128,14 @@ function AktaKematian({navigation}) {
               </View> */}
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };
+
+  useEffect(() => {
+    getListKematian();
+  }, []);
 
   return (
     <>
@@ -165,7 +179,7 @@ function AktaKematian({navigation}) {
          
         </View>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -175,7 +189,7 @@ function AktaKematian({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterDataBansos.length !== 0 ? ( */}
+        ) : DATA.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
               data={DATA}
@@ -185,7 +199,15 @@ function AktaKematian({navigation}) {
               // onEndReached={handleLoadMore}
               // onEndReachedThreshold={0}
             />
+          </View>):
+          (
+          <View>
+            <Text>
+              Data Tidak ditemukan
+            </Text>
           </View>
+          )}
+          
           <TouchableOpacity
           onPress={() => {
             navigation.navigate('FormAktaKematian');

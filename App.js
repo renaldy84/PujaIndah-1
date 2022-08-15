@@ -54,7 +54,7 @@ import DashboardAspirasi from './view/Aspirasi/dashboardAspirasi';
 import RiwayatAspirasi from './view/Aspirasi/daftarAspirasiDprd';
 import DataAnggotaDprd from './view/Aspirasi/dataAnggotaDprd';
 import RiwayatAspirasiPemerintah from './view/Aspirasi/daftarAspirasiPemerintah';
-import DataPejabatPemerintah from './view/Aspirasi/dataPejabatPemerintah';
+import DataPejabatEksekutif from './view/Aspirasi/dataPejabatEksekutif';
 import BuatAspirasi from './view/Aspirasi/buatAspirasi';
 import AgendaDprd from './view/Aspirasi/agendaDprd';
 import DaftarJdih from './view/Aspirasi/daftarJdih';
@@ -102,6 +102,9 @@ import UbahPassword from './view/ubahPassword';
 import UbahProfile from './view/ubahProfile';
 import BukuDigital from './view/Pendidikan/bukuDigital';
 import MajalahDigital from './view/Pendidikan/majalahDigital';
+import FormBuatAspirasi from './view/Aspirasi/formBuatAspirasi';
+import DetailPejabatEksekutif from './view/Aspirasi/detailPejabatEksekutif';
+import DetailAnggotaDprd from './view/Aspirasi/detailAnggotaDprd';
 
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
@@ -405,6 +408,13 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
+          name="DetailAnggotaDprd"
+          component={DetailAnggotaDprd}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="DaftarKegiatan"
           component={DaftarKegiatan}
         />
@@ -412,8 +422,15 @@ function SettingNav() {
           options={{
             headerShown: false,
           }}
-          name="DataPejabatPemerintah"
-          component={DataPejabatPemerintah}
+          name="DataPejabatEksekutif"
+          component={DataPejabatEksekutif}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailPejabatEksekutif"
+          component={DetailPejabatEksekutif}
         />
         <Stack.Screen
           options={{
@@ -428,6 +445,13 @@ function SettingNav() {
           }}
           name="BuatAspirasi"
           component={BuatAspirasi}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="FormBuatAspirasi"
+          component={FormBuatAspirasi}
         />
         <Stack.Screen
           options={{

@@ -28,75 +28,13 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function DaftarJdih({navigation}) {
+function DetailPejabatEksekutif({navigation}) {
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
       title: 'First Item',
     },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
   ];
-
-  const renderItem = ({item}) => {
-    return (
-      <>
-        <View
-          style={styles.container}>
-          <View>
-           
-                <View style={{height:hp("5%"),justifyContent:'center',paddingHorizontal:10,backgroundColor:'#EBC351'}}>
-                  <Text style={{fontWeight:"bold"}}>Kota Bandung</Text>
-                </View>
-              <View style={{ marginTop: hp("1%"),paddingHorizontal:10}}>
-                <View style={{ flex: 1}}>
-                  <View>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        color: 'black',
-                        fontSize: 13,
-                      }}>
-                      Situs Resmi
-                    </Text>
-                  </View>
-
-                  <View style={{ marginTop: 5, marginBottom:10}}>
-                    <View style={{flex: 1}}>
-                      <Text style={{color:'#274799'}}>
-                      https://jdih.dprd.bandungkab.go.id/	
-                      </Text>
-                    </View>
-
-                  </View>
-                </View>
-              </View>
-
-
-              {/* <View style={{marginTop: 10, marginBottom: 15}}>
-                <Text>
-                  Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
-                  City, Jakarta 13260
-                </Text>
-                <Text>
-                  <Text>Jam Mulai:</Text> 08:00 AM
-                </Text>
-                <Text>
-                  <Text>Jam Selesai:</Text> 17:00 PM
-                </Text>
-              </View> */}
-     
-          </View>
-        </View>
-      </>
-    );
-  };
 
   return (
     <>
@@ -111,76 +49,100 @@ function DaftarJdih({navigation}) {
           style={{
             flexDirection: 'row',
             // marginTop: hp('5%'),
-            height: hp('10%'),
             alignItems: 'center',
-            backgroundColor: '#274799'
+            height: hp('10%'),
+            backgroundColor: '#274799',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-                color='white'
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
-                navigation.navigate('DashboardAspirasi');
+                navigation.navigate('DataPejabatEksekutif');
               }}
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={styles.textJudul}>Daftar JDIH </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginHorizontal: 20,
-            marginTop: hp('2%'),
-          }}>
-          <View style={[styles.boxInput, {flexDirection: 'row', flex: 4}]}>
-            <TextInput
-              style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-              onChangeText={() => {}}
-              placeholder="Ketik daerah yang ingin dicari"></TextInput>
-            <TouchableOpacity
-              onPress={() => {}}
-              style={{
-                flex: 1,
-                // borderWidth: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <FontAwesomeIcon color="grey" size={20} icon={faSearch} />
-            </TouchableOpacity>
+            <Text style={styles.textJudul}>Detail Pejabat Eksekutif</Text>
           </View>
         </View>
 
-        {/* {isLoading ? (
-          <View
+        <ScrollView>
+          <View style={{marginTop: hp('3%'), marginHorizontal: wp('10%')}}>
+            <View style={{alignItems: 'center'}}>
+              <Image
+                style={{width: 136, height: 188}}
+                // resizeMode="contain"
+                source={{
+                  uri: 'https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,q_auto:best,w_640/v1570082311/qnvzzgvbl48ivrp25shu.jpg',
+                }}
+              />
+            </View>
+            <View style={{flexDirection: 'row', marginTop: 15}}>
+              <View style={{width: 80}}>
+                <Text style={{fontWeight: 'bold'}}>Jabatan</Text>
+              </View>
+              <View style={{marginHorizontal: 5}}>
+                <Text>:</Text>
+              </View>
+              <View>
+                <Text>Sekda</Text>
+              </View>
+            </View>
+
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <View style={{width: 80}}>
+                <Text style={{fontWeight: 'bold'}}>Instansi</Text>
+              </View>
+              <View style={{marginHorizontal: 5}}>
+                <Text>:</Text>
+              </View>
+              <View>
+                <Text>Pemkab Kupang</Text>
+              </View>
+            </View>
+
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <View style={{width: 80}}>
+                <Text style={{fontWeight: 'bold'}}>Profil</Text>
+              </View>
+              <View style={{marginHorizontal: 5}}>
+                <Text>:</Text>
+              </View>
+              <View style={{width: 200}}>
+                <Text>
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's.
+                </Text>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+
+
+        <View style={{borderWidth:1,alignItems:'center'}}>
+          <TouchableOpacity
             style={{
-              marginTop: 10,
+              height: 30,
+              width: wp('90%'),
+              backgroundColor: '#2F80ED',
+              borderRadius: 15,
               alignItems: 'center',
               justifyContent: 'center',
-              flex: 1,
+              position:'absolute',
+              bottom:15
             }}>
-            <ActivityIndicator size={30} />
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 12,
+                color: '#F2F2F2',
+              }}>
+              Sampaikan Aspirasi Anda
+            </Text>
+          </TouchableOpacity>
           </View>
-        ) : filterDataBansos.length !== 0 ? ( */}
-        <View style={{flex: 1, margin: 20}}>
-          <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            // ListFooterComponent={renderFooter}
-            // onEndReached={handleLoadMore}
-            // onEndReachedThreshold={0}
-          />
-        </View>
-        {/* ) : (
-          <>
-            <View style={{alignItems: 'center', marginTop: 30}}>
-              <Text>Data tidak ditemukan</Text>
-            </View>
-          </>
-        )} */}
       </View>
     </>
   );
@@ -213,13 +175,14 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white',
   },
   container: {
     // marginTop: 5,
     marginBottom: hp('3%'),
     marginLeft: 10,
     width: wp('85%'),
+    borderRadius: 10,
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: {
@@ -229,6 +192,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.41,
     shadowRadius: 9.11,
     elevation: 5,
+  },
+  content: {
+    flex: 1,
+    flexDirection: 'row',
   },
   textButton: {
     textAlign: 'center',
@@ -298,10 +265,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  boxIconRight: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  
 });
-export default DaftarJdih;
+export default DetailPejabatEksekutif;

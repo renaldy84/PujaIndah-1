@@ -33,12 +33,12 @@ import {
 import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
-function FormKTP({navigation}) {
+function FormBuatAspirasi({navigation}) {
   const modalizeRef = useRef(null);
   const modalizeRefKTP = useRef(null);
   const [modalHandleFoto, setModalHandleFoto] = useState(false);
   const [nama, setNama] = useState('');
-  const [email, setEmail] = useState('');
+  const [nkk, setEmail] = useState('');
   const [nik, setNik] = useState('');
   const [telp, setTelp] = useState('');
   const [idKategoriAduan, setIdKategoriAduan] = useState();
@@ -442,13 +442,13 @@ function FormKTP({navigation}) {
               size={30}
               icon={faArrowLeft}
               onPress={() => {
-                navigation.navigate('KartuTandaPenduduk');
+                navigation.navigate('BuatAspirasi');
               }}
             />
           </View>
           <View style={styles.boxLogin}>
             <Text style={[styles.textLogin, {color: 'white'}]}>
-              Form Kartu Tanda Penduduk
+              Form Aspirasi Anda
             </Text>
           </View>
         </View>
@@ -456,7 +456,7 @@ function FormKTP({navigation}) {
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.container}>
             <View>
-              <Text style={styles.text}>Nama Lengkap</Text>
+              <Text style={styles.text}>Nama</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
@@ -466,7 +466,17 @@ function FormKTP({navigation}) {
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
             </View>
-            
+            <View>
+              <Text style={styles.text}>Email</Text>
+            </View>
+            <View style={styles.boxInput}>
+              <TextInput
+                editable={false}
+                value={profil.email}
+                style={styles.textInput}
+                onChangeText={val => setEmail(val)}
+                placeholder="Email"></TextInput>
+            </View>
             <View>
               <Text style={styles.text}>Nomor Induk Kependudukan (NIK)</Text>
             </View>
@@ -479,72 +489,99 @@ function FormKTP({navigation}) {
                 placeholder="NIK"></TextInput>
             </View>
             <View>
-              <Text style={styles.text}>Nomor Kartu Keluarga (NKK)</Text>
+              <Text style={styles.text}>No Telp/HP</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={false}
-                value={profil.nik}
+                editable={profil.phone === null ? true : false}
+                // value={profil.phone === null ? '' : profil.phone}
                 style={styles.textInput}
-                onChangeText={val => setNik(val)}
-                placeholder="NIK"></TextInput>
+                onChangeText={val => setTelp(val)}
+                placeholder="No Telp/HP"></TextInput>
             </View>
 
             <View>
-              <Text style={styles.text}>Catatan</Text>
+              <Text style={styles.text}>Judul Aspirasi</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setJudulPengaduan(val)}
-                placeholder="Catatan"></TextInput>
+                placeholder="Keahlian"></TextInput>
+            </View>
+
+            <View style={{marginTop: 5}}>
+              <Text style={styles.text}>DPRD/Eksekutif</Text>
+            </View>
+            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
+              <Picker
+                mode="dropdown"
+                selectedValue={idKategoriAduan}
+                onValueChange={(itemValue, itemIndex) => {
+                  setIdKategoriAduan(itemValue);
+                }}>
+                <Picker.Item
+                  label="Pilih Kategori"
+                  value=""
+                  style={{color: '#b0b0b0'}}
+                />
+                <Picker.Item
+                  label="DPRD"
+                  value="DPRD"
+                  style={{color: 'Black'}}
+                />
+                <Picker.Item
+                  label="EKSEKUTIF"
+                  value="EKSEKUTIF"
+                  style={{color: 'Black'}}
+                />
+              </Picker>
+            </View>
+
+            <View style={{marginTop: 5}}>
+              <Text style={styles.text}>Ditujukan Kepada </Text>
+            </View>
+            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
+              <Picker
+                mode="dropdown"
+                selectedValue={idKategoriAduan}
+                onValueChange={(itemValue, itemIndex) => {
+                  setIdKategoriAduan(itemValue);
+                }}>
+                <Picker.Item
+                  label="Pilih Kategori"
+                  value=""
+                  style={{color: '#b0b0b0'}}
+                />
+                <Picker.Item
+                  label="DPR"
+                  value="DPR"
+                  style={{color: 'Black'}}
+                />
+                <Picker.Item
+                  label="MPR"
+                  value="MPR"
+                  style={{color: 'Black'}}
+                />
+              </Picker>
             </View>
 
             <View>
-              <Text style={styles.text}>Unggah Scan Akta Lahir</Text>
+              <Text style={styles.text}>Isi Aspirasi</Text>
             </View>
-            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
+            <View style={[styles.boxInput,{height: 100}]}>
               <TextInput
-                value={namaFotoKTP}
-                style={[styles.textInput, {flex: 5}]}
-                // onChangeText={val => setJudulPengaduan(val)}
-                // placeholder="Judul Pengaduan"
-                editable={false}></TextInput>
-              <TouchableOpacity
-                onPress={pilihFotoKTP}
-                style={{
-                  flex: 1,
-                  // borderWidth: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
-              </TouchableOpacity>
+                multiline={true}
+                numberOfLines={4}
+                style={[styles.textInput, {textAlignVertical: 'top'}]}
+                onChangeText={val => setNik(val)}
+                placeholder=" "
+                >
+                </TextInput>
             </View>
+
             <View>
-              <Text style={styles.text}>Unggah scan Kartu Keluarga</Text>
-            </View>
-            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
-              <TextInput
-                value={namaFotoKTP}
-                style={[styles.textInput, {flex: 5}]}
-                // onChangeText={val => setJudulPengaduan(val)}
-                // placeholder="Judul Pengaduan"
-                editable={false}></TextInput>
-              <TouchableOpacity
-                onPress={pilihFotoKTP}
-                style={{
-                  flex: 1,
-                  // borderWidth: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
-              </TouchableOpacity>
-            </View>
-            
-            <View>
-              <Text style={styles.text}>Unggah File Lainnya</Text>
+              <Text style={styles.text}>Unggah File</Text>
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
@@ -564,7 +601,6 @@ function FormKTP({navigation}) {
                 <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
               </TouchableOpacity>
             </View>
-
 
             <View style={styles.boxButton}>
               <TouchableOpacity style={styles.buttonLogin} onPress={cekKirim}>
@@ -857,4 +893,4 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
 });
-export default FormKTP;
+export default FormBuatAspirasi;

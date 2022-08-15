@@ -45,16 +45,31 @@ function KartuIdentitasAnak({navigation}) {
         },
       ];
 
+  const [listKIA,setListKIA]=useState([])
+  const [isLoading,setIsLoading]=useState(false)
+  const getListKIA=async()=>{
+  setIsLoading(true);
+    Axios({
+      url: url + `/api/kependudukan/kia/getall?order=id+desc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log('Kartu Identitas Anak : ', response.data)
+        setListKIA(response.data.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+ }
+
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity
-          onPress={() => {
-            // console.log(item.id);
-            // navigation.navigate('DetailInfrastruktur', {
-            //   idInfrastruktur: item.id,
-            // });
-          }}
+        <View
           style={styles.container}>
           <View style={styles.content}>
             <View
@@ -65,23 +80,18 @@ function KartuIdentitasAnak({navigation}) {
                 // alignItems: 'center',
               }}>
               <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 15,
-                    marginTop: 15,
-                  }}>
-                  Nama Lengkap :
-                </Text>
+              <Text style={{marginTop: 5}}>
+                <Text style={{fontWeight: 'bold'}}>Nama Lengkap :</Text>{' '}
+                Budi Prasetya
+              </Text>
               </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NIK :</Text>{' '}
-                p
+                89898998998989
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>NKK :</Text>{' '}
-                p
+                767677564656778
               </Text>
               <View style={{ marginTop:20, alignItems:'flex-end'}}>
               <View style={{height:30, width:117, backgroundColor:"#F2C94C", borderRadius:15, alignItems:'center', justifyContent:'center'}}> 
@@ -104,10 +114,14 @@ function KartuIdentitasAnak({navigation}) {
               </View> */}
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
       </>
     );
   };
+
+  useEffect(() => {
+    getListKIA();
+  }, []);
 
   return (
     <>
@@ -151,7 +165,7 @@ function KartuIdentitasAnak({navigation}) {
          
         </View>
 
-        {/* {isLoading ? (
+        {isLoading ? (
           <View
             style={{
               marginTop: 10,
@@ -161,7 +175,7 @@ function KartuIdentitasAnak({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterDataBansos.length !== 0 ? ( */}
+        ) : DATA.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
               data={DATA}
@@ -171,7 +185,15 @@ function KartuIdentitasAnak({navigation}) {
               // onEndReached={handleLoadMore}
               // onEndReachedThreshold={0}
             />
+          </View>):
+          (
+          <View>
+            <Text>
+              Data Tidak ditemukan
+            </Text>
           </View>
+          )}
+
           <TouchableOpacity
           onPress={() => {
             navigation.navigate('FormKIA');
