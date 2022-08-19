@@ -129,7 +129,13 @@ function DetailAlatBerat({navigation, route}) {
           justifyContent: 'flex-end',
           // position: 'absolute',
         }}>
-        <TouchableOpacity style={styles.buttonBooking}>
+        <TouchableOpacity
+          style={styles.buttonBooking}
+          onPress={() => {
+            navigation.navigate('BookingAlat', {
+              idAlat: idAlatBerat,
+            });
+          }}>
           {/* <TouchableOpacity
               onPress={() => {
                 console.log('tes');

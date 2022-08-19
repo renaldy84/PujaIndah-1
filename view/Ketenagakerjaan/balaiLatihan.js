@@ -45,7 +45,7 @@ function BalaiLatihanKerja({navigation}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
+      url: url + `/api/ketenagakerjaan/blk/getall?order=id+asc`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -67,7 +67,9 @@ function BalaiLatihanKerja({navigation}) {
       <>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('DetailBalaiLatihan');
+            navigation.navigate('DetailBalaiLatihan', {
+              idBlk: item.id,
+            });
           }}
           style={styles.container}>
           <View style={styles.content}>
@@ -94,7 +96,7 @@ function BalaiLatihanKerja({navigation}) {
                     fontSize: 14,
                     marginTop: 10,
                   }}>
-                  Balai Latihan Kerja Banyuwangi
+                  {item.nama_tempat}
                 </Text>
               </View>
               <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -102,9 +104,7 @@ function BalaiLatihanKerja({navigation}) {
                   <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
                 </View>
                 <View style={{marginLeft: 5}}>
-                  <Text>
-                    Jalan Ahmad Yani, Krajan, Kedungrejo, Muncar, Banyuwangi
-                  </Text>
+                  <Text>{item.alamat}</Text>
                 </View>
               </View>
               <View
@@ -116,7 +116,7 @@ function BalaiLatihanKerja({navigation}) {
                   style={{
                     marginLeft: 5,
                   }}>
-                  <Text>0333-5161717</Text>
+                  <Text>{item.kontak}</Text>
                 </View>
               </View>
             </View>

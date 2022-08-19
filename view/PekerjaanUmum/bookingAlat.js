@@ -10,7 +10,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
@@ -25,7 +25,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function BookingAlat({navigation}) {
+function BookingAlat({navigation, route}) {
   const modalizeRef = useRef(null);
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
@@ -42,25 +42,50 @@ function BookingAlat({navigation}) {
   const [message, setMessage] = useState('');
   const [tanggal, setTanggal] = useState('');
   const [showTanggal, setShowTanggal] = useState(false);
-
-  const getProfil = async () => {
+  const responLogin = useSelector(state => state.responLogin);
+  const idAlatBerat = route.params.idAlat;
+  // console.log(idAlatBerat, '>>>>>>>>');
+  const submitSewaAlat = async () => {
+    console.log(
+      typeof idAlatBerat,
+      typeof jumlahAlat,
+      tanggal,
+      lamaPakai,
+      instansi,
+      alamatInstansi,
+      typeof responLogin.detailProfile.daerah.provinsi,
+      responLogin.detailProfile.daerah.kabkota,
+    );
     Axios({
-      url: url + `/api/master/profile/user-detail`,
-      method: 'get',
+      url: url + `/api/pu/booking-sewa/create`,
+      method: 'post',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
+      data: {
+        pu_data_alat_id: idAlatBerat,
+        jumlah: parseInt(jumlahAlat),
+        tanggal_pakai: tanggal,
+        durasi: parseInt(lamaPakai),
+        instansi: instansi,
+        alamat_instansi: alamatInstansi,
+        provinsi_id: responLogin.detailProfile.daerah.provinsi,
+        kabkot_id: responLogin.detailProfile.daerah.kabkota,
+      },
     })
       .then(response => {
-        setProfil(response.data.data);
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
       });
   };
 
   useEffect(() => {
-    getProfil();
+    // getProfil();
   }, []);
   return (
     <>
@@ -127,7 +152,7 @@ function BookingAlat({navigation}) {
                   marginTop: 20,
                   justifyContent: 'center',
                 }}>
-                {message}
+                Gagal Mengirim!
               </Text>
             </View>
 
@@ -208,7 +233,7 @@ function BookingAlat({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 editable={false}
-                value={profil.name}
+                value={responLogin.name}
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
@@ -219,7 +244,7 @@ function BookingAlat({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 editable={false}
-                value={profil.email}
+                value={responLogin.email}
                 style={styles.textInput}
                 onChangeText={val => setEmail(val)}
                 placeholder="Email"></TextInput>
@@ -230,7 +255,7 @@ function BookingAlat({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 editable={false}
-                value={profil.nik}
+                value={responLogin.detailProfile.nik}
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
                 placeholder="NIK"></TextInput>
@@ -240,8 +265,14 @@ function BookingAlat({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={profil.phone === null ? true : false}
-                // value={profil.phone === null ? '' : profil.phone}
+                editable={
+                  responLogin.detailProfile.phone === null ? true : false
+                }
+                value={
+                  responLogin.detailProfile.phone === null
+                    ? ''
+                    : responLogin.detailProfile.phone
+                }
                 style={styles.textInput}
                 onChangeText={val => setTelp(val)}
                 placeholder="No Telp/HP"></TextInput>
@@ -270,10 +301,10 @@ function BookingAlat({navigation}) {
                     mode="date"
                     onConfirm={val => {
                       setTanggal(
-                        `${('0' + val.getDate()).slice(-2)}-${(
+                        `${val.getFullYear()}-${(
                           '0' +
                           (val.getMonth() + 1)
-                        ).slice(-2)}-${val.getFullYear()}`,
+                        ).slice(-2)}-${('0' + val.getDate()).slice(-2)}`,
                       );
                       setShowTanggal(false);
                     }}
@@ -325,7 +356,9 @@ function BookingAlat({navigation}) {
             </View>
 
             <View style={styles.boxButton}>
-              <TouchableOpacity style={styles.buttonLogin}>
+              <TouchableOpacity
+                style={styles.buttonLogin}
+                onPress={submitSewaAlat}>
                 <Text style={styles.textButton}>Kirim</Text>
               </TouchableOpacity>
             </View>

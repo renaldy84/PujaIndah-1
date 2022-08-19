@@ -28,34 +28,41 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {ActivityIndicator} from 'react-native-paper';
+import Axios from 'axios';
+import url from '../../config';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 const DashboardKomoditas = ({navigation}) => {
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-  ];
-  const renderItem = () => {
+  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listTitikRawan, setListTitikRawan] = useState([]);
+  const [listPerusahaan, setPerusahaan] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getListTitikRawan = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/komoditas/pasar/getall?order=nama+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListTitikRawan(response.data.data);
+        setFilterTitikRawan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+  const renderItem = ({item}) => {
     return (
       <TouchableOpacity
         onPress={() => {
@@ -70,14 +77,14 @@ const DashboardKomoditas = ({navigation}) => {
           borderRadius: 20,
         }}>
         <View>
-          <Text style={{fontSize: 14, fontWeight: 'bold'}}>Pasar Simuleu</Text>
+          <Text style={{fontSize: 14, fontWeight: 'bold'}}>{item.nama}</Text>
         </View>
         <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
           <View>
             <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
           </View>
           <View style={{marginLeft: 10}}>
-            <Text>Kabupaten Simeleu</Text>
+            <Text>{item.nama_kabkot}</Text>
           </View>
         </View>
         <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
@@ -85,12 +92,16 @@ const DashboardKomoditas = ({navigation}) => {
             <FontAwesomeIcon size={20} icon={faPhoneAlt} />
           </View>
           <View style={{marginLeft: 10}}>
-            <Text>0333-5161717</Text>
+            <Text>{item.pengurus}</Text>
           </View>
         </View>
       </TouchableOpacity>
     );
   };
+
+  useEffect(() => {
+    getListTitikRawan();
+  }, []);
   return (
     <>
       <TouchableWithoutFeedback onPress={() => {}}>
@@ -152,14 +163,34 @@ const DashboardKomoditas = ({navigation}) => {
                 <FontAwesomeIcon color="grey" size={20} icon={faSearch} />
               </TouchableOpacity>
             </View>
-            <FlatList
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index.toString()}
-              // ListFooterComponent={renderFooter}
-              // onEndReached={handleLoadMore}
-              // onEndReachedThreshold={0}
-            />
+            {isLoading ? (
+              <View
+                style={{
+                  marginTop: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1,
+                }}>
+                <ActivityIndicator size={30} />
+              </View>
+            ) : filterTitikRawan.length !== 0 ? (
+              <View style={{flex: 1, margin: 20}}>
+                <FlatList
+                  data={filterTitikRawan}
+                  renderItem={renderItem}
+                  keyExtractor={(item, index) => index.toString()}
+                  // ListFooterComponent={renderFooter}
+                  // onEndReached={handleLoadMore}
+                  // onEndReachedThreshold={0}
+                />
+              </View>
+            ) : (
+              <>
+                <View style={{alignItems: 'center', marginTop: 30}}>
+                  <Text>Data tidak ditemukan</Text>
+                </View>
+              </>
+            )}
           </View>
         </View>
       </TouchableWithoutFeedback>

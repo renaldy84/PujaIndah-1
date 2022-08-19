@@ -47,6 +47,7 @@ const ListPariwisata = ({navigation}) => {
       },
     })
       .then(response => {
+        console.log(response.data.data[0], 'pariwisata>>>>>>>>>');
         setData(response.data.data);
         setFilterePariwisata(response.data.data);
         setIsLoading(false);

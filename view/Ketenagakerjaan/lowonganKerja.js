@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -34,6 +35,120 @@ import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
 function LowonganKerja({navigation}) {
+  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listTitikRawan, setListTitikRawan] = useState([]);
+  const [listPerusahaan, setPerusahaan] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getListTitikRawan = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/ketenagakerjaan/naker-lowongan/getall?order=id+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListTitikRawan(response.data.data);
+        setFilterTitikRawan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const getPerusahaan = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/ketenagakerjaan/naker-perusahaan/getall?order=id+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setPerusahaan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('DetailLowonganKerja', {idLoker: item.id});
+          }}
+          style={{
+            width: wp('90%'),
+            paddingHorizontal: 20,
+            borderRadius: 5,
+            backgroundColor: '#EFEFEF',
+            marginTop: hp('2%'),
+            paddingVertical: hp('3%'),
+          }}>
+          <View>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {item.lowongan}
+            </Text>
+          </View>
+          <View>
+            <Text style={{color: '#827474'}}>
+              {listPerusahaan.map(val => {
+                if (val.id === item.naker_perusahaan_id) {
+                  return val.nama_perusahaan;
+                }
+              })}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
+            <View>
+              <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text>
+                {listPerusahaan.map(val => {
+                  if (val.id === item.naker_perusahaan_id) {
+                    return val.nama_provinsi;
+                  }
+                })}
+              </Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
+            <View>
+              <FontAwesomeIcon size={20} icon={faBriefcase} />
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text>-</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </>
+    );
+  };
+
+  useEffect(() => {
+    getListTitikRawan();
+    getPerusahaan();
+  }, []);
+
+  // useEffect(() => {
+  //   if (listTitikRawan.length !== 0) {
+  //     setFilterTitikRawan(
+  //       listTitikRawan.filter(x =>
+  //         x.lowongan.toLowerCase().includes(filter.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+  // }, [filter]);
   return (
     <>
       <View
@@ -94,176 +209,34 @@ function LowonganKerja({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          <View style={styles.container}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailLowonganKerja');
-              }}
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
-              <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Data Analytics Manager
-                </Text>
-              </View>
-              <View>
-                <Text style={{color: '#827474'}}>PT. Consulting Indonesia</Text>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>DKI Jakarta</Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faBriefcase} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>Minimal pengalaman 7 tahun</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailLowonganKerja');
-              }}
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
-              <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Data Analytics Manager
-                </Text>
-              </View>
-              <View>
-                <Text style={{color: '#827474'}}>PT. Consulting Indonesia</Text>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>DKI Jakarta</Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faBriefcase} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>Minimal pengalaman 7 tahun</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailLowonganKerja');
-              }}
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
-              <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Data Analytics Manager
-                </Text>
-              </View>
-              <View>
-                <Text style={{color: '#827474'}}>PT. Consulting Indonesia</Text>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>DKI Jakarta</Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faBriefcase} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>Minimal pengalaman 7 tahun</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('DetailLowonganKerja');
-              }}
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
-              <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Data Analytics Manager
-                </Text>
-              </View>
-              <View>
-                <Text style={{color: '#827474'}}>PT. Consulting Indonesia</Text>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>DKI Jakarta</Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faBriefcase} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>Minimal pengalaman 7 tahun</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
           </View>
-        </ScrollView>
-
-        {/* <TouchableOpacity
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#274799',
-            position: 'absolute',
-            bottom: 50,
-            right: 30,
-          }}>
-          <Text style={{fontSize: 35, color: 'white'}}>+</Text>
-        </TouchableOpacity> */}
+        ) : filterTitikRawan.length !== 0 ? (
+          <View style={{flex: 1, margin: 20}}>
+            <FlatList
+              data={filterTitikRawan}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ListFooterComponent={renderFooter}
+              // onEndReached={handleLoadMore}
+              // onEndReachedThreshold={0}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
+            </View>
+          </>
+        )}
       </View>
     </>
   );

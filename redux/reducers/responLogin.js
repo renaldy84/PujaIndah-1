@@ -2,6 +2,7 @@ const initialState = {
   email: null,
   name: null,
   profilPic: null,
+  detailProfile: null,
 };
 
 const responLogin = (state = initialState, action) => {
@@ -18,6 +19,11 @@ const responLogin = (state = initialState, action) => {
         email: null,
         name: null,
         profilPic: null,
+      };
+    case 'DETAIL_PROFILE':
+      return {
+        ...state,
+        detailProfile: action.payload,
       };
     default:
       return state;

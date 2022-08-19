@@ -37,6 +37,7 @@ function RiwayatSewaAlat({navigation}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
+      // url: url + `/api/pu/booking-sewa/getall?order=id+asc`,
       url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
       method: 'get',
       headers: {
@@ -50,6 +51,7 @@ function RiwayatSewaAlat({navigation}) {
         setFilterTitikRawan(response.data.data);
       })
       .catch(error => {
+        setIsLoading(false);
         console.log(error);
       });
   };

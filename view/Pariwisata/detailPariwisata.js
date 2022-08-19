@@ -47,6 +47,7 @@ function DetailPariwisata({navigation, route}) {
   const [ulasan, setUlasan] = useState([]);
 
   const getDetail = async () => {
+    console.log(pariwisataId, 'pariwisataID');
     Axios({
       url: url + `/api/pariwisata/pariwisata/getid/${pariwisataId}`,
       method: 'get',
@@ -55,8 +56,8 @@ function DetailPariwisata({navigation, route}) {
       },
     })
       .then(response => {
+        console.log(response.data, 'detailpariwisata');
         if (response.data.status === 1) {
-          // console.log(response.data.data);
           setDetail(response.data.data);
 
           if (response.data.data.foto[0].image !== '') {

@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -34,6 +35,81 @@ import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
 function KreditUsaha({navigation}) {
+  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listTitikRawan, setListTitikRawan] = useState([]);
+  const [listPerusahaan, setPerusahaan] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getListTitikRawan = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/ketenagakerjaan/naker-kur/getall?order=id+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListTitikRawan(response.data.data);
+        setFilterTitikRawan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <>
+        <TouchableOpacity
+          style={{
+            width: wp('90%'),
+            paddingHorizontal: 20,
+            borderRadius: 5,
+            backgroundColor: '#EFEFEF',
+            marginTop: hp('2%'),
+            paddingVertical: hp('3%'),
+          }}>
+          <View>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>{item.judul}</Text>
+          </View>
+
+          <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
+            <View>
+              <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text>{item.nama_kabkot}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
+            <View style={{rotation: 90}}>
+              <FontAwesomeIcon size={20} icon={faPhoneAlt} />
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text>{item.kontak}</Text>
+            </View>
+          </View>
+
+          <View style={{marginTop: hp('2%')}}>
+            <View>
+              <Text style={{fontSize: 16, fontWeight: 'bold'}}>Keterangan</Text>
+            </View>
+            <View>
+              <Text>{item.keterangan}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </>
+    );
+  };
+
+  useEffect(() => {
+    getListTitikRawan();
+  }, []);
   return (
     <>
       <View
@@ -94,167 +170,34 @@ function KreditUsaha({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          <View style={styles.container}>
-            <TouchableOpacity
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
-              <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  KUR Milenial
-                </Text>
-              </View>
-
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>Kota Tangerang</Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View style={{rotation: 90}}>
-                  <FontAwesomeIcon size={20} icon={faPhoneAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>0333-5161717</Text>
-                </View>
-              </View>
-
-              <View style={{marginTop: hp('2%')}}>
-                <View>
-                  <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                    Keterangan
-                  </Text>
-                </View>
-                <View>
-                  <Text>
-                    Neque porro quisquam est qui dolorem ipsum quia dolor sit
-                    amet, consectetur, ... Lorem Ipsum is simply dummy text of
-                    the printing and typesetting industry
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
-              <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Kredit Usaha Mikro BRI
-                </Text>
-              </View>
-
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>Kabupaten Kupang</Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View style={{rotation: 90}}>
-                  <FontAwesomeIcon size={20} icon={faPhoneAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>031-75161717</Text>
-                </View>
-              </View>
-
-              <View style={{marginTop: hp('2%')}}>
-                <View>
-                  <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                    Keterangan
-                  </Text>
-                </View>
-                <View>
-                  <Text>
-                    Neque porro quisquam est qui dolorem ipsum quia dolor sit
-                    amet, consectetur, ... Lorem Ipsum is simply dummy text of
-                    the printing and typesetting industry
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: '#EFEFEF',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-              }}>
-              <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Kredit Usaha Mikro BRI
-                </Text>
-              </View>
-
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>Kota Bengkulu</Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View style={{rotation: 90}}>
-                  <FontAwesomeIcon size={20} icon={faPhoneAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>0333-5161717</Text>
-                </View>
-              </View>
-
-              <View style={{marginTop: hp('2%')}}>
-                <View>
-                  <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                    Keterangan
-                  </Text>
-                </View>
-                <View>
-                  <Text>
-                    Neque porro quisquam est qui dolorem ipsum quia dolor sit
-                    amet, consectetur, ... Lorem Ipsum is simply dummy text of
-                    the printing and typesetting industry
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
           </View>
-        </ScrollView>
-
-        {/* <TouchableOpacity
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#274799',
-            position: 'absolute',
-            bottom: 50,
-            right: 30,
-          }}>
-          <Text style={{fontSize: 35, color: 'white'}}>+</Text>
-        </TouchableOpacity> */}
+        ) : filterTitikRawan.length !== 0 ? (
+          <View style={{flex: 1, margin: 20}}>
+            <FlatList
+              data={filterTitikRawan}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ListFooterComponent={renderFooter}
+              // onEndReached={handleLoadMore}
+              // onEndReachedThreshold={0}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
+            </View>
+          </>
+        )}
       </View>
     </>
   );

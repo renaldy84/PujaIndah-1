@@ -60,7 +60,7 @@ function login({navigation}) {
       },
     })
       .then(async res => {
-        console.log(res.data.data.api_token);
+        console.log(res.data.data);
         setModalLoading(false);
         try {
           await AsyncStorage.setItem('email', email);

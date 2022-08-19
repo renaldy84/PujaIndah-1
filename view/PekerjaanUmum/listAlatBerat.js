@@ -114,7 +114,9 @@ function ListAlatBerat({navigation}) {
             <TouchableOpacity
               style={styles.buttonBooking}
               onPress={() => {
-                navigation.navigate('BookingAlat');
+                navigation.navigate('BookingAlat', {
+                  idAlat: item.id,
+                });
               }}>
               <Text style={{color: 'white'}}>Booking Alat</Text>
             </TouchableOpacity>

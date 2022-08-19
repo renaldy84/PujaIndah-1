@@ -11,7 +11,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faArrowLeft,
@@ -55,6 +55,7 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
   const [profil, setProfil] = useState({});
   const [modalLoading, setModalLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const responLogin = useSelector(state => state.responLogin);
 
   const cekKirim = () => {
     linkFotoKTP === '' && linkFotoKejadian === ''
@@ -418,7 +419,7 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 editable={false}
-                value={profil.name}
+                value={responLogin.name}
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
@@ -429,7 +430,7 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 editable={false}
-                value={profil.email}
+                value={responLogin.email}
                 style={styles.textInput}
                 onChangeText={val => setEmail(val)}
                 placeholder="Email"></TextInput>
@@ -440,7 +441,7 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 editable={false}
-                value={profil.nik}
+                value={responLogin.detailProfile.nik}
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
                 placeholder="NIK"></TextInput>
@@ -450,8 +451,14 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={profil.phone === null ? true : false}
-                // value={profil.phone === null ? '' : profil.phone}
+                editable={
+                  responLogin.detailProfile.phone === null ? true : false
+                }
+                value={
+                  responLogin.detailProfile.phone === null
+                    ? ''
+                    : responLogin.detailProfile.phone
+                }
                 style={styles.textInput}
                 onChangeText={val => setTelp(val)}
                 placeholder="No Telp/HP"></TextInput>

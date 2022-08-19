@@ -18,6 +18,8 @@ import {
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-community/async-storage';
 import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
+import Axios from 'axios';
+import url from '../config';
 
 function home({navigation}) {
   const dispatch = useDispatch();
@@ -25,11 +27,28 @@ function home({navigation}) {
   // const logout = () => {
   //   dispatch({type: 'LOGOUT'});
   // };
+  const getProfile = async () => {
+    Axios({
+      url: url + '/api/master/profile/user-detail',
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(async res => {
+        console.log(res.data.data);
+        dispatch({type: 'DETAIL_PROFILE', payload: res.data.data});
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-  useEffect(async () => {
-    console.log(responLogin);
-    console.log('ini token dari local', await AsyncStorage.getItem('token'));
-  });
+  useEffect(() => {
+    // console.log(responLogin);
+    // console.log('ini token dari local', await AsyncStorage.getItem('token'));
+    getProfile();
+  }, []);
   return (
     <>
       <View style={styles.containerHeader}>

@@ -25,6 +25,7 @@ import {Modalize} from 'react-native-modalize';
 import ImagePicker from 'react-native-image-picker';
 import Axios from 'axios';
 import url from '../../config';
+import moment from 'moment';
 import {ActivityIndicator} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import {BallIndicator} from 'react-native-indicators';
@@ -35,7 +36,51 @@ import {
 import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
-function DetailLowonganKerja({navigation}) {
+function DetailLowonganKerja({navigation, route}) {
+  const [listTitikRawan, setListTitikRawan] = useState([]);
+  const [listPerusahaan, setPerusahaan] = useState([]);
+
+  const idLoker = route.params.idLoker;
+
+  const getListTitikRawan = async () => {
+    console.log(idLoker);
+    Axios({
+      url: url + `/api/ketenagakerjaan/naker-lowongan/getid/${idLoker}`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setListTitikRawan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const getPerusahaan = async () => {
+    Axios({
+      url: url + `/api/ketenagakerjaan/naker-perusahaan/getall?order=id+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setPerusahaan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getListTitikRawan();
+    getPerusahaan();
+  }, []);
   return (
     <>
       <View
@@ -76,11 +121,17 @@ function DetailLowonganKerja({navigation}) {
           <View style={styles.container}>
             <View>
               <Text style={{fontWeight: 'bold', fontSize: 20}}>
-                Data Analytics Manager
+                {listTitikRawan.lowongan}
               </Text>
             </View>
             <View style={{marginTop: hp('1%')}}>
-              <Text style={{color: '#827474'}}>PT. Consulting Indonesia</Text>
+              <Text style={{color: '#827474'}}>
+                {listPerusahaan.map(val => {
+                  if (val.id === listTitikRawan.naker_perusahaan_id) {
+                    return val.nama_perusahaan;
+                  }
+                })}
+              </Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
               <View style={{justifyContent: 'center'}}>
@@ -91,7 +142,13 @@ function DetailLowonganKerja({navigation}) {
                 />
               </View>
               <View style={{marginLeft: 20}}>
-                <Text>DKI Jakarta</Text>
+                <Text>
+                  {listPerusahaan.map(val => {
+                    if (val.id === listTitikRawan.naker_perusahaan_id) {
+                      return val.nama_provinsi;
+                    }
+                  })}
+                </Text>
               </View>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
@@ -99,7 +156,7 @@ function DetailLowonganKerja({navigation}) {
                 <FontAwesomeIcon size={15} icon={faBriefcase} color="#726767" />
               </View>
               <View style={{marginLeft: 20}}>
-                <Text>Minimal pengalaman 7 tahun</Text>
+                <Text>-</Text>
               </View>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
@@ -107,7 +164,7 @@ function DetailLowonganKerja({navigation}) {
                 <FontAwesomeIcon size={15} icon={faPhoneAlt} color="#726767" />
               </View>
               <View style={{marginLeft: 20}}>
-                <Text>082144090623</Text>
+                <Text>{listTitikRawan.contact_person}</Text>
               </View>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
@@ -115,7 +172,7 @@ function DetailLowonganKerja({navigation}) {
                 <FontAwesomeIcon size={15} icon={faEnvelope} color="#726767" />
               </View>
               <View style={{marginLeft: 20}}>
-                <Text>dkaledara@gmail.com</Text>
+                <Text>{listTitikRawan.email}</Text>
               </View>
             </View>
 
@@ -123,26 +180,30 @@ function DetailLowonganKerja({navigation}) {
               <Text style={{fontWeight: 'bold'}}>Tanggal lowongan ditutup</Text>
             </View>
             <View>
-              <Text style={{color: '#756565'}}>30 Desember 2022</Text>
+              <Text style={{color: '#756565'}}>
+                {' '}
+                {moment(new Date(listTitikRawan.penutupan)).format(
+                  'DD MMMM YYYY',
+                )}
+              </Text>
             </View>
             <View style={{marginTop: hp('3%')}}>
               <Text style={{fontWeight: 'bold'}}>Deskripsi Pekerjaan</Text>
             </View>
             <View>
               <Text style={{color: '#756565', textAlign: 'justify'}}>
-                Beberapa gambaran pekerjaan di IT Kantor Pusat, yaitu
-                Application Developer, IT Infrastructure (Storage Area
-                Network/SAN, Mainframe System, Server & Operating System,
-                Automation, Network, Data Center Operation, Data Center Facility
-                Management), Data Warehouse & Data Mining, IT Risk & Governance,
-                IT Architecture, dan IT Service Management & Service Quality
+                {listTitikRawan.keterangan}
               </Text>
             </View>
             <View style={{marginTop: hp('3%')}}>
               <Text style={{fontWeight: 'bold'}}>Kualifikasi</Text>
             </View>
-
-            <View
+            <View>
+              <Text style={{color: '#756565', textAlign: 'justify'}}>
+                {listTitikRawan.kualifikasi}
+              </Text>
+            </View>
+            {/* <View
               style={{
                 flexDirection: 'row',
                 width: wp('90%'),
@@ -265,13 +326,13 @@ function DetailLowonganKerja({navigation}) {
               <View style={{flex: 1}}>
                 <Text>Mampu bekerja sama dalam tim</Text>
               </View>
-            </View>
+            </View> */}
             <View style={{marginTop: hp('3%')}}>
               <Text style={{fontWeight: 'bold'}}>Gaji</Text>
             </View>
             <View>
               <Text style={{color: '#756565', textAlign: 'justify'}}>
-                Rp. 7.000.000,- s.d Rp. 20.000.000
+                Rp. {listTitikRawan.gaji}
               </Text>
             </View>
 

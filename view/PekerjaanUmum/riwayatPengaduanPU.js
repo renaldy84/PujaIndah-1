@@ -41,9 +41,7 @@ function RiwayatPengaduanPekerjaanUmum({navigation}) {
   const getRiwayat = async () => {
     setIsLoading(true);
     Axios({
-      url:
-        url +
-        `/api/trantibumlinmas/pengaduan/history-pengaduan?order=created_at+desc `,
+      url: url + `/api/pu/pengaduan/getall?order=created_at+desc `,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),

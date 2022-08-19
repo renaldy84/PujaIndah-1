@@ -35,36 +35,38 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {Item} from 'react-native-paper/lib/typescript/components/List/List';
 
-function DetailBalaiLatihan({navigation}) {
+function DetailBalaiLatihan({navigation, route}) {
   const [filterTitikRawan, setFilterTitikRawan] = useState([]);
   const [filter, setFilter] = useState('');
   const [listTitikRawan, setListTitikRawan] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const idBlk = route.params.idBlk;
 
-  //   const getListTitikRawan = async () => {
-  //     setIsLoading(true);
-  //     Axios({
-  //       url: url + `/api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
-  //       method: 'get',
-  //       headers: {
-  //         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-  //       },
-  //     })
-  //       .then(response => {
-  //         console.log(response.data.data);
-  //         setIsLoading(false);
-  //         setListTitikRawan(response.data.data);
-  //         setFilterTitikRawan(response.data.data);
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   };
+  const getListTitikRawan = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/ketenagakerjaan/blk/getid/${idBlk}`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListTitikRawan(response.data.data);
+        setFilterTitikRawan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-  //   useEffect(() => {
-  //     getListTitikRawan();
-  //   }, []);
+  useEffect(() => {
+    getListTitikRawan();
+  }, []);
 
   return (
     <>
@@ -95,7 +97,7 @@ function DetailBalaiLatihan({navigation}) {
           </View>
           <View style={styles.boxJudul}>
             <Text style={[styles.textJudul, {color: 'white'}]}>
-              Balai Latihan Kerja Banyuwangi
+              {listTitikRawan.nama_tempat}
             </Text>
           </View>
         </View>
@@ -118,7 +120,7 @@ function DetailBalaiLatihan({navigation}) {
                   fontSize: 14,
                   marginTop: hp('2%'),
                 }}>
-                Balai Latihan Kerja Banyuwangi
+                {listTitikRawan.nama_tempat}
               </Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
@@ -126,9 +128,7 @@ function DetailBalaiLatihan({navigation}) {
                 <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
               </View>
               <View style={{marginLeft: 5}}>
-                <Text>
-                  Jalan Ahmad Yani, Krajan, Kedungrejo, Muncar, Banyuwangi
-                </Text>
+                <Text>{listTitikRawan.alaat}</Text>
               </View>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
@@ -136,7 +136,7 @@ function DetailBalaiLatihan({navigation}) {
                 <FontAwesomeIcon size={20} icon={faPhoneAlt} />
               </View>
               <View style={{marginLeft: 5}}>
-                <Text>0333-5161717</Text>
+                <Text>{listTitikRawan.kontak}</Text>
               </View>
             </View>
           </View>
