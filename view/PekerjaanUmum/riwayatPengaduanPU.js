@@ -41,7 +41,7 @@ function RiwayatPengaduanPekerjaanUmum({navigation}) {
   const getRiwayat = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/pu/pengaduan/getall?order=created_at+desc `,
+      url: url + `/public/pu_pengaduan `,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -62,15 +62,13 @@ function RiwayatPengaduanPekerjaanUmum({navigation}) {
     return (
       <>
         <View style={styles.container}>
-          <Text style={styles.judul}>{item.judul_laporan}</Text>
-          <Text>Kategori : {item.nama_kategori}</Text>
+          <Text style={styles.judul}>{item.judul}</Text>
+          <Text>Uraian : {item.kondisi}</Text>
           <Text>
             Tanggal : {moment(new Date(item.created_at)).format('DD-MM-YYYY')}
           </Text>
           <View style={styles.containerStatus}>
-            <Text style={{margin: 10}}>
-              Status Laporan : {item.status_text}
-            </Text>
+            <Text style={{margin: 10}}>Status Laporan : {item.status}</Text>
           </View>
         </View>
       </>

@@ -29,21 +29,20 @@ import {
 } from 'react-native-responsive-screen';
 
 function RiwayatAspirasi({navigation}) {
-  
-    const DATA = [
-        {
-          id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-          title: 'First Item',
-        },
-        {
-          id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-          title: 'Second Item',
-        },
-        {
-          id: '58694a0f-3da1-471f-bd96-145571e29d72',
-          title: 'Third Item',
-        },
-      ];
+  const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
+  ];
 
   const [filterAspirasiDprd, setFilterAspirasiDprd] = useState([]);
   const [filter, setFilter] = useState('');
@@ -53,7 +52,9 @@ function RiwayatAspirasi({navigation}) {
   const getListAspirasiDprd = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/aspirasi/dprd-aspirasi/getall?order=id+asc
+      url:
+        url +
+        `/public/dprd_aspirasi
       `,
       method: 'get',
       headers: {
@@ -61,7 +62,7 @@ function RiwayatAspirasi({navigation}) {
       },
     })
       .then(response => {
-        console.log(response.data.data);
+        console.log('Daftar Aspirasi DPRD', response.data.data);
         setIsLoading(false);
         setListAspirasiDprd(response.data.data);
         setFilterAspirasiDprd(response.data.data);
@@ -74,8 +75,7 @@ function RiwayatAspirasi({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <View
-          style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.content}>
             <View
               style={{
@@ -92,33 +92,39 @@ function RiwayatAspirasi({navigation}) {
                     fontSize: 16,
                     marginTop: 15,
                   }}>
-                  Penmbangunan Jalan Lingkungan
+                  {item.judul}
                 </Text>
               </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Tanggal Pengiriman :</Text>{' '}
-                30 Desember 2022
+                {moment(new Date(item.created_at)).format('DD-MM-YYYY')}
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Untuk Anggota Dewan :</Text>{' '}
-                Julie Sutrisno
+                {item.dprd_anggota.nama}
               </Text>
               <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Isi Aspirasi :</Text>{' '}
-                Isi Aspirasi: Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                <Text style={{fontWeight: 'bold'}}>Isi Aspirasi :</Text> Isi
+                {item.deskripsi}
               </Text>
               <Text style={{marginTop: 25}}>
                 <Text style={{fontWeight: 'bold'}}>Dokumen :</Text>{' '}
-                <Text style={{color:"#2F80ED"}}> 
-                Lampiran.pdf
-                </Text>
+                <Text style={{color: '#2F80ED'}}>Lampiran.pdf</Text>
               </Text>
-              <View style={{ marginTop:20, alignItems:'flex-end'}}>
-              <View style={{height:30, width:117, backgroundColor:"#F2C94C", borderRadius:15, alignItems:'center', justifyContent:'center'}}> 
-                <Text style= {{fontWeight:"bold", fontSize: 12}}>
+              <View style={{marginTop: 20, alignItems: 'flex-end'}}>
+                <View
+                  style={{
+                    height: 30,
+                    width: 117,
+                    backgroundColor: '#F2C94C',
+                    borderRadius: 15,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontWeight: 'bold', fontSize: 12}}>
                     PENDING
-                </Text>
-              </View>
+                  </Text>
+                </View>
               </View>
               {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
@@ -143,15 +149,15 @@ function RiwayatAspirasi({navigation}) {
     getListAspirasiDprd();
   }, []);
 
-  useEffect(() => {
-    if (listAspirasiDprd.length !== 0) {
-      setFilterAspirasiDprd(
-        listAspirasiDprd.filter(x =>
-          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
-        ),
-      );
-    }
-  }, [filter]);
+  // useEffect(() => {
+  //   if (listAspirasiDprd.length !== 0) {
+  //     setFilterAspirasiDprd(
+  //       listAspirasiDprd.filter(x =>
+  //         x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+  // }, [filter]);
 
   return (
     <>
@@ -168,11 +174,11 @@ function RiwayatAspirasi({navigation}) {
             // marginTop: hp('5%'),
             height: hp('10%'),
             alignItems: 'center',
-            backgroundColor: '#274799'
+            backgroundColor: '#274799',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-              color='white'
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -193,7 +199,7 @@ function RiwayatAspirasi({navigation}) {
           <View style={[styles.boxInput, {flexDirection: 'row', flex: 4}]}>
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-              onChangeText={( ) => {} }
+              onChangeText={() => {}}
               placeholder="Ketik daerah yang ingin dicari"></TextInput>
             <TouchableOpacity
               onPress={() => {}}
@@ -268,7 +274,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white',
   },
   container: {
     // marginTop: 5,

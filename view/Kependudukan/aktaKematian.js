@@ -29,7 +29,6 @@ import {
 } from 'react-native-responsive-screen';
 
 function AktaKematian({navigation}) {
-  
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -45,10 +44,10 @@ function AktaKematian({navigation}) {
     },
   ];
 
- const [listKematian,setListKematian]=useState([])
- const [isLoading,setIsLoading]=useState(false)
- const getListKematian=async()=>{
-  setIsLoading(true);
+  const [listKematian, setListKematian] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const getListKematian = async () => {
+    setIsLoading(true);
     Axios({
       url: url + `/api/kependudukan/kematian/getall?order=id+desc`,
       method: 'get',
@@ -57,20 +56,19 @@ function AktaKematian({navigation}) {
       },
     })
       .then(response => {
-        console.log('Data Kematian : ', response.data)
+        console.log('Data Kematian : ', response.data);
         setListKematian(response.data.data);
         setIsLoading(false);
       })
       .catch(error => {
         console.log(error);
       });
- }
+  };
 
   const renderItem = ({item}) => {
     return (
       <>
-        <View
-          style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.content}>
             <View
               style={{
@@ -80,39 +78,42 @@ function AktaKematian({navigation}) {
                 // alignItems: 'center',
               }}>
               <View>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Nama :</Text>{' '}
-                Berto Tuga
-              </Text>
+                <Text style={{marginTop: 5}}>
+                  <Text style={{fontWeight: 'bold'}}>Nama :</Text> {item.nama}
+                </Text>
               </View>
               <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>NIK :</Text>{' '}
-                6767767677766767
+                <Text style={{fontWeight: 'bold'}}>NIK :</Text> {item.nik}
               </Text>
               <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>NKK :</Text>{' '}
-                5656565656566565
+                <Text style={{fontWeight: 'bold'}}>NKK :</Text> {item.nkk}
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Catatan :</Text>{' '}
-                Tidak Ada
+                {item.catatan}
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Alamat pengambilan :</Text>{' '}
-                jln. mana saja
+                {item.alamat_pengambilan}
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Dokumen :</Text>{' '}
-                <Text style={{color:"#2F80ED"}}> 
-                Lampiran.pdf
-                </Text>
+                <Text style={{color: '#2F80ED'}}>Lampiran.pdf</Text>
               </Text>
-              <View style={{ marginTop:20, alignItems:'flex-end'}}>
-              <View style={{height:30, width:117, backgroundColor:"#F2C94C", borderRadius:15, alignItems:'center', justifyContent:'center'}}> 
-                <Text style= {{fontWeight:"bold", fontSize: 12}}>
+              <View style={{marginTop: 20, alignItems: 'flex-end'}}>
+                <View
+                  style={{
+                    height: 30,
+                    width: 117,
+                    backgroundColor: '#F2C94C',
+                    borderRadius: 15,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontWeight: 'bold', fontSize: 12}}>
                     PENDING
-                </Text>
-              </View>
+                  </Text>
+                </View>
               </View>
               {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
@@ -152,11 +153,11 @@ function AktaKematian({navigation}) {
             // marginTop: hp('5%'),
             height: hp('10%'),
             alignItems: 'center',
-            backgroundColor: '#274799'
+            backgroundColor: '#274799',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-              color='white'
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -167,17 +168,13 @@ function AktaKematian({navigation}) {
           <View style={styles.boxJudul}>
             <Text style={styles.textJudul}>Akta Kematian</Text>
           </View>
-
-          
         </View>
         <View
           style={{
             flexDirection: 'row',
             marginHorizontal: 20,
             marginTop: hp('2%'),
-          }}>
-         
-        </View>
+          }}></View>
 
         {isLoading ? (
           <View
@@ -189,26 +186,24 @@ function AktaKematian({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : DATA.length !== 0 ? (
+        ) : listKematian.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={DATA}
+              data={listKematian}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
               // ListFooterComponent={renderFooter}
               // onEndReached={handleLoadMore}
               // onEndReachedThreshold={0}
             />
-          </View>):
-          (
-          <View>
-            <Text>
-              Data Tidak ditemukan
-            </Text>
           </View>
-          )}
-          
-          <TouchableOpacity
+        ) : (
+          <View>
+            <Text>Data Tidak ditemukan</Text>
+          </View>
+        )}
+
+        <TouchableOpacity
           onPress={() => {
             navigation.navigate('FormAktaKematian');
           }}
@@ -225,7 +220,6 @@ function AktaKematian({navigation}) {
           }}>
           <Text style={{fontSize: 35, color: 'white'}}>+</Text>
         </TouchableOpacity>
-       
       </View>
     </>
   );
@@ -258,7 +252,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white',
   },
   container: {
     // marginTop: 5,

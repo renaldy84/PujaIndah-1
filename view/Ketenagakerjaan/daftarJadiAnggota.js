@@ -33,7 +33,8 @@ import {
 import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
-function DaftarJadiAnggota({navigation}) {
+function DaftarJadiAnggota({navigation, route}) {
+  const idBlk = route.params.idBlk;
   const modalizeRef = useRef(null);
   const modalizeRefKTP = useRef(null);
   const [modalHandleFoto, setModalHandleFoto] = useState(false);
@@ -41,9 +42,11 @@ function DaftarJadiAnggota({navigation}) {
   const [email, setEmail] = useState('');
   const [nik, setNik] = useState('');
   const [telp, setTelp] = useState('');
-  const [idKategoriAduan, setIdKategoriAduan] = useState();
-  const [idDinasTerkait, setIdDinasTerkait] = useState('');
-  const [judulPengaduan, setJudulPengaduan] = useState('');
+  const [idPendidikan, setIdPendidikan] = useState();
+  const [idKawin, setIdKawin] = useState('');
+  const [keahlian, setKeahlian] = useState('');
+  const [jurusan, setJuruan] = useState('');
+  const [tahunLulus, setTahunLulus] = useState('');
   const [detailPengaduan, setDetailPengaduan] = useState('');
   const [solusi, setSolusi] = useState('');
 
@@ -57,7 +60,7 @@ function DaftarJadiAnggota({navigation}) {
   const [linkFotoKTP, setLinkFotoKTP] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
-  const [kategoriAduan, setKategoriAduan] = useState([]);
+  const [pendidikan, setPendidikan] = useState([]);
   const [dinasTerkait, setDinasTerkait] = useState([]);
   const [profil, setProfil] = useState({});
   const [modalLoading, setModalLoading] = useState(false);
@@ -66,43 +69,46 @@ function DaftarJadiAnggota({navigation}) {
   const [longMarker, setLongMarker] = useState(0.0);
 
   const cekKirim = () => {
-    // linkFotoKTP === '' && linkFotoKejadian === ''
-    //   ? setModalHandleFoto(true)
-    //   : kirim();
+    linkFotoKTP === '' && linkFotoKejadian === ''
+      ? setModalHandleFoto(true)
+      : kirim();
   };
   const kirim = async () => {
     // console.log(`http://maps.google.com/maps?q=${latMarker},${longMarker}`);
-    // setModalLoading(true);
-    // Axios({
-    //   url: url + '/api/trantibumlinmas/pengaduan/create',
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //   },
-    //   data: {
-    //     judul_laporan: judulPengaduan,
-    //     kategori_laporan: idKategoriAduan,
-    //     uraian_kejadian: detailPengaduan,
-    //     solusi: solusi,
-    //     dinas_terkait: idDinasTerkait,
-    //     link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
-    //     foto_kejadian: linkFotoKejadian,
-    //     foto_ktp: linkFotoKTP,
-    //     lat: parseInt(latMarker),
-    //     lon: parseInt(longMarker),
-    //   },
-    // })
-    //   .then(async res => {
-    //     setMessage(res.data.message);
-    //     setModalVisibleSukses(true);
-    //     setModalLoading(false);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //     setModalLoading(false);
-    //     // setMessage(error.response.data.message);
-    //     setModalVisible(true);
-    //   });
+    setModalLoading(true);
+    Axios({
+      url: url + '/public/blk_personal',
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+      data: {
+        nama_lengkap: profil.name,
+        no_ktp: profil.nik,
+        jurusan: jurusan,
+        tahun_lulus: tahunLulus,
+        status_kawin: 1,
+        keahlian: keahlian,
+        rating: '4',
+        file_ktp: linkFotoKTP,
+        file_ijazah: linkFotoKejadian,
+        no_hp: telp,
+        email: profil.email,
+        blk_blk_id: idBlk,
+        blk_pendidikan_id: idPendidikan,
+      },
+    })
+      .then(async res => {
+        setMessage(res.data.message);
+        setModalVisibleSukses(true);
+        setModalLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
+      });
     // : navigation.navigate('MenuTrantibum');
   };
 
@@ -131,169 +137,171 @@ function DaftarJadiAnggota({navigation}) {
   };
 
   const ambilDariCamera = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+    modalizeRef.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
   };
 
   const ambilDariGalery = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+    modalizeRef.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
   };
 
   const kirimFotoKejadian = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     'Content-Type': 'multipart/form-data',
-    //     Accept: 'application/json',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKejadian(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal Kejadian');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKejadian(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Kejadian');
+      });
   };
 
   const ambilDariCameraKTP = async () => {
-    // modalizeRefKTP.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFotoKTP(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFotoKTP(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKTP(formData);
-    //       kirimFotoKTP(formData);
-    //     }
-    //   },
-    // );
+    modalizeRefKTP.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKTP(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKTP(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoKTP(formData);
+        }
+      },
+    );
   };
 
   const ambilDariGaleryKTP = () => {
-    // modalizeRefKTP.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFotoKTP(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFotoKTP(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKTP(formData);
-    //       kirimFotoKTP(formData);
-    //     }
-    //   },
-    // );
+    modalizeRefKTP.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKTP(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKTP(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoKTP(formData);
+        }
+      },
+    );
   };
 
   const kirimFotoKTP = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     // 'Content-Type': 'multipart/form-data',
-    //     Accept: '*/*',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKTP(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal KTP');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKTP(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal KTP');
+      });
   };
 
-  const getKategoriAduan = async () => {
-    // Axios({
-    //   url:
-    //     url + `/api/trantibumlinmas/kategori-aduan/getall?order=kategori+asc`,
-    //   method: 'get',
-    // })
-    //   .then(response => {
-    //     setKategoriAduan(response.data.data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+  const getPendidikan = async () => {
+    Axios({
+      url: url + `/public/blk_pendidikan`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setPendidikan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const getDinasTerkait = async () => {
@@ -311,7 +319,7 @@ function DaftarJadiAnggota({navigation}) {
   };
 
   useEffect(() => {
-    getKategoriAduan();
+    getPendidikan();
     getDinasTerkait();
     getProfil();
   }, []);
@@ -343,7 +351,7 @@ function DaftarJadiAnggota({navigation}) {
               onPress={() => {
                 setModalVisibleSukses(!modalVisibleSukses);
                 setMessage('');
-                navigation.navigate('MenuTrantibum');
+                navigation.navigate('BalaiLatihanKerja');
               }}
               style={{
                 backgroundColor: '#246EE9',
@@ -493,7 +501,7 @@ function DaftarJadiAnggota({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={profil.phone === null ? true : false}
+                // editable={profil.phone === null ? true : false}
                 // value={profil.phone === null ? '' : profil.phone}
                 style={styles.textInput}
                 onChangeText={val => setTelp(val)}
@@ -506,7 +514,7 @@ function DaftarJadiAnggota({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setKeahlian(val)}
                 placeholder="Keahlian"></TextInput>
             </View>
 
@@ -516,20 +524,20 @@ function DaftarJadiAnggota({navigation}) {
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idKategoriAduan}
+                selectedValue={idPendidikan}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
+                  setIdPendidikan(itemValue);
                 }}>
                 <Picker.Item
                   label="Pilih Kategori"
                   value=""
                   style={{color: '#b0b0b0'}}
                 />
-                {kategoriAduan.map((val, index) => {
+                {pendidikan.map((val, index) => {
                   return (
                     <Picker.Item
                       key={val.id}
-                      label={val.kategori}
+                      label={val.singkatan}
                       value={val.id}
                       style={{color: '#000000'}}
                     />
@@ -543,7 +551,7 @@ function DaftarJadiAnggota({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setJuruan(val)}
                 placeholder="Jurusan"></TextInput>
             </View>
             <View>
@@ -552,7 +560,7 @@ function DaftarJadiAnggota({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setTahunLulus(val)}
                 placeholder="Tahun Lulus"></TextInput>
             </View>
             <View style={{marginTop: 5}}>
@@ -561,16 +569,27 @@ function DaftarJadiAnggota({navigation}) {
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idDinasTerkait}
+                selectedValue={idKawin}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdDinasTerkait(itemValue);
+                  setIdKawin(itemValue);
                 }}>
                 <Picker.Item
                   label="Pilih Kategori"
                   value=""
                   style={{color: '#b0b0b0'}}
                 />
-                {dinasTerkait.map((val, index) => {
+                <Picker.Item
+                  label="Belum Kawin"
+                  value="0"
+                  style={{color: '#000000'}}
+                />
+                <Picker.Item
+                  label="Kawin"
+                  value="1"
+                  style={{color: '#000000'}}
+                />
+
+                {/* {dinasTerkait.map((val, index) => {
                   return (
                     <Picker.Item
                       key={val.id}
@@ -579,7 +598,7 @@ function DaftarJadiAnggota({navigation}) {
                       style={{color: '#000000'}}
                     />
                   );
-                })}
+                })} */}
               </Picker>
             </View>
 
@@ -762,7 +781,7 @@ function DaftarJadiAnggota({navigation}) {
                   marginTop: 20,
                   justifyContent: 'center',
                 }}>
-                Harap melengkapi foto terlebih dahulu
+                Harap melengkapi foto atau ijazah terlebih dahulu
               </Text>
             </View>
 

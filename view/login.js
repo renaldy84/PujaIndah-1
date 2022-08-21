@@ -60,7 +60,7 @@ function login({navigation}) {
       },
     })
       .then(async res => {
-        console.log(res.data.data);
+        console.log('responLogin', res.data);
         setModalLoading(false);
         try {
           await AsyncStorage.setItem('email', email);
@@ -68,7 +68,7 @@ function login({navigation}) {
           await AsyncStorage.setItem('token', res.data.data.api_token);
         } catch (error) {}
         dispatch({type: 'LOGIN', payload: res.data.data.api_token});
-        dispatch({type: 'RESPON_LOGIN', payload: res.data.data});
+        dispatch({type: 'RESPON_LOGIN', payload: res.data});
       })
       .catch(error => {
         setModalVisible(true);

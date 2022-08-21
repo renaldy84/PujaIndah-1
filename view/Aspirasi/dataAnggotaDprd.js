@@ -72,8 +72,7 @@ function DataAnggotaDprd({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <View
-          style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.content}>
             <View
               style={{
@@ -87,6 +86,9 @@ function DataAnggotaDprd({navigation}) {
                   <Image
                     resizeMode="contain"
                     source={require('../../assets/image/potodpr.png')}
+                    // source={{
+                    //   uri: item.gambar,
+                    // }}
                   />
                 </View>
                 <View style={{paddingLeft: 10, flex: 1}}>
@@ -102,44 +104,43 @@ function DataAnggotaDprd({navigation}) {
                   </View>
 
                   <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:50}}>
+                    <View style={{width: 50}}>
                       <Text style={{fontWeight: 'bold'}}>Fraksi</Text>
                     </View>
                     <View style={{marginHorizontal: 5}}>
                       <Text>:</Text>
                     </View>
                     <View style={{flex: 1}}>
-                      <Text>{!item.fraksi?'-':item.fraksi}</Text>
+                      <Text>{!item.fraksi ? '-' : item.fraksi}</Text>
                     </View>
                   </View>
 
                   <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:50}}>
+                    <View style={{width: 50}}>
                       <Text style={{fontWeight: 'bold'}}>Dapil</Text>
                     </View>
                     <View style={{marginHorizontal: 5}}>
                       <Text>:</Text>
                     </View>
                     <View style={{flex: 1}}>
-                      <Text>Nusa
-                    Tenggara Timur</Text>
+                      <Text>Nusa Tenggara Timur</Text>
                     </View>
                   </View>
 
                   <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:50}}>
+                    <View style={{width: 50}}>
                       <Text style={{fontWeight: 'bold'}}>Komisi</Text>
                     </View>
                     <View style={{marginHorizontal: 5}}>
                       <Text>:</Text>
                     </View>
                     <View style={{flex: 1}}>
-                      <Text>{!item.komisi?'-':item.komisi}</Text>
+                      <Text>{!item.komisi ? '-' : item.komisi}</Text>
                     </View>
                   </View>
 
                   <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:50}}>
+                    <View style={{width: 50}}>
                       <Text style={{fontWeight: 'bold'}}>Profil</Text>
                     </View>
                     <View style={{marginHorizontal: 5}}>
@@ -161,10 +162,13 @@ function DataAnggotaDprd({navigation}) {
                   alignItems: 'center',
                   marginTop: 15,
                 }}>
-                <TouchableOpacity onPress={() => {
-                  navigation.navigate('DetailAnggotaDprd');
-                }} 
-                style={{flex: 1, alignItems: 'flex-start',}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('DetailAnggotaDprd', {
+                      idPejabat: item.id,
+                    });
+                  }}
+                  style={{flex: 1, alignItems: 'flex-start'}}>
                   <Text style={{color: '#2F80ED'}}>Lihat Kegiatan</Text>
                 </TouchableOpacity>
                 <View>
@@ -237,11 +241,11 @@ function DataAnggotaDprd({navigation}) {
             // marginTop: hp('5%'),
             height: hp('10%'),
             alignItems: 'center',
-            backgroundColor: '#274799'
+            backgroundColor: '#274799',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-              color='white'
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -288,16 +292,16 @@ function DataAnggotaDprd({navigation}) {
             <ActivityIndicator size={30} />
           </View>
         ) : listAnggotaDprd.length !== 0 ? (
-        <View style={{flex: 1, margin: 20}}>
-          <FlatList
-            data={listAnggotaDprd}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            // ListFooterComponent={renderFooter}
-            // onEndReached={handleLoadMore}
-            // onEndReachedThreshold={0}
-          />
-        </View>
+          <View style={{flex: 1, margin: 20}}>
+            <FlatList
+              data={listAnggotaDprd}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ListFooterComponent={renderFooter}
+              // onEndReached={handleLoadMore}
+              // onEndReachedThreshold={0}
+            />
+          </View>
         ) : (
           <>
             <View style={{alignItems: 'center', marginTop: 30}}>
@@ -337,7 +341,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white',
   },
   container: {
     // marginTop: 5,

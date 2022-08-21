@@ -37,7 +37,7 @@ function ManajemenProyek({navigation}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
+      url: url + `/public/pu_proyek`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -74,8 +74,7 @@ function ManajemenProyek({navigation}) {
                 marginLeft: 10,
                 marginTop: 10,
               }}>
-              Pembangunan Jaringan Perpipaan
-              {/* {item.judul} */}
+              {item.judul}
             </Text>
           </View>
           <View style={styles.content}>
@@ -94,17 +93,16 @@ function ManajemenProyek({navigation}) {
                 // alignItems: 'center',
               }}>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Lokasi:</Text>{' '}
-                {/* {item.nama_deskel} */} Desa Mente
+                <Text style={{fontWeight: 'bold'}}>Lokasi:</Text> {item.lokasi}
               </Text>
               <Text>
                 <Text style={{fontWeight: 'bold'}}>Progress:</Text>{' '}
-                {/* {item.kondisi} */} 30%
+                {item.progress_pekerjaan}
               </Text>
               <Text>
                 <Text style={{fontWeight: 'bold'}}>Nilai Kontrak:</Text>{' '}
                 {/* {moment(new Date(item.created_at)).format('DD-MM-YYYY')} */}
-                Rp. 6.100.000.000.000,-
+                Rp. {item.nilai_kontrak},-
               </Text>
             </View>
           </View>

@@ -28,13 +28,55 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function DetailAnggotaDprd({navigation}) {
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-    },
-  ];
+function DetailAnggotaDprd({navigation, route}) {
+  const idPejabat = route.params.idPejabat;
+  const [detailProfile, setDetailProfile] = useState([]);
+  const [kegiatan, setKegiatan] = useState([]);
+  const getDetailProfile = async () => {
+    Axios({
+      url: url + `/api/aspirasi/dprd-anggota/getid/${idPejabat}`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        if (response.data.status === 1) {
+          console.log(response.data.data);
+          setDetailProfile(response.data.data);
+        } else {
+          console.log('Silahkan refresh halaman ini');
+        }
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
+  };
+  const getKegiatan = async () => {
+    Axios({
+      url: url + `/api/aspirasi/dprd-kegiatan/getid/${idPejabat}`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        if (response.data.status === 1) {
+          console.log(response.data.data);
+          setKegiatan(response.data.data);
+        } else {
+          console.log('Silahkan refresh halaman ini');
+        }
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
+  };
+
+  useEffect(() => {
+    getDetailProfile();
+    getKegiatan();
+  }, []);
 
   return (
     <>
@@ -59,7 +101,7 @@ function DetailAnggotaDprd({navigation}) {
               size={30}
               icon={faArrowLeft}
               onPress={() => {
-                navigation.navigate('DataPejabatEksekutif');
+                navigation.navigate('DataAnggotaDprd');
               }}
             />
           </View>
@@ -79,27 +121,41 @@ function DetailAnggotaDprd({navigation}) {
                 }}
               />
             </View>
+            <View style={{alignItems: 'center'}}>
+              <Text>{detailProfile.nama}</Text>
+            </View>
             <View style={{flexDirection: 'row', marginTop: 15}}>
               <View style={{width: 80}}>
-                <Text style={{fontWeight: 'bold'}}>Jabatan</Text>
+                <Text style={{fontWeight: 'bold'}}>Fraksi</Text>
               </View>
               <View style={{marginHorizontal: 5}}>
                 <Text>:</Text>
               </View>
               <View>
-                <Text>Sekda</Text>
+                <Text>{detailProfile.fraksi}</Text>
               </View>
             </View>
 
             <View style={{flexDirection: 'row', marginTop: 5}}>
               <View style={{width: 80}}>
-                <Text style={{fontWeight: 'bold'}}>Instansi</Text>
+                <Text style={{fontWeight: 'bold'}}>Dapil</Text>
               </View>
               <View style={{marginHorizontal: 5}}>
                 <Text>:</Text>
               </View>
               <View>
-                <Text>Pemkab Kupang</Text>
+                <Text>{detailProfile.nama_profinsi}</Text>
+              </View>
+            </View>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <View style={{width: 80}}>
+                <Text style={{fontWeight: 'bold'}}>Komisi</Text>
+              </View>
+              <View style={{marginHorizontal: 5}}>
+                <Text>:</Text>
+              </View>
+              <View>
+                <Text>{detailProfile.komisi}</Text>
               </View>
             </View>
 
@@ -111,10 +167,7 @@ function DetailAnggotaDprd({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{width: 200}}>
-                <Text>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's.
-                </Text>
+                <Text>{detailProfile.profil}</Text>
               </View>
             </View>
           </View>
@@ -129,105 +182,108 @@ function DetailAnggotaDprd({navigation}) {
             <Text style={{marginTop: 20}}>Kegiatan</Text>
           </View>
 
-          <View style={{borderBottomWidth:1, paddingBottom:15, marginLeft: 20,
-              marginRight: 20,}}>
-            <View>
-              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
-                Kunjungan Kerja Ke Kecamatan ABC
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Tanggal : 30 Desember 2022
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Tempat : Kecamatan ABC
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Detail Kegiatan : Lorem Ipsum is simply dummy text of the
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's.
-              </Text>
-            </View>
-          </View>
-
-          <View style={{borderBottomWidth:1, paddingBottom:15, marginLeft: 20,
-              marginRight: 20,}}>
-            <View>
-              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
-                Kunjungan Kerja Ke Kecamatan ABC
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Tanggal : 30 Desember 2022
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Tempat : Kecamatan ABC
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Detail Kegiatan : Lorem Ipsum is simply dummy text of the
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's.
-              </Text>
-            </View>
-          </View>
-
-          <View style={{borderBottomWidth:1, paddingBottom:15, marginLeft: 20,
-              marginRight: 20,}}>
-            <View>
-              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
-                Kunjungan Kerja Ke Kecamatan ABC
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Tanggal : 30 Desember 2022
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Tempat : Kecamatan ABC
-              </Text>
-            </View>
-            <View>
-              <Text style={{fontSize: 12}}>
-                Detail Kegiatan : Lorem Ipsum is simply dummy text of the
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's.
-              </Text>
-            </View>
-          </View>
-
-          <View style={{marginVertical:hp('3%'), alignItems: 'center'}}>
-          <TouchableOpacity
+          <View
             style={{
-              height: 30,
-              width: wp('90%'),
-              backgroundColor: '#2F80ED',
-              borderRadius: 15,
-              alignItems: 'center',
-              justifyContent: 'center',
-              
+              borderBottomWidth: 1,
+              paddingBottom: 15,
+              marginLeft: 20,
+              marginRight: 20,
             }}>
-            <Text
+            <View>
+              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
+                {kegiatan.kegiatan}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Tanggal :{' '}
+                {moment(new Date(kegiatan.tanggal)).format('DD-MM-YYYY')}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>Tempat : {kegiatan.tempat}</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Detail Kegiatan : {kegiatan.keterangan}
+              </Text>
+            </View>
+          </View>
+
+          {/* <View
+            style={{
+              borderBottomWidth: 1,
+              paddingBottom: 15,
+              marginLeft: 20,
+              marginRight: 20,
+            }}>
+            <View>
+              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
+                Kunjungan Kerja Ke Kecamatan ABC
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>Tanggal : 30 Desember 2022</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>Tempat : Kecamatan ABC</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Detail Kegiatan : Lorem Ipsum is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the
+                industry's.
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              borderBottomWidth: 1,
+              paddingBottom: 15,
+              marginLeft: 20,
+              marginRight: 20,
+            }}>
+            <View>
+              <Text style={{marginTop: 5, fontWeight: 'bold'}}>
+                Kunjungan Kerja Ke Kecamatan ABC
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>Tanggal : 30 Desember 2022</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>Tempat : Kecamatan ABC</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 12}}>
+                Detail Kegiatan : Lorem Ipsum is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the
+                industry's.
+              </Text>
+            </View>
+          </View>
+*/}
+          <View style={{marginVertical: hp('3%'), alignItems: 'center'}}>
+            <TouchableOpacity
               style={{
-                fontWeight: 'bold',
-                fontSize: 12,
-                color: '#F2F2F2',
+                height: 30,
+                width: wp('90%'),
+                backgroundColor: '#2F80ED',
+                borderRadius: 15,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-              Sampaikan Aspirasi Anda
-            </Text>
-          </TouchableOpacity>
-        </View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 12,
+                  color: '#F2F2F2',
+                }}>
+                Sampaikan Aspirasi Anda
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     </>

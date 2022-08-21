@@ -340,7 +340,9 @@ function DetailLowonganKerja({navigation, route}) {
               <TouchableOpacity
                 style={styles.buttonLogin}
                 onPress={() => {
-                  navigation.navigate('FormLamaran');
+                  navigation.navigate('FormLamaran', {
+                    idLoker: listTitikRawan.id,
+                  });
                 }}>
                 <Text style={styles.textButton}>Lamar Lamaran</Text>
               </TouchableOpacity>

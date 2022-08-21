@@ -36,73 +36,88 @@ import GetLocation from 'react-native-get-location';
 function FormAktaKematian({navigation}) {
   const modalizeRef = useRef(null);
   const modalizeRefKTP = useRef(null);
+  const modalizeRefRS = useRef(null);
+  const modalizeRefKK = useRef(null);
+  const modalizeRefLain = useRef(null);
   const [modalHandleFoto, setModalHandleFoto] = useState(false);
   const [nama, setNama] = useState('');
-  const [nkk, setEmail] = useState('');
+  const [nkk, setNkk] = useState('');
   const [nik, setNik] = useState('');
   const [telp, setTelp] = useState('');
-  const [idKategoriAduan, setIdKategoriAduan] = useState();
-  const [idDinasTerkait, setIdDinasTerkait] = useState('');
-  const [judulPengaduan, setJudulPengaduan] = useState('');
-  const [detailPengaduan, setDetailPengaduan] = useState('');
-  const [solusi, setSolusi] = useState('');
+  const [catatan, setCatatan] = useState('');
+  const [idPenyebabKematian, setIdPenyebabKematian] = useState('');
 
   const [foto, setFoto] = useState(null);
   const [namaFoto, setNamaFoto] = useState('Unggah Foto');
-  const [dataFotoKejadian, setDataFotoKejadian] = useState({});
   const [linkFotoKejadian, setLinkFotoKejadian] = useState('');
+
   const [fotoKTP, setFotoKTP] = useState(null);
-  const [dataFotoKTP, setDataFotoKTP] = useState({});
   const [namaFotoKTP, setNamaFotoKTP] = useState('Unggah Foto');
   const [linkFotoKTP, setLinkFotoKTP] = useState('');
+
+  const [fotoRS, setFotoRS] = useState(null);
+  const [namaFotoRS, setNamaFotoRS] = useState('Unggah Foto');
+  const [linkFotoRS, setLinkFotoRS] = useState('');
+
+  const [fotoKK, setFotoKK] = useState(null);
+  const [namaFotoKK, setNamaFotoKK] = useState('Unggah Foto');
+  const [linkFotoKK, setLinkFotoKK] = useState('');
+
+  const [fotoLain, setFotoLain] = useState(null);
+  const [namaFotoLain, setNamaFotoLain] = useState('Unggah Foto');
+  const [linkFotoLain, setLinkFotoLain] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
-  const [kategoriAduan, setKategoriAduan] = useState([]);
-  const [dinasTerkait, setDinasTerkait] = useState([]);
   const [profil, setProfil] = useState({});
   const [modalLoading, setModalLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [latMarker, setLatMarker] = useState(0.0);
-  const [longMarker, setLongMarker] = useState(0.0);
 
   const cekKirim = () => {
-    // linkFotoKTP === '' && linkFotoKejadian === ''
-    //   ? setModalHandleFoto(true)
-    //   : kirim();
+    linkFotoKTP === '' &&
+    linkFotoKejadian === '' &&
+    linkFotoKK === '' &&
+    linkFotoRS === ''
+      ? setModalHandleFoto(true)
+      : kirim();
   };
   const kirim = async () => {
     // console.log(`http://maps.google.com/maps?q=${latMarker},${longMarker}`);
-    // setModalLoading(true);
-    // Axios({
-    //   url: url + '/api/trantibumlinmas/pengaduan/create',
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //   },
-    //   data: {
-    //     judul_laporan: judulPengaduan,
-    //     kategori_laporan: idKategoriAduan,
-    //     uraian_kejadian: detailPengaduan,
-    //     solusi: solusi,
-    //     dinas_terkait: idDinasTerkait,
-    //     link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
-    //     foto_kejadian: linkFotoKejadian,
-    //     foto_ktp: linkFotoKTP,
-    //     lat: parseInt(latMarker),
-    //     lon: parseInt(longMarker),
-    //   },
-    // })
-    //   .then(async res => {
-    //     setMessage(res.data.message);
-    //     setModalVisibleSukses(true);
-    //     setModalLoading(false);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //     setModalLoading(false);
-    //     // setMessage(error.response.data.message);
-    //     setModalVisible(true);
-    //   });
+    setModalLoading(true);
+    Axios({
+      url: url + '/api/kependudukan/kematian/create',
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+      data: {
+        nama: profil.name,
+        nik: profil.nik,
+        nkk: nkk,
+        amd_kategori_id: 1,
+        provinsi_id: 1,
+        kabkot_id: 1,
+        kecamatan_id: 1,
+        deskel_id: 1,
+        scan_pengantar_rt: linkFotoKejadian,
+        scan_surat_rs: linkFotoRS,
+        scan_ktp: linkFotoKTP,
+        scan_kk: linkFotoKK,
+        file_lainnya: linkFotoLain,
+        catatan: catatan,
+      },
+    })
+      .then(async res => {
+        setMessage(res.data.message);
+        setModalVisibleSukses(true);
+        setModalLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
+      });
     // : navigation.navigate('MenuTrantibum');
   };
 
@@ -114,6 +129,18 @@ function FormAktaKematian({navigation}) {
     modalizeRefKTP.current?.open();
   };
 
+  const pilihFotoRS = () => {
+    modalizeRefRS.current?.open();
+  };
+
+  const pilihFotoKK = () => {
+    modalizeRefKK.current?.open();
+  };
+
+  const pilihFotoLain = () => {
+    modalizeRefLain.current?.open();
+  };
+
   const getProfil = async () => {
     Axios({
       url: url + `/api/master/profile/user-detail`,
@@ -123,6 +150,7 @@ function FormAktaKematian({navigation}) {
       },
     })
       .then(response => {
+        console.log(response);
         setProfil(response.data.data);
       })
       .catch(error => {
@@ -131,188 +159,386 @@ function FormAktaKematian({navigation}) {
   };
 
   const ambilDariCamera = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+    modalizeRef.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
   };
 
   const ambilDariGalery = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+    modalizeRef.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
   };
 
   const kirimFotoKejadian = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     'Content-Type': 'multipart/form-data',
-    //     Accept: 'application/json',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKejadian(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal Kejadian');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKejadian(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Kejadian');
+      });
   };
 
   const ambilDariCameraKTP = async () => {
-    // modalizeRefKTP.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFotoKTP(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFotoKTP(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKTP(formData);
-    //       kirimFotoKTP(formData);
-    //     }
-    //   },
-    // );
+    modalizeRefKTP.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKTP(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKTP(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoKTP(formData);
+        }
+      },
+    );
   };
 
   const ambilDariGaleryKTP = () => {
-    // modalizeRefKTP.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFotoKTP(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFotoKTP(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKTP(formData);
-    //       kirimFotoKTP(formData);
-    //     }
-    //   },
-    // );
+    modalizeRefKTP.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKTP(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKTP(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoKTP(formData);
+        }
+      },
+    );
   };
 
   const kirimFotoKTP = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     // 'Content-Type': 'multipart/form-data',
-    //     Accept: '*/*',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKTP(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal KTP');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKTP(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal KTP');
+      });
   };
 
-  const getKategoriAduan = async () => {
-    // Axios({
-    //   url:
-    //     url + `/api/trantibumlinmas/kategori-aduan/getall?order=kategori+asc`,
-    //   method: 'get',
-    // })
-    //   .then(response => {
-    //     setKategoriAduan(response.data.data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+  const ambilDariCameraRS = async () => {
+    modalizeRefRS.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoRS(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoRS(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoRS(formData);
+        }
+      },
+    );
   };
 
-  const getDinasTerkait = async () => {
-    // Axios({
-    //   url:
-    //     url + `/api/trantibumlinmas/dinas-terkait/getall?order=nama_dinas+asc`,
-    //   method: 'get',
-    // })
-    //   .then(response => {
-    //     setDinasTerkait(response.data.data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+  const ambilDariGaleryRS = () => {
+    modalizeRefRS.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoRS(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoRS(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoRS(formData);
+        }
+      },
+    );
+  };
+
+  const kirimFotoRS = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoRS(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal RS');
+      });
+  };
+
+  const ambilDariCameraKK = async () => {
+    modalizeRefKK.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKK(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKK(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKK(formData);
+          kirimFotoKK(formData);
+        }
+      },
+    );
+  };
+
+  const ambilDariGaleryKK = () => {
+    modalizeRefKK.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKK(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKK(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKK(formData);
+          kirimFotoKK(formData);
+        }
+      },
+    );
+  };
+
+  const kirimFotoKK = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKK(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal KK');
+      });
+  };
+
+  const ambilDariCameraLain = async () => {
+    modalizeRefLain.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoLain(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoLain(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoLain(formData);
+          kirimFotoLain(formData);
+        }
+      },
+    );
+  };
+
+  const ambilDariGaleryLain = () => {
+    modalizeRefLain.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoLain(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoLain(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoLain(formData);
+          kirimFotoLain(formData);
+        }
+      },
+    );
+  };
+
+  const kirimFotoLain = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoLain(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Lain');
+      });
   };
 
   useEffect(() => {
-    getKategoriAduan();
-    getDinasTerkait();
     getProfil();
   }, []);
   return (
@@ -343,7 +569,7 @@ function FormAktaKematian({navigation}) {
               onPress={() => {
                 setModalVisibleSukses(!modalVisibleSukses);
                 setMessage('');
-                navigation.navigate('MenuTrantibum');
+                navigation.navigate('AktaKematian');
               }}
               style={{
                 backgroundColor: '#246EE9',
@@ -483,11 +709,9 @@ function FormAktaKematian({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={false}
-                value={profil.nik}
                 style={styles.textInput}
-                onChangeText={val => setNik(val)}
-                placeholder="NIK"></TextInput>
+                onChangeText={val => setNkk(val)}
+                placeholder="NKK"></TextInput>
             </View>
 
             <View>
@@ -496,7 +720,7 @@ function FormAktaKematian({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setCatatan(val)}
                 placeholder="Catatan"></TextInput>
             </View>
 
@@ -506,9 +730,9 @@ function FormAktaKematian({navigation}) {
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idKategoriAduan}
+                selectedValue={idPenyebabKematian}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
+                  setIdPenyebabKematian(itemValue);
                 }}>
                 <Picker.Item
                   label="Pilih Kategori"
@@ -532,48 +756,6 @@ function FormAktaKematian({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFotoKTP}
-                style={[styles.textInput, {flex: 5}]}
-                // onChangeText={val => setJudulPengaduan(val)}
-                // placeholder="Judul Pengaduan"
-                editable={false}></TextInput>
-              <TouchableOpacity
-                onPress={pilihFotoKTP}
-                style={{
-                  flex: 1,
-                  // borderWidth: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
-              </TouchableOpacity>
-            </View>
-            <View>
-              <Text style={styles.text}>Unggah scan KTP</Text>
-            </View>
-            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
-              <TextInput
-                value={namaFotoKTP}
-                style={[styles.textInput, {flex: 5}]}
-                // onChangeText={val => setJudulPengaduan(val)}
-                // placeholder="Judul Pengaduan"
-                editable={false}></TextInput>
-              <TouchableOpacity
-                onPress={pilihFotoKTP}
-                style={{
-                  flex: 1,
-                  // borderWidth: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
-              </TouchableOpacity>
-            </View>
-            <View>
-              <Text style={styles.text}>Unggah scan KTP</Text>
-            </View>
-            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
-              <TextInput
                 value={namaFoto}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
@@ -581,6 +763,48 @@ function FormAktaKematian({navigation}) {
                 editable={false}></TextInput>
               <TouchableOpacity
                 onPress={pilihFoto}
+                style={{
+                  flex: 1,
+                  // borderWidth: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.text}>Unggah scan KTP</Text>
+            </View>
+            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
+              <TextInput
+                value={namaFotoKTP}
+                style={[styles.textInput, {flex: 5}]}
+                // onChangeText={val => setJudulPengaduan(val)}
+                // placeholder="Judul Pengaduan"
+                editable={false}></TextInput>
+              <TouchableOpacity
+                onPress={pilihFotoKTP}
+                style={{
+                  flex: 1,
+                  // borderWidth: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.text}>Unggah scan Surat RS</Text>
+            </View>
+            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
+              <TextInput
+                value={namaFotoRS}
+                style={[styles.textInput, {flex: 5}]}
+                // onChangeText={val => setJudulPengaduan(val)}
+                // placeholder="Judul Pengaduan"
+                editable={false}></TextInput>
+              <TouchableOpacity
+                onPress={pilihFotoRS}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -595,13 +819,13 @@ function FormAktaKematian({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFoto}
+                value={namaFotoKK}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFoto}
+                onPress={pilihFotoKK}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -616,13 +840,13 @@ function FormAktaKematian({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFoto}
+                value={namaFotoLain}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFoto}
+                onPress={pilihFotoLain}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -754,6 +978,174 @@ function FormAktaKematian({navigation}) {
         </View>
       </Modalize>
 
+      <Modalize
+        ref={modalizeRefRS}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCameraRS}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGaleryRS}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#274799"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+
+      <Modalize
+        ref={modalizeRefKK}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCameraKK}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGaleryKK}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#274799"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+
+      <Modalize
+        ref={modalizeRefLain}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCameraLain}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGaleryLain}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#274799"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+
       <Modal animationType="fade" transparent={true} visible={modalHandleFoto}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -769,7 +1161,7 @@ function FormAktaKematian({navigation}) {
                   marginTop: 20,
                   justifyContent: 'center',
                 }}>
-                Harap melengkapi foto terlebih dahulu
+                Harap melengkapi foto dokumen terlebih dahulu
               </Text>
             </View>
 

@@ -33,7 +33,7 @@ function DetailManajemenProyek({navigation, route}) {
   };
   const getDetail = async () => {
     Axios({
-      url: url + `/api/pu/infrastruktur/getid/${idInfrastruktur}`,
+      url: url + `/public/pu_proyek/${idInfrastruktur}`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -42,7 +42,7 @@ function DetailManajemenProyek({navigation, route}) {
       .then(response => {
         if (response.data.status === 1) {
           console.log(response.data.data);
-          setDetail(response.data.data);
+          setDetail(response.data.data[0]);
         } else {
           console.log('Silahkan refresh halaman ini');
         }
@@ -91,9 +91,7 @@ function DetailManajemenProyek({navigation, route}) {
 
         <ScrollView style={styles.container}>
           <View>
-            <Text style={styles.judul}>
-              {/* {detail.nama} */}Pembangunan Jaringan Perpipaan
-            </Text>
+            <Text style={styles.judul}>{detail.judul}</Text>
           </View>
           <View>
             <Image
@@ -109,24 +107,19 @@ function DetailManajemenProyek({navigation, route}) {
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Lokasi: </Text>
-            <Text style={{flex: 1}}>
-              {/* {detail.pu_infrastruktur_jenis_id} */}
-              Kecamatan Takeran, Kabupaten Magentan
-            </Text>
+            <Text style={{flex: 1}}>{detail.lokasi}</Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Tahun: </Text>
-            <Text style={{flex: 1}}>{/* {detail.kelas} */}2021</Text>
+            <Text style={{flex: 1}}>2021</Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>SumberDana: </Text>
-            <Text style={{flex: 1}}>
-              {/* {detail.ukuran} */}APBN Tahun 2021
-            </Text>
+            <Text style={{flex: 1}}>{detail.sumber_dana}</Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Waktu Pelaksanaan: </Text>
-            <Text>{/* {detail.kondisi} */}180 Hari</Text>
+            <Text>{detail.waktu_pelaksanaan}</Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Nomor & Tgl.Kontrak: </Text>
@@ -134,43 +127,29 @@ function DetailManajemenProyek({navigation, route}) {
               {/* {moment(new Date(detail.tanggal_pembangunan)).format(
                 'DD-MM-YYYY',
               )} */}
-              03/PPK.AM/APBN/2021, 05/03/2021
+              {detail.nomor_kontrak},
+              {moment(new Date(detail.tanggal_kontrak)).format('DD-MM-YYYY')}
             </Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Tgl. Mulai s.d Selesai: </Text>
-            <Text style={{flex: 1}}>
-              {detail.sumber_pembiayaan}
-              05/03/2022 s.d 06/09/2022{' '}
-            </Text>
+            <Text style={{flex: 1}}>05/03/2022 s.d 06/09/2022 </Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Nilai Kontrak: </Text>
-            <Text style={{flex: 1}}>
-              {/* {detail.nilai} */}
-              Rp. 6.500.000.000,-
-            </Text>
+            <Text style={{flex: 1}}>Rp. {detail.nilai_kontrak},-</Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Penyedia Jasa: </Text>
-            <Text style={{flex: 1}}>
-              {/* {detail.status} */}
-              PT. Eratama Putra Perkasa
-            </Text>
+            <Text style={{flex: 1}}>{detail.penyedia_jasa}</Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Supervisi: </Text>
-            <Text style={{flex: 1}}>
-              {/* {detail.status} */}
-              PT. Skala Pilar Utama
-            </Text>
+            <Text style={{flex: 1}}>{detail.supervisi}</Text>
           </View>
           <View style={styles.content}>
             <Text style={{fontWeight: 'bold'}}>Progress Pekerjaan:</Text>
-            <Text style={{flex: 1}}>
-              {/* {detail.status} */}
-              70%
-            </Text>
+            <Text style={{flex: 1}}>{detail.progress_pekerjaan}%</Text>
           </View>
           {/* <View style={styles.containerPDF}>
             <Pdf

@@ -514,7 +514,7 @@ function BuatPengaduan({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={profil.phone === null ? true : false}
+                // editable={profil.phone === null ? true : false}
                 // value={profil.phone === null ? '' : profil.phone}
                 style={styles.textInput}
                 onChangeText={val => setTelp(val)}

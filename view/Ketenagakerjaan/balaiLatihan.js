@@ -45,7 +45,7 @@ function BalaiLatihanKerja({navigation}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/ketenagakerjaan/blk/getall?order=id+asc`,
+      url: url + `/public/blk_blk`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -78,7 +78,7 @@ function BalaiLatihanKerja({navigation}) {
                 resizeMode="contain"
                 style={{width: 100, height: 100, margin: 10}}
                 source={{
-                  uri: 'https://assets-a1.kompasiana.com/items/album/2021/09/04/blk-1-jpg-61333cce31a287322814a4c2.jpg',
+                  uri: 'https://1.bp.blogspot.com/-KM1kEir6x84/XmmEjTdKElI/AAAAAAAAAG8/NsT58hrjn9YSABbw6QDZ-228RGLxbvJDgCLcBGAsYHQ/s1600/P_20190930_170928.jpg',
                 }}
               />
             </View>
@@ -130,15 +130,15 @@ function BalaiLatihanKerja({navigation}) {
     getListTitikRawan();
   }, []);
 
-  useEffect(() => {
-    if (listTitikRawan.length !== 0) {
-      setFilterTitikRawan(
-        listTitikRawan.filter(x =>
-          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
-        ),
-      );
-    }
-  }, [filter]);
+  // useEffect(() => {
+  //   if (listTitikRawan.length !== 0) {
+  //     setFilterTitikRawan(
+  //       listTitikRawan.filter(x =>
+  //         x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+  // }, [filter]);
   return (
     <>
       <View

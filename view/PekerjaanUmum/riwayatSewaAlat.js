@@ -38,7 +38,7 @@ function RiwayatSewaAlat({navigation}) {
     setIsLoading(true);
     Axios({
       // url: url + `/api/pu/booking-sewa/getall?order=id+asc`,
-      url: url + `/api/pu/lokasi-rawan/getall?order=id+asc`,
+      url: url + `/public/pu_booking_sewa`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -57,6 +57,7 @@ function RiwayatSewaAlat({navigation}) {
   };
 
   const renderItem = ({item}) => {
+    console.log('item', item.pu_data_alat);
     return (
       <>
         <View style={styles.container}>
@@ -85,23 +86,24 @@ function RiwayatSewaAlat({navigation}) {
                     fontSize: 16,
                     marginTop: 10,
                   }}>
-                  Bulldozer
+                  {item.pu_data_alat.nama}
                 </Text>
               </View>
               <Text>
                 <Text style={{fontWeight: 'bold'}}>Harga Sewa:</Text> Rp.
-                500.000/Jam
+                {item.pu_data_alat.harga_sewa}/Jam
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Jumlah Sewa:</Text> 4 Unit
+                <Text style={{fontWeight: 'bold'}}>Jumlah Sewa:</Text>{' '}
+                {item.jumlah} Unit
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Tanggal Sewa:</Text> 30
-                Desember 2021
-                {/* {moment(new Date(item.created_at)).format('DD-MM-YYYY')} */}
+                <Text style={{fontWeight: 'bold'}}>Tanggal Sewa:</Text>
+                {moment(new Date(item.tanggal_pakai)).format('DD-MM-YYYY')}
               </Text>
               <Text>
-                <Text style={{fontWeight: 'bold'}}>Lama Sewa:</Text> 20 Hari
+                <Text style={{fontWeight: 'bold'}}>Lama Sewa:</Text>{' '}
+                {item.durasi} Hari
                 {/* {moment(new Date(item.created_at)).format('DD-MM-YYYY')} */}
               </Text>
             </View>
@@ -115,15 +117,15 @@ function RiwayatSewaAlat({navigation}) {
     getListTitikRawan();
   }, []);
 
-  useEffect(() => {
-    if (listTitikRawan.length !== 0) {
-      setFilterTitikRawan(
-        listTitikRawan.filter(x =>
-          x.nama_deskel.toLowerCase().includes(filter.toLowerCase()),
-        ),
-      );
-    }
-  }, [filter]);
+  // useEffect(() => {
+  //   if (listTitikRawan.length !== 0) {
+  //     setFilterTitikRawan(
+  //       listTitikRawan.filter(x =>
+  //         x.nama_deskel.toLowerCase().includes(filter.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+  // }, [filter]);
   return (
     <>
       <View

@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -35,6 +36,67 @@ import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
 function DetailKomoditas({navigation}) {
+  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listTitikRawan, setListTitikRawan] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getListTitikRawan = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/api/komoditas/harga-bahan-pangan/getall?order=harga+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListTitikRawan(response.data.data);
+        setFilterTitikRawan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <>
+        <View
+          style={{
+            width: wp('90%'),
+            paddingHorizontal: 20,
+            borderRadius: 5,
+            backgroundColor: '#EFEFEF',
+            marginTop: hp('1%'),
+            paddingVertical: hp('3%'),
+          }}>
+          <View>
+            <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+              {item.nama_bahan_pangan}
+            </Text>
+          </View>
+          <View style={{marginTop: hp('1%'), flexDirection: 'row'}}>
+            <View style={{width: wp('20%')}}>
+              <Text>Harga</Text>
+            </View>
+            <View>
+              <Text>:</Text>
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text>Rp. {item.harga}</Text>
+            </View>
+          </View>
+        </View>
+      </>
+    );
+  };
+
+  useEffect(() => {
+    getListTitikRawan();
+  }, []);
   return (
     <>
       <View
@@ -81,8 +143,35 @@ function DetailKomoditas({navigation}) {
             Tanggal Update: 30 Desember 2022
           </Text>
         </View>
-
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
+          </View>
+        ) : filterTitikRawan.length !== 0 ? (
+          <View style={{flex: 1, margin: 20}}>
+            <FlatList
+              data={filterTitikRawan}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ListFooterComponent={renderFooter}
+              // onEndReached={handleLoadMore}
+              // onEndReachedThreshold={0}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
+            </View>
+          </>
+        )}
+        {/* <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <View style={styles.container}>
             <View
               style={{
@@ -217,7 +306,7 @@ function DetailKomoditas({navigation}) {
               </View>
             </View>
           </View>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     </>
   );

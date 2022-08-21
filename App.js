@@ -806,7 +806,7 @@ const App = () => {
       },
     })
       .then(async res => {
-        // console.log('>>>>>>>>>>>>>>>', res.data.data.api_token);
+        console.log('>>>>>>>>>>>>>>>', res.data);
         await AsyncStorage.setItem('token', res.data.data.api_token);
         dispatch({type: 'LOGIN', payload: res.data.data.api_token});
         dispatch({type: 'RESPON_LOGIN', payload: res.data.data});

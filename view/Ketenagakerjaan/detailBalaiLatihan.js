@@ -47,7 +47,7 @@ function DetailBalaiLatihan({navigation, route}) {
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/ketenagakerjaan/blk/getid/${idBlk}`,
+      url: url + `/public/blk_blk/${idBlk}`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -56,8 +56,8 @@ function DetailBalaiLatihan({navigation, route}) {
       .then(response => {
         console.log(response.data.data);
         setIsLoading(false);
-        setListTitikRawan(response.data.data);
-        setFilterTitikRawan(response.data.data);
+        setListTitikRawan(response.data.data[0]);
+        setFilterTitikRawan(response.data.data[0]);
       })
       .catch(error => {
         console.log(error);
@@ -107,7 +107,7 @@ function DetailBalaiLatihan({navigation, route}) {
               resizeMode="cover"
               style={{width: wp('100%'), height: hp('30%')}}
               source={{
-                uri: 'https://assets-a1.kompasiana.com/items/album/2021/09/04/blk-1-jpg-61333cce31a287322814a4c2.jpg',
+                uri: 'https://1.bp.blogspot.com/-KM1kEir6x84/XmmEjTdKElI/AAAAAAAAAG8/NsT58hrjn9YSABbw6QDZ-228RGLxbvJDgCLcBGAsYHQ/s1600/P_20190930_170928.jpg',
               }}
             />
           </View>
@@ -128,7 +128,7 @@ function DetailBalaiLatihan({navigation, route}) {
                 <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
               </View>
               <View style={{marginLeft: 5}}>
-                <Text>{listTitikRawan.alaat}</Text>
+                <Text>{listTitikRawan.alamat}</Text>
               </View>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
@@ -145,7 +145,7 @@ function DetailBalaiLatihan({navigation, route}) {
               <TouchableOpacity
                 style={styles.buttonLogin}
                 onPress={() => {
-                  navigation.navigate('DaftarJadiAnggota');
+                  navigation.navigate('DaftarJadiAnggota', {idBlk: idBlk});
                 }}>
                 <Text style={styles.textButton}>Daftar jadi anggota</Text>
               </TouchableOpacity>

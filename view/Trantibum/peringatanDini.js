@@ -136,7 +136,7 @@ function PeringatanDini({navigation}) {
       },
     })
       .then(response => {
-        // console.log(response.data.data);
+        console.log('peringatan dini:', response.data.data);
         setIsLoading(false);
         setListPeringatan(response.data.data);
         setFilterePeringatan(response.data.data);
