@@ -30,26 +30,25 @@ import {
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 function AktaKelahiran({navigation}) {
-    
-  const DATA = [
-        {
-          id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-          title: 'First Item',
-        },
-        {
-          id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-          title: 'Second Item',
-        },
-        {
-          id: '58694a0f-3da1-471f-bd96-145571e29d72',
-          title: 'Third Item',
-        },
-      ];
+  // const DATA = [
+  //       {
+  //         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+  //         title: 'First Item',
+  //       },
+  //       {
+  //         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+  //         title: 'Second Item',
+  //       },
+  //       {
+  //         id: '58694a0f-3da1-471f-bd96-145571e29d72',
+  //         title: 'Third Item',
+  //       },
+  //     ];
 
-  const [listKelahiran,setListKelahiran]=useState([])
-  const [isLoading,setIsLoading]=useState(false)
-  const getListKelahiran=async()=>{
-  setIsLoading(true);
+  const [listKelahiran, setListKelahiran] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const getListKelahiran = async () => {
+    setIsLoading(true);
     Axios({
       url: url + `/api/kependudukan/kelahiran/getall?order=id+desc`,
       method: 'get',
@@ -58,20 +57,19 @@ function AktaKelahiran({navigation}) {
       },
     })
       .then(response => {
-        console.log('Data Kelahiran : ', response.data)
+        console.log('Data Kelahiran : ', response.data);
         setListKelahiran(response.data.data);
         setIsLoading(false);
       })
       .catch(error => {
         console.log(error);
       });
-    }
+  };
 
   const renderItem = ({item}) => {
     return (
       <>
-        <View
-          style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.content}>
             <View
               style={{
@@ -81,33 +79,41 @@ function AktaKelahiran({navigation}) {
                 // alignItems: 'center',
               }}>
               <View>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>Nama Lengkap :</Text>{' '}
-                Budi Prasetya Mulia
-              </Text>
+                <Text style={{marginTop: 5}}>
+                  <Text style={{fontWeight: 'bold'}}>Nama Lengkap :</Text>{' '}
+                  {item.nama}
+                </Text>
               </View>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Tanggal Lahir :</Text>{' '}
-                Minggu, 03 Juli 2024
+                {moment(new Date(item.tgl_lahir)).format('dddd, DD-MMMM-YYYY')}
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Tempat Lahir :</Text>{' '}
-                Jakarta
+                {item.tmpt_lahir}
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Nama Ayah :</Text>{' '}
-                Agus Rahmdi
+                {item.nama_ayah}
               </Text>
               <Text style={{marginTop: 5}}>
                 <Text style={{fontWeight: 'bold'}}>Nama Ibu :</Text>{' '}
-                Ratna
+                {item.nama_ibu}
               </Text>
-              <View style={{ marginTop:20, alignItems:'flex-end'}}>
-              <View style={{height:30, width:117, backgroundColor:"#F2C94C", borderRadius:15, alignItems:'center', justifyContent:'center'}}> 
-                <Text style= {{fontWeight:"bold", fontSize: 12}}>
+              <View style={{marginTop: 20, alignItems: 'flex-end'}}>
+                <View
+                  style={{
+                    height: 30,
+                    width: 117,
+                    backgroundColor: '#F2C94C',
+                    borderRadius: 15,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text style={{fontWeight: 'bold', fontSize: 12}}>
                     PENDING
-                </Text>
-              </View>
+                  </Text>
+                </View>
               </View>
               {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
@@ -147,11 +153,11 @@ function AktaKelahiran({navigation}) {
             // marginTop: hp('5%'),
             height: hp('10%'),
             alignItems: 'center',
-            backgroundColor: '#274799'
+            backgroundColor: '#274799',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-              color='white'
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -162,17 +168,13 @@ function AktaKelahiran({navigation}) {
           <View style={styles.boxJudul}>
             <Text style={styles.textJudul}>Akta Kelahiran</Text>
           </View>
-
-          
         </View>
         <View
           style={{
             flexDirection: 'row',
             marginHorizontal: 20,
             marginTop: hp('2%'),
-          }}>
-         
-        </View>
+          }}></View>
 
         {isLoading ? (
           <View
@@ -184,26 +186,25 @@ function AktaKelahiran({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : DATA.length !== 0 ? (
+        ) : listKelahiran.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={DATA}
+              data={listKelahiran}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
               // ListFooterComponent={renderFooter}
               // onEndReached={handleLoadMore}
               // onEndReachedThreshold={0}
             />
-          </View>):
-          (
-          <View>
-            <Text>
-              Data Tidak ditemukan
-            </Text>
           </View>
-          )}
-          
-          <TouchableOpacity
+        ) : (
+          <View>
+            <Text>Data Tidak ditemukan</Text>
+          </View>
+        )}
+
+        <TouchableOpacity
           onPress={() => {
             navigation.navigate('FormAktaKelahiran');
           }}
@@ -220,7 +221,6 @@ function AktaKelahiran({navigation}) {
           }}>
           <Text style={{fontSize: 35, color: 'white'}}>+</Text>
         </TouchableOpacity>
-       
       </View>
     </>
   );
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white',
   },
   container: {
     // marginTop: 5,

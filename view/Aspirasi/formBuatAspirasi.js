@@ -46,6 +46,8 @@ function FormBuatAspirasi({navigation}) {
   const [judulPengaduan, setJudulPengaduan] = useState('');
   const [detailPengaduan, setDetailPengaduan] = useState('');
   const [solusi, setSolusi] = useState('');
+  const [idStatus, setIdStatus] = useState('');
+  const [idOrang, setIdOrang] = useState('');
 
   const [foto, setFoto] = useState(null);
   const [namaFoto, setNamaFoto] = useState('Unggah Foto');
@@ -64,45 +66,60 @@ function FormBuatAspirasi({navigation}) {
   const [message, setMessage] = useState('');
   const [latMarker, setLatMarker] = useState(0.0);
   const [longMarker, setLongMarker] = useState(0.0);
+  const [keterangan, setKeterangan] = useState('');
 
+  const [listAnggotaDprd, setListAnggotaDprd] = useState([]);
+
+  const getListAnggotaDprd = async () => {
+    Axios({
+      url: url + `/api/aspirasi/dprd-anggota/getall?order=id+asc`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setListAnggotaDprd(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   const cekKirim = () => {
-    // linkFotoKTP === '' && linkFotoKejadian === ''
-    //   ? setModalHandleFoto(true)
-    //   : kirim();
+    linkFotoKejadian === '' ? setModalHandleFoto(true) : kirim();
   };
   const kirim = async () => {
     // console.log(`http://maps.google.com/maps?q=${latMarker},${longMarker}`);
-    // setModalLoading(true);
-    // Axios({
-    //   url: url + '/api/trantibumlinmas/pengaduan/create',
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //   },
-    //   data: {
-    //     judul_laporan: judulPengaduan,
-    //     kategori_laporan: idKategoriAduan,
-    //     uraian_kejadian: detailPengaduan,
-    //     solusi: solusi,
-    //     dinas_terkait: idDinasTerkait,
-    //     link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
-    //     foto_kejadian: linkFotoKejadian,
-    //     foto_ktp: linkFotoKTP,
-    //     lat: parseInt(latMarker),
-    //     lon: parseInt(longMarker),
-    //   },
-    // })
-    //   .then(async res => {
-    //     setMessage(res.data.message);
-    //     setModalVisibleSukses(true);
-    //     setModalLoading(false);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //     setModalLoading(false);
-    //     // setMessage(error.response.data.message);
-    //     setModalVisible(true);
-    //   });
+    setModalLoading(true);
+    Axios({
+      url: url + '/api/aspirasi/dprd-aspirasi/create',
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+      data: {
+        dprd_anggota_id: parseInt(idOrang),
+        dprd_aspirasi_id: parseInt(idStatus),
+        usr_user_id: 1,
+        usr_asn_id: 1,
+        deskripsi: keterangan,
+        publish: 1,
+        closed: 0,
+        file_url: linkFotoKejadian,
+      },
+    })
+      .then(async res => {
+        setMessage(res.data.message);
+        setModalVisibleSukses(true);
+        setModalLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
+      });
     // : navigation.navigate('MenuTrantibum');
   };
 
@@ -110,9 +127,9 @@ function FormBuatAspirasi({navigation}) {
     modalizeRef.current?.open();
   };
 
-  const pilihFotoKTP = () => {
-    modalizeRefKTP.current?.open();
-  };
+  // const pilihFotoKTP = () => {
+  //   modalizeRefKTP.current?.open();
+  // };
 
   const getProfil = async () => {
     Axios({
@@ -131,79 +148,79 @@ function FormBuatAspirasi({navigation}) {
   };
 
   const ambilDariCamera = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+    modalizeRef.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
   };
 
   const ambilDariGalery = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+    modalizeRef.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
   };
 
   const kirimFotoKejadian = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     'Content-Type': 'multipart/form-data',
-    //     Accept: 'application/json',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKejadian(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal Kejadian');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKejadian(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Kejadian');
+      });
   };
 
   const ambilDariCameraKTP = async () => {
@@ -311,6 +328,7 @@ function FormBuatAspirasi({navigation}) {
   };
 
   useEffect(() => {
+    getListAnggotaDprd();
     getKategoriAduan();
     getDinasTerkait();
     getProfil();
@@ -343,7 +361,7 @@ function FormBuatAspirasi({navigation}) {
               onPress={() => {
                 setModalVisibleSukses(!modalVisibleSukses);
                 setMessage('');
-                navigation.navigate('MenuTrantibum');
+                navigation.navigate('BuatAspirasi');
               }}
               style={{
                 backgroundColor: '#246EE9',
@@ -488,7 +506,7 @@ function FormBuatAspirasi({navigation}) {
                 onChangeText={val => setNik(val)}
                 placeholder="NIK"></TextInput>
             </View>
-            <View>
+            {/* <View>
               <Text style={styles.text}>No Telp/HP</Text>
             </View>
             <View style={styles.boxInput}>
@@ -498,9 +516,9 @@ function FormBuatAspirasi({navigation}) {
                 style={styles.textInput}
                 onChangeText={val => setTelp(val)}
                 placeholder="No Telp/HP"></TextInput>
-            </View>
+            </View> */}
 
-            <View>
+            {/* <View>
               <Text style={styles.text}>Judul Aspirasi</Text>
             </View>
             <View style={styles.boxInput}>
@@ -508,7 +526,7 @@ function FormBuatAspirasi({navigation}) {
                 style={styles.textInput}
                 onChangeText={val => setJudulPengaduan(val)}
                 placeholder="Keahlian"></TextInput>
-            </View>
+            </View> */}
 
             <View style={{marginTop: 5}}>
               <Text style={styles.text}>DPRD/Eksekutif</Text>
@@ -516,23 +534,19 @@ function FormBuatAspirasi({navigation}) {
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idKategoriAduan}
+                selectedValue={idStatus}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
+                  setIdStatus(itemValue);
                 }}>
                 <Picker.Item
                   label="Pilih Kategori"
                   value=""
                   style={{color: '#b0b0b0'}}
                 />
-                <Picker.Item
-                  label="DPRD"
-                  value="DPRD"
-                  style={{color: 'Black'}}
-                />
+                <Picker.Item label="DPRD" value="0" style={{color: 'Black'}} />
                 <Picker.Item
                   label="EKSEKUTIF"
-                  value="EKSEKUTIF"
+                  value="1"
                   style={{color: 'Black'}}
                 />
               </Picker>
@@ -544,40 +558,37 @@ function FormBuatAspirasi({navigation}) {
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idKategoriAduan}
+                selectedValue={idOrang}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
+                  setIdOrang(itemValue);
                 }}>
                 <Picker.Item
                   label="Pilih Kategori"
                   value=""
                   style={{color: '#b0b0b0'}}
                 />
-                <Picker.Item
-                  label="DPR"
-                  value="DPR"
-                  style={{color: 'Black'}}
-                />
-                <Picker.Item
-                  label="MPR"
-                  value="MPR"
-                  style={{color: 'Black'}}
-                />
+                {listAnggotaDprd.map(val => {
+                  return (
+                    <Picker.Item
+                      label={val.nama}
+                      value={val.id}
+                      style={{color: 'Black'}}
+                    />
+                  );
+                })}
               </Picker>
             </View>
 
             <View>
               <Text style={styles.text}>Isi Aspirasi</Text>
             </View>
-            <View style={[styles.boxInput,{height: 100}]}>
+            <View style={[styles.boxInput, {height: 100}]}>
               <TextInput
                 multiline={true}
                 numberOfLines={4}
                 style={[styles.textInput, {textAlignVertical: 'top'}]}
-                onChangeText={val => setNik(val)}
-                placeholder=" "
-                >
-                </TextInput>
+                onChangeText={val => setKeterangan(val)}
+                placeholder=" "></TextInput>
             </View>
 
             <View>
@@ -667,7 +678,7 @@ function FormBuatAspirasi({navigation}) {
         </View>
       </Modalize>
 
-      <Modalize
+      {/* <Modalize
         ref={modalizeRefKTP}
         // snapPoint={150}
         modalHeight={150}
@@ -721,7 +732,7 @@ function FormBuatAspirasi({navigation}) {
             </TouchableOpacity>
           </View>
         </View>
-      </Modalize>
+      </Modalize> */}
 
       <Modal animationType="fade" transparent={true} visible={modalHandleFoto}>
         <View style={styles.centeredView}>

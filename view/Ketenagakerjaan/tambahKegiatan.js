@@ -1,75 +1,80 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  Modal,
   Image,
+  Modal,
   Pressable,
+  ScrollView,
+  StyleSheet,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
+import {useDispatch, useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
-import {Rating} from 'react-native-ratings';
+import {
+  faArrowLeft,
+  faCamera,
+  faFolderOpen,
+} from '@fortawesome/free-solid-svg-icons';
+import {Modalize} from 'react-native-modalize';
+import ImagePicker from 'react-native-image-picker';
 import Axios from 'axios';
 import url from '../../config';
+import {ActivityIndicator} from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import {BallIndicator} from 'react-native-indicators';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import MapView, {Marker} from 'react-native-maps';
+import GetLocation from 'react-native-get-location';
 
-function UlasanPariwisata({navigation, route}) {
-  const pariwisataId = route.params.idPariwisata;
-  const [judul, setJudul] = useState('');
-  const [detailUlasan, setDetailUlasan] = useState('');
-  const [rating, setRating] = useState(0);
-  const [modalLoading, setModalLoading] = useState(false);
+function TambahKegiatanBlk({navigation}) {
+  const [nama, setNama] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
+
+  const [modalLoading, setModalLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const responLogin = useSelector(state => state.responLogin);
 
   const kirim = async () => {
-    setModalLoading(true);
+    // setModalLoading(true);
     Axios({
-      url: url + `/api/pariwisata/pariwisata-comment/create`,
+      url: url + '/public/blk_kategori',
       method: 'post',
-      data: {
-        pesan: detailUlasan,
-        pariwisata_id: pariwisataId,
-        rating: rating,
-        judul: judul,
-      },
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
+      data: {
+        nama: nama,
+      },
     })
-      .then(respon => {
-        setModalLoading(false);
+      .then(async res => {
+        setMessage(res.data.message);
         setModalVisibleSukses(true);
-        console.log(respon.data);
-        setMessage(respon.data.message);
-      })
-      .catch(err => {
-        setModalVisible(true);
         setModalLoading(false);
-        setMessage(err.response.data.message);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
       });
-    // navigation.navigate('DetailPariwisata');
+    // : navigation.navigate('MenuTrantibum');
   };
-  function getRating(rating) {
-    setRating(rating);
-    console.log(rating);
-  }
+
   return (
     <>
       <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisibleSukses}>
-        <View style={styles.centeredViewModal}>
+        <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Image
               style={{width: 50, height: 50}}
@@ -80,7 +85,7 @@ function UlasanPariwisata({navigation, route}) {
                 style={{
                   fontWeight: 'bold',
                   fontSize: 14,
-                  marginTop: hp('5%'),
+                  marginTop: 20,
                   justifyContent: 'center',
                 }}>
                 {message}
@@ -90,13 +95,8 @@ function UlasanPariwisata({navigation, route}) {
             <Pressable
               onPress={() => {
                 setModalVisibleSukses(!modalVisibleSukses);
-                setDetailUlasan('');
-                setJudul('');
-                setRating(0);
-                navigation.navigate('DetailPariwisata', {
-                  idPariwisata: pariwisataId,
-                });
-                // setMessage('');
+                setMessage('');
+                navigation.navigate('BalaiLatihanKerja');
               }}
               style={{
                 backgroundColor: '#246EE9',
@@ -119,7 +119,7 @@ function UlasanPariwisata({navigation, route}) {
         </View>
       </Modal>
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <View style={styles.centeredViewModal}>
+        <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Image
               style={{width: 50, height: 50}}
@@ -130,7 +130,7 @@ function UlasanPariwisata({navigation, route}) {
                 style={{
                   fontWeight: 'bold',
                   fontSize: 14,
-                  marginTop: hp('5%'),
+                  marginTop: 20,
                   justifyContent: 'center',
                 }}>
                 {message}
@@ -163,7 +163,7 @@ function UlasanPariwisata({navigation, route}) {
         </View>
       </Modal>
       <Modal animationType="fade" transparent={true} visible={modalLoading}>
-        <View style={styles.centeredViewModal}>
+        <View style={styles.centeredView}>
           <View>
             <View style={{alignItems: 'center'}}>
               <BallIndicator color="white" />
@@ -171,6 +171,7 @@ function UlasanPariwisata({navigation, route}) {
           </View>
         </View>
       </Modal>
+
       <View
         style={{
           // margin: 20,
@@ -182,11 +183,11 @@ function UlasanPariwisata({navigation, route}) {
         <View
           style={{
             flexDirection: 'row',
-            marginBottom: hp('2%'),
-            backgroundColor: '#274799',
-            height: hp('10%'),
-            alignItems: 'center',
             // marginTop: hp('5%'),
+            height: hp('10%'),
+            backgroundColor: '#274799',
+            alignItems: 'center',
+            marginBottom: hp('2%'),
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
@@ -194,13 +195,13 @@ function UlasanPariwisata({navigation, route}) {
               size={30}
               icon={faArrowLeft}
               onPress={() => {
-                navigation.navigate('DetailPariwisata');
+                navigation.navigate('BalaiLatihanKerja');
               }}
             />
           </View>
           <View style={styles.boxLogin}>
             <Text style={[styles.textLogin, {color: 'white'}]}>
-              Tulis ulasan anda
+              Tambah Kegitan
             </Text>
           </View>
         </View>
@@ -210,52 +211,13 @@ function UlasanPariwisata({navigation, route}) {
           showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
-              <Text style={[styles.text, {fontSize: 11}]}>
-                Nilai Pengalaman Anda (harus diisi)
-              </Text>
-            </View>
-            <View
-              style={{
-                marginTop: 12,
-                // borderWidth: 1,
-                width: '80%',
-                alignItems: 'flex-start',
-              }}>
-              <Rating
-                type="star"
-                ratingCount={5} //jumlah rating
-                imageSize={30}
-                onFinishRating={getRating} //get value
-                // readonly={true}
-                // jumpValue={1}
-                startingValue={0}
-                fractions={0} //untuk desimal
-              />
-            </View>
-            <View style={{marginTop: 20}}>
-              <Text style={[styles.text, {fontSize: 14}]}>
-                Judul Ulasan (harus diisi)
-              </Text>
+              <Text style={styles.text}>Nama</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudul(val)}
-                placeholder="Judul"></TextInput>
-            </View>
-
-            <View>
-              <Text style={[styles.text, {fontSize: 14}]}>
-                Berikan Ulasan (harus diisi)
-              </Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                multiline={true}
-                numberOfLines={6}
-                style={[styles.textInput, {textAlignVertical: 'top'}]}
-                onChangeText={val => setDetailUlasan(val)}
-                placeholder="Tulis ulasan sesuai pengalaman anda"></TextInput>
+                onChangeText={val => setNama(val)}
+                placeholder="Nama"></TextInput>
             </View>
 
             <View style={styles.boxButton}>
@@ -270,7 +232,18 @@ function UlasanPariwisata({navigation, route}) {
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
+  map: {
+    marginTop: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.41,
+    shadowRadius: 9.11,
+    elevation: 10,
+  },
   background: {
     backgroundColor: '#C67FEF',
     height: '100%',
@@ -290,7 +263,14 @@ const styles = {
     backgroundColor: '#ffffff',
     borderWidth: 1,
   },
-
+  boxInputPassword: {
+    flexDirection: 'row',
+    margin: 5,
+    borderRadius: 10,
+    width: '100%',
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+  },
   buttonLogin: {
     borderRadius: 10,
     width: '100%',
@@ -308,8 +288,10 @@ const styles = {
     elevation: 14,
   },
   text: {
+    fontWeight: 'bold',
+    fontSize: 18,
     margin: 5,
-    marginTop: hp('2%'),
+    marginTop: 15,
     color: 'black',
   },
   textInput: {
@@ -326,32 +308,62 @@ const styles = {
   },
   boxButton: {
     width: '100%',
-    marginTop: hp('2%'),
+    marginTop: 40,
   },
 
-  arrow: {
-    marginLeft: 30,
-  },
-  boxLogin: {
-    // borderWidth: 1,
-    marginLeft: 30,
-  },
-  textLogin: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  centeredViewModal: {
+  centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#080a1a99',
   },
   modalView: {
     margin: 20,
     backgroundColor: '#ffffff',
     borderRadius: 20,
-    padding: 30,
+    padding: 35,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
-};
-export default UlasanPariwisata;
+  arrow: {
+    // borderWidth: 1,
+    // marginTop: 30,
+    marginLeft: 30,
+  },
+  boxLogin: {
+    // borderWidth: 1,
+    marginLeft: 30,
+    // marginTop: 30,
+  },
+  textLogin: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  lupa: {
+    marginTop: 10,
+    // borderWidth: 1,
+    // flex: 1,
+    borderColor: 'grey',
+    width: '100%',
+    alignItems: 'flex-end',
+  },
+
+  drbDown: {
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 50,
+    width: '100%',
+    margin: 10,
+    marginBottom: 0,
+    padding: 10,
+    color: '#000000',
+  },
+});
+export default TambahKegiatanBlk;

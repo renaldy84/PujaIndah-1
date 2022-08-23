@@ -89,7 +89,9 @@ function DetailManajemenProyek({navigation, route}) {
           </View>
         </View>
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}>
           <View>
             <Text style={styles.judul}>{detail.judul}</Text>
           </View>

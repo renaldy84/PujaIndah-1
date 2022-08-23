@@ -77,7 +77,7 @@ function DetailAlatBerat({navigation, route}) {
           </View>
         </View>
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text style={styles.judul}>{detail.nama}</Text>

@@ -18,7 +18,7 @@ import {
   faCamera,
   faFolderOpen,
   faPaperclip,
-  faCalendarDays
+  faCalendarDays,
 } from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
 import ImagePicker from 'react-native-image-picker';
@@ -36,27 +36,51 @@ import GetLocation from 'react-native-get-location';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 function FormAktaKelahiran({navigation}) {
-  const modalizeRef = useRef(null);
-  const modalizeRefKTP = useRef(null);
+  const modalizeRefSuratLahir = useRef(null);
+  const modalizeRefBukuNikah = useRef(null);
+  const modalizeRefKk = useRef(null);
+  const modalizeRefAyah = useRef(null);
+  const modalizeRefIbu = useRef(null);
+  const modalizeRefLain = useRef(null);
   const [modalHandleFoto, setModalHandleFoto] = useState(false);
   const [nama, setNama] = useState('');
-  const [email, setEmail] = useState('');
-  const [nik, setNik] = useState('');
-  const [telp, setTelp] = useState('');
-  const [idKategoriAduan, setIdKategoriAduan] = useState();
-  const [idDinasTerkait, setIdDinasTerkait] = useState('');
-  const [judulPengaduan, setJudulPengaduan] = useState('');
-  const [detailPengaduan, setDetailPengaduan] = useState('');
-  const [solusi, setSolusi] = useState('');
+  const [jenisKelamin, setJenisKelamin] = useState('');
+  const [tanggal, setTanggal] = useState('');
+  const [tempatLahir, setTempatLahir] = useState('');
+  const [namaAyah, setNamaAyah] = useState('');
+  const [namaIbu, setNamaIbu] = useState('');
+  const [catatan, setCatatan] = useState('');
 
-  const [foto, setFoto] = useState(null);
-  const [namaFoto, setNamaFoto] = useState('Unggah Foto');
-  const [dataFotoKejadian, setDataFotoKejadian] = useState({});
-  const [linkFotoKejadian, setLinkFotoKejadian] = useState('');
-  const [fotoKTP, setFotoKTP] = useState(null);
-  const [dataFotoKTP, setDataFotoKTP] = useState({});
-  const [namaFotoKTP, setNamaFotoKTP] = useState('Unggah Foto');
-  const [linkFotoKTP, setLinkFotoKTP] = useState('');
+  const [fotoSuratLahir, setFotoSuratLahir] = useState(null);
+  const [namaFotoSuratLahir, setNamaFotoSuratLahir] = useState('Unggah Foto');
+  const [dataFotoSuratLahir, setDataFotoSuratLahir] = useState({});
+  const [linkFotoSuratLahir, setLinkFotoSuratLahir] = useState('');
+
+  const [fotoBukuNikah, setFotoBukuNikah] = useState(null);
+  const [dataFotoBukuNikah, setDataFotoBukuNikah] = useState({});
+  const [namaFotoBukuNikah, setNamaFotoBukuNikah] = useState('Unggah Foto');
+  const [linkFotoBukuNikah, setLinkFotoBukuNikah] = useState('');
+
+  const [fotoKk, setFotoKk] = useState(null);
+  const [dataFotoKk, setDataFotoKk] = useState({});
+  const [namaFotoKk, setNamaFotoKk] = useState('Unggah Foto');
+  const [linkFotoKk, setLinkFotoKk] = useState('');
+
+  const [fotoAyah, setFotoAyah] = useState(null);
+  const [dataFotoAyah, setDataFotoAyah] = useState({});
+  const [namaFotoAyah, setNamaFotoAyah] = useState('Unggah Foto');
+  const [linkFotoAyah, setLinkFotoAyah] = useState('');
+
+  const [fotoIbu, setFotoIbu] = useState(null);
+  const [dataFotoIbu, setDataFotoIbu] = useState({});
+  const [namaFotoIbu, setNamaFotoIbu] = useState('Unggah Foto');
+  const [linkFotoIbu, setLinkFotoIbu] = useState('');
+
+  const [fotoLain, setFotoLain] = useState(null);
+  const [dataFotoLain, setDataFotoLain] = useState({});
+  const [namaFotoLain, setNamaFotoLain] = useState('Unggah Foto');
+  const [linkFotoLain, setLinkFotoLain] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
   const [kategoriAduan, setKategoriAduan] = useState([]);
@@ -68,57 +92,82 @@ function FormAktaKelahiran({navigation}) {
   const [longMarker, setLongMarker] = useState(0.0);
 
   const [showTanggal, setShowTanggal] = useState(false);
-  const [tanggal, setTanggal] = useState('');
 
   const cekKirim = () => {
-    // linkFotoKTP === '' && linkFotoKejadian === ''
-    //   ? setModalHandleFoto(true)
-    //   : kirim();
+    linkFotoSuratLahir === '' &&
+    linkFotoBukuNikah === '' &&
+    linkFotoKk === '' &&
+    linkFotoAyah === '' &&
+    linkFotoIbu === ''
+      ? setModalHandleFoto(true)
+      : kirim();
   };
   const kirim = async () => {
     // console.log(`http://maps.google.com/maps?q=${latMarker},${longMarker}`);
-    // setModalLoading(true);
-    // Axios({
-    //   url: url + '/api/trantibumlinmas/pengaduan/create',
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //   },
-    //   data: {
-    //     judul_laporan: judulPengaduan,
-    //     kategori_laporan: idKategoriAduan,
-    //     uraian_kejadian: detailPengaduan,
-    //     solusi: solusi,
-    //     dinas_terkait: idDinasTerkait,
-    //     link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
-    //     foto_kejadian: linkFotoKejadian,
-    //     foto_ktp: linkFotoKTP,
-    //     lat: parseInt(latMarker),
-    //     lon: parseInt(longMarker),
-    //   },
-    // })
-    //   .then(async res => {
-    //     setMessage(res.data.message);
-    //     setModalVisibleSukses(true);
-    //     setModalLoading(false);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //     setModalLoading(false);
-    //     // setMessage(error.response.data.message);
-    //     setModalVisible(true);
-    //   });
+    setModalLoading(true);
+    Axios({
+      url: url + '/api/kependudukan/kelahiran/create',
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+      data: {
+        nama: nama,
+        jenis_kelamin: jenisKelamin,
+        tgl_lahir: tanggal,
+        nama_ayah: namaAyah,
+        nama_ibu: namaIbu,
+        catatan: catatan,
+        provinsi_id: 1,
+        kabkot_id: 1,
+        kecamatan_id: 1,
+        deskel_id: 1,
+        tmpt_lahir: tempatLahir,
+        scan_surat_lahir: linkFotoSuratLahir,
+        scan_buku_nikah: linkFotoBukuNikah,
+        ktp_ayah: linkFotoAyah,
+        ktp_ibu: linkFotoIbu,
+        scan_kk: linkFotoKk,
+        file_lainnya: linkFotoLain,
+      },
+    })
+      .then(async res => {
+        setMessage(res.data.message);
+        setModalVisibleSukses(true);
+        setModalLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
+      });
     // : navigation.navigate('MenuTrantibum');
   };
 
-  const pilihFoto = () => {
-    modalizeRef.current?.open();
+  const pilihFotoSuratLahir = () => {
+    modalizeRefSuratLahir.current?.open();
   };
 
-  const pilihFotoKTP = () => {
-    modalizeRefKTP.current?.open();
+  const pilihFotoBukuNikah = () => {
+    modalizeRefBukuNikah.current?.open();
   };
 
+  const pilihFotoKk = () => {
+    modalizeRefKk.current?.open();
+  };
+
+  const pilihFotoAyah = () => {
+    modalizeRefAyah.current?.open();
+  };
+
+  const pilihFotoIbu = () => {
+    modalizeRefIbu.current?.open();
+  };
+
+  const pilihFotoLain = () => {
+    modalizeRefLain.current?.open();
+  };
   const getProfil = async () => {
     Axios({
       url: url + `/api/master/profile/user-detail`,
@@ -135,158 +184,461 @@ function FormAktaKelahiran({navigation}) {
       });
   };
 
-  const ambilDariCamera = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+  const ambilDariCameraSuratLahir = () => {
+    modalizeRefSuratLahir.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoSuratLahir(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoSuratLahir(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoSuratLahir(formData);
+        }
+      },
+    );
   };
 
-  const ambilDariGalery = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+  const ambilDariGalerySuratLahir = () => {
+    modalizeRefSuratLahir.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoSuratLahir(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoSuratLahir(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoSuratLahir(formData);
+        }
+      },
+    );
   };
 
-  const kirimFotoKejadian = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     'Content-Type': 'multipart/form-data',
-    //     Accept: 'application/json',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKejadian(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal Kejadian');
-    //   });
+  const kirimFotoSuratLahir = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoSuratLahir(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Surat Lahir');
+      });
   };
 
-  const ambilDariCameraKTP = async () => {
-    // modalizeRefKTP.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFotoKTP(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFotoKTP(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKTP(formData);
-    //       kirimFotoKTP(formData);
-    //     }
-    //   },
-    // );
+  const ambilDariCameraBukuNikah = async () => {
+    modalizeRefBukuNikah.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoBukuNikah(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoBukuNikah(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoBukuNikah(formData);
+        }
+      },
+    );
   };
 
-  const ambilDariGaleryKTP = () => {
-    // modalizeRefKTP.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFotoKTP(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFotoKTP(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKTP(formData);
-    //       kirimFotoKTP(formData);
-    //     }
-    //   },
-    // );
+  const ambilDariGaleryBukuNikah = () => {
+    modalizeRefBukuNikah.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoBukuNikah(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoBukuNikah(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoBukuNikah(formData);
+        }
+      },
+    );
   };
 
-  const kirimFotoKTP = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     // 'Content-Type': 'multipart/form-data',
-    //     Accept: '*/*',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKTP(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal KTP');
-    //   });
+  const kirimFotoBukuNikah = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoBukuNikah(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Buku Nikah');
+      });
   };
 
+  const ambilDariCameraKk = () => {
+    modalizeRefKk.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKk(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKk(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKk(formData);
+        }
+      },
+    );
+  };
+
+  const ambilDariGaleryKk = () => {
+    modalizeRefKk.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKk(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKk(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKk(formData);
+        }
+      },
+    );
+  };
+
+  const kirimFotoKk = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKk(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Surat Lahir');
+      });
+  };
+
+  const ambilDariCameraAyah = () => {
+    modalizeRefAyah.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoAyah(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoAyah(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoAyah(formData);
+        }
+      },
+    );
+  };
+
+  const ambilDariGaleryAyah = () => {
+    modalizeRefAyah.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoAyah(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoAyah(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoAyah(formData);
+        }
+      },
+    );
+  };
+
+  const kirimFotoAyah = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoAyah(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Surat Lahir');
+      });
+  };
+
+  const ambilDariCameraIbu = () => {
+    modalizeRefIbu.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoIbu(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoIbu(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoIbu(formData);
+        }
+      },
+    );
+  };
+
+  const ambilDariGaleryIbu = () => {
+    modalizeRefIbu.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoIbu(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoIbu(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoIbu(formData);
+        }
+      },
+    );
+  };
+
+  const kirimFotoIbu = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoIbu(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Surat Lahir');
+      });
+  };
+
+  const ambilDariCameraLain = () => {
+    modalizeRefLain.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoLain(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoLain(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoLain(formData);
+        }
+      },
+    );
+  };
+
+  const ambilDariGaleryLain = () => {
+    modalizeRefLain.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoLain(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoLain(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoLain(formData);
+        }
+      },
+    );
+  };
+
+  const kirimFotoLain = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoLain(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Surat Lahir');
+      });
+  };
   const getKategoriAduan = async () => {
     // Axios({
     //   url:
@@ -348,7 +700,7 @@ function FormAktaKelahiran({navigation}) {
               onPress={() => {
                 setModalVisibleSukses(!modalVisibleSukses);
                 setMessage('');
-                navigation.navigate('MenuTrantibum');
+                navigation.navigate('AktaKelahiran');
               }}
               style={{
                 backgroundColor: '#246EE9',
@@ -458,20 +810,49 @@ function FormAktaKelahiran({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text style={styles.text}>Nama Lengkap</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={false}
-                value={profil.name}
+                value={nama}
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
             </View>
-            
+
+            <View style={{marginTop: 5}}>
+              <Text style={styles.text}>Jenis Kelamin</Text>
+            </View>
+            <View style={[styles.boxInput, {justifyContent: 'center'}]}>
+              <Picker
+                mode="dropdown"
+                selectedValue={jenisKelamin}
+                onValueChange={(itemValue, itemIndex) => {
+                  setJenisKelamin(itemValue);
+                }}>
+                <Picker.Item
+                  label="Pilih Kategori"
+                  value=""
+                  style={{color: '#b0b0b0'}}
+                />
+                <Picker.Item
+                  label="Laki-Laki"
+                  value="Laki-Laki"
+                  style={{color: 'Black'}}
+                />
+                <Picker.Item
+                  label="Perempuan"
+                  value="Perempuan"
+                  style={{color: 'Black'}}
+                />
+              </Picker>
+            </View>
+
             <View>
               <Text style={styles.text}>Tanggal Lahir</Text>
             </View>
@@ -487,15 +868,15 @@ function FormAktaKelahiran({navigation}) {
                   </Text>
                   <View>
                     <DateTimePickerModal
-                      minimumDate={new Date()}
+                      // minimumDate={new Date()}
                       isVisible={showTanggal}
                       mode="date"
                       onConfirm={val => {
                         setTanggal(
-                          `${('0' + val.getDate()).slice(-2)}-${(
+                          `${val.getFullYear()}-${(
                             '0' +
                             (val.getMonth() + 1)
-                          ).slice(-2)}-${val.getFullYear()}`,
+                          ).slice(-2)}-${('0' + val.getDate()).slice(-2)}`,
                         );
                         setShowTanggal(false);
                       }}
@@ -527,7 +908,7 @@ function FormAktaKelahiran({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setTempatLahir(val)}
                 placeholder=" "></TextInput>
             </View>
 
@@ -537,7 +918,7 @@ function FormAktaKelahiran({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setNamaAyah(val)}
                 placeholder=" "></TextInput>
             </View>
 
@@ -547,7 +928,7 @@ function FormAktaKelahiran({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setNamaIbu(val)}
                 placeholder=" "></TextInput>
             </View>
 
@@ -557,7 +938,7 @@ function FormAktaKelahiran({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setCatatan(val)}
                 placeholder="Catatan"></TextInput>
             </View>
 
@@ -566,13 +947,13 @@ function FormAktaKelahiran({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFotoKTP}
+                value={namaFotoSuratLahir}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFotoKTP}
+                onPress={pilihFotoSuratLahir}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -587,13 +968,13 @@ function FormAktaKelahiran({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFotoKTP}
+                value={namaFotoBukuNikah}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFotoKTP}
+                onPress={pilihFotoBukuNikah}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -603,19 +984,19 @@ function FormAktaKelahiran({navigation}) {
                 <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
               </TouchableOpacity>
             </View>
-            
+
             <View>
               <Text style={styles.text}>Unggah scan Kartu Keluarga</Text>
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFoto}
+                value={namaFotoKk}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFoto}
+                onPress={pilihFotoKk}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -631,13 +1012,13 @@ function FormAktaKelahiran({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFoto}
+                value={namaFotoAyah}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFoto}
+                onPress={pilihFotoAyah}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -653,13 +1034,13 @@ function FormAktaKelahiran({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFoto}
+                value={namaFotoIbu}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFoto}
+                onPress={pilihFotoIbu}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -675,13 +1056,13 @@ function FormAktaKelahiran({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFoto}
+                value={namaFotoLain}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFoto}
+                onPress={pilihFotoLain}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -701,7 +1082,7 @@ function FormAktaKelahiran({navigation}) {
       </View>
 
       <Modalize
-        ref={modalizeRef}
+        ref={modalizeRefSuratLahir}
         // snapPoint={150}
         modalHeight={150}
         HeaderComponent={
@@ -722,7 +1103,7 @@ function FormAktaKelahiran({navigation}) {
               width: 100,
             }}>
             <TouchableOpacity
-              onPress={ambilDariCamera}
+              onPress={ambilDariCameraSuratLahir}
               style={{alignItems: 'center'}}>
               <View>
                 <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
@@ -739,7 +1120,7 @@ function FormAktaKelahiran({navigation}) {
               marginHorizontal: 30,
             }}>
             <TouchableOpacity
-              onPress={ambilDariGalery}
+              onPress={ambilDariGalerySuratLahir}
               style={{alignItems: 'center'}}>
               <View>
                 <FontAwesomeIcon
@@ -757,7 +1138,7 @@ function FormAktaKelahiran({navigation}) {
       </Modalize>
 
       <Modalize
-        ref={modalizeRefKTP}
+        ref={modalizeRefBukuNikah}
         // snapPoint={150}
         modalHeight={150}
         HeaderComponent={
@@ -778,7 +1159,7 @@ function FormAktaKelahiran({navigation}) {
               width: 100,
             }}>
             <TouchableOpacity
-              onPress={ambilDariCameraKTP}
+              onPress={ambilDariCameraBukuNikah}
               style={{alignItems: 'center'}}>
               <View>
                 <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
@@ -795,7 +1176,231 @@ function FormAktaKelahiran({navigation}) {
               marginHorizontal: 30,
             }}>
             <TouchableOpacity
-              onPress={ambilDariGaleryKTP}
+              onPress={ambilDariGaleryBukuNikah}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#274799"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+
+      <Modalize
+        ref={modalizeRefKk}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCameraKk}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGaleryKk}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#274799"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+
+      <Modalize
+        ref={modalizeRefAyah}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCameraAyah}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGaleryAyah}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#274799"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+
+      <Modalize
+        ref={modalizeRefIbu}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCameraIbu}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGaleryIbu}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#274799"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+
+      <Modalize
+        ref={modalizeRefLain}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCameraLain}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGaleryLain}
               style={{alignItems: 'center'}}>
               <View>
                 <FontAwesomeIcon
@@ -878,7 +1483,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderColor:'#A19C9C'
+    borderColor: '#A19C9C',
   },
   boxInputPassword: {
     flexDirection: 'row',

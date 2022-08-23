@@ -71,6 +71,7 @@ function login({navigation}) {
         dispatch({type: 'RESPON_LOGIN', payload: res.data});
       })
       .catch(error => {
+        console.log(error);
         setModalVisible(true);
         setMessage(error.response.data.message);
         setModalLoading(false);

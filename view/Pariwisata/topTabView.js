@@ -27,6 +27,7 @@ function TopTab({item}) {
   function Transportasi() {
     return (
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
         {item.transportasi &&
           item.transportasi.map((val, index) => {
@@ -96,6 +97,7 @@ function TopTab({item}) {
   function Kuliner() {
     return (
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
         {item.kuliner &&
           item.kuliner.map((val, index) => {
@@ -154,6 +156,7 @@ function TopTab({item}) {
   function Penginapan() {
     return (
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
         {item.akomodasi &&
           item.akomodasi.map((val, index) => {
@@ -223,6 +226,7 @@ function TopTab({item}) {
   function TravelAgen() {
     return (
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
         {item.travel_agent &&
           item.travel_agent.map((val, index) => {

@@ -105,6 +105,7 @@ import MajalahDigital from './view/Pendidikan/majalahDigital';
 import FormBuatAspirasi from './view/Aspirasi/formBuatAspirasi';
 import DetailPejabatEksekutif from './view/Aspirasi/detailPejabatEksekutif';
 import DetailAnggotaDprd from './view/Aspirasi/detailAnggotaDprd';
+import TambahKegiatanBlk from './view/Ketenagakerjaan/tambahKegiatan';
 
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
@@ -726,6 +727,13 @@ function SettingNav() {
           name="MajalahDigital"
           component={MajalahDigital}
         />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="TambahKegiatanBlk"
+          component={TambahKegiatanBlk}
+        />
       </Stack.Navigator>
     </>
   );
@@ -809,7 +817,7 @@ const App = () => {
         console.log('>>>>>>>>>>>>>>>', res.data);
         await AsyncStorage.setItem('token', res.data.data.api_token);
         dispatch({type: 'LOGIN', payload: res.data.data.api_token});
-        dispatch({type: 'RESPON_LOGIN', payload: res.data.data});
+        dispatch({type: 'RESPON_LOGIN', payload: res.data});
         setTimeout(() => {
           setLoading(false);
         }, 2000);

@@ -128,7 +128,9 @@ function DetailPariwisata({navigation, route}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1, marginHorizontal: 20}}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1, marginHorizontal: 20}}
+          showsVerticalScrollIndicator={false}>
           {/* <CarouselPariwisata /> */}
           <Image
             style={{width: '100%', height: 200, marginBottom: 20}}

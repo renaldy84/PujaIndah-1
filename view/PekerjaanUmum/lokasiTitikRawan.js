@@ -195,7 +195,7 @@ function LokasiTitikRawan({navigation}) {
               <FontAwesomeIcon color="grey" size={20} icon={faSearch} />
             </TouchableOpacity>
           </View>
-          <View
+          {/* <View
             style={{
               flex: 1,
               alignItems: 'center',
@@ -214,7 +214,7 @@ function LokasiTitikRawan({navigation}) {
               }}>
               <FontAwesomeIcon color="grey" size={25} icon={faBars} />
             </TouchableOpacity>
-          </View>
+          </View> */}
         </View>
 
         {isLoading ? (
@@ -233,6 +233,7 @@ function LokasiTitikRawan({navigation}) {
               data={filterTitikRawan}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
               // ListFooterComponent={renderFooter}
               // onEndReached={handleLoadMore}
               // onEndReachedThreshold={0}

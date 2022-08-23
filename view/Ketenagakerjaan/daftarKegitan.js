@@ -78,9 +78,9 @@ function DaftarKegiatan({navigation}) {
           <View style={{flex: 1}}>
             <Text style={{fontSize: 16}}>{item.nama}</Text>
           </View>
-          <View>
+          {/* <View>
             <FontAwesomeIcon size={16} icon={faArrowRight} />
-          </View>
+          </View> */}
         </TouchableOpacity>
       </>
     );
@@ -269,7 +269,10 @@ function DaftarKegiatan({navigation}) {
           </View>
         </ScrollView> */}
 
-        {/* <TouchableOpacity
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('TambahKegiatanBlk');
+          }}
           style={{
             width: 60,
             height: 60,
@@ -282,7 +285,7 @@ function DaftarKegiatan({navigation}) {
             right: 30,
           }}>
           <Text style={{fontSize: 35, color: 'white'}}>+</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     </>
   );

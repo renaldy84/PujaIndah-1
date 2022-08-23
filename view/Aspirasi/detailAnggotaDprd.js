@@ -264,7 +264,7 @@ function DetailAnggotaDprd({navigation, route}) {
             </View>
           </View>
 */}
-          <View style={{marginVertical: hp('3%'), alignItems: 'center'}}>
+          {/* <View style={{marginVertical: hp('3%'), alignItems: 'center'}}>
             <TouchableOpacity
               style={{
                 height: 30,
@@ -283,7 +283,7 @@ function DetailAnggotaDprd({navigation, route}) {
                 Sampaikan Aspirasi Anda
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </ScrollView>
       </View>
     </>

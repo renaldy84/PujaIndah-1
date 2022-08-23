@@ -38,23 +38,21 @@ function FormKTP({navigation}) {
   const modalizeRefKTP = useRef(null);
   const [modalHandleFoto, setModalHandleFoto] = useState(false);
   const [nama, setNama] = useState('');
-  const [email, setEmail] = useState('');
   const [nik, setNik] = useState('');
-  const [telp, setTelp] = useState('');
-  const [idKategoriAduan, setIdKategoriAduan] = useState();
-  const [idDinasTerkait, setIdDinasTerkait] = useState('');
-  const [judulPengaduan, setJudulPengaduan] = useState('');
-  const [detailPengaduan, setDetailPengaduan] = useState('');
-  const [solusi, setSolusi] = useState('');
+  const [nkk, setNkk] = useState('');
+  const [catatan, setCatatan] = useState('');
+  const [jenisKelamin, setJenisKelamin] = useState('');
 
   const [foto, setFoto] = useState(null);
   const [namaFoto, setNamaFoto] = useState('Unggah Foto');
   const [dataFotoKejadian, setDataFotoKejadian] = useState({});
   const [linkFotoKejadian, setLinkFotoKejadian] = useState('');
+
   const [fotoKTP, setFotoKTP] = useState(null);
   const [dataFotoKTP, setDataFotoKTP] = useState({});
   const [namaFotoKTP, setNamaFotoKTP] = useState('Unggah Foto');
   const [linkFotoKTP, setLinkFotoKTP] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
   const [kategoriAduan, setKategoriAduan] = useState([]);
@@ -66,43 +64,44 @@ function FormKTP({navigation}) {
   const [longMarker, setLongMarker] = useState(0.0);
 
   const cekKirim = () => {
-    // linkFotoKTP === '' && linkFotoKejadian === ''
-    //   ? setModalHandleFoto(true)
-    //   : kirim();
+    linkFotoKTP === '' && linkFotoKejadian === ''
+      ? setModalHandleFoto(true)
+      : kirim();
   };
   const kirim = async () => {
     // console.log(`http://maps.google.com/maps?q=${latMarker},${longMarker}`);
-    // setModalLoading(true);
-    // Axios({
-    //   url: url + '/api/trantibumlinmas/pengaduan/create',
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //   },
-    //   data: {
-    //     judul_laporan: judulPengaduan,
-    //     kategori_laporan: idKategoriAduan,
-    //     uraian_kejadian: detailPengaduan,
-    //     solusi: solusi,
-    //     dinas_terkait: idDinasTerkait,
-    //     link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
-    //     foto_kejadian: linkFotoKejadian,
-    //     foto_ktp: linkFotoKTP,
-    //     lat: parseInt(latMarker),
-    //     lon: parseInt(longMarker),
-    //   },
-    // })
-    //   .then(async res => {
-    //     setMessage(res.data.message);
-    //     setModalVisibleSukses(true);
-    //     setModalLoading(false);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //     setModalLoading(false);
-    //     // setMessage(error.response.data.message);
-    //     setModalVisible(true);
-    //   });
+    setModalLoading(true);
+    Axios({
+      url: url + '/api/kependudukan/ktp/create',
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+      data: {
+        nama: nama,
+        jenis_kelamin: jenisKelamin,
+        // nik: nik,
+        nkk: nkk,
+        provinsi_id: 1,
+        kabkot_id: 1,
+        kecamatan_id: 1,
+        deskel_id: 1,
+        scan_akta_lahir: linkFotoKejadian,
+        scan_kk: linkFotoKTP,
+        catatan: catatan,
+      },
+    })
+      .then(async res => {
+        setMessage(res.data.message);
+        setModalVisibleSukses(true);
+        setModalLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
+      });
     // : navigation.navigate('MenuTrantibum');
   };
 
@@ -131,155 +130,155 @@ function FormKTP({navigation}) {
   };
 
   const ambilDariCamera = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+    modalizeRef.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
   };
 
   const ambilDariGalery = () => {
-    // modalizeRef.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFoto(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFoto(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKejadian(formData);
-    //       kirimFotoKejadian(formData);
-    //     }
-    //   },
-    // );
+    modalizeRef.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
   };
 
   const kirimFotoKejadian = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     'Content-Type': 'multipart/form-data',
-    //     Accept: 'application/json',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKejadian(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal Kejadian');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKejadian(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Kejadian');
+      });
   };
 
   const ambilDariCameraKTP = async () => {
-    // modalizeRefKTP.current?.close();
-    // ImagePicker.launchCamera(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFotoKTP(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFotoKTP(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKTP(formData);
-    //       kirimFotoKTP(formData);
-    //     }
-    //   },
-    // );
+    modalizeRefKTP.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKTP(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKTP(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoKTP(formData);
+        }
+      },
+    );
   };
 
   const ambilDariGaleryKTP = () => {
-    // modalizeRefKTP.current?.close();
-    // ImagePicker.launchImageLibrary(
-    //   {
-    //     mediaType: 'photo',
-    //     includeBase64: false,
-    //     //   maxHeight: 200,
-    //     //   maxWidth: 200,
-    //     quality: 0.3,
-    //   },
-    //   response => {
-    //     if (!response.didCancel) {
-    //       let formData = new FormData();
-    //       setFotoKTP(response.uri);
-    //       // setDataFoto(response.data);
-    //       setNamaFotoKTP(response.fileName);
-    //       formData.append('file', {
-    //         uri: response.uri,
-    //         name: response.fileName,
-    //         type: response.type,
-    //       });
-    //       // setDataFotoKTP(formData);
-    //       kirimFotoKTP(formData);
-    //     }
-    //   },
-    // );
+    modalizeRefKTP.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFotoKTP(response.uri);
+          // setDataFoto(response.data);
+          setNamaFotoKTP(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKTP(formData);
+          kirimFotoKTP(formData);
+        }
+      },
+    );
   };
 
   const kirimFotoKTP = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     // 'Content-Type': 'multipart/form-data',
-    //     Accept: '*/*',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKTP(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal KTP');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKTP(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal KTP');
+      });
   };
 
   const getKategoriAduan = async () => {
@@ -343,7 +342,7 @@ function FormKTP({navigation}) {
               onPress={() => {
                 setModalVisibleSukses(!modalVisibleSukses);
                 setMessage('');
-                navigation.navigate('MenuTrantibum');
+                navigation.navigate('KartuTandaPenduduk');
               }}
               style={{
                 backgroundColor: '#246EE9',
@@ -460,20 +459,44 @@ function FormKTP({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={false}
-                value={profil.name}
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
             </View>
-            
+
+            <View style={{marginTop: 5}}>
+              <Text style={styles.text}>Jenis Kelamin</Text>
+            </View>
+            <View style={[styles.boxInput, {justifyContent: 'center'}]}>
+              <Picker
+                mode="dropdown"
+                selectedValue={jenisKelamin}
+                onValueChange={(itemValue, itemIndex) => {
+                  setJenisKelamin(itemValue);
+                }}>
+                <Picker.Item
+                  label="Pilih Kategori"
+                  value=""
+                  style={{color: '#b0b0b0'}}
+                />
+                <Picker.Item
+                  label="Laki-Laki"
+                  value="Laki-Laki"
+                  style={{color: 'Black'}}
+                />
+                <Picker.Item
+                  label="Perempuan"
+                  value="Perempuan"
+                  style={{color: 'Black'}}
+                />
+              </Picker>
+            </View>
+
             <View>
               <Text style={styles.text}>Nomor Induk Kependudukan (NIK)</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={false}
-                value={profil.nik}
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
                 placeholder="NIK"></TextInput>
@@ -483,11 +506,9 @@ function FormKTP({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={false}
-                value={profil.nik}
                 style={styles.textInput}
-                onChangeText={val => setNik(val)}
-                placeholder="NIK"></TextInput>
+                onChangeText={val => setNkk(val)}
+                placeholder="NKK"></TextInput>
             </View>
 
             <View>
@@ -496,7 +517,7 @@ function FormKTP({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJudulPengaduan(val)}
+                onChangeText={val => setCatatan(val)}
                 placeholder="Catatan"></TextInput>
             </View>
 
@@ -505,13 +526,13 @@ function FormKTP({navigation}) {
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
               <TextInput
-                value={namaFotoKTP}
+                value={namaFoto}
                 style={[styles.textInput, {flex: 5}]}
                 // onChangeText={val => setJudulPengaduan(val)}
                 // placeholder="Judul Pengaduan"
                 editable={false}></TextInput>
               <TouchableOpacity
-                onPress={pilihFotoKTP}
+                onPress={pilihFoto}
                 style={{
                   flex: 1,
                   // borderWidth: 1,
@@ -542,8 +563,8 @@ function FormKTP({navigation}) {
                 <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
               </TouchableOpacity>
             </View>
-            
-            <View>
+
+            {/* <View>
               <Text style={styles.text}>Unggah File Lainnya</Text>
             </View>
             <View style={[styles.boxInput, {flexDirection: 'row'}]}>
@@ -563,8 +584,7 @@ function FormKTP({navigation}) {
                 }}>
                 <FontAwesomeIcon color="grey" size={25} icon={faPaperclip} />
               </TouchableOpacity>
-            </View>
-
+            </View> */}
 
             <View style={styles.boxButton}>
               <TouchableOpacity style={styles.buttonLogin} onPress={cekKirim}>

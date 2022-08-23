@@ -115,7 +115,9 @@ function home({navigation}) {
           </View>
         </View>
       </View>
-      <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+      <ScrollView
+        style={{flex: 1, backgroundColor: 'white'}}
+        showsVerticalScrollIndicator={false}>
         <CarauselHeader />
         <View style={[styles.iconMenuBOX]}>
           <View

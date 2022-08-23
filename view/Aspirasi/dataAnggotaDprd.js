@@ -171,7 +171,7 @@ function DataAnggotaDprd({navigation}) {
                   style={{flex: 1, alignItems: 'flex-start'}}>
                   <Text style={{color: '#2F80ED'}}>Lihat Kegiatan</Text>
                 </TouchableOpacity>
-                <View>
+                {/* <View>
                   <View
                     style={{
                       height: 30,
@@ -190,7 +190,7 @@ function DataAnggotaDprd({navigation}) {
                       Sampaikan Aspirasi Anda
                     </Text>
                   </View>
-                </View>
+                </View> */}
               </View>
 
               {/* <View style={{marginTop: 10, marginBottom: 15}}>

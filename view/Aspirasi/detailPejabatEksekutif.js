@@ -28,7 +28,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function DetailPejabatEksekutif({navigation}) {
+function DetailPejabatEksekutif({navigation, route}) {
+  const idPejabat = route.params.idPejabat;
+  const [detailProfile, setDetailProfile] = useState([]);
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -36,6 +38,30 @@ function DetailPejabatEksekutif({navigation}) {
     },
   ];
 
+  const getDetailProfile = async () => {
+    Axios({
+      url: url + `/public/dprd_anggota?${idPejabat}`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        if (response.data.status === 1) {
+          console.log(response.data.data);
+          setDetailProfile(response.data.data[0]);
+        } else {
+          console.log('Silahkan refresh halaman ini');
+        }
+      })
+      .catch(error => {
+        console.log(error.response.data);
+      });
+  };
+
+  useEffect(() => {
+    getDetailProfile();
+  }, []);
   return (
     <>
       <View
@@ -87,11 +113,11 @@ function DetailPejabatEksekutif({navigation}) {
                 <Text>:</Text>
               </View>
               <View>
-                <Text>Sekda</Text>
+                <Text>{detailProfile.komisi}</Text>
               </View>
             </View>
 
-            <View style={{flexDirection: 'row', marginTop: 5}}>
+            {/* <View style={{flexDirection: 'row', marginTop: 5}}>
               <View style={{width: 80}}>
                 <Text style={{fontWeight: 'bold'}}>Instansi</Text>
               </View>
@@ -101,7 +127,7 @@ function DetailPejabatEksekutif({navigation}) {
               <View>
                 <Text>Pemkab Kupang</Text>
               </View>
-            </View>
+            </View> */}
 
             <View style={{flexDirection: 'row', marginTop: 5}}>
               <View style={{width: 80}}>
@@ -111,17 +137,13 @@ function DetailPejabatEksekutif({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{width: 200}}>
-                <Text>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's.
-                </Text>
+                <Text>{detailProfile.profil}</Text>
               </View>
             </View>
           </View>
         </ScrollView>
 
-
-        <View style={{borderWidth:1,alignItems:'center'}}>
+        {/* <View style={{borderWidth:1,alignItems:'center'}}>
           <TouchableOpacity
             style={{
               height: 30,
@@ -142,7 +164,7 @@ function DetailPejabatEksekutif({navigation}) {
               Sampaikan Aspirasi Anda
             </Text>
           </TouchableOpacity>
-          </View>
+          </View> */}
       </View>
     </>
   );

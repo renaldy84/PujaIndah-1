@@ -44,11 +44,35 @@ function DataPejabatEksekutif({navigation}) {
     },
   ];
 
+  const [filterAnggotaDprd, setFilterAnggotaDprd] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [listAnggotaDprd, setListAnggotaDprd] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getListAnggotaDprd = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/public/dprd_anggota?eksekutif=1`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log(response.data.data);
+        setIsLoading(false);
+        setListAnggotaDprd(response.data.data);
+        setFilterAnggotaDprd(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   const renderItem = ({item}) => {
     return (
       <>
-        <View
-          style={styles.container}>
+        <View style={styles.container}>
           <View style={styles.content}>
             <View
               style={{
@@ -72,24 +96,35 @@ function DataPejabatEksekutif({navigation}) {
                         color: 'black',
                         fontSize: 16,
                       }}>
-                      Ratna
+                      {item.nama}
                     </Text>
                   </View>
 
                   <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:52}}>
+                    <View style={{width: 52}}>
                       <Text style={{fontWeight: 'bold'}}>Jabatan</Text>
                     </View>
                     <View style={{marginHorizontal: 5}}>
                       <Text>:</Text>
                     </View>
                     <View style={{flex: 1}}>
-                      <Text>Bupati</Text>
+                      <Text>{item.komisi}</Text>
                     </View>
                   </View>
 
                   <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:52}}>
+                    <View style={{width: 52}}>
+                      <Text style={{fontWeight: 'bold'}}>Profil</Text>
+                    </View>
+                    <View style={{marginHorizontal: 5}}>
+                      <Text>:</Text>
+                    </View>
+                    <View style={{flex: 1}}>
+                      <Text>{item.profil}</Text>
+                    </View>
+                  </View>
+                  {/* <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
+                    <View style={{width: 52}}>
                       <Text style={{fontWeight: 'bold'}}>Instansi</Text>
                     </View>
                     <View style={{marginHorizontal: 5}}>
@@ -98,20 +133,7 @@ function DataPejabatEksekutif({navigation}) {
                     <View style={{flex: 1}}>
                       <Text>Pemkab Hulu</Text>
                     </View>
-                  </View>
-
-                  <View style={{flex: 1, flexDirection: 'row', marginTop: 5}}>
-                    <View style={{width:52}}>
-                      <Text style={{fontWeight: 'bold'}}>Profil</Text>
-                    </View>
-                    <View style={{marginHorizontal: 5}}>
-                      <Text>:</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                      <Text>Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's.</Text>
-                    </View>
-                  </View>
+                  </View> */}
                 </View>
               </View>
 
@@ -125,14 +147,16 @@ function DataPejabatEksekutif({navigation}) {
                   marginTop: 15,
                 }}>
                 <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('DetailPejabatEksekutif');
-                }} 
-                style={{flex: 1, alignItems: 'flex-start'}}>
+                  onPress={() => {
+                    navigation.navigate('DetailPejabatEksekutif', {
+                      idPejabat: item.id,
+                    });
+                  }}
+                  style={{flex: 1, alignItems: 'flex-start'}}>
                   <Text style={{color: '#2F80ED'}}>Lihat Kegiatan</Text>
                 </TouchableOpacity>
 
-                <View>
+                {/* <View>
                   <View
                     style={{
                       height: 30,
@@ -151,7 +175,7 @@ function DataPejabatEksekutif({navigation}) {
                       Sampaikan Aspirasi Anda
                     </Text>
                   </View>
-                </View>
+                </View> */}
               </View>
 
               {/* <View style={{marginTop: 10, marginBottom: 15}}>
@@ -173,6 +197,10 @@ function DataPejabatEksekutif({navigation}) {
     );
   };
 
+  useEffect(() => {
+    getListAnggotaDprd();
+  }, []);
+
   return (
     <>
       <View
@@ -188,11 +216,11 @@ function DataPejabatEksekutif({navigation}) {
             // marginTop: hp('5%'),
             height: hp('10%'),
             alignItems: 'center',
-            backgroundColor: '#274799'
+            backgroundColor: '#274799',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-              color='white'
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -241,7 +269,7 @@ function DataPejabatEksekutif({navigation}) {
         ) : filterDataBansos.length !== 0 ? ( */}
         <View style={{flex: 1, margin: 20}}>
           <FlatList
-            data={DATA}
+            data={filterAnggotaDprd}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
             // ListFooterComponent={renderFooter}
@@ -288,7 +316,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white',
   },
   container: {
     // marginTop: 5,

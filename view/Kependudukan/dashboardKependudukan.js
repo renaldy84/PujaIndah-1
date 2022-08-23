@@ -137,7 +137,7 @@ const DashboardKependudukan = ({navigation}) => {
                   <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('AktaKematian');
                 }}
@@ -154,7 +154,7 @@ const DashboardKependudukan = ({navigation}) => {
                 <View style={styles.boxIconLeft}>
                   <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </ScrollView>
         </View>

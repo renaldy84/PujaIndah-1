@@ -42,6 +42,7 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
   const [telp, setTelp] = useState('');
   const [judulPengaduan, setJudulPengaduan] = useState('');
   const [detailPengaduan, setDetailPengaduan] = useState('');
+  const [alamat, setAlamat] = useState('');
   const [foto, setFoto] = useState(null);
   const [namaFoto, setNamaFoto] = useState('Unggah Foto');
   const [dataFotoKejadian, setDataFotoKejadian] = useState({});
@@ -56,6 +57,10 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
   const [modalLoading, setModalLoading] = useState(false);
   const [message, setMessage] = useState('');
   const responLogin = useSelector(state => state.responLogin);
+  const [lat, setLat] = useState(0.0);
+  const [long, setLong] = useState(0.0);
+  const [latMarker, setLatMarker] = useState(0.0);
+  const [longMarker, setLongMarker] = useState(0.0);
 
   const cekKirim = () => {
     linkFotoKTP === '' && linkFotoKejadian === ''
@@ -64,31 +69,38 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
   };
   const kirim = async () => {
     // setModalLoading(true);
-    // Axios({
-    //   url: url + '/api/trantibumlinmas/pengaduan/create',
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //   },
-    //   data: {
-    //     judul_laporan: judulPengaduan,
-    //     uraian_kejadian: detailPengaduan,
-    //     link_lokasi: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
-    //     foto_kejadian: linkFotoKejadian,
-    //     foto_ktp: linkFotoKTP,
-    //   },
-    // })
-    //   .then(async res => {
-    //     setMessage(res.data.message);
-    //     setModalVisibleSukses(true);
-    //     setModalLoading(false);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //     setModalLoading(false);
-    //     // setMessage(error.response.data.message);
-    //     setModalVisible(true);
-    //   });
+    Axios({
+      url: url + '/public/pu_pengaduan',
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+      data: {
+        judul: judulPengaduan,
+        foto_aduan: linkFotoKejadian,
+        foto_ktp: linkFotoKTP,
+        kondisi: detailPengaduan,
+        map: `http://maps.google.com/maps?q=${latMarker},${longMarker}`,
+        alamat_lokasi: alamat,
+        lat: parseInt(latMarker),
+        lon: parseInt(longMarker),
+        provinsi_id: 0,
+        kabkota_id: 0,
+        kecamatan_id: 0,
+        deskel_id: 0,
+      },
+    })
+      .then(async res => {
+        setMessage(res.data.message);
+        setModalVisibleSukses(true);
+        setModalLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+        setModalLoading(false);
+        // setMessage(error.response.data.message);
+        setModalVisible(true);
+      });
     // : navigation.navigate('MenuTrantibum');
   };
 
@@ -173,23 +185,23 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
   };
 
   const kirimFotoKejadian = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     'Content-Type': 'multipart/form-data',
-    //     Accept: 'application/json',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKejadian(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal Kejadian');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKejadian(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Kejadian');
+      });
   };
 
   const ambilDariCameraKTP = async () => {
@@ -251,27 +263,45 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
   };
 
   const kirimFotoKTP = async formData => {
-    // fetch(url + '/api/master/media/upload', {
-    //   method: 'post',
-    //   headers: {
-    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-    //     // 'Content-Type': 'multipart/form-data',
-    //     Accept: '*/*',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(async res => {
-    //     let data = await res.json();
-    //     console.log(data);
-    //     setLinkFotoKTP(data.data.path);
-    //   })
-    //   .catch(err => {
-    //     console.log('Gagal KTP');
-    //   });
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        // 'Content-Type': 'multipart/form-data',
+        Accept: '*/*',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKTP(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal KTP');
+      });
+  };
+
+  const getCurrentLocation = () => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        setLat(location.latitude);
+        setLong(location.longitude);
+        setLatMarker(location.latitude);
+        setLongMarker(location.longitude);
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
   };
 
   useEffect(() => {
     getProfil();
+    getCurrentLocation();
   }, []);
   return (
     <>
@@ -411,7 +441,9 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text style={styles.text}>Nama</Text>
@@ -484,7 +516,15 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
                 onChangeText={val => setDetailPengaduan(val)}
                 placeholder="Detail Pengaduan"></TextInput>
             </View>
-
+            <View>
+              <Text style={styles.text}>Alamat Lokasi</Text>
+            </View>
+            <View style={styles.boxInput}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={val => setAlamat(val)}
+                placeholder="Alamat"></TextInput>
+            </View>
             <View>
               <Text style={styles.text}>Unggah Gambar/Foto KTP</Text>
             </View>
@@ -526,6 +566,32 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
                 }}>
                 <FontAwesomeIcon color="grey" size={25} icon={faCamera} />
               </TouchableOpacity>
+            </View>
+
+            <View>
+              <Text style={styles.text}>Tentukan Lokasi Kejadian</Text>
+            </View>
+            <View style={styles.map}>
+              <MapView
+                pitchEnabled={true}
+                onPress={val => {
+                  console.log('coor', val.nativeEvent.coordinate);
+                  setLatMarker(val.nativeEvent.coordinate.latitude);
+                  setLongMarker(val.nativeEvent.coordinate.longitude);
+                }}
+                style={{width: wp('85%'), height: hp('30%')}}
+                region={{
+                  latitude: latMarker,
+                  longitude: longMarker,
+                  latitudeDelta: 0.05,
+                  longitudeDelta: 0.05,
+                }}>
+                <Marker
+                  coordinate={{
+                    latitude: latMarker,
+                    longitude: longMarker,
+                  }}></Marker>
+              </MapView>
             </View>
 
             <View style={styles.boxButton}>

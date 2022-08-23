@@ -77,7 +77,9 @@ function DetailInfrastruktur({navigation, route}) {
           </View>
         </View>
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}>
           <View>
             <Text style={styles.judul}>{detail.nama}</Text>
           </View>
