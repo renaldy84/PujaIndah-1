@@ -31,16 +31,8 @@ import {
 function AgendaDprd({navigation}) {
   const DATA = [
     {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      id: 1,
       title: 'First Item',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
     },
   ];
 
@@ -72,106 +64,108 @@ function AgendaDprd({navigation}) {
   const renderItem = ({item}) => {
     return (
       <>
-        <View
-          style={styles.container}>
+        <View style={styles.container}>
           <View>
-           
-                <View style={{height:hp("5%"),justifyContent:'center',paddingHorizontal:10,backgroundColor:'#EBC351'}}>
-                  <Text style={{fontWeight:"bold"}}>DPRD Kota Bandung</Text>
+            <View
+              style={{
+                height: hp('5%'),
+                justifyContent: 'center',
+                paddingHorizontal: 10,
+                backgroundColor: '#EBC351',
+              }}>
+              <Text style={{fontWeight: 'bold'}}>DPRD Kota Bandung</Text>
+            </View>
+            <View style={{marginTop: hp('1%'), paddingHorizontal: 10}}>
+              <View style={{flex: 1}}>
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      fontSize: 13,
+                    }}>
+                    Komisi I
+                  </Text>
                 </View>
-              <View style={{ marginTop: hp("1%"),paddingHorizontal:10}}>
-                <View style={{ flex: 1}}>
-                  <View>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        color: 'black',
-                        fontSize: 13,
-                      }}>
-                      Komisi I
+
+                <View style={{marginTop: 5}}>
+                  <View style={{flex: 1}}>
+                    <Text>
+                      Kunjungan Kerja Dalam Rangka Mendapatkan Masukan &
+                      Informasi Terkait Persiapan Analog Swict Off (ASO) Tahap
+                      Satu Wilayah Jawa Barat
                     </Text>
                   </View>
-
-                  <View style={{ marginTop: 5}}>
-                    <View style={{flex: 1}}>
-                      <Text>
-                      Kunjungan Kerja Dalam Rangka Mendapatkan Masukan & Informasi Terkait Persiapan Analog Swict Off (ASO) Tahap Satu Wilayah Jawa Barat
-                      </Text>
-                    </View>
-
-                  </View>
                 </View>
+              </View>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10,
+                paddingHorizontal: 10,
+              }}>
+              <View style={styles.boxIconRight}>
+                <Image
+                  style={{width: 24, height: 24}}
+                  source={require('../../assets/image/iconAspirasi/agendaDprd.png')}
+                />
               </View>
 
               <View
                 style={{
-                  justifyContent: 'center',
                   flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 10,
-                  paddingHorizontal:10
+                  marginLeft: 10,
                 }}>
-              
-                <View style={styles.boxIconRight}>
-                  <Image
-                    style={{width: 24, height: 24}}
-                    source={require('../../assets/image/iconAspirasi/agendaDprd.png')}
-                  />
-                </View>
-          
-                  <View
-                    style={{
-                    flex:1,
-                    marginLeft:10
-                    }}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: 12,
-                        color: '#274799'
-                      }}>
-                      Senin, 11 April 2022 / Pukul 09.00 WIB
-                    </Text>
-                  </View>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 12,
+                    color: '#274799',
+                  }}>
+                  Senin, 11 April 2022 / Pukul 09.00 WIB
+                </Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 5,
+                paddingHorizontal: 10,
+                marginBottom: 10,
+              }}>
+              <View style={styles.boxIconRight}>
+                <Image
+                  style={{width: 24, height: 24}}
+                  source={require('../../assets/image/iconAspirasi/agendaDprdLokasi.png')}
+                />
               </View>
 
               <View
                 style={{
-                  justifyContent: 'center',
                   flex: 1,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 5,
-                  paddingHorizontal:10
-                  ,marginBottom:10
+                  marginLeft: 10,
                 }}>
-              
-                <View style={styles.boxIconRight}>
-                  <Image
-                    style={{width: 24, height: 24}}
-                    source={require('../../assets/image/iconAspirasi/agendaDprdLokasi.png')}
-                  />
-                </View>
-          
-                  <View
-                    style={{
-                    flex:1,
-                    marginLeft:10
-                    }}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: 12,
-                        color: '#274799'
-                      }}>
-                      Dinas Komunikasi & Informatika Kota Cirebon
-                    </Text>
-                  </View>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 12,
+                    color: '#274799',
+                  }}>
+                  Dinas Komunikasi & Informatika Kota Cirebon
+                </Text>
               </View>
-              
+            </View>
 
-              {/* <View style={{marginTop: 10, marginBottom: 15}}>
+            {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
                   Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
                   City, Jakarta 13260
@@ -183,7 +177,6 @@ function AgendaDprd({navigation}) {
                   <Text>Jam Selesai:</Text> 17:00 PM
                 </Text>
               </View> */}
-     
           </View>
         </View>
       </>
@@ -223,7 +216,7 @@ function AgendaDprd({navigation}) {
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-            color='white'
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -270,16 +263,16 @@ function AgendaDprd({navigation}) {
             <ActivityIndicator size={30} />
           </View>
         ) : DATA.length !== 0 ? (
-        <View style={{flex: 1, margin: 20}}>
-          <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            // ListFooterComponent={renderFooter}
-            // onEndReached={handleLoadMore}
-            // onEndReachedThreshold={0}
-          />
-        </View>
+          <View style={{flex: 1, margin: 20}}>
+            <FlatList
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ListFooterComponent={renderFooter}
+              // onEndReached={handleLoadMore}
+              // onEndReachedThreshold={0}
+            />
+          </View>
         ) : (
           <>
             <View style={{alignItems: 'center', marginTop: 30}}>
@@ -319,7 +312,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white',
   },
   container: {
     // marginTop: 5,
@@ -408,6 +401,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
 });
 export default AgendaDprd;

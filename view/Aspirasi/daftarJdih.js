@@ -31,55 +31,58 @@ import {
 function DaftarJdih({navigation}) {
   const DATA = [
     {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
+      id: 1,
+      kota: 'Bandung',
+      link: 'https://jdih.dprd.bandungkab.go.id/	',
     },
     {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
+      id: 2,
+      kota: 'Jakarta',
+      link: 'https://jdih.dprd.jakarta.go.id/',
     },
     {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
+      id: 3,
+      kota: 'Surabaya',
+      link: 'https://jdih.dprd.surabaya.go.id/',
     },
   ];
 
   const renderItem = ({item}) => {
     return (
       <>
-        <View
-          style={styles.container}>
+        <View style={styles.container}>
           <View>
-           
-                <View style={{height:hp("5%"),justifyContent:'center',paddingHorizontal:10,backgroundColor:'#EBC351'}}>
-                  <Text style={{fontWeight:"bold"}}>Kota Bandung</Text>
+            <View
+              style={{
+                height: hp('5%'),
+                justifyContent: 'center',
+                paddingHorizontal: 10,
+                backgroundColor: '#EBC351',
+              }}>
+              <Text style={{fontWeight: 'bold'}}>Kota {item.kota}</Text>
+            </View>
+            <View style={{marginTop: hp('1%'), paddingHorizontal: 10}}>
+              <View style={{flex: 1}}>
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      fontSize: 13,
+                    }}>
+                    Situs Resmi
+                  </Text>
                 </View>
-              <View style={{ marginTop: hp("1%"),paddingHorizontal:10}}>
-                <View style={{ flex: 1}}>
-                  <View>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        color: 'black',
-                        fontSize: 13,
-                      }}>
-                      Situs Resmi
-                    </Text>
-                  </View>
 
-                  <View style={{ marginTop: 5, marginBottom:10}}>
-                    <View style={{flex: 1}}>
-                      <Text style={{color:'#274799'}}>
-                      https://jdih.dprd.bandungkab.go.id/	
-                      </Text>
-                    </View>
-
+                <View style={{marginTop: 5, marginBottom: 10}}>
+                  <View style={{flex: 1}}>
+                    <Text style={{color: '#274799'}}>{item.link}</Text>
                   </View>
                 </View>
               </View>
+            </View>
 
-
-              {/* <View style={{marginTop: 10, marginBottom: 15}}>
+            {/* <View style={{marginTop: 10, marginBottom: 15}}>
                 <Text>
                   Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
                   City, Jakarta 13260
@@ -91,7 +94,6 @@ function DaftarJdih({navigation}) {
                   <Text>Jam Selesai:</Text> 17:00 PM
                 </Text>
               </View> */}
-     
           </View>
         </View>
       </>
@@ -113,11 +115,11 @@ function DaftarJdih({navigation}) {
             // marginTop: hp('5%'),
             height: hp('10%'),
             alignItems: 'center',
-            backgroundColor: '#274799'
+            backgroundColor: '#274799',
           }}>
           <View style={styles.arrow}>
             <FontAwesomeIcon
-                color='white'
+              color="white"
               size={30}
               icon={faArrowLeft}
               onPress={() => {
@@ -213,7 +215,7 @@ const styles = StyleSheet.create({
   textJudul: {
     fontSize: 20,
     fontWeight: 'bold',
-    color:'white'
+    color: 'white',
   },
   container: {
     // marginTop: 5,
@@ -302,6 +304,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
 });
 export default DaftarJdih;

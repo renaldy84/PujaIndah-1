@@ -40,6 +40,39 @@ function DaftarPerizinan({navigation}) {
   const [listTitikRawan, setListTitikRawan] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const DATA = [
+    {
+      id: 1,
+      judul: 'PTSP Kota Tangerang',
+      alamat:
+        'Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.Tangerang, Kota Tangerang, Banten 15111',
+      telp: '021- 29662529',
+      link: 'https://perizinanonline.tangerangkota.go.id/	',
+    },
+    {
+      id: 2,
+      judul: 'PTSP Kota Malang',
+      alamat:
+        'Jl. Mayjen Sungkono No.2, Arjowinangun, Kec. Kedungkandang, Kota Malang, Jawa Timur 65135',
+      telp: '(0341) 751942',
+      link: 'https://disnakerpmptsp.malangkota.go.id/	',
+    },
+    {
+      id: 3,
+      judul: 'PTSP Kota Surabaya',
+      alamat: 'Jl. Tunjungan No.1-3(Mall Pelayanan Publik Lt.3)Surabaya 60275',
+      telp: '(031) 99001785',
+      link: 'http://dpm-ptsp.surabaya.go.id',
+    },
+    {
+      id: 4,
+      judul: 'PTSP Kota Sidoarjo',
+      alamat:
+        'Jl. Pahlawan No.141, Jetis, Lemahputro, Kec. Sidoarjo, Kabupaten Sidoarjo, Jawa Timur 61211',
+      telp: '(031) 8052090',
+      link: 'http://www.dpmptsp.sidoarjokab.go.id/web/?hom_page=home-page-04	',
+    },
+  ];
   const getListTitikRawan = async () => {
     setIsLoading(true);
     Axios({
@@ -88,7 +121,7 @@ function DaftarPerizinan({navigation}) {
                     fontSize: 14,
                     marginTop: 15,
                   }}>
-                  PTSP Kota Tangerang
+                  {item.judul}
                 </Text>
               </View>
               <View style={{flexDirection: 'row', marginTop: 15}}>
@@ -96,10 +129,7 @@ function DaftarPerizinan({navigation}) {
                   <FontAwesomeIcon size={15} icon={faMapMarkerAlt} />
                 </View>
                 <View style={{marginLeft: 5, flex: 1}}>
-                  <Text style={{fontSize: 12}}>
-                    Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                    Tangerang, Kota Tangerang, Banten 15111
-                  </Text>
+                  <Text style={{fontSize: 12}}>{item.alamat}</Text>
                 </View>
               </View>
               <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -110,7 +140,7 @@ function DaftarPerizinan({navigation}) {
                   style={{
                     marginLeft: 5,
                   }}>
-                  <Text style={{fontSize: 12}}>021- 29662529</Text>
+                  <Text style={{fontSize: 12}}>{item.telp}</Text>
                 </View>
               </View>
               <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -122,9 +152,7 @@ function DaftarPerizinan({navigation}) {
                     marginLeft: 5,
                     flex: 1,
                   }}>
-                  <Text style={{fontSize: 12}}>
-                    https://perizinanonline.tangerangkota.go.id/
-                  </Text>
+                  <Text style={{fontSize: 12}}>{item.link}</Text>
                 </View>
               </View>
             </View>
@@ -232,7 +260,7 @@ function DaftarPerizinan({navigation}) {
         ) : filterTitikRawan.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={filterTitikRawan}
+              data={DATA}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
               // ListFooterComponent={renderFooter}
