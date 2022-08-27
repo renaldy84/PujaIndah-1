@@ -74,7 +74,7 @@ function InformasiSiswa({navigation}) {
             </Text>
           </View>
         </View>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             {/* Judul Inforasi Pasien */}
             <View style={{marginTop: hp('3%')}}>

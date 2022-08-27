@@ -95,7 +95,7 @@ function BerhasilDaftarLayanan({navigation}) {
             </Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             {/* Lokasi Puskesmas */}
             <View>

@@ -68,7 +68,7 @@ function Beasiswa({navigation}) {
             <Text style={[styles.textJudul, {color: 'white'}]}>Beasiswa</Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text style={styles.text}>Nama Daerah</Text>

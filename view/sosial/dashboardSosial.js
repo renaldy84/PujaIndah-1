@@ -65,7 +65,7 @@ const DashboardSosial = ({navigation}) => {
             </Text>
           </View>
 
-          <ScrollView style={styles.footer}>
+          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

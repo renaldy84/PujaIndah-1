@@ -100,7 +100,7 @@ function DetailFasilitasKesehatan({navigation}) {
             </Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             <Image
               resizeMode="cover"

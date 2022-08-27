@@ -297,6 +297,7 @@ function DataAnggotaDprd({navigation}) {
               data={listAnggotaDprd}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
               // ListFooterComponent={renderFooter}
               // onEndReached={handleLoadMore}
               // onEndReachedThreshold={0}

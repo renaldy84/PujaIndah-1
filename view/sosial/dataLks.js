@@ -359,6 +359,7 @@ function DataLKS({navigation}) {
               data={filterListDataLks}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
             />
           </View>
         ) : (

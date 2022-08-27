@@ -95,7 +95,7 @@ function PendaftaranPelayananKesehatan({navigation}) {
             </Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text

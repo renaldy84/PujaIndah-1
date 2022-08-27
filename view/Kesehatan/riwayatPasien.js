@@ -83,7 +83,7 @@ function RiwayatPasien({navigation}) {
             </Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             {/* Judul Inforasi Pasien */}
             <View style={{marginTop: hp('3%')}}>

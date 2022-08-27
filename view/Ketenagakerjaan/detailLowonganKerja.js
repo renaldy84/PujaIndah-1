@@ -117,7 +117,7 @@ function DetailLowonganKerja({navigation, route}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text style={{fontWeight: 'bold', fontSize: 20}}>

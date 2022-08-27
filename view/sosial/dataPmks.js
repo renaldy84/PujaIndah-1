@@ -361,6 +361,7 @@ function DataPmks({navigation}) {
               data={filterListDataPMKS}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
             />
           </View>
         ) : (

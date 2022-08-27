@@ -68,7 +68,7 @@ function Rapor({navigation}) {
             <Text style={[styles.textJudul, {color: 'white'}]}>Rapor</Text>
           </View>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text style={styles.text}>NISN</Text>

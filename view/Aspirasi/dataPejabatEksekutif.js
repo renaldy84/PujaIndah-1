@@ -272,6 +272,7 @@ function DataPejabatEksekutif({navigation}) {
             data={filterAnggotaDprd}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
             // ListFooterComponent={renderFooter}
             // onEndReached={handleLoadMore}
             // onEndReachedThreshold={0}

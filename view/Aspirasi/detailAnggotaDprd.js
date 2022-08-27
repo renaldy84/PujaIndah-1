@@ -110,7 +110,7 @@ function DetailAnggotaDprd({navigation, route}) {
           </View>
         </View>
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{marginTop: hp('3%'), marginHorizontal: wp('10%')}}>
             <View style={{alignItems: 'center'}}>
               <Image

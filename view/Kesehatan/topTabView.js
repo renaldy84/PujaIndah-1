@@ -15,7 +15,7 @@ function TopTab() {
     const {width} = useWindowDimensions();
     return (
       <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
         <View style={{margin: 10}}>
           <Text>Fasilitas Poli</Text>
           {/* <RenderHtml
@@ -32,7 +32,7 @@ function TopTab() {
   function Ambulance() {
     return (
       <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
         {/* {item.transportasi &&
           item.transportasi.map((val, index) => {
             return (
@@ -101,7 +101,7 @@ function TopTab() {
   function Dokter() {
     return (
       <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
         {/* {item.kuliner &&
           item.kuliner.map((val, index) => {
             return (
@@ -159,7 +159,7 @@ function TopTab() {
   function Jadwal() {
     return (
       <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
         {/* {item.akomodasi &&
           item.akomodasi.map((val, index) => {
             return (

@@ -171,6 +171,7 @@ function DaftarJdih({navigation}) {
             data={DATA}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
             // ListFooterComponent={renderFooter}
             // onEndReached={handleLoadMore}
             // onEndReachedThreshold={0}

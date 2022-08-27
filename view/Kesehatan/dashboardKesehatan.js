@@ -71,7 +71,7 @@ const DashboardKesehatan = ({navigation}) => {
               </View>
             </View>
           </View>
-          <ScrollView style={styles.footer}>
+          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

@@ -64,7 +64,8 @@ function ProfilSekolah({navigation}) {
             </Text>
           </View>
         </View>
-        <ScrollView>
+        
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text style={styles.text}>NPSN</Text>
