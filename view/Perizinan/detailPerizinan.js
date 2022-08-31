@@ -79,14 +79,14 @@ function DatailPerizinan({navigation, route}) {
                     fontSize: 14,
                     marginTop: 15,
                   }}>
-                  {item.nama}
+                  {item?.nama}
                 </Text>
               </View>
             </View>
           </View>
           <TouchableOpacity
             onPress={() => {
-              Linking.openURL(item.link);
+              Linking.openURL(item?.link);
             }}
             style={{
               marginVertical: hp('3%'),

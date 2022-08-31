@@ -69,7 +69,7 @@ function DaftarPerizinan({navigation}) {
               <Image
                 resizeMode="contain"
                 style={{width: 150, height: 150, margin: 10, borderRadius: 15}}
-                source={{uri: item.foto}}
+                source={{uri: item?.foto}}
               />
             </View>
             <View
@@ -85,7 +85,7 @@ function DaftarPerizinan({navigation}) {
                     fontSize: 14,
                     marginTop: 15,
                   }}>
-                  {item.nama}
+                  {item?.nama}
                 </Text>
               </View>
               <View style={{flexDirection: 'row', marginTop: 15}}>
@@ -93,7 +93,7 @@ function DaftarPerizinan({navigation}) {
                   <FontAwesomeIcon size={15} icon={faMapMarkerAlt} />
                 </View>
                 <View style={{marginLeft: 5, flex: 1}}>
-                  <Text style={{fontSize: 12}}>{item.alamat}</Text>
+                  <Text style={{fontSize: 12}}>{item?.alamat}</Text>
                 </View>
               </View>
               <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -104,7 +104,7 @@ function DaftarPerizinan({navigation}) {
                   style={{
                     marginLeft: 5,
                   }}>
-                  <Text style={{fontSize: 12}}>{item.no_telp}</Text>
+                  <Text style={{fontSize: 12}}>{item?.no_telp}</Text>
                 </View>
               </View>
               <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -116,14 +116,14 @@ function DaftarPerizinan({navigation}) {
                     marginLeft: 5,
                     flex: 1,
                   }}>
-                  <Text style={{fontSize: 12}}>{item.link}</Text>
+                  <Text style={{fontSize: 12}}>{item?.link}</Text>
                 </View>
               </View>
             </View>
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('DetailPerizinan', {itemId: item.id});
+              navigation.navigate('DetailPerizinan', {itemId: item?.id});
             }}
             style={{
               marginVertical: hp('3%'),
