@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -34,14 +35,69 @@ import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
 function DaftarDokter({navigation}) {
+  const [dataDokter, setDataDokter] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getData = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + '/faskes/dokter?search=RSUD',
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log('data', response?.data?.data);
+        setDataDokter(response?.data?.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.container}>
+        <View style={styles.boxCard}>
+          <View>
+            <Text style={{fontSize: 14, fontWeight: 'bold'}}>{item?.nama}</Text>
+          </View>
+          <View style={{marginTop: hp('1%')}}>
+            <Text style={{color: '#827474', fontSize: 12}}>
+              {item?.jabatan}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
+            <View>
+              <FontAwesomeIcon
+                size={20}
+                icon={faMapMarkerAlt}
+                color="#274799"
+              />
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text style={{fontSize: 12, color: '#274799'}}>
+                {item?.faskes?.alamat}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <View
         style={{
-          // margin: 20,
           flex: 1,
           resizeMode: 'cover',
-          // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
         <View
@@ -80,7 +136,8 @@ function DaftarDokter({navigation}) {
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
               onChangeText={val => setFilter(val)}
-              placeholder="Ketik Rumah Sakit atau Puskesmas"></TextInput>
+              placeholder="Ketik Rumah Sakit atau Puskesmas"
+            />
             <TouchableOpacity
               onPress={() => {}}
               style={{
@@ -93,52 +150,32 @@ function DaftarDokter({navigation}) {
             </TouchableOpacity>
           </View>
         </View>
-
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            <View style={styles.boxCard}>
-              <View>
-                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-                  dr. R. Eddy Setiyoso, SpPD-KGEH
-                </Text>
-              </View>
-              <View style={{marginTop: hp('1%')}}>
-                <Text style={{color: '#827474', fontSize: 12}}>
-                  Penyakit Dalam (Konsultan Gastro Entero Hepatologi)
-                </Text>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon
-                    size={20}
-                    icon={faMapMarkerAlt}
-                    color="#274799"
-                  />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text style={{fontSize: 12, color: '#274799'}}>
-                    Rumah Sakit St. Carolus (RSSC)
-                  </Text>
-                </View>
-              </View>
-            </View>
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
           </View>
-        </ScrollView>
-
-        {/* <TouchableOpacity
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#274799',
-            position: 'absolute',
-            bottom: 50,
-            right: 30,
-          }}>
-          <Text style={{fontSize: 35, color: 'white'}}>+</Text>
-        </TouchableOpacity> */}
+        ) : dataDokter.length !== 0 ? (
+          <View style={{flex: 1}}>
+            <FlatList
+              data={dataDokter}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
+            </View>
+          </>
+        )}
       </View>
     </>
   );

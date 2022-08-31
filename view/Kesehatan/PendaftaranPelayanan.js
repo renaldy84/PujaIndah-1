@@ -31,7 +31,8 @@ import {
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {faClock} from '@fortawesome/free-regular-svg-icons';
 
-function PendaftaranPelayananKesehatan({navigation}) {
+function PendaftaranPelayananKesehatan({navigation, route}) {
+  const {faskes, poli} = route.params;
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [nik, setNik] = useState('');
@@ -42,17 +43,52 @@ function PendaftaranPelayananKesehatan({navigation}) {
   const [showTime, setShowTime] = useState(false);
   const [time, setTime] = useState('');
 
+  const [kategoriPoli, setKategoriPoli] = useState('');
+  const [dokterPoli, setDokterPoli] = useState('');
+
   const getProfil = async () => {
     Axios({
-      url: url + `/api/master/profile/user-detail`,
+      url: url + '/api/master/profile/user-detail',
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        console.log(response.data);
         setProfil(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  // const getDataPoli = async () => {
+  //   Axios({
+  //     url: url + '/public/pus_nakes?pus_puskesmas_id=8&page=0&per_page=20',
+  //     method: 'get',
+  //     headers: {
+  //       Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+  //     },
+  //   })
+  //     .then(response => {
+  //       console.log(response.data.data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+
+  const getDataDokter = async value => {
+    Axios({
+      url:
+        url + `/public/pus_nakes?pus_puskesmas_id=${value}&page=0&per_page=20`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log('ini', response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -68,13 +104,11 @@ function PendaftaranPelayananKesehatan({navigation}) {
         style={{
           flex: 1,
           resizeMode: 'cover',
-          // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
         <View
           style={{
             flexDirection: 'row',
-            // marginTop: hp('5%'),
             height: hp('10%'),
             backgroundColor: '#274799',
             alignItems: 'center',
@@ -105,7 +139,7 @@ function PendaftaranPelayananKesehatan({navigation}) {
                   fontSize: 14,
                   marginTop: hp('2%'),
                 }}>
-                Puskesmas Pamulang
+                {faskes?.nama}
               </Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
@@ -113,10 +147,7 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
               </View>
               <View style={{marginLeft: 5}}>
-                <Text>
-                  Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                  Tangerang, Kota Tangerang, Banten 15111
-                </Text>
+                <Text>{faskes.alamat}</Text>
               </View>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
@@ -124,7 +155,7 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 <FontAwesomeIcon size={20} icon={faPhoneAlt} />
               </View>
               <View style={{marginLeft: 5}}>
-                <Text>021- 29662529</Text>
+                <Text>{faskes.no_telp}</Text>
               </View>
             </View>
             <View
@@ -133,7 +164,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 marginTop: hp('3%'),
                 borderColor: '#758097',
                 opacity: 0.5,
-              }}></View>
+              }}
+            />
             <View style={{marginTop: hp('3%')}}>
               <Text style={{fontSize: 16, fontWeight: 'bold'}}>
                 Form Pendaftaran Layanan
@@ -148,7 +180,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 value={profil.name}
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
-                placeholder="Nama"></TextInput>
+                placeholder="Nama"
+              />
             </View>
 
             <View>
@@ -160,7 +193,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 value={profil.nik}
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
-                placeholder="NIK"></TextInput>
+                placeholder="NIK"
+              />
             </View>
             <View>
               <Text style={styles.text}>Alamat</Text>
@@ -171,7 +205,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 value={profil.alamat}
                 style={styles.textInput}
                 onChangeText={val => setEmail(val)}
-                placeholder="Alamat"></TextInput>
+                placeholder="Alamat"
+              />
             </View>
             <View>
               <Text style={styles.text}>Tanggal Lahir</Text>
@@ -230,7 +265,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
-                placeholder="Tempat Lahir"></TextInput>
+                placeholder="Tempat Lahir"
+              />
             </View>
             <View style={{marginTop: 5}}>
               <Text style={styles.text}>Jenis Kelamin</Text>
@@ -267,7 +303,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 keyboardType="numeric"
                 style={[styles.textInput, {flex: 5}]}
                 onChangeText={val => setNik(val)}
-                placeholder="Tinggi Badan"></TextInput>
+                placeholder="Tinggi Badan"
+              />
               <View
                 style={{
                   flex: 1,
@@ -287,7 +324,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 keyboardType="numeric"
                 style={[styles.textInput, {flex: 5}]}
                 onChangeText={val => setNik(val)}
-                placeholder="Berat Badan"></TextInput>
+                placeholder="Berat Badan"
+              />
               <View
                 style={{
                   flex: 1,
@@ -306,7 +344,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
-                placeholder="Riwayat Kesehatan"></TextInput>
+                placeholder="Riwayat Kesehatan"
+              />
             </View>
             <View>
               <Text style={styles.text}>Alergi Obat</Text>
@@ -315,7 +354,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
-                placeholder="Alergi Obat"></TextInput>
+                placeholder="Alergi Obat"
+              />
             </View>
             <View>
               <Text style={styles.text}>Alergi Makanan</Text>
@@ -324,7 +364,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
-                placeholder="Alergi Makanan"></TextInput>
+                placeholder="Alergi Makanan"
+              />
             </View>
             <View style={{marginTop: 5}}>
               <Text style={styles.text}>Pilih Poli</Text>
@@ -332,17 +373,44 @@ function PendaftaranPelayananKesehatan({navigation}) {
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idKategoriAduan}
+                selectedValue={kategoriPoli}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
+                  setKategoriPoli(itemValue);
+                  getDataDokter(itemValue);
                 }}>
                 <Picker.Item
                   label="Pilih Poli"
                   value=""
                   style={{color: '#b0b0b0'}}
                 />
+                {poli.map((item, index) => {
+                  return (
+                    <Picker.Item
+                      key={index}
+                      label={item?.poli}
+                      value={item?.id}
+                    />
+                  );
+                })}
+              </Picker>
+            </View>
+
+            <View style={{marginTop: 5}}>
+              <Text style={styles.text}>Pilih Dokter</Text>
+            </View>
+            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
+              <Picker
+                mode="dropdown"
+                selectedValue={dokterPoli}
+                onValueChange={(itemValue, itemIndex) => {
+                  setDokterPoli(itemValue);
+                }}>
+                <Picker.Item
+                  label="Pilih Dokter"
+                  value=""
+                  style={{color: '#b0b0b0'}}
+                />
                 <Picker.Item label="Poli Gigi" value="java" />
-                <Picker.Item label="Poli Kulit" value="js" />
               </Picker>
             </View>
             <View>
@@ -445,7 +513,8 @@ function PendaftaranPelayananKesehatan({navigation}) {
                 numberOfLines={4}
                 style={[styles.textInput, {textAlignVertical: 'top'}]}
                 onChangeText={val => setNik(val)}
-                placeholder="Keluhan"></TextInput>
+                placeholder="Keluhan"
+              />
             </View>
             <View
               style={{
@@ -546,6 +615,13 @@ const styles = StyleSheet.create({
   },
   textCalendar: {
     fontSize: 14,
+  },
+  picker: {
+    marginVertical: 30,
+    width: 300,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#666',
   },
 });
 export default PendaftaranPelayananKesehatan;

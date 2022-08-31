@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -35,6 +36,98 @@ import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
 function FasilitasKesehatan({navigation}) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [fasilitasKesesahat, setFasilitasKesehatan] = useState([]);
+  const [search, setSearch] = useState([]);
+
+  const getData = async () => {
+    setIsLoading(true);
+    Axios({
+      url: url + `/public/pus_puskesmas?search=${search}&page=0&per_page=20`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setFasilitasKesehatan(response?.data?.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.container}>
+        <View
+          style={{
+            width: wp('90%'),
+            paddingHorizontal: 20,
+            borderRadius: 5,
+            backgroundColor: 'white',
+            marginTop: hp('2%'),
+            paddingVertical: hp('3%'),
+            margin: 15,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 7,
+            },
+            shadowOpacity: 0.41,
+            shadowRadius: 9.11,
+            elevation: 5,
+            backgroundColor: '#fff',
+          }}>
+          <View>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>{item?.nama}</Text>
+          </View>
+
+          <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
+            <View>
+              <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text>{item?.alamat}</Text>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
+            <View style={{rotation: 90}}>
+              <FontAwesomeIcon size={20} icon={faPhoneAlt} />
+            </View>
+            <View style={{marginLeft: 10}}>
+              <Text>{item?.no_telp}</Text>
+            </View>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('DetailFasilitasKesehatan', {
+                itemId: item?.id,
+                nama: item?.nama,
+                no_telp: item?.no_telp,
+                alamat: item?.alamat,
+              });
+            }}
+            style={{
+              marginTop: hp('2%'),
+              backgroundColor: '#274799',
+              height: 35,
+              borderRadius: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 12, color: 'white'}}>Lihat Detail</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <View
@@ -80,13 +173,13 @@ function FasilitasKesehatan({navigation}) {
           <View style={[styles.boxInput, {flexDirection: 'row', flex: 4}]}>
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-              onChangeText={val => setFilter(val)}
-              placeholder="Ketik daerah yang ingin dicari"></TextInput>
+              // onChangeText={val => setFilter(val)}
+              placeholder="Ketik daerah yang ingin dicari"
+            />
             <TouchableOpacity
               onPress={() => {}}
               style={{
                 flex: 1,
-                // borderWidth: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
@@ -95,84 +188,32 @@ function FasilitasKesehatan({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            <View
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: 'white',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 7,
-                },
-                shadowOpacity: 0.41,
-                shadowRadius: 9.11,
-                elevation: 5,
-                backgroundColor: '#fff',
-                marginTop: 20,
-              }}>
-              <View>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Puskesmas Pamulang
-                </Text>
-              </View>
-
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View>
-                  <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>
-                    Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                    Tangerang, Kota Tangerang, Banten 15111
-                  </Text>
-                </View>
-              </View>
-              <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                <View style={{rotation: 90}}>
-                  <FontAwesomeIcon size={20} icon={faPhoneAlt} />
-                </View>
-                <View style={{marginLeft: 10}}>
-                  <Text>021- 29662529</Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('DetailFasilitasKesehatan');
-                }}
-                style={{
-                  marginTop: hp('2%'),
-                  backgroundColor: '#274799',
-                  height: 35,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{fontSize: 12, color: 'white'}}>Lihat Detail</Text>
-              </TouchableOpacity>
-            </View>
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
           </View>
-        </ScrollView>
-
-        {/* <TouchableOpacity
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#274799',
-            position: 'absolute',
-            bottom: 50,
-            right: 30,
-          }}>
-          <Text style={{fontSize: 35, color: 'white'}}>+</Text>
-        </TouchableOpacity> */}
+        ) : fasilitasKesesahat.length !== 0 ? (
+          <View style={{flex: 1}}>
+            <FlatList
+              data={fasilitasKesesahat}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
+            </View>
+          </>
+        )}
       </View>
     </>
   );
@@ -198,8 +239,6 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    // marginTop: hp('2%'),
-    margin: 15,
     borderRadius: 10,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

@@ -38,55 +38,22 @@ function DaftarPerizinan({navigation}) {
   const [filterTitikRawan, setFilterTitikRawan] = useState([]);
   const [filter, setFilter] = useState('');
   const [listTitikRawan, setListTitikRawan] = useState([]);
+  const [dataPerizinan, setDataPerizinan] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const DATA = [
-    {
-      id: 1,
-      judul: 'PTSP Kota Tangerang',
-      alamat:
-        'Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.Tangerang, Kota Tangerang, Banten 15111',
-      telp: '021- 29662529',
-      link: 'https://perizinanonline.tangerangkota.go.id/	',
-    },
-    {
-      id: 2,
-      judul: 'PTSP Kota Malang',
-      alamat:
-        'Jl. Mayjen Sungkono No.2, Arjowinangun, Kec. Kedungkandang, Kota Malang, Jawa Timur 65135',
-      telp: '(0341) 751942',
-      link: 'https://disnakerpmptsp.malangkota.go.id/	',
-    },
-    {
-      id: 3,
-      judul: 'PTSP Kota Surabaya',
-      alamat: 'Jl. Tunjungan No.1-3(Mall Pelayanan Publik Lt.3)Surabaya 60275',
-      telp: '(031) 99001785',
-      link: 'http://dpm-ptsp.surabaya.go.id',
-    },
-    {
-      id: 4,
-      judul: 'PTSP Kota Sidoarjo',
-      alamat:
-        'Jl. Pahlawan No.141, Jetis, Lemahputro, Kec. Sidoarjo, Kabupaten Sidoarjo, Jawa Timur 61211',
-      telp: '(031) 8052090',
-      link: 'http://www.dpmptsp.sidoarjokab.go.id/web/?hom_page=home-page-04	',
-    },
-  ];
-  const getListTitikRawan = async () => {
+  const getListDataPerizinan = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
+      url:
+        url + `/public/perizinan_layanan?search=${filter}&page=0&per_page=20`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        console.log(response.data.data);
+        setDataPerizinan(response?.data?.data);
         setIsLoading(false);
-        setListTitikRawan(response.data.data);
-        setFilterTitikRawan(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -102,16 +69,13 @@ function DaftarPerizinan({navigation}) {
               <Image
                 resizeMode="contain"
                 style={{width: 150, height: 150, margin: 10, borderRadius: 15}}
-                source={{
-                  uri: 'https://cdn.antaranews.com/cache/800x533/2019/07/06/izin-kota-tng.jpeg',
-                }}
+                source={{uri: item.foto}}
               />
             </View>
             <View
               style={{
                 flex: 1,
                 justifyContent: 'center',
-                // alignItems: 'center',
               }}>
               <View>
                 <Text
@@ -121,7 +85,7 @@ function DaftarPerizinan({navigation}) {
                     fontSize: 14,
                     marginTop: 15,
                   }}>
-                  {item.judul}
+                  {item.nama}
                 </Text>
               </View>
               <View style={{flexDirection: 'row', marginTop: 15}}>
@@ -140,7 +104,7 @@ function DaftarPerizinan({navigation}) {
                   style={{
                     marginLeft: 5,
                   }}>
-                  <Text style={{fontSize: 12}}>{item.telp}</Text>
+                  <Text style={{fontSize: 12}}>{item.no_telp}</Text>
                 </View>
               </View>
               <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -159,7 +123,7 @@ function DaftarPerizinan({navigation}) {
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('DetailPerizinan');
+              navigation.navigate('DetailPerizinan', {itemId: item.id});
             }}
             style={{
               marginVertical: hp('3%'),
@@ -178,7 +142,7 @@ function DaftarPerizinan({navigation}) {
   };
 
   useEffect(() => {
-    getListTitikRawan();
+    getListDataPerizinan();
   }, []);
 
   useEffect(() => {
@@ -233,12 +197,12 @@ function DaftarPerizinan({navigation}) {
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
               onChangeText={val => setFilter(val)}
-              placeholder="Ketik daerah yang ingin dicari"></TextInput>
+              placeholder="Ketik daerah yang ingin dicari"
+            />
             <TouchableOpacity
               onPress={() => {}}
               style={{
                 flex: 1,
-                // borderWidth: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
@@ -257,16 +221,13 @@ function DaftarPerizinan({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterTitikRawan.length !== 0 ? (
+        ) : dataPerizinan.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={DATA}
+              data={dataPerizinan}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
               showsVerticalScrollIndicator={false}
-              // ListFooterComponent={renderFooter}
-              // onEndReached={handleLoadMore}
-              // onEndReachedThreshold={0}
             />
           </View>
         ) : (

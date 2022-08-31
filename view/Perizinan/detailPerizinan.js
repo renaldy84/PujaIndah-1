@@ -10,6 +10,7 @@ import {
   ScrollView,
   StyleSheet,
   FlatList,
+  Linking,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -34,39 +35,31 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function DatailPerizinan({navigation}) {
-  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
+function DatailPerizinan({navigation, route}) {
+  const {itemId} = route.params;
+  const [detailPerizinan, setDetailPerizinan] = useState([]);
   const [filter, setFilter] = useState('');
-  const [listTitikRawan, setListTitikRawan] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getListTitikRawan = async () => {
+  const getPerizinanDetail = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
+      url:
+        url +
+        `/public/perizinan_daftar?perizinan_layanan_id=${itemId}&page=0&per_page=20`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        console.log(response.data.data);
         setIsLoading(false);
-        setListTitikRawan(response.data.data);
-        setFilterTitikRawan(response.data.data);
+        setDetailPerizinan(response?.data?.data);
       })
       .catch(error => {
         console.log(error);
       });
   };
-  const data = [
-    {judul: 'Izin Mendirikan Bangunan Gedung (IMB)'},
-    {judul: 'Izin Lokasi'},
-    {judul: 'Surat Izin Usaha Perdagangan'},
-    {judul: 'Izin Usaha Mikro Obat Tradisional'},
-    {judul: 'Izin Reklame Baru Diatas 24 Meter'},
-    {judul: 'Izin Usaha Jasa Konstruksi Nasional (Non Kecil dan Kecil)'},
-  ];
 
   const renderItem = ({item}) => {
     return (
@@ -77,7 +70,6 @@ function DatailPerizinan({navigation}) {
               style={{
                 flex: 1,
                 justifyContent: 'center',
-                // alignItems: 'center',
               }}>
               <View>
                 <Text
@@ -87,14 +79,14 @@ function DatailPerizinan({navigation}) {
                     fontSize: 14,
                     marginTop: 15,
                   }}>
-                  {item.judul}
+                  {item.nama}
                 </Text>
               </View>
             </View>
           </View>
           <TouchableOpacity
             onPress={() => {
-              //   navigation.navigate('DetailPerizinan');
+              Linking.openURL(item.link);
             }}
             style={{
               marginVertical: hp('3%'),
@@ -113,31 +105,23 @@ function DatailPerizinan({navigation}) {
   };
 
   useEffect(() => {
-    getListTitikRawan();
+    getPerizinanDetail();
   }, []);
 
   useEffect(() => {
-    if (listTitikRawan.length !== 0) {
-      setFilterTitikRawan(
-        listTitikRawan.filter(x =>
-          x.nama_provinsi.toLowerCase().includes(filter.toLowerCase()),
-        ),
-      );
-    }
-  }, [filter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <View
         style={{
           flex: 1,
           resizeMode: 'cover',
-          // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
         <View
           style={{
             flexDirection: 'row',
-            // marginTop: hp('5%'),
             height: hp('10%'),
             backgroundColor: '#274799',
             alignItems: 'center',
@@ -168,7 +152,8 @@ function DatailPerizinan({navigation}) {
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
               onChangeText={val => setFilter(val)}
-              placeholder="Ketik daerah yang ingin dicari"></TextInput>
+              placeholder="Ketik daerah yang ingin dicari"
+            />
             <TouchableOpacity
               onPress={() => {}}
               style={{
@@ -181,7 +166,6 @@ function DatailPerizinan({navigation}) {
             </TouchableOpacity>
           </View>
         </View>
-
         {isLoading ? (
           <View
             style={{
@@ -192,16 +176,13 @@ function DatailPerizinan({navigation}) {
             }}>
             <ActivityIndicator size={30} />
           </View>
-        ) : filterTitikRawan.length !== 0 ? (
+        ) : detailPerizinan.length !== 0 ? (
           <View style={{flex: 1, margin: 20}}>
             <FlatList
-              data={data}
+              data={detailPerizinan}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
               showsVerticalScrollIndicator={false}
-              // ListFooterComponent={renderFooter}
-              // onEndReached={handleLoadMore}
-              // onEndReachedThreshold={0}
             />
           </View>
         ) : (

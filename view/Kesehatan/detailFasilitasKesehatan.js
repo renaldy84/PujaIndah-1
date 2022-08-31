@@ -37,35 +37,35 @@ import {
 } from 'react-native-responsive-screen';
 import TopTabView from './topTabView';
 
-function DetailFasilitasKesehatan({navigation}) {
-  const [filterTitikRawan, setFilterTitikRawan] = useState([]);
+function DetailFasilitasKesehatan({navigation, route}) {
+  const {itemId, nama, no_telp, alamat} = route.params;
+  const [detailFasilitas, setDetailFasilitas] = useState();
   const [filter, setFilter] = useState('');
-  const [listTitikRawan, setListTitikRawan] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  //   const getListTitikRawan = async () => {
-  //     setIsLoading(true);
-  //     Axios({
-  //       url: url + `/api/sosial/bansosmas/getall?order=pemberi_bansos+asc`,
-  //       method: 'get',
-  //       headers: {
-  //         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-  //       },
-  //     })
-  //       .then(response => {
-  //         console.log(response.data.data);
-  //         setIsLoading(false);
-  //         setListTitikRawan(response.data.data);
-  //         setFilterTitikRawan(response.data.data);
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   };
+  const getFasilitasDetail = async () => {
+    setIsLoading(true);
+    Axios({
+      url:
+        url +
+        `/faskes/detil/${itemId}?page=0&per_page=20&orderBy=pus_nakes_id&orderDirection=ASC`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setDetailFasilitas(response?.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-  //   useEffect(() => {
-  //     getListTitikRawan();
-  //   }, []);
+  useEffect(() => {
+    getFasilitasDetail();
+  }, []);
 
   return (
     <>
@@ -73,13 +73,11 @@ function DetailFasilitasKesehatan({navigation}) {
         style={{
           flex: 1,
           resizeMode: 'cover',
-          // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
         <View
           style={{
             flexDirection: 'row',
-            // marginTop: hp('5%'),
             height: hp('10%'),
             backgroundColor: '#274799',
             alignItems: 'center',
@@ -95,9 +93,7 @@ function DetailFasilitasKesehatan({navigation}) {
             />
           </View>
           <View style={styles.boxJudul}>
-            <Text style={[styles.textJudul, {color: 'white'}]}>
-              Puskesmas Pamulang
-            </Text>
+            <Text style={[styles.textJudul, {color: 'white'}]}>{nama}</Text>
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -119,7 +115,7 @@ function DetailFasilitasKesehatan({navigation}) {
                   fontSize: 14,
                   marginTop: hp('2%'),
                 }}>
-                Puskesmas Pamulang
+                {nama}
               </Text>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
@@ -127,10 +123,7 @@ function DetailFasilitasKesehatan({navigation}) {
                 <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
               </View>
               <View style={{marginLeft: 5}}>
-                <Text>
-                  Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                  Tangerang, Kota Tangerang, Banten 15111
-                </Text>
+                <Text>{alamat}</Text>
               </View>
             </View>
             <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
@@ -138,12 +131,12 @@ function DetailFasilitasKesehatan({navigation}) {
                 <FontAwesomeIcon size={20} icon={faPhoneAlt} />
               </View>
               <View style={{marginLeft: 5}}>
-                <Text>021- 29662529</Text>
+                <Text>{no_telp}</Text>
               </View>
             </View>
           </View>
           <View style={{marginHorizontal: wp('5%')}}>
-            <TopTabView />
+            <TopTabView data={detailFasilitas} />
           </View>
 
           <View
@@ -156,7 +149,10 @@ function DetailFasilitasKesehatan({navigation}) {
               <TouchableOpacity
                 style={styles.buttonLogin}
                 onPress={() => {
-                  navigation.navigate('PendaftaranPelayananKesehatan');
+                  navigation.navigate('PendaftaranPelayananKesehatan', {
+                    faskes: detailFasilitas?.faskes,
+                    poli: detailFasilitas?.poli,
+                  });
                 }}>
                 <Text style={styles.textButton}>Pendaftaran Pelayanan</Text>
               </TouchableOpacity>
