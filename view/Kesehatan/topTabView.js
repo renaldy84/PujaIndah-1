@@ -10,20 +10,18 @@ import {
 
 const Tab = createMaterialTopTabNavigator();
 
-function TopTab() {
+function TopTab(props) {
+  const {data} = props;
   function FasilitasPoli() {
     const {width} = useWindowDimensions();
     return (
       <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
-        <View style={{margin: 10}}>
-          <Text>Fasilitas Poli</Text>
-          {/* <RenderHtml
-            contentWidth={width}
-            source={{
-              html: `${item.narasi}`,
-            }}
-          /> */}
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}
+        showsVerticalScrollIndicator={false}>
+        <View style={{margin: 15}}>
+          {data?.poli?.map((item, index) => {
+            return <Text key={index}> {item.poli}</Text>;
+          })}
         </View>
       </ScrollView>
     );
@@ -32,67 +30,12 @@ function TopTab() {
   function Ambulance() {
     return (
       <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
-        {/* {item.transportasi &&
-          item.transportasi.map((val, index) => {
-            return (
-              <View style={{margin: 10}} key={index}>
-                <View style={{flexDirection: 'row'}}>
-                  <View>
-                    <Text>{index + 1}. </Text>
-                  </View>
-                  <View style={{flex: 1}}>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Nama</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.nama}</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Jenis</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.jenis}</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Waktu</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.waktu}</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Biaya</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.biaya}</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            );
-          })} */}
-        <View style={{margin: 10}}>
-          <Text>Ambulance</Text>
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}
+        showsVerticalScrollIndicator={false}>
+        <View style={{margin: 15}}>
+          {data?.ambulan?.map((item, index) => {
+            return <Text key={index}>- {item.nama}</Text>;
+          })}
         </View>
       </ScrollView>
     );
@@ -101,56 +44,12 @@ function TopTab() {
   function Dokter() {
     return (
       <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
-        {/* {item.kuliner &&
-          item.kuliner.map((val, index) => {
-            return (
-              <View style={{margin: 10}} key={index}>
-                <View style={{flexDirection: 'row'}}>
-                  <View>
-                    <Text>{index + 1}. </Text>
-                  </View>
-                  <View style={{flex: 1}}>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Nama</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.nama}</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Jenis</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.jenis}</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Alamat</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.alamat}</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            );
-          })} */}
-        <View style={{margin: 10}}>
-          <Text>Dokter</Text>
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}
+        showsVerticalScrollIndicator={false}>
+        <View style={{margin: 15}}>
+          {data?.dokter?.map((item, index) => {
+            return <Text key={index}>- {item.nama}</Text>;
+          })}
         </View>
       </ScrollView>
     );
@@ -159,67 +58,12 @@ function TopTab() {
   function Jadwal() {
     return (
       <ScrollView
-        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}} showsVerticalScrollIndicator={false}>
-        {/* {item.akomodasi &&
-          item.akomodasi.map((val, index) => {
-            return (
-              <View style={{margin: 10}} key={index}>
-                <View style={{flexDirection: 'row'}}>
-                  <View>
-                    <Text>{index + 1}. </Text>
-                  </View>
-                  <View style={{flex: 1}}>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Nama</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.nama}</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Tipe</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.tipe}</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Strata</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.strata}</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '20%'}}>
-                        <Text>Telp</Text>
-                      </View>
-                      <View style={{width: '2%'}}>
-                        <Text>:</Text>
-                      </View>
-                      <View style={{width: '78%'}}>
-                        <Text>{val.telp}</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            );
-          })} */}
-        <View style={{margin: 10}}>
-          <Text>Jadwal</Text>
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}
+        showsVerticalScrollIndicator={false}>
+        <View style={{margin: 15}}>
+          {data?.layanan?.map((item, index) => {
+            return <Text key={index}>- {item.nama}</Text>;
+          })}
         </View>
       </ScrollView>
     );

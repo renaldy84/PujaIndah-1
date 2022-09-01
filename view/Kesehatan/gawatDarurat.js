@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -35,20 +36,100 @@ import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
 function GawatDarurat({navigation}) {
+  const [dataGawatDarurat, setDataGawatDarurat] = useState([]);
+  const [search, setSearch] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getData = async () => {
+    setIsLoading(true);
+    Axios({
+      url:
+        url +
+        `/public/pus_puskesmas?search=${search}&igd_id=1&page=0&per_page=20`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log('ini data', response?.data?.data);
+        setDataGawatDarurat(response?.data?.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.container}>
+        <View style={styles.boxCard}>
+          <View>
+            <Text style={{fontSize: 14, fontWeight: 'bold'}}>{item?.nama}</Text>
+          </View>
+          <View style={{marginTop: hp('1%')}}>
+            <Text style={{color: '#827474', fontSize: 12}}>{item.alamat}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: hp('3%'),
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 1,
+              }}>
+              <View>
+                <FontAwesomeIcon
+                  size={20}
+                  icon={faMapMarkerAlt}
+                  color="#274799"
+                />
+              </View>
+              <View style={{marginLeft: 10}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
+                  Petunjuk arah
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 1,
+              }}>
+              <View style={{rotation: 90}}>
+                <FontAwesomeIcon size={20} icon={faPhoneAlt} color="#274799" />
+              </View>
+              <View style={{marginLeft: 10}}>
+                <Text style={{fontSize: 12, color: '#274799'}}>
+                  {item?.no_telp}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <View
         style={{
-          // margin: 20,
           flex: 1,
           resizeMode: 'cover',
-          // justifyContent: 'center',
           backgroundColor: 'white',
         }}>
         <View
           style={{
             flexDirection: 'row',
-            // marginTop: hp('5%'),
             height: hp('10%'),
             backgroundColor: '#274799',
             alignItems: 'center',
@@ -80,13 +161,13 @@ function GawatDarurat({navigation}) {
           <View style={[styles.boxInput, {flexDirection: 'row', flex: 4}]}>
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
-              onChangeText={val => setFilter(val)}
-              placeholder="Ketik Rumah Sakit atau Puskesmas"></TextInput>
+              // onChangeText={val => setFilter(val)}
+              placeholder="Ketik Rumah Sakit atau Puskesmas"
+            />
             <TouchableOpacity
               onPress={() => {}}
               style={{
                 flex: 1,
-                // borderWidth: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
@@ -94,80 +175,32 @@ function GawatDarurat({navigation}) {
             </TouchableOpacity>
           </View>
         </View>
-
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            <View style={styles.boxCard}>
-              <View>
-                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-                  Eka Hospital
-                </Text>
-              </View>
-              <View style={{marginTop: hp('1%')}}>
-                <Text style={{color: '#827474', fontSize: 12}}>
-                  Central Business District Lot IX BSD City 15321 Tangerang
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginTop: hp('3%'),
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                  }}>
-                  <View>
-                    <FontAwesomeIcon
-                      size={20}
-                      icon={faMapMarkerAlt}
-                      color="#274799"
-                    />
-                  </View>
-                  <View style={{marginLeft: 10}}>
-                    <Text style={{fontSize: 12, color: '#274799'}}>
-                      Petunjuk arah
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                  }}>
-                  <View style={{rotation: 90}}>
-                    <FontAwesomeIcon
-                      size={20}
-                      icon={faPhoneAlt}
-                      color="#274799"
-                    />
-                  </View>
-                  <View style={{marginLeft: 10}}>
-                    <Text style={{fontSize: 12, color: '#274799'}}>
-                      ( 021 ) 25655555
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
           </View>
-        </ScrollView>
-
-        {/* <TouchableOpacity
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 30,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#274799',
-            position: 'absolute',
-            bottom: 50,
-            right: 30,
-          }}>
-          <Text style={{fontSize: 35, color: 'white'}}>+</Text>
-        </TouchableOpacity> */}
+        ) : dataGawatDarurat.length !== 0 ? (
+          <View style={{flex: 1}}>
+            <FlatList
+              data={dataGawatDarurat}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
+            </View>
+          </>
+        )}
       </View>
     </>
   );
