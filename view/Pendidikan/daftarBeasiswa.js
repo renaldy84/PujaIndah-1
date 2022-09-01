@@ -9,6 +9,8 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  FlatList,
+  Linking,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -34,7 +36,81 @@ import {
 import MapView, {Marker} from 'react-native-maps';
 import GetLocation from 'react-native-get-location';
 
-function DaftarBeasiswa({navigation}) {
+function DaftarBeasiswa({navigation, route}) {
+  const {itemId} = route.params;
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+
+  const getData = async () => {
+    setIsLoading(true);
+    Axios({
+      url:
+        url + `/public/pend_beasiswa?m_daerah_id=${itemId}&page=0&per_page=20`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setData(response.data.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.container}>
+        <View
+          style={{
+            width: wp('90%'),
+            paddingHorizontal: 20,
+            borderRadius: 5,
+            backgroundColor: 'white',
+            marginTop: hp('2%'),
+            paddingVertical: hp('3%'),
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 7,
+            },
+            shadowOpacity: 0.41,
+            shadowRadius: 9.11,
+            elevation: 5,
+            backgroundColor: '#fff',
+            marginTop: 20,
+          }}>
+          <View>
+            <Text style={{fontSize: 14, fontWeight: 'bold'}}>{item?.nama}</Text>
+          </View>
+          <View style={{marginTop: hp('2%')}}>
+            <Text>{item?.persyaratan}</Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              marginTop: hp('2%'),
+              backgroundColor: '#274799',
+              height: 35,
+              borderRadius: 5,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() => Linking.openURL(item?.url)}>
+            <Text style={{fontSize: 12, color: 'white'}}>
+              Lihat Selengkapnya
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <View
@@ -78,193 +154,35 @@ function DaftarBeasiswa({navigation}) {
             marginVertical: hp('1%'),
           }}>
           <Text style={{fontSize: 15, color: '#2A4F70'}}>
-            Daftar Beasiswa Kabupaten Bengkulu Utara
+            Daftar Beasiswa {data?.m_daerah?.nama}
           </Text>
         </View>
-
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            <View
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: 'white',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 7,
-                },
-                shadowOpacity: 0.41,
-                shadowRadius: 9.11,
-                elevation: 5,
-                backgroundColor: '#fff',
-                marginTop: 20,
-              }}>
-              <View>
-                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-                  Beasiswa SD - SMP oleh Smart Ekselensia
-                </Text>
-              </View>
-              <View style={{marginTop: hp('2%')}}>
-                <Text>
-                  Untuk siswa berprestasi dan penghasilan orangtua ny rendah
-                  atau kurang dari Rp. 500.000,-.
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={{
-                  marginTop: hp('2%'),
-                  backgroundColor: '#274799',
-                  height: 35,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{fontSize: 12, color: 'white'}}>
-                  Lihat Selengkapnya
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: 'white',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 7,
-                },
-                shadowOpacity: 0.41,
-                shadowRadius: 9.11,
-                elevation: 5,
-                backgroundColor: '#fff',
-                marginTop: 20,
-              }}>
-              <View>
-                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-                  Beasiswa Bidik Misi Kemendikbud
-                </Text>
-              </View>
-              <View style={{marginTop: hp('2%')}}>
-                <Text>
-                  Untuk siswa berprestasi dan penghasilan orangtua ny rendah
-                  atau kurang dari Rp. 500.000,-.
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={{
-                  marginTop: hp('2%'),
-                  backgroundColor: '#274799',
-                  height: 35,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{fontSize: 12, color: 'white'}}>
-                  Lihat Selengkapnya
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: 'white',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 7,
-                },
-                shadowOpacity: 0.41,
-                shadowRadius: 9.11,
-                elevation: 5,
-                backgroundColor: '#fff',
-                marginTop: 20,
-              }}>
-              <View>
-                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-                  Beasiswa Universitas Air Langga
-                </Text>
-              </View>
-              <View style={{marginTop: hp('2%')}}>
-                <Text>
-                  Untuk siswa berprestasi dan penghasilan orangtua ny rendah
-                  atau kurang dari Rp. 500.000,-.
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={{
-                  marginTop: hp('2%'),
-                  backgroundColor: '#274799',
-                  height: 35,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{fontSize: 12, color: 'white'}}>
-                  Lihat Selengkapnya
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={{
-                width: wp('90%'),
-                paddingHorizontal: 20,
-                borderRadius: 5,
-                backgroundColor: 'white',
-                marginTop: hp('2%'),
-                paddingVertical: hp('3%'),
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 7,
-                },
-                shadowOpacity: 0.41,
-                shadowRadius: 9.11,
-                elevation: 5,
-                backgroundColor: '#fff',
-                marginTop: 20,
-              }}>
-              <View>
-                <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-                  Beasiswa SD - SMP oleh Univ. Indonesia
-                </Text>
-              </View>
-              <View style={{marginTop: hp('2%')}}>
-                <Text>
-                  Untuk siswa berprestasi dan penghasilan orangtua ny rendah
-                  atau kurang dari Rp. 500.000,-.
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={{
-                  marginTop: hp('2%'),
-                  backgroundColor: '#274799',
-                  height: 35,
-                  borderRadius: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{fontSize: 12, color: 'white'}}>
-                  Lihat Selengkapnya
-                </Text>
-              </TouchableOpacity>
-            </View>
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
           </View>
-        </ScrollView>
+        ) : data.length !== 0 ? (
+          <View style={{flex: 1}}>
+            <FlatList
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
+            </View>
+          </>
+        )}
       </View>
     </>
   );

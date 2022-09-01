@@ -10,6 +10,7 @@ import {
   ScrollView,
   StyleSheet,
   FlatList,
+  Linking,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -23,6 +24,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import MapView, {Marker} from 'react-native-maps';
+import {Picker} from '@react-native-picker/picker';
+import dataJson from '../../locales/m_daerah.json';
 
 function BukuDigital({navigation}) {
   const [nama, setNama] = useState('');
@@ -30,21 +33,38 @@ function BukuDigital({navigation}) {
   const [showTanggal, setShowTanggal] = useState(false);
   const [tanggal, setTanggal] = useState('');
   const [cari, setCari] = useState(false);
+  const [idDaerah, setIdDaerah] = useState('');
+  const [dataBuku, setDataBuku] = useState([]);
 
-  const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-  ];
+  const getDataJson = dataJson.map(item => {
+    const data = {};
+    data.id = item.id;
+    data.m_daerah_id = item.m_daerah_id;
+    data.nama = item.nama;
+    return data;
+  });
+
+  const getData = async () => {
+    Axios({
+      url:
+        url + `/public/pend_ebook?m_daerah_id=${idDaerah}&page=0&per_page=20`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setDataBuku(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  if (cari) {
+    getData();
+  }
+
   const renderItem = ({item}) => {
     return (
       <>
@@ -54,7 +74,7 @@ function BukuDigital({navigation}) {
               <Image
                 resizeMode="stretch"
                 style={{width: 150, height: '90%', margin: 10}}
-                source={require('../../assets/image/iconPendidikan/buku1.png')}
+                source={{uri: item?.cover}}
               />
             </View>
             <View
@@ -72,7 +92,7 @@ function BukuDigital({navigation}) {
                     marginTop: 10,
                     textAlign: 'center',
                   }}>
-                  Sd/Mi Kls.Iv-V-Vi Penuntun Penyelesaian....
+                  {item?.judul}
                 </Text>
               </View>
               <View style={{alignItems: 'center'}}>
@@ -83,16 +103,14 @@ function BukuDigital({navigation}) {
                     marginTop: 10,
                     textAlign: 'center',
                   }}>
-                  Sukino
+                  Pengarang : {item?.pengarang}
                 </Text>
               </View>
 
               <View style={{marginTop: hp('5%'), marginBottom: 10}}>
                 <TouchableOpacity
                   style={styles.buttonBooking}
-                  onPress={() => {
-                    // navigation.navigate('BookingAlat');
-                  }}>
+                  onPress={() => Linking.openURL(item?.file_ebook)}>
                   <Text style={{color: 'white'}}>Unduh</Text>
                 </TouchableOpacity>
               </View>
@@ -136,21 +154,38 @@ function BukuDigital({navigation}) {
           </View>
         </View>
         <View style={styles.container}>
-          <View>
-            <Text style={styles.text}>Nama Daerah</Text>
-          </View>
-          <View style={styles.boxInput}>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={val => setNama(val)}
-              placeholder="Nama Daerah"></TextInput>
-          </View>
-
           <View
             style={{
               marginTop: hp('1%'),
               marginBottom: hp('2%'),
             }}>
+            <View style={{marginTop: 5}}>
+              <Text style={styles.text}>Nama Daerah</Text>
+            </View>
+            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
+              <Picker
+                mode="dropdown"
+                selectedValue={idDaerah}
+                onValueChange={(itemValue, itemIndex) => {
+                  setIdDaerah(itemValue);
+                }}>
+                <Picker.Item
+                  label="Pilih Daerah"
+                  value=""
+                  style={{color: '#b0b0b0', fontSize: 14}}
+                />
+                {getDataJson.map((item, index) => {
+                  return (
+                    <Picker.Item
+                      key={index}
+                      label={item.nama}
+                      value={item.m_daerah_id}
+                      style={{fontSize: 14}}
+                    />
+                  );
+                })}
+              </Picker>
+            </View>
             <View>
               <TouchableOpacity
                 style={styles.buttonLogin}
@@ -167,13 +202,10 @@ function BukuDigital({navigation}) {
             <>
               <View style={{marginTop: 20}}>
                 <FlatList
-                  data={DATA}
+                  data={dataBuku}
                   renderItem={renderItem}
                   keyExtractor={(item, index) => index.toString()}
                   showsVerticalScrollIndicator={false}
-                  // ListFooterComponent={renderFooter}
-                  // onEndReached={handleLoadMore}
-                  // onEndReachedThreshold={0}
                 />
               </View>
             </>
@@ -207,7 +239,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 55,
     backgroundColor: '#274799',
-    borderRadius: 10,
     marginTop: hp('3%'),
     justifyContent: 'center',
   },
@@ -265,6 +296,17 @@ const styles = StyleSheet.create({
     width: wp('40%'),
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  drbDown: {
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 50,
+    borderColor: '#A19C9C',
+    width: '100%',
+    marginLeft: 5,
+    marginBottom: 0,
+    padding: 10,
+    color: '#000000',
   },
 });
 export default BukuDigital;

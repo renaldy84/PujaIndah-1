@@ -45,6 +45,9 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
 
   const [kategoriPoli, setKategoriPoli] = useState('');
   const [dokterPoli, setDokterPoli] = useState('');
+  const [modalLoading, setModalLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const getProfil = async () => {
     Axios({
@@ -62,21 +65,22 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
       });
   };
 
-  // const getDataPoli = async () => {
-  //   Axios({
-  //     url: url + '/public/pus_nakes?pus_puskesmas_id=8&page=0&per_page=20',
-  //     method: 'get',
-  //     headers: {
-  //       Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
-  //     },
-  //   })
-  //     .then(response => {
-  //       console.log(response.data.data);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  const getDataPoli = async () => {
+    Axios({
+      url:
+        url + `/public/pus_nakes?pus_poli_id=${faskes.id}&page=0&per_page=20`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        console.log('data poli', response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const getDataDokter = async value => {
     Axios({
@@ -96,8 +100,33 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
   };
 
   useEffect(() => {
+    getDataPoli();
     getProfil();
   }, []);
+
+  const handleDaftar = async () => {
+    setModalLoading(true);
+    Axios({
+      url: url + '/kesehatan/antrian/create',
+      method: 'post',
+      timeout: 1000 * 5,
+      data: {
+        xxxxx: '',
+      },
+    })
+      .then(async res => {
+        setModalLoading(false);
+        try {
+          // write
+          navigation.navigate('BerhasilDaftarLayanan');
+        } catch (error) {}
+      })
+      .catch(error => {
+        setModalVisible(true);
+        setMessage(error.response.data.message);
+        setModalLoading(false);
+      });
+  };
   return (
     <>
       <View
@@ -524,9 +553,7 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
               <View>
                 <TouchableOpacity
                   style={styles.buttonLogin}
-                  onPress={() => {
-                    navigation.navigate('BerhasilDaftarLayanan');
-                  }}>
+                  onPress={handleDaftar}>
                   <Text style={styles.textButton}>Daftar Layanana</Text>
                 </TouchableOpacity>
               </View>
