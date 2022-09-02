@@ -30,12 +30,22 @@ import {
 } from 'react-native-responsive-screen';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {faClock} from '@fortawesome/free-regular-svg-icons';
+import dataJson from '../../locales/m_daerah.json';
 
 function Beasiswa({navigation}) {
   const [nama, setNama] = useState('');
   const [idKategoriAduan, setIdKategoriAduan] = useState();
   const [showTanggal, setShowTanggal] = useState(false);
   const [tanggal, setTanggal] = useState('');
+  const [idDaerah, setIdDaerah] = useState('');
+
+  const getDataJson = dataJson.map(item => {
+    const data = {};
+    data.id = item.id;
+    data.m_daerah_id = item.m_daerah_id;
+    data.nama = item.nama;
+    return data;
+  });
 
   return (
     <>
@@ -70,34 +80,42 @@ function Beasiswa({navigation}) {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
-            <View>
+            {/* <View>
               <Text style={styles.text}>Nama Daerah</Text>
-            </View>
-            <View style={styles.boxInput}>
+            </View> */}
+            {/* <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
-                placeholder="Nama Daerah"></TextInput>
-            </View>
+                placeholder="Nama Daerah"
+              />
+            </View> */}
 
             <View style={{marginTop: 5}}>
-              <Text style={styles.text}>Jenjang Pendidikan</Text>
+              <Text style={styles.text}>Nama Daerah</Text>
             </View>
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idKategoriAduan}
+                selectedValue={idDaerah}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
+                  setIdDaerah(itemValue);
                 }}>
                 <Picker.Item
-                  label="Pilih Jenjang Pendidikan"
+                  label="Pilih Daerah"
                   value=""
                   style={{color: '#b0b0b0', fontSize: 14}}
                 />
-                <Picker.Item label="SD" value="java" style={{fontSize: 14}} />
-                <Picker.Item label="SMP" value="js" style={{fontSize: 14}} />
-                <Picker.Item label="SMA" value="js" style={{fontSize: 14}} />
+                {getDataJson.map((item, index) => {
+                  return (
+                    <Picker.Item
+                      key={index}
+                      label={item.nama}
+                      value={item.m_daerah_id}
+                      style={{fontSize: 14}}
+                    />
+                  );
+                })}
               </Picker>
             </View>
 
@@ -110,7 +128,9 @@ function Beasiswa({navigation}) {
                 <TouchableOpacity
                   style={styles.buttonLogin}
                   onPress={() => {
-                    navigation.navigate('DaftarBeasiswa');
+                    navigation.navigate('DaftarBeasiswa', {
+                      itemId: idDaerah,
+                    });
                   }}>
                   <Text style={styles.textButton}>Cari</Text>
                 </TouchableOpacity>
@@ -145,7 +165,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     backgroundColor: '#274799',
-    borderRadius: 10,
     marginTop: hp('3%'),
     justifyContent: 'center',
   },

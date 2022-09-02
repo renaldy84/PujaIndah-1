@@ -33,10 +33,35 @@ import {faClock} from '@fortawesome/free-regular-svg-icons';
 
 function Rapor({navigation}) {
   const [nama, setNama] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [idKategoriAduan, setIdKategoriAduan] = useState();
   const [showTanggal, setShowTanggal] = useState(false);
   const [tanggal, setTanggal] = useState('');
+  const [nisn, setNisn] = useState('');
+  const [ajaran, setAjaran] = useState('');
+  const [semester, setSemester] = useState('');
 
+  const handleCari = async () => {
+    setIsLoading(true);
+    Axios({
+      url:
+        url +
+        `/pendidikan/rapor/nisn?nisn=${nisn}&thn_ajaran=${ajaran}&semester=${semester}`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        navigation.navigate('InformasiSiswa', {
+          data: response.data.data,
+        });
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  };
   return (
     <>
       <View
@@ -76,56 +101,9 @@ function Rapor({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setNama(val)}
-                placeholder="NISN"></TextInput>
-            </View>
-            <View>
-              <Text style={styles.text}>Tanggal Lahir</Text>
-            </View>
-
-            <View style={[styles.tanggal, {flexDirection: 'row'}]}>
-              <View style={{flex: 1, justifyContent: 'center'}}>
-                <TouchableOpacity onPress={() => setShowTanggal(true)}>
-                  <Text
-                    style={[
-                      styles.textCalendar,
-                      {color: !tanggal ? '#b0b0b0' : 'black', borderWidth: 0},
-                    ]}>
-                    {!tanggal ? 'Tanggal Lahir' : tanggal}
-                  </Text>
-                  <View>
-                    <DateTimePickerModal
-                      isVisible={showTanggal}
-                      mode="date"
-                      onConfirm={val => {
-                        setTanggal(
-                          `${('0' + val.getDate()).slice(-2)}-${(
-                            '0' +
-                            (val.getMonth() + 1)
-                          ).slice(-2)}-${val.getFullYear()}`,
-                        );
-                        setShowTanggal(false);
-                      }}
-                      onCancel={() => {
-                        setShowTanggal(false);
-                      }}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-
-              <View
-                style={{
-                  padding: 10,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <FontAwesomeIcon
-                  color="#A19C9C"
-                  size={25}
-                  icon={faCalendarDays}
-                />
-              </View>
+                onChangeText={val => setNisn(val)}
+                placeholder="NISN"
+              />
             </View>
 
             <View style={{marginTop: 5}}>
@@ -134,9 +112,9 @@ function Rapor({navigation}) {
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idKategoriAduan}
+                selectedValue={ajaran}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
+                  setAjaran(itemValue);
                 }}>
                 <Picker.Item
                   label="Pilih Tahun Ajaran"
@@ -145,12 +123,12 @@ function Rapor({navigation}) {
                 />
                 <Picker.Item
                   label="2021/2022"
-                  value="java"
+                  value="2021/2022"
                   style={{fontSize: 14}}
                 />
                 <Picker.Item
                   label="2020/2019"
-                  value="js"
+                  value="2020/2019"
                   style={{fontSize: 14}}
                 />
               </Picker>
@@ -162,9 +140,9 @@ function Rapor({navigation}) {
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
               <Picker
                 mode="dropdown"
-                selectedValue={idKategoriAduan}
+                selectedValue={semester}
                 onValueChange={(itemValue, itemIndex) => {
-                  setIdKategoriAduan(itemValue);
+                  setSemester(itemValue);
                 }}>
                 <Picker.Item
                   label="Pilih Semester"
@@ -173,10 +151,14 @@ function Rapor({navigation}) {
                 />
                 <Picker.Item
                   label="Gasal"
-                  value="java"
+                  value="Gasal"
                   style={{fontSize: 14}}
                 />
-                <Picker.Item label="Genap" value="js" style={{fontSize: 14}} />
+                <Picker.Item
+                  label="Genap"
+                  value="Genap"
+                  style={{fontSize: 14}}
+                />
               </Picker>
             </View>
 
@@ -188,9 +170,7 @@ function Rapor({navigation}) {
               <View>
                 <TouchableOpacity
                   style={styles.buttonLogin}
-                  onPress={() => {
-                    navigation.navigate('InformasiSiswa');
-                  }}>
+                  onPress={handleCari}>
                   <Text style={styles.textButton}>Cari</Text>
                 </TouchableOpacity>
               </View>
