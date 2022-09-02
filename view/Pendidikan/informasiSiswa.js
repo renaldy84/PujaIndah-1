@@ -31,7 +31,8 @@ import {
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {faFileLines} from '@fortawesome/free-regular-svg-icons';
 
-function InformasiSiswa({navigation}) {
+function InformasiSiswa({navigation, route}) {
+  const {data} = route.params;
   const [profil, setProfil] = useState({});
   const [statusMapel, setStatusMapel] = useState(false);
   const [statusKehadiran, setStatusKehadiran] = useState(false);
@@ -74,16 +75,11 @@ function InformasiSiswa({navigation}) {
             </Text>
           </View>
         </View>
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            {/* Judul Inforasi Pasien */}
-            <View style={{marginTop: hp('3%')}}>
-              <Text style={{fontSize: 14, fontWeight: 'bold', color: 'black'}}>
-                {profil.name}
-              </Text>
-            </View>
-            {/* List Informasi Pasien */}
-            <View style={{marginTop: hp('1%')}}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          showsVerticalScrollIndicator={false}>
+          <View style={[styles.container, {marginTop: 15}]}>
+            <View>
               <View>
                 <View style={{flexDirection: 'row'}}>
                   <View style={{width: wp('30%')}}>
@@ -93,7 +89,7 @@ function InformasiSiswa({navigation}) {
                     <Text>:</Text>
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>1002</Text>
+                    <Text>{data?.murid?.nisn}</Text>
                   </View>
                 </View>
                 <View
@@ -102,7 +98,8 @@ function InformasiSiswa({navigation}) {
                     marginTop: hp('1%'),
                     borderColor: '#758097',
                     opacity: 0.5,
-                  }}></View>
+                  }}
+                />
               </View>
               <View style={{marginTop: hp('1%')}}>
                 <View style={{flexDirection: 'row'}}>
@@ -113,7 +110,7 @@ function InformasiSiswa({navigation}) {
                     <Text>:</Text>
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>Lucy</Text>
+                    <Text>{data?.murid?.nama}</Text>
                   </View>
                 </View>
                 <View
@@ -122,7 +119,8 @@ function InformasiSiswa({navigation}) {
                     marginTop: hp('1%'),
                     borderColor: '#758097',
                     opacity: 0.5,
-                  }}></View>
+                  }}
+                />
               </View>
               <View style={{marginTop: hp('1%')}}>
                 <View style={{flexDirection: 'row'}}>
@@ -133,7 +131,7 @@ function InformasiSiswa({navigation}) {
                     <Text>:</Text>
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>Jakarta</Text>
+                    <Text>{data?.murid?.tempat_lahir}</Text>
                   </View>
                 </View>
                 <View
@@ -142,7 +140,8 @@ function InformasiSiswa({navigation}) {
                     marginTop: hp('1%'),
                     borderColor: '#758097',
                     opacity: 0.5,
-                  }}></View>
+                  }}
+                />
               </View>
               <View style={{marginTop: hp('1%')}}>
                 <View style={{flexDirection: 'row'}}>
@@ -153,7 +152,9 @@ function InformasiSiswa({navigation}) {
                     <Text>:</Text>
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>Perempuan</Text>
+                    <Text>
+                      {data?.murid?.kelamin === 'P' ? 'Perempuan' : 'Laki-Laki'}
+                    </Text>
                   </View>
                 </View>
                 <View
@@ -162,7 +163,8 @@ function InformasiSiswa({navigation}) {
                     marginTop: hp('1%'),
                     borderColor: '#758097',
                     opacity: 0.5,
-                  }}></View>
+                  }}
+                />
               </View>
               <View style={{marginTop: hp('1%')}}>
                 <View style={{flexDirection: 'row'}}>
@@ -173,7 +175,7 @@ function InformasiSiswa({navigation}) {
                     <Text>:</Text>
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>SDN 01 Bengkulu Utara</Text>
+                    <Text>{data?.sekolah?.nama}</Text>
                   </View>
                 </View>
                 <View
@@ -182,7 +184,8 @@ function InformasiSiswa({navigation}) {
                     marginTop: hp('1%'),
                     borderColor: '#758097',
                     opacity: 0.5,
-                  }}></View>
+                  }}
+                />
               </View>
               <View style={{marginTop: hp('1%')}}>
                 <View style={{flexDirection: 'row'}}>
@@ -193,7 +196,7 @@ function InformasiSiswa({navigation}) {
                     <Text>:</Text>
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>1</Text>
+                    <Text>{data?.kelas?.kelas}</Text>
                   </View>
                 </View>
                 <View
@@ -202,7 +205,8 @@ function InformasiSiswa({navigation}) {
                     marginTop: hp('1%'),
                     borderColor: '#758097',
                     opacity: 0.5,
-                  }}></View>
+                  }}
+                />
               </View>
             </View>
             {/* Mapel */}
@@ -228,7 +232,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronDown}
+                    icon={faCircleChevronUp}
                   />
                 ) : (
                   <FontAwesomeIcon
@@ -237,7 +241,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronUp}
+                    icon={faCircleChevronDown}
                   />
                 )}
               </View>
@@ -250,387 +254,96 @@ function InformasiSiswa({navigation}) {
               }}>
               {statusMapel ? (
                 <>
-                  <View style={{height: 400}}>
+                  <View style={{maxHeight: 400}}>
                     <ScrollView nestedScrollEnabled={true}>
-                      <View style={styles.cardMapel}>
-                        <View>
-                          <Text style={{fontWeight: 'bold', fontSize: 15}}>
-                            Bahasa Indonesia
-                          </Text>
-                        </View>
-                        <View
-                          style={{flexDirection: 'row', marginTop: hp('2%')}}>
-                          <View
-                            style={{
-                              backgroundColor: '#C5CACE',
-                              height: 30,
-                              borderRadius: 15,
-                              width: wp('40%'),
-                              padding: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                              Aspek Pengetahuan
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              marginLeft: 5,
-                              backgroundColor: 'rgba(197,202,206,.5)',
-                              borderRadius: 15,
-                              height: 30,
-                              width: wp('40%'),
-                              padding: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                              Aspek Ketrampilan
-                            </Text>
-                          </View>
-                        </View>
-                        <View style={{marginTop: hp('2%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>KKM</Text>
-                            </View>
+                      {data.mapel.map((item, index) => {
+                        return (
+                          <View style={styles.cardMapel}>
                             <View>
-                              <Text>:</Text>
+                              <Text style={{fontWeight: 'bold', fontSize: 15}}>
+                                {item?.nama}
+                              </Text>
                             </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>65</Text>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                              }}>
+                              {/*
+                              <View
+                                style={{
+                                  marginLeft: 5,
+                                  backgroundColor: 'rgba(197,202,206,.5)',
+                                  borderRadius: 15,
+                                  height: 30,
+                                  width: wp('40%'),
+                                  padding: 5,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                }}>
+                                <Text
+                                  style={{fontSize: 12, fontWeight: 'bold'}}>
+                                  Aspek Ketrampilan
+                                </Text>
+                              </View> */}
                             </View>
-                          </View>
-                        </View>
+                            <View style={{marginTop: 10}}>
+                              <View style={{flexDirection: 'row'}}>
+                                <View style={{width: wp('30%')}}>
+                                  <Text>KKM</Text>
+                                </View>
+                                <View>
+                                  <Text>:</Text>
+                                </View>
+                                <View style={{marginLeft: 10, flex: 1}}>
+                                  <Text>{item?.th_kkm}</Text>
+                                </View>
+                              </View>
+                            </View>
 
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Nilai</Text>
+                            <View style={{marginTop: hp('1%')}}>
+                              <View style={{flexDirection: 'row'}}>
+                                <View style={{width: wp('30%')}}>
+                                  <Text>Nilai</Text>
+                                </View>
+                                <View>
+                                  <Text>:</Text>
+                                </View>
+                                <View style={{marginLeft: 10, flex: 1}}>
+                                  <Text>{item?.th_nilai}</Text>
+                                </View>
+                              </View>
                             </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>90</Text>
-                            </View>
-                          </View>
-                        </View>
 
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Predikat</Text>
+                            <View style={{marginTop: hp('1%')}}>
+                              <View style={{flexDirection: 'row'}}>
+                                <View style={{width: wp('30%')}}>
+                                  <Text>Predikat</Text>
+                                </View>
+                                <View>
+                                  <Text>:</Text>
+                                </View>
+                                <View style={{marginLeft: 10, flex: 1}}>
+                                  <Text>{item?.th_predikat}</Text>
+                                </View>
+                              </View>
                             </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>B</Text>
-                            </View>
-                          </View>
-                        </View>
 
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Keterangan</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>Baik</Text>
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-
-                      <View style={styles.cardMapel}>
-                        <View>
-                          <Text style={{fontWeight: 'bold', fontSize: 15}}>
-                            Matematika
-                          </Text>
-                        </View>
-                        <View
-                          style={{flexDirection: 'row', marginTop: hp('2%')}}>
-                          <View
-                            style={{
-                              backgroundColor: '#C5CACE',
-                              height: 30,
-                              borderRadius: 15,
-                              width: wp('40%'),
-                              padding: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                              Aspek Pengetahuan
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              marginLeft: 5,
-                              backgroundColor: 'rgba(197,202,206,.5)',
-                              borderRadius: 15,
-                              height: 30,
-                              width: wp('40%'),
-                              padding: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                              Aspek Ketrampilan
-                            </Text>
-                          </View>
-                        </View>
-                        <View style={{marginTop: hp('2%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>KKM</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>80</Text>
+                            <View style={{marginTop: hp('1%')}}>
+                              <View style={{flexDirection: 'row'}}>
+                                <View style={{width: wp('30%')}}>
+                                  <Text>Keterangan</Text>
+                                </View>
+                                <View>
+                                  <Text>:</Text>
+                                </View>
+                                <View style={{marginLeft: 10, flex: 1}}>
+                                  <Text>{item?.th_keterangan}</Text>
+                                </View>
+                              </View>
                             </View>
                           </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Nilai</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>80</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Predikat</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>A</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Keterangan</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>Baik</Text>
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-
-                      <View style={styles.cardMapel}>
-                        <View>
-                          <Text style={{fontWeight: 'bold', fontSize: 15}}>
-                            Biologi
-                          </Text>
-                        </View>
-                        <View
-                          style={{flexDirection: 'row', marginTop: hp('2%')}}>
-                          <View
-                            style={{
-                              backgroundColor: '#C5CACE',
-                              height: 30,
-                              borderRadius: 15,
-                              width: wp('40%'),
-                              padding: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                              Aspek Pengetahuan
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              marginLeft: 5,
-                              backgroundColor: 'rgba(197,202,206,.5)',
-                              borderRadius: 15,
-                              height: 30,
-                              width: wp('40%'),
-                              padding: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                              Aspek Ketrampilan
-                            </Text>
-                          </View>
-                        </View>
-                        <View style={{marginTop: hp('2%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>KKM</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>80</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Nilai</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>80</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Predikat</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>A</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Keterangan</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>Baik</Text>
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-
-                      <View style={styles.cardMapel}>
-                        <View>
-                          <Text style={{fontWeight: 'bold', fontSize: 15}}>
-                            Fisika
-                          </Text>
-                        </View>
-                        <View
-                          style={{flexDirection: 'row', marginTop: hp('2%')}}>
-                          <View
-                            style={{
-                              backgroundColor: '#C5CACE',
-                              height: 30,
-                              borderRadius: 15,
-                              width: wp('40%'),
-                              padding: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                              Aspek Pengetahuan
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              marginLeft: 5,
-                              backgroundColor: 'rgba(197,202,206,.5)',
-                              borderRadius: 15,
-                              height: 30,
-                              width: wp('40%'),
-                              padding: 5,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 12, fontWeight: 'bold'}}>
-                              Aspek Ketrampilan
-                            </Text>
-                          </View>
-                        </View>
-                        <View style={{marginTop: hp('2%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>KKM</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>80</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Nilai</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>80</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Predikat</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>A</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View style={{marginTop: hp('1%')}}>
-                          <View style={{flexDirection: 'row'}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Keterangan</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                              <Text>Baik</Text>
-                            </View>
-                          </View>
-                        </View>
-                      </View>
+                        );
+                      })}
                     </ScrollView>
                   </View>
                 </>
@@ -658,7 +371,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronDown}
+                    icon={faCircleChevronUp}
                   />
                 ) : (
                   <FontAwesomeIcon
@@ -667,7 +380,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronUp}
+                    icon={faCircleChevronDown}
                   />
                 )}
               </View>
@@ -680,103 +393,104 @@ function InformasiSiswa({navigation}) {
               }}>
               {statusKehadiran ? (
                 <>
-                  <View style={styles.cardMapel}>
-                    <View style={{flexDirection: 'row'}}>
-                      <View
-                        style={{
-                          backgroundColor: '#4CD964',
-                          height: 30,
-                          width: 75,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 15,
-                        }}>
-                        <Text style={{color: 'white'}}>Sakit</Text>
-                      </View>
-                      <View
-                        style={{
-                          backgroundColor: '#DADADA',
-                          height: 30,
-                          width: 40,
-                          marginLeft: 10,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 5,
-                        }}>
-                        <Text>10</Text>
-                      </View>
-                    </View>
+                  {data.kehadiran.map((item, index) => {
+                    return (
+                      <View style={styles.cardMapel}>
+                        <View style={{flexDirection: 'row'}}>
+                          <View
+                            style={{
+                              backgroundColor: '#4CD964',
+                              height: 30,
+                              width: 75,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              borderRadius: 15,
+                            }}>
+                            <Text style={{color: 'white'}}>Sakit</Text>
+                          </View>
+                          <View
+                            style={{
+                              backgroundColor: '#DADADA',
+                              height: 30,
+                              width: 40,
+                              marginLeft: 10,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              borderRadius: 5,
+                            }}>
+                            <Text>{item?.sakit}</Text>
+                          </View>
+                        </View>
 
-                    <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
-                      <View
-                        style={{
-                          backgroundColor: '#F89D1B',
-                          height: 30,
-                          width: 75,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 15,
-                        }}>
-                        <Text style={{color: 'white'}}>Izin</Text>
-                      </View>
-                      <View
-                        style={{
-                          backgroundColor: '#DADADA',
-                          height: 30,
-                          width: 40,
-                          marginLeft: 10,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 5,
-                        }}>
-                        <Text>1</Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
-                      <View
-                        style={{
-                          backgroundColor: '#D71E44',
-                          height: 30,
-                          width: 75,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 15,
-                        }}>
-                        <Text style={{color: 'white'}}>Alpha</Text>
-                      </View>
-                      <View
-                        style={{
-                          backgroundColor: '#DADADA',
-                          height: 30,
-                          width: 40,
-                          marginLeft: 10,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          borderRadius: 5,
-                        }}>
-                        <Text>5</Text>
-                      </View>
-                    </View>
+                        <View
+                          style={{flexDirection: 'row', marginTop: hp('2%')}}>
+                          <View
+                            style={{
+                              backgroundColor: '#F89D1B',
+                              height: 30,
+                              width: 75,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              borderRadius: 15,
+                            }}>
+                            <Text style={{color: 'white'}}>Izin</Text>
+                          </View>
+                          <View
+                            style={{
+                              backgroundColor: '#DADADA',
+                              height: 30,
+                              width: 40,
+                              marginLeft: 10,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              borderRadius: 5,
+                            }}>
+                            <Text>{item?.izin}</Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{flexDirection: 'row', marginTop: hp('2%')}}>
+                          <View
+                            style={{
+                              backgroundColor: '#D71E44',
+                              height: 30,
+                              width: 75,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              borderRadius: 15,
+                            }}>
+                            <Text style={{color: 'white'}}>Alpha</Text>
+                          </View>
+                          <View
+                            style={{
+                              backgroundColor: '#DADADA',
+                              height: 30,
+                              width: 40,
+                              marginLeft: 10,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              borderRadius: 5,
+                            }}>
+                            <Text>{item?.alpha}</Text>
+                          </View>
+                        </View>
 
-                    <View
-                      style={{
-                        borderWidth: 1,
-                        borderColor: '#758097',
-                        marginTop: hp('2%'),
-                        height: 80,
-                        padding: 10,
-                        borderRadius: 5,
-                      }}>
-                      <ScrollView nestedScrollEnabled={true}>
-                        <Text>
-                          Catatan : jhsdjfsd jashdj ajksdhkjsd kjahsdjk jsahdjs
-                          hjsdghjas jhsgdhjasd jhsgdajhsad jhsgdj sajhdgjh
-                          ajhsgdjhsad jhsagdjhas jhasdhjs 12312312314234
-                          kjshdjksd jkhsdjkasd kjshdkas kjshdkjasd{' '}
-                        </Text>
-                      </ScrollView>
-                    </View>
-                  </View>
+                        <View
+                          style={{
+                            borderWidth: 1,
+                            borderColor: '#758097',
+                            marginTop: hp('2%'),
+                            height: 80,
+                            padding: 10,
+                            borderRadius: 5,
+                          }}>
+                          <ScrollView nestedScrollEnabled={true}>
+                            <Text>Catatan : {item?.catatan}</Text>
+                          </ScrollView>
+                        </View>
+                      </View>
+                    );
+                  })}
                 </>
               ) : null}
             </View>
@@ -804,7 +518,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronDown}
+                    icon={faCircleChevronUp}
                   />
                 ) : (
                   <FontAwesomeIcon
@@ -813,79 +527,83 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronUp}
+                    icon={faCircleChevronDown}
                   />
                 )}
               </View>
             </View>
 
             {/* Isi Nilai Sikap */}
-            <View
-              style={{
-                marginTop: hp('1%'),
-              }}>
-              {statusNilaiSikap ? (
-                <>
-                  <View style={styles.cardMapel}>
-                    <View style={{marginTop: hp('1%')}}>
-                      <View style={{flexDirection: 'row'}}>
-                        <View style={{width: wp('40%')}}>
-                          <Text>Predikat Spritual</Text>
+            {data.sikap.map((item, index) => {
+              return (
+                <View
+                  style={{
+                    marginTop: hp('1%'),
+                  }}>
+                  {statusNilaiSikap ? (
+                    <>
+                      <View style={styles.cardMapel}>
+                        <View style={{marginTop: hp('1%')}}>
+                          <View style={{flexDirection: 'row'}}>
+                            <View style={{width: wp('40%')}}>
+                              <Text>Predikat Spritual</Text>
+                            </View>
+                            <View>
+                              <Text>:</Text>
+                            </View>
+                            <View style={{marginLeft: 10, flex: 1}}>
+                              <Text>{item?.spiritual_predikat}</Text>
+                            </View>
+                          </View>
                         </View>
-                        <View>
-                          <Text>:</Text>
-                        </View>
-                        <View style={{marginLeft: 10, flex: 1}}>
-                          <Text>A</Text>
-                        </View>
-                      </View>
-                    </View>
 
-                    <View style={{marginTop: hp('1%')}}>
-                      <View style={{flexDirection: 'row'}}>
-                        <View style={{width: wp('40%')}}>
-                          <Text>Keterangan Spritual</Text>
+                        <View style={{marginTop: hp('1%')}}>
+                          <View style={{flexDirection: 'row'}}>
+                            <View style={{width: wp('40%')}}>
+                              <Text>Keterangan Spritual</Text>
+                            </View>
+                            <View>
+                              <Text>:</Text>
+                            </View>
+                            <View style={{marginLeft: 10, flex: 1}}>
+                              <Text>{item?.spiritual_keterangan}</Text>
+                            </View>
+                          </View>
                         </View>
-                        <View>
-                          <Text>:</Text>
-                        </View>
-                        <View style={{marginLeft: 10, flex: 1}}>
-                          <Text>A</Text>
-                        </View>
-                      </View>
-                    </View>
 
-                    <View style={{marginTop: hp('1%')}}>
-                      <View style={{flexDirection: 'row'}}>
-                        <View style={{width: wp('40%')}}>
-                          <Text>Predikat Sosial</Text>
+                        <View style={{marginTop: hp('1%')}}>
+                          <View style={{flexDirection: 'row'}}>
+                            <View style={{width: wp('40%')}}>
+                              <Text>Predikat Sosial</Text>
+                            </View>
+                            <View>
+                              <Text>:</Text>
+                            </View>
+                            <View style={{marginLeft: 10, flex: 1}}>
+                              <Text>{item?.sosial_predikat}</Text>
+                            </View>
+                          </View>
                         </View>
-                        <View>
-                          <Text>:</Text>
-                        </View>
-                        <View style={{marginLeft: 10, flex: 1}}>
-                          <Text>Baik</Text>
-                        </View>
-                      </View>
-                    </View>
 
-                    <View style={{marginTop: hp('1%')}}>
-                      <View style={{flexDirection: 'row'}}>
-                        <View style={{width: wp('40%')}}>
-                          <Text>Keterangan Sosial</Text>
-                        </View>
-                        <View>
-                          <Text>:</Text>
-                        </View>
-                        <View style={{marginLeft: 10, flex: 1}}>
-                          <Text>Baik</Text>
+                        <View style={{marginTop: hp('1%')}}>
+                          <View style={{flexDirection: 'row'}}>
+                            <View style={{width: wp('40%')}}>
+                              <Text>Keterangan Sosial</Text>
+                            </View>
+                            <View>
+                              <Text>:</Text>
+                            </View>
+                            <View style={{marginLeft: 10, flex: 1}}>
+                              <Text>{item?.sosial_keterangan}</Text>
+                            </View>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  </View>
-                </>
-              ) : null}
-            </View>
+                    </>
+                  ) : null}
+                </View>
+              );
+            })}
 
             {/* Ekstrakulikuler */}
             <View
@@ -910,7 +628,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronDown}
+                    icon={faCircleChevronUp}
                   />
                 ) : (
                   <FontAwesomeIcon
@@ -919,7 +637,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronUp}
+                    icon={faCircleChevronDown}
                   />
                 )}
               </View>
@@ -935,81 +653,54 @@ function InformasiSiswa({navigation}) {
                   <View style={[styles.cardMapel, {height: 200}]}>
                     <View>
                       <ScrollView nestedScrollEnabled={true}>
-                        <View
-                          style={{
-                            borderBottomWidth: 1,
-                            borderColor: '#F0E4E4',
-                            paddingBottom: 20,
-                            marginTop: hp('2%'),
-                          }}>
-                          <View>
-                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-                              Kegiatan Pramuka
-                            </Text>
-                          </View>
-                          <View
-                            style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Predikat</Text>
+                        {data.ekstra.map((item, index) => {
+                          return (
+                            <View
+                              style={{
+                                borderBottomWidth: 1,
+                                borderColor: '#F0E4E4',
+                                paddingBottom: 20,
+                                marginTop: hp('2%'),
+                              }}>
+                              <View>
+                                <Text
+                                  style={{fontSize: 15, fontWeight: 'bold'}}>
+                                  {item?.nama}
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flexDirection: 'row',
+                                  marginTop: hp('1%'),
+                                }}>
+                                <View style={{width: wp('30%')}}>
+                                  <Text>Predikat</Text>
+                                </View>
+                                <View>
+                                  <Text>:</Text>
+                                </View>
+                                <View style={{flex: 1, marginLeft: 10}}>
+                                  <Text>{item?.predikat}</Text>
+                                </View>
+                              </View>
+                              <View
+                                style={{
+                                  flexDirection: 'row',
+                                  marginTop: hp('1%'),
+                                }}>
+                                <View style={{width: wp('30%')}}>
+                                  <Text>Keterangan</Text>
+                                </View>
+                                <View>
+                                  <Text>:</Text>
+                                </View>
+                                <View style={{flex: 1, marginLeft: 10}}>
+                                  <Text>{item?.keterangan}</Text>
+                                </View>
+                              </View>
                             </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{flex: 1, marginLeft: 10}}>
-                              <Text>A</Text>
-                            </View>
-                          </View>
-                          <View
-                            style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Keterangan</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{flex: 1, marginLeft: 10}}>
-                              <Text>Bagus</Text>
-                            </View>
-                          </View>
-                        </View>
-
-                        <View
-                          style={{
-                            borderBottomWidth: 1,
-                            borderColor: '#F0E4E4',
-                            paddingBottom: 20,
-                            marginTop: hp('2%'),
-                          }}>
-                          <View>
-                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-                              Kegiatan Musik
-                            </Text>
-                          </View>
-                          <View
-                            style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Predikat</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{flex: 1, marginLeft: 10}}>
-                              <Text>A</Text>
-                            </View>
-                          </View>
-                          <View
-                            style={{flexDirection: 'row', marginTop: hp('1%')}}>
-                            <View style={{width: wp('30%')}}>
-                              <Text>Keterangan</Text>
-                            </View>
-                            <View>
-                              <Text>:</Text>
-                            </View>
-                            <View style={{flex: 1, marginLeft: 10}}>
-                              <Text>Bagus</Text>
-                            </View>
-                          </View>
-                        </View>
+                          );
+                        })}
                       </ScrollView>
                     </View>
                   </View>
@@ -1038,7 +729,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronDown}
+                    icon={faCircleChevronUp}
                   />
                 ) : (
                   <FontAwesomeIcon
@@ -1047,7 +738,7 @@ function InformasiSiswa({navigation}) {
                     }}
                     color="#ACA3A3"
                     size={30}
-                    icon={faCircleChevronUp}
+                    icon={faCircleChevronDown}
                   />
                 )}
               </View>
@@ -1063,47 +754,24 @@ function InformasiSiswa({navigation}) {
                   <View style={[styles.cardMapel, {height: 200}]}>
                     <View>
                       <ScrollView nestedScrollEnabled={true}>
-                        <View
-                          style={{
-                            borderBottomWidth: 1,
-                            borderColor: '#F0E4E4',
-                            paddingBottom: 15,
-                            marginTop: hp('2%'),
-                          }}>
-                          <View>
-                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-                              Juara Lomba Sains Fisika Antar Kabupaten
-                            </Text>
-                          </View>
-                        </View>
-
-                        <View
-                          style={{
-                            borderBottomWidth: 1,
-                            borderColor: '#F0E4E4',
-                            paddingBottom: 15,
-                            marginTop: hp('2%'),
-                          }}>
-                          <View>
-                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-                              Juara Lomba Olimpiade Matematika
-                            </Text>
-                          </View>
-                        </View>
-
-                        <View
-                          style={{
-                            borderBottomWidth: 1,
-                            borderColor: '#F0E4E4',
-                            paddingBottom: 15,
-                            marginTop: hp('2%'),
-                          }}>
-                          <View>
-                            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-                              Juara Lomba Debate Bahasa Inggris
-                            </Text>
-                          </View>
-                        </View>
+                        {data.prestasi.map((item, index) => {
+                          return (
+                            <View
+                              style={{
+                                borderBottomWidth: 1,
+                                borderColor: '#F0E4E4',
+                                paddingBottom: 15,
+                                marginTop: hp('2%'),
+                              }}>
+                              <View>
+                                <Text
+                                  style={{fontSize: 15, fontWeight: 'bold'}}>
+                                  {item?.prestasi}
+                                </Text>
+                              </View>
+                            </View>
+                          );
+                        })}
                       </ScrollView>
                     </View>
                   </View>
