@@ -210,8 +210,8 @@ function login({navigation}) {
               <Text
                 style={styles.textChildLogin1}
                 onPress={() => {
-                  // navigation.navigate('LupaPassword');
-                  navigation.navigate('InputOTP');
+                  navigation.navigate('LupaPassword');
+                  // navigation.navigate('InputOTP');
                 }}>
                 Lupa kata sandi?
               </Text>
