@@ -30,6 +30,25 @@ function ProfilSekolah({navigation}) {
   const [showTanggal, setShowTanggal] = useState(false);
   const [tanggal, setTanggal] = useState('');
   const [cari, setCari] = useState(false);
+  const [npsn, setNpsn] = useState('');
+  const [profilSekolah, setProfilSekolah] = useState([]);
+
+  const handleCari = async () => {
+    Axios({
+      url: url + `/public/pend_sekolah/${npsn}`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setProfilSekolah(response.data.data[0]);
+        setCari(true);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  };
 
   return (
     <>
@@ -64,7 +83,7 @@ function ProfilSekolah({navigation}) {
             </Text>
           </View>
         </View>
-        
+
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
@@ -73,8 +92,9 @@ function ProfilSekolah({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setNama(val)}
-                placeholder="NPSN"></TextInput>
+                onChangeText={val => setNpsn(val)}
+                placeholder="NPSN"
+              />
             </View>
 
             <View
@@ -85,9 +105,7 @@ function ProfilSekolah({navigation}) {
               <View>
                 <TouchableOpacity
                   style={styles.buttonLogin}
-                  onPress={() => {
-                    setCari(true);
-                  }}>
+                  onPress={handleCari}>
                   <Text style={styles.textButton}>Cari</Text>
                 </TouchableOpacity>
               </View>
@@ -95,205 +113,234 @@ function ProfilSekolah({navigation}) {
 
             {cari ? (
               <>
-                <View
-                  style={{
-                    marginTop: hp('2%'),
-                  }}>
-                  <View>
-                    <Text style={{fontSize: 18, color: '#ACA3A3'}}>
-                      Informasi Sekolah
-                    </Text>
-                  </View>
-
+                {!npsn ? (
                   <View
                     style={{
-                      flexDirection: 'row',
-                      marginTop: hp('3%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
+                      alignItems: 'center',
                     }}>
-                    <View>
-                      <Text style={{fontSize: 14, width: wp('40%')}}>NPSN</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>10700192</Text>
-                    </View>
+                    <Text style={styles.text}>Harap Isi NPSN</Text>
                   </View>
-
+                ) : !profilSekolah ? (
                   <View
                     style={{
-                      flexDirection: 'row',
-                      marginTop: hp('1%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
+                      alignItems: 'center',
                     }}>
-                    <View style={{width: wp('40%')}}>
-                      <Text style={{fontSize: 14}}>Nama</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>SDN 01 Bengkulu Utara</Text>
-                    </View>
+                    <Text style={styles.text}>Data Tidak Ditemukan</Text>
                   </View>
-
+                ) : (
                   <View
                     style={{
-                      flexDirection: 'row',
-                      marginTop: hp('1%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
+                      marginTop: hp('2%'),
                     }}>
-                    <View style={{width: wp('40%')}}>
-                      <Text style={{fontSize: 14}}>Alamat</Text>
-                    </View>
                     <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>
-                        Jalan Ratu Samban Taba Tembilang
+                      <Text style={{fontSize: 18, color: '#ACA3A3'}}>
+                        Informasi Sekolah
                       </Text>
                     </View>
-                  </View>
 
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: hp('1%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
-                    }}>
-                    <View style={{width: wp('40%')}}>
-                      <Text style={{fontSize: 14}}>Desa/Kelurahan</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>Taba Tembilang</Text>
-                    </View>
-                  </View>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: hp('1%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
-                    }}>
-                    <View style={{width: wp('40%')}}>
-                      <Text style={{fontSize: 14}}>Kecamatan/Kota</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>Kec. Arga Makmur</Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: hp('1%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
-                    }}>
-                    <View style={{width: wp('40%')}}>
-                      <Text style={{fontSize: 14}}>Kab/Kota</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>Kab. Bengkulu Utara</Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: hp('1%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
-                    }}>
-                    <View style={{width: wp('40%')}}>
-                      <Text style={{fontSize: 14}}>Provinsi</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>Prov. Bengkulu</Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: hp('1%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
-                    }}>
-                    <View style={{width: wp('40%')}}>
-                      <Text style={{fontSize: 14}}>Status</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>Negeri</Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: hp('1%'),
-                      borderBottomWidth: 1,
-                      paddingBottom: 10,
-                      borderColor: '#F0E4E4',
-                    }}>
-                    <View style={{width: wp('40%')}}>
-                      <Text style={{fontSize: 14}}>Jenjang Pendidikan</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 14}}>:</Text>
-                    </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
-                      <Text style={{fontSize: 14}}>SD</Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.map}>
-                    <MapView
+                    <View
                       style={{
-                        ...StyleSheet.absoluteFillObject,
-                        borderRadius: 20,
-                      }}
-                      initialRegion={{
-                        latitude: -3.4239992178178844,
-                        longitude: 102.19370287150612,
-                        latitudeDelta: 0.05,
-                        longitudeDelta: 0.05,
+                        flexDirection: 'row',
+                        marginTop: hp('3%'),
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                        borderColor: '#F0E4E4',
                       }}>
-                      <Marker
-                        coordinate={{
-                          latitude: -3.4239992178178844,
-                          longitude: 102.19370287150612,
-                        }}></Marker>
-                    </MapView>
+                      <View>
+                        <Text style={{fontSize: 14, width: wp('40%')}}>
+                          NPSN
+                        </Text>
+                      </View>
+                      <View>
+                        <Text style={{fontSize: 14}}>:</Text>
+                      </View>
+                      <View style={{flex: 1, marginLeft: 10}}>
+                        <Text style={{fontSize: 14}}>
+                          {profilSekolah?.npsn}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: hp('1%'),
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                        borderColor: '#F0E4E4',
+                      }}>
+                      <View style={{width: wp('40%')}}>
+                        <Text style={{fontSize: 14}}>Nama</Text>
+                      </View>
+                      <View>
+                        <Text style={{fontSize: 14}}>:</Text>
+                      </View>
+                      <View style={{flex: 1, marginLeft: 10}}>
+                        <Text style={{fontSize: 14}}>
+                          {profilSekolah?.nama}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: hp('1%'),
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                        borderColor: '#F0E4E4',
+                      }}>
+                      <View style={{width: wp('40%')}}>
+                        <Text style={{fontSize: 14}}>Alamat</Text>
+                      </View>
+                      <View>
+                        <Text style={{fontSize: 14}}>:</Text>
+                      </View>
+                      <View style={{flex: 1, marginLeft: 10}}>
+                        <Text style={{fontSize: 14}}>
+                          {profilSekolah?.alamat}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: hp('1%'),
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                        borderColor: '#F0E4E4',
+                      }}>
+                      <View style={{width: wp('40%')}}>
+                        <Text style={{fontSize: 14}}>No Telp</Text>
+                      </View>
+                      <View>
+                        <Text style={{fontSize: 14}}>:</Text>
+                      </View>
+                      <View style={{flex: 1, marginLeft: 10}}>
+                        <Text style={{fontSize: 14}}>
+                          {profilSekolah?.no_telp}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: hp('1%'),
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                        borderColor: '#F0E4E4',
+                      }}>
+                      <View style={{width: wp('40%')}}>
+                        <Text style={{fontSize: 14}}>Jumlah Ruangan</Text>
+                      </View>
+                      <View>
+                        <Text style={{fontSize: 14}}>:</Text>
+                      </View>
+                      <View style={{flex: 1, marginLeft: 10}}>
+                        <Text style={{fontSize: 14}}>
+                          {profilSekolah?.jumlah_ruang}
+                        </Text>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: hp('1%'),
+                        borderBottomWidth: 1,
+                        paddingBottom: 10,
+                        borderColor: '#F0E4E4',
+                      }}>
+                      <View style={{width: wp('40%')}}>
+                        <Text style={{fontSize: 14}}>Sarana/Prasarana</Text>
+                      </View>
+                      <View>
+                        <Text style={{fontSize: 14}}>:</Text>
+                      </View>
+                      <View style={{flex: 1, marginLeft: 10}}>
+                        <Text style={{fontSize: 14}}>
+                          {profilSekolah?.sarana_prasarana}
+                        </Text>
+                      </View>
+                    </View>
+                    {/* <View
+            style={{
+              flexDirection: 'row',
+              marginTop: hp('1%'),
+              borderBottomWidth: 1,
+              paddingBottom: 10,
+              borderColor: '#F0E4E4',
+            }}>
+            <View style={{width: wp('40%')}}>
+              <Text style={{fontSize: 14}}>Provinsi</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 14}}>:</Text>
+            </View>
+            <View style={{flex: 1, marginLeft: 10}}>
+              <Text style={{fontSize: 14}}>Prov. Bengkulu</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: hp('1%'),
+              borderBottomWidth: 1,
+              paddingBottom: 10,
+              borderColor: '#F0E4E4',
+            }}>
+            <View style={{width: wp('40%')}}>
+              <Text style={{fontSize: 14}}>Status</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 14}}>:</Text>
+            </View>
+            <View style={{flex: 1, marginLeft: 10}}>
+              <Text style={{fontSize: 14}}>Negeri</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: hp('1%'),
+              borderBottomWidth: 1,
+              paddingBottom: 10,
+              borderColor: '#F0E4E4',
+            }}>
+            <View style={{width: wp('40%')}}>
+              <Text style={{fontSize: 14}}>Jenjang Pendidikan</Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 14}}>:</Text>
+            </View>
+            <View style={{flex: 1, marginLeft: 10}}>
+              <Text style={{fontSize: 14}}>SD</Text>
+            </View>
+          </View>
+
+          <View style={styles.map}>
+            <MapView
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                borderRadius: 20,
+              }}
+              initialRegion={{
+                latitude: -3.4239992178178844,
+                longitude: 102.19370287150612,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+              }}>
+              <Marker
+                coordinate={{
+                  latitude: -3.4239992178178844,
+                  longitude: 102.19370287150612,
+                }}
+              />
+            </MapView>
+          </View> */}
                   </View>
-                </View>
+                )}
               </>
             ) : null}
           </View>
