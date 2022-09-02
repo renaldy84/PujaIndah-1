@@ -46,7 +46,7 @@ function Rapor({navigation}) {
     Axios({
       url:
         url +
-        `/pendidikan/rapor/nisn?nisn=0082419283&thn_ajaran=${ajaran}&semester=${semester}`,
+        `/pendidikan/rapor/nisn?nisn=${nisn}&thn_ajaran=${ajaran}&semester=${semester}`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
