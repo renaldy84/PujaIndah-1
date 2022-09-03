@@ -59,6 +59,8 @@ import BuatAspirasi from './view/Aspirasi/buatAspirasi';
 import AgendaDprd from './view/Aspirasi/agendaDprd';
 import DaftarJdih from './view/Aspirasi/daftarJdih';
 import RiwayatPelayananKeur from './view/Perhubungan/riwayatPelayananKeur';
+import DaftarKendaraanKeur from './view/Perhubungan/daftarKendaraan';
+import QrCodeKendaraan from './view/Perhubungan/qrCode';
 import DashboardKetenagakerjaan from './view/Ketenagakerjaan/dashboardKetenagakerjaan';
 import DashboardPendidikan from './view/Pendidikan/dashboardPendidikan';
 import DashboardKesehatan from './view/Kesehatan/dashboardKesehatan';
@@ -314,6 +316,20 @@ function SettingNav() {
           }}
           name="RiwayatPelayananKeur"
           component={RiwayatPelayananKeur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DaftarKendaraanKeur"
+          component={DaftarKendaraanKeur}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="QrCodeKendaraan"
+          component={QrCodeKendaraan}
         />
         <Stack.Screen
           options={{

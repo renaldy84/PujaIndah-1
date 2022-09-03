@@ -130,7 +130,9 @@ function RiwayatPelayananKeur({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View style={{flex: 1, flexDirection: 'row', marginTop: hp('3%')}}>
               <View style={styles.buttonPendaftaran}>
@@ -354,21 +356,28 @@ function RiwayatPelayananKeur({navigation}) {
               </View>
             </View>
 
-            <View style={{flex: 1, flexDirection: 'row', marginTop: hp('3%')}}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                marginTop: hp('3%'),
+                justifyContent: 'center',
+              }}>
               <TouchableOpacity onPress={pilihFoto} style={styles.buttonUpload}>
-                <Text style={{fontSize: RFValue(10)}}>UPLOAD BUKTI BAYAR</Text>
+                <Text style={{fontSize: RFValue(10)}}>Unggah Bukti Bayar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonInvoice}>
                 <Text style={{fontSize: RFValue(10), color: 'black'}}>
-                  INVOICE
+                  Unduh Invoice
                 </Text>
               </TouchableOpacity>
-            </View>
-
-            <View style={styles.ContainerQR}>
-              <View style={styles.BoxQR}>
-                <Text>QR Code</Text>
-              </View>
+              <TouchableOpacity
+                style={styles.buttonInvoice}
+                onPress={() => navigation.navigate('QrCodeKendaraan')}>
+                <Text style={{fontSize: RFValue(10), color: 'black'}}>
+                  Lihat QR Code
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
@@ -481,9 +490,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonInvoice: {
-    width: 130,
     height: 35,
     margin: 5,
+    padding: 10,
     backgroundColor: '#E7EFD6',
     borderRadius: 10,
     alignItems: 'center',

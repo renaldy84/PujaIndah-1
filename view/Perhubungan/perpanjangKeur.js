@@ -40,10 +40,11 @@ function PerpanjangKeur({navigation}) {
   const [jumlahBeban, setJumlahBeban] = useState('');
   const [jumlahBebanIzin, setJumlahBebanIzin] = useState('');
   const [profil, setProfil] = useState({});
+  const [kendaraan, setKendaraan] = useState('');
 
   const getProfil = async () => {
     Axios({
-      url: url + `/api/master/profile/user-detail`,
+      url: url + '/api/master/profile/user-detail',
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -96,62 +97,38 @@ function PerpanjangKeur({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
-              <Text style={styles.text}>Nama</Text>
+              <Text style={styles.text}>Pilih Kendaraan</Text>
             </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                editable={false}
-                value={profil.name}
-                style={styles.textInput}
-                onChangeText={val => setNama(val)}
-                placeholder="Nama"></TextInput>
-            </View>
-            <View>
-              <Text style={styles.text}>Email</Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                editable={false}
-                value={profil.email}
-                style={styles.textInput}
-                onChangeText={val => setEmail(val)}
-                placeholder="Email"></TextInput>
-            </View>
-            <View>
-              <Text style={styles.text}>Nomor Induk Kependudukan (NIK)</Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                editable={false}
-                value={profil.nik}
-                style={styles.textInput}
-                onChangeText={val => setNik(val)}
-                placeholder="NIK"></TextInput>
-            </View>
-            <View>
-              <Text style={styles.text}>No Telp/HP</Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                editable={profil.phone === null ? true : false}
-                // value={profil.phone === null ? '' : profil.phone}
-                style={styles.textInput}
-                onChangeText={val => setTelp(val)}
-                placeholder="No Telp/HP"></TextInput>
+            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
+              <Picker
+                mode="dropdown"
+                selectedValue={kendaraan}
+                onValueChange={(itemValue, itemIndex) => {
+                  setKendaraan(itemValue);
+                }}>
+                <Picker.Item
+                  label="Pilih Nomor Kendaraan"
+                  value=""
+                  style={{color: '#b0b0b0', fontSize: 14}}
+                />
+                <Picker.Item
+                  label="xxxxx"
+                  value="xxxxxx"
+                  style={{fontSize: 14}}
+                />
+                <Picker.Item
+                  label="xxxxx"
+                  value="xxxxx"
+                  style={{fontSize: 14}}
+                />
+              </Picker>
             </View>
 
-            <View>
-              <Text style={styles.text}>Nomor Kendaraan</Text>
-            </View>
-            <View style={styles.boxInput}>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={val => setNomorKendaraan(val)}
-                placeholder="Nomor Kendaraan"></TextInput>
-            </View>
             <View>
               <Text style={styles.text}>Fungsi Kendaraan</Text>
             </View>
@@ -159,7 +136,8 @@ function PerpanjangKeur({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setFungsiKendaraan(val)}
-                placeholder="Fungsi Kendaraan"></TextInput>
+                placeholder="Fungsi Kendaraan"
+              />
             </View>
             <View>
               <Text style={styles.text}>Tahun Pembuatan</Text>
@@ -168,7 +146,8 @@ function PerpanjangKeur({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setTahunPembuatan(val)}
-                placeholder="Tahun Pembuatan"></TextInput>
+                placeholder="Tahun Pembuatan"
+              />
             </View>
             <View>
               <Text style={styles.text}>Nomor Chasis</Text>
@@ -177,7 +156,8 @@ function PerpanjangKeur({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setNomorChasis(val)}
-                placeholder="Nomor Chasis"></TextInput>
+                placeholder="Nomor Chasis"
+              />
             </View>
             <View>
               <Text style={styles.text}>Nomor Mesin</Text>
@@ -186,7 +166,8 @@ function PerpanjangKeur({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setNomorMesin(val)}
-                placeholder="Nomor Mesin"></TextInput>
+                placeholder="Nomor Mesin"
+              />
             </View>
             <View>
               <Text style={styles.text}>Muatan Sumbu Terberat</Text>
@@ -195,7 +176,8 @@ function PerpanjangKeur({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setMuatanSumbu(val)}
-                placeholder="Muatan Sumbu Terberat"></TextInput>
+                placeholder="Muatan Sumbu Terberat"
+              />
             </View>
             <View>
               <Text style={styles.text}>Jumlah beban yang diperbolehkan</Text>
@@ -204,7 +186,8 @@ function PerpanjangKeur({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setJumlahBeban(val)}
-                placeholder="Jumlah beban yang diperbolehkan"></TextInput>
+                placeholder="Jumlah beban yang diperbolehkan"
+              />
             </View>
             <View>
               <Text style={styles.text}>Jumlah beban yang di izinkan</Text>
@@ -213,7 +196,8 @@ function PerpanjangKeur({navigation}) {
               <TextInput
                 style={styles.textInput}
                 onChangeText={val => setJumlahBebanIzin(val)}
-                placeholder="Jumlah beban yang di izinkan"></TextInput>
+                placeholder="Jumlah beban yang di izinkan"
+              />
             </View>
 
             <View style={styles.boxButton}>
@@ -235,8 +219,8 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    marginTop: hp('2%'),
-    margin: 30,
+    marginTop: -20,
+    paddingHorizontal: 15,
     borderRadius: 10,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
@@ -245,8 +229,8 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     width: '100%',
-    backgroundColor: '#ffffff',
     borderWidth: 1,
+    backgroundColor: '#E6E6E6',
   },
   boxInputPassword: {
     flexDirection: 'row',
@@ -273,11 +257,10 @@ const styles = StyleSheet.create({
     elevation: 14,
   },
   text: {
-    fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 14,
     margin: 5,
     marginTop: 15,
-    color: 'black',
+    color: '#2A4F70',
   },
   textInput: {
     marginLeft: 10,
@@ -338,6 +321,17 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     width: '100%',
     alignItems: 'flex-end',
+  },
+  drbDown: {
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 50,
+    borderColor: '#A19C9C',
+    width: '100%',
+    marginLeft: 5,
+    marginBottom: 0,
+    padding: 10,
+    color: '#000000',
   },
 });
 export default PerpanjangKeur;
