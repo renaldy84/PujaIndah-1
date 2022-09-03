@@ -39,27 +39,47 @@ function PerpanjangKeur({navigation}) {
   const [muatanSumbu, setMuatanSumbu] = useState('');
   const [jumlahBeban, setJumlahBeban] = useState('');
   const [jumlahBebanIzin, setJumlahBebanIzin] = useState('');
-  const [profil, setProfil] = useState({});
+  const [daftarKendaraan, setDaftarKendaraan] = useState([]);
   const [kendaraan, setKendaraan] = useState('');
+  const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
 
-  const getProfil = async () => {
+  const getData = async () => {
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     Axios({
-      url: url + '/api/master/profile/user-detail',
+      url: url + `/public/jenis_kendaraan?m_daerah_id=${idDaerah}&per_page=100`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        setProfil(response.data.data);
+        console.log(response.data.data);
+        setDaftarKendaraan(response.data.data);
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  const handleSubmit = async () => {
+    setModalVisibleSukses(true);
+    // Axios({
+    //   url: url + '/api/master/profile/user-detail',
+    //   method: 'get',
+    //   headers: {
+    //     Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+    //   },
+    // })
+    //   .then(response => {
+    //     setProfil(response.data.data);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+  };
+
   useEffect(() => {
-    getProfil();
+    getData();
   }, []);
   return (
     <>
@@ -116,16 +136,16 @@ function PerpanjangKeur({navigation}) {
                   value=""
                   style={{color: '#b0b0b0', fontSize: 14}}
                 />
-                <Picker.Item
-                  label="xxxxx"
-                  value="xxxxxx"
-                  style={{fontSize: 14}}
-                />
-                <Picker.Item
-                  label="xxxxx"
-                  value="xxxxx"
-                  style={{fontSize: 14}}
-                />
+                {daftarKendaraan.map((item, index) => {
+                  return (
+                    <Picker.Item
+                      key={index}
+                      label={item?.nama}
+                      value={item?.nama}
+                      style={{fontSize: 14}}
+                    />
+                  );
+                })}
               </Picker>
             </View>
 
@@ -201,13 +221,61 @@ function PerpanjangKeur({navigation}) {
             </View>
 
             <View style={styles.boxButton}>
-              <TouchableOpacity style={styles.buttonLogin} onPress={() => {}}>
+              <TouchableOpacity
+                style={styles.buttonLogin}
+                onPress={handleSubmit}>
                 <Text style={styles.textButton}>Kirim</Text>
               </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
       </View>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisibleSukses}>
+        <View style={styles.centeredViewModal}>
+          <View style={styles.modalView}>
+            <Image
+              style={{width: 50, height: 50}}
+              source={require('../../assets/image/success.png')}
+            />
+            <View style={{alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                }}>
+                ok
+              </Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                setModalVisibleSukses(!modalVisibleSukses);
+              }}
+              style={{
+                backgroundColor: '#246EE9',
+                marginTop: 20,
+                borderRadius: 10,
+                width: 100,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#ffffff',
+                  fontSize: 14,
+                  margin: 10,
+                }}>
+                Ok
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
@@ -284,21 +352,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
   arrow: {
     // borderWidth: 1,
     // marginTop: 30,
@@ -332,6 +385,28 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     padding: 10,
     color: '#000000',
+  },
+  centeredViewModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#080a1a99',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '80%',
   },
 });
 export default PerpanjangKeur;
