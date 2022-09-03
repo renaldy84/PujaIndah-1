@@ -5,6 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useDispatch} from 'react-redux';
 import Home from './home';
 import Profil from './profil';
+import Ticketing from './ticketing';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
@@ -12,7 +13,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {faHouse} from '@fortawesome/free-solid-svg-icons';
+import {faComments, faHouse} from '@fortawesome/free-solid-svg-icons';
 
 function LayananScreen() {
   return (
@@ -87,13 +88,17 @@ function navigationBottom() {
         }}
       />
       <Tab.Screen
-        name="Activity"
-        component={ActivityScreen}
+        name="Eticketing"
+        component={Ticketing}
         options={{
           headerLeft: null,
           headerShown: false,
           tabBarIcon: ({color}) => (
-            <FontAwesome name="clock" size={RFPercentage(3.5)} color={color} />
+            <FontAwesomeIcon
+              icon={faComments}
+              size={RFPercentage(3.5)}
+              color={color}
+            />
           ),
           tabBarInactiveTintColor: '#8E8E93',
           tabBarActiveTintColor: '#274799',
@@ -102,7 +107,7 @@ function navigationBottom() {
             // elevation: 10,
             marginTop: hp('0.2%'),
           },
-          tabBarLabel: 'Activity',
+          tabBarLabel: 'Layanan e-ticketing',
           tabBarLabelStyle: {
             marginTop: -hp('1%'),
             marginBottom: hp('1%'),
@@ -111,7 +116,7 @@ function navigationBottom() {
           },
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Layanan"
         component={LayananScreen}
         options={{
@@ -139,7 +144,7 @@ function navigationBottom() {
             fontWeight: 'bold',
           },
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Account"
         component={Profil}

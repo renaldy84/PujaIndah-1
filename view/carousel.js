@@ -1,53 +1,68 @@
-import React, {useState, useRef} from 'react';
-import {Text, View, Dimensions, Image} from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {
+  Text,
+  View,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
-const data = [
-  {
-    id: 1,
-    url: 'https://previews.123rf.com/images/ammit/ammit2005/ammit200500200/147598154-tungurahua-volcano-view-from-the-same-level-as-the-erupting-point-small-amount-of-noise-may-be-visib.jpg',
-  },
-  {
-    id: 2,
-    url: 'https://previews.123rf.com/images/tamara1k/tamara1k1904/tamara1k190400158/120290893-gran-canaria-marzo-paisajes-de-reserva-natural-estricta-inagua-%C3%A1reas-reforestadas.jpg',
-  },
-  {
-    id: 3,
-    url: 'https://previews.123rf.com/images/tamara1k/tamara1k1904/tamara1k190400049/120290494-gran-canaria-march-landscapes-of-strict-nature-reserve-inagua-canarian-pine-trees.jpg',
-  },
-  {
-    id: 4,
-    url: 'https://previews.123rf.com/images/tamara1k/tamara1k1905/tamara1k190500559/122983009-gran-canaria-pilancones-natural-park-reforested-slopes-canary-pine.jpg',
-  },
-];
-
-const renderItem = ({item}) => {
-  return (
-    <View
-      style={{
-        alignItems: 'center',
-      }}>
-      <Image
-        source={{uri: item.url}}
-        style={{
-          width: '100%',
-          height: 175,
-          borderRadius: 15,
-        }}
-      />
-    </View>
-  );
-};
+import Axios from 'axios';
+import url from '../config';
 
 export const SLIDER_WIDTH = wp('100%');
 export const ITEM_WIDTH = wp('85%');
+
 const CarouselHeader = () => {
   const [index, setIndex] = useState(0);
+  const [data, setData] = useState([]);
   const isCarousel = useRef(null);
+
+  const renderItem = ({item}) => {
+    return (
+      <TouchableOpacity
+        onPress={async () => {
+          await Linking.openURL(item.link_url);
+        }}
+        style={{
+          alignItems: 'center',
+        }}>
+        <Image
+          source={{uri: item.image_url}}
+          style={{
+            resizeMode: 'stretch',
+            width: '100%',
+            height: 150,
+            borderRadius: 15,
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  const getBanner = () => {
+    Axios({
+      url: url + `/banners`,
+      method: 'get',
+    })
+      .then(response => {
+        console.log('data>>>', response.data.data);
+        setData(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getBanner();
+  }, []);
+
   return (
     <View style={{marginVertical: 10}}>
       <Carousel
