@@ -63,7 +63,9 @@ const DashboardPerhubungan = ({navigation}) => {
               origins, as well as a random Lipsum generator.
             </Text>
           </View>
-          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.footer}
+            showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {
@@ -150,6 +152,24 @@ const DashboardPerhubungan = ({navigation}) => {
                 </View>
                 <View style={styles.boxText}>
                   <Text style={{fontSize: 16}}>Riwayat Pelayanan KEUR</Text>
+                </View>
+                <View style={styles.boxIconLeft}>
+                  <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.boxKonten}
+                onPress={() => {
+                  navigation.navigate('DaftarKendaraanKeur');
+                }}>
+                <View style={styles.boxIconRight}>
+                  <Image
+                    style={{width: 30, height: 30}}
+                    source={require('../../assets/image/iconPerhubungan/daftarKendaraan.png')}
+                  />
+                </View>
+                <View style={styles.boxText}>
+                  <Text style={{fontSize: 16}}>Daftar Keundaraan</Text>
                 </View>
                 <View style={styles.boxIconLeft}>
                   <FontAwesome name="chevron-right" size={25} color="#A19C9C" />
