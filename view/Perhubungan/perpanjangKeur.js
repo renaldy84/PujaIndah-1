@@ -33,12 +33,14 @@ function PerpanjangKeur({navigation}) {
   const [kendaraan, setKendaraan] = useState('');
   const [lokasiUji, setLokasiUji] = useState('');
   const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
-  const [statusResp, setStatusResp] = useState('')
+  const [statusResp, setStatusResp] = useState('');
 
   const getDataKendaraan = async () => {
     const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     Axios({
-      url: url + `/keur/daftar-kendaraan?m_daerah_id=0&per_page=100=${idDaerah}&per_page=100`,
+      url:
+        url +
+        `/keur/daftar-kendaraan?m_daerah_id=0&per_page=100=${idDaerah}&per_page=100`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -47,8 +49,7 @@ function PerpanjangKeur({navigation}) {
       .then(response => {
         setDaftarKendaraan(response.data.data);
       })
-      .catch(error => {
-      });
+      .catch(error => {});
   };
 
   const getLokasiUji = async () => {
@@ -79,23 +80,23 @@ function PerpanjangKeur({navigation}) {
       },
       data: {
         lokasi_uji: lokasiUji,
-        pelayanan_keur_id: kendaraan,
-        m_daerah_id: idDaerah
+        pelayanan_keur_id: kendaraan.id,
+        m_daerah_id: idDaerah,
       },
     })
       .then(response => {
-      setProfil(response.data.data);
-      setStatusResp(200)
-      setModalVisibleSukses(true);
-      setTimeout(() => {
-      navigation.navigate('DashboardPerhubungan')
-      }, 2000);
+        setProfil(response.data.data);
+        setStatusResp(200);
+        setModalVisibleSukses(true);
+        setTimeout(() => {
+          navigation.navigate('DashboardPerhubungan');
+        }, 2000);
       })
       .catch(error => {
         setTimeout(() => {
           setModalVisibleSukses(false);
-          }, 2000);
-        console.log('post perpanjangan',error.response);
+        }, 2000);
+        console.log('post perpanjangan', error.response);
       });
   };
 
@@ -171,7 +172,7 @@ function PerpanjangKeur({navigation}) {
               </Picker>
             </View>
 
-              <View>
+            <View>
               <Text style={styles.text}>Pilih Lokasi Uji</Text>
             </View>
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
@@ -214,8 +215,12 @@ function PerpanjangKeur({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                value={`${!kendaraan?.tahun_pembuatan ? '' : kendaraan?.tahun_pembuatan}`}
-                placeholder={`${!kendaraan?.tahun_pembuatan ? '' : kendaraan?.tahun_pembuatan}`}
+                value={`${
+                  !kendaraan?.tahun_pembuatan ? '' : kendaraan?.tahun_pembuatan
+                }`}
+                placeholder={`${
+                  !kendaraan?.tahun_pembuatan ? '' : kendaraan?.tahun_pembuatan
+                }`}
               />
             </View>
             <View>
@@ -281,7 +286,7 @@ function PerpanjangKeur({navigation}) {
                 placeholder={kendaraan?.jenis?.jbi}
               />
             </View>
-            
+
             <View style={styles.boxButton}>
               <TouchableOpacity
                 style={styles.buttonLogin}
@@ -300,7 +305,11 @@ function PerpanjangKeur({navigation}) {
           <View style={styles.modalView}>
             <Image
               style={{width: 50, height: 50}}
-              source={statusResp === 200 ? require(`../../assets/image/success.png`) : require(`../../assets/image/warning.png`)}
+              source={
+                statusResp === 200
+                  ? require('../../assets/image/success.png')
+                  : require('../../assets/image/warning.png')
+              }
             />
             <View style={{alignItems: 'center'}}>
               <Text
@@ -310,7 +319,9 @@ function PerpanjangKeur({navigation}) {
                   marginTop: 20,
                   justifyContent: 'center',
                 }}>
-                  {statusResp === 200 ? 'Berhasil Perpanjangan KEUR' : 'Gagal Melakukan Perpanjangan Keur'}
+                {statusResp === 200
+                  ? 'Berhasil Perpanjangan KEUR'
+                  : 'Gagal Melakukan Perpanjangan Keur'}
               </Text>
             </View>
           </View>
