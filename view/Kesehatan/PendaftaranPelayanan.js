@@ -47,7 +47,8 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
   const [dokterPoli, setDokterPoli] = useState('');
   const [modalLoading, setModalLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
+  const [statusData, setStatusData] = useState();
 
   const getProfil = async () => {
     Axios({
@@ -105,26 +106,31 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
   }, []);
 
   const handleDaftar = async () => {
-    setModalLoading(true);
     Axios({
-      url: url + '/kesehatan/antrian/create',
-      method: 'post',
-      timeout: 1000 * 5,
-      data: {
-        xxxxx: '',
+      url: url + '/faskes/daftar/' + faskes.id,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
-      .then(async res => {
-        setModalLoading(false);
-        try {
-          // write
-          navigation.navigate('BerhasilDaftarLayanan');
-        } catch (error) {}
+      .then(response => {
+        setModalVisibleSukses(true);
+        setStatusData(200);
+        setTimeout(() => {
+          setModalVisibleSukses(false);
+          navigation.navigate('BerhasilDaftarLayanan', {
+            faskes: faskes,
+          });
+        }, 3000);
       })
       .catch(error => {
-        setModalVisible(true);
-        setMessage(error.response.data.message);
-        setModalLoading(false);
+        if (statusData !== 200) {
+          setStatusData(500);
+          setModalVisibleSukses(true);
+          setTimeout(() => {
+            setModalVisibleSukses(false);
+          }, 2000);
+        }
       });
   };
   return (
@@ -424,7 +430,7 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
               </Picker>
             </View>
 
-            <View style={{marginTop: 5}}>
+            {/* <View style={{marginTop: 5}}>
               <Text style={styles.text}>Pilih Dokter</Text>
             </View>
             <View style={[styles.drbDown, {justifyContent: 'center'}]}>
@@ -441,7 +447,7 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
                 />
                 <Picker.Item label="Poli Gigi" value="java" />
               </Picker>
-            </View>
+            </View> */}
             <View>
               <Text style={styles.text}>Pilih Tanggal Daftar</Text>
             </View>
@@ -554,13 +560,41 @@ function PendaftaranPelayananKesehatan({navigation, route}) {
                 <TouchableOpacity
                   style={styles.buttonLogin}
                   onPress={handleDaftar}>
-                  <Text style={styles.textButton}>Daftar Layanana</Text>
+                  <Text style={styles.textButton}>Daftar Layanan</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
         </ScrollView>
       </View>
+      <>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisibleSukses}>
+          <View style={styles.centeredViewModal}>
+            <View style={styles.modalView}>
+              <Image
+                style={{width: 50, height: 50}}
+                source={require('../../assets/image/success.png')}
+              />
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 14,
+                    marginTop: 20,
+                    justifyContent: 'center',
+                  }}>
+                  {statusData === 200
+                    ? 'Berhasil Daftar'
+                    : 'Mohon Maaf Pendaftaran Gagal'}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </>
     </>
   );
 }
@@ -649,6 +683,26 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: '#666',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 export default PendaftaranPelayananKesehatan;
