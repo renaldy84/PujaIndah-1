@@ -13,7 +13,13 @@ import {
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowLeft,
+  faFilePdf,
+  faPaperclip,
+  faCamera,
+  faFolderOpen,
+} from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
 import ImagePicker from 'react-native-image-picker';
 import Axios from 'axios';
@@ -25,6 +31,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 function PengajuanKeur({navigation}) {
   const [lokasiUji, setLokasiUji] = useState('');
@@ -40,6 +47,18 @@ function PengajuanKeur({navigation}) {
   const [profil, setProfil] = useState({});
   const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
   const [statusData, setStatusData] = useState('');
+  const modalizeRef = useRef(null);
+  const modalizeRefKTP = useRef(null);
+  const [modalHandleFoto, setModalHandleFoto] = useState(false);
+  const [foto, setFoto] = useState(null);
+  const [namaFoto, setNamaFoto] = useState('Unggah Foto');
+  const [dataFotoKejadian, setDataFotoKejadian] = useState({});
+  const [linkFotoKejadian, setLinkFotoKejadian] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [listLokasiUji, setListLokasiUji] = useState([]);
+  const [listJenisKendaraan, setListJenisKendaraan] = useState([]);
+  const [tanggal, setTanggal] = useState('');
+  const [showTanggal, setShowTanggal] = useState(false);
 
   const getProfil = async () => {
     Axios({
@@ -57,6 +76,123 @@ function PengajuanKeur({navigation}) {
       });
   };
 
+  const getLokasiKeur = async () => {
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
+    Axios({
+      url: url + `/public/lokasi_keur?m_daerah_id=1332&per_page=100`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setListLokasiUji(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const getJenisKendaraan = async () => {
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
+    Axios({
+      url: url + `/public/jenis_kendaraan?m_daerah_id=1332&per_page=100`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setListJenisKendaraan(response.data.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const pilihFoto = () => {
+    modalizeRef.current?.open();
+  };
+
+  const ambilDariCamera = () => {
+    modalizeRef.current?.close();
+    ImagePicker.launchCamera(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
+  };
+
+  const ambilDariGalery = () => {
+    modalizeRef.current?.close();
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        //   maxHeight: 200,
+        //   maxWidth: 200,
+        quality: 0.3,
+      },
+      response => {
+        if (!response.didCancel) {
+          let formData = new FormData();
+          setFoto(response.uri);
+          // setDataFoto(response.data);
+          setNamaFoto(response.fileName);
+          formData.append('file', {
+            uri: response.uri,
+            name: response.fileName,
+            type: response.type,
+          });
+          // setDataFotoKejadian(formData);
+          kirimFotoKejadian(formData);
+        }
+      },
+    );
+  };
+
+  const kirimFotoKejadian = async formData => {
+    fetch(url + '/api/master/media/upload', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+        'Content-Type': 'multipart/form-data',
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then(async res => {
+        let data = await res.json();
+        console.log(data);
+        setLinkFotoKejadian(data.data.path);
+      })
+      .catch(err => {
+        console.log('Gagal Kejadian');
+      });
+  };
+
+  const cekKirim = () => {
+    linkFotoKejadian === '' ? setModalHandleFoto(true) : handleSubmit();
+  };
   const handleSubmit = async () => {
     const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     Axios({
@@ -67,20 +203,19 @@ function PengajuanKeur({navigation}) {
       },
       data: {
         m_daerah_id: 1,
-        nama: 'Bob',
-        alamat: 'aceh',
-        no_hp: 11111,
-        no_kendaraan: 'B412f',
-        jenis_kendaraan: 1,
-        tahun_pembuatan: 2022,
+        nama: profil.name,
+        alamat: profil.alamat,
+        no_hp: profil.phone,
+        no_kendaraan: nomorKendaraan,
+        jenis_kendaraan: jenisKendaraan,
+        tahun_pembuatan: tahunPembuatan,
         id_koperasi: 123121312,
-        no_chasis: 'adasdsdad',
-        no_mesin: 'dasdasdsad',
-        masa_berlaku_awal: '2021-01-01',
-        foto_stnk:
-          'https://cdn-2.tstatic.net/tribunnews/foto/bank/images/ilustrasi-stnk.jpg',
-        lokasi_uji: 1,
-        fungsi: 'barang',
+        no_chasis: nomorChasis,
+        no_mesin: nomorMesin,
+        masa_berlaku_awal: tanggal,
+        foto_stnk: linkFotoKejadian,
+        lokasi_uji: lokasiUji,
+        fungsi: fungsiKendaraan,
       },
     })
       .then(response => {
@@ -101,11 +236,112 @@ function PengajuanKeur({navigation}) {
       });
   };
 
+  console.log(profil);
   useEffect(() => {
     getProfil();
+    getLokasiKeur();
+    getJenisKendaraan();
   }, []);
   return (
     <>
+      <Modalize
+        ref={modalizeRef}
+        // snapPoint={150}
+        modalHeight={150}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih File</Text>
+          </View>
+        }>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginHorizontal: 30,
+              width: 100,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariCamera}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon color="#274799" size={35} icon={faCamera} />
+              </View>
+              <View>
+                <Text>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              width: 100,
+              marginHorizontal: 30,
+            }}>
+            <TouchableOpacity
+              onPress={ambilDariGalery}
+              style={{alignItems: 'center'}}>
+              <View>
+                <FontAwesomeIcon
+                  color="#274799"
+                  size={35}
+                  icon={faFolderOpen}
+                />
+              </View>
+              <View>
+                <Text>Files</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modalize>
+      <Modal animationType="fade" transparent={true} visible={modalHandleFoto}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Image
+              style={{width: 50, height: 50}}
+              source={require('../../assets/image/warning.png')}></Image>
+
+            <View style={{alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                }}>
+                Harap melengkapi dokumen foto
+              </Text>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                setModalHandleFoto(!modalHandleFoto);
+              }}
+              style={{
+                backgroundColor: '#ff0000',
+                marginTop: 20,
+                borderRadius: 10,
+                width: 100,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#ffffff',
+                  fontSize: 14,
+                  margin: 10,
+                }}>
+                Close
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <View
         style={{
           // margin: 20,
@@ -159,16 +395,16 @@ function PengajuanKeur({navigation}) {
                   value=""
                   style={{color: '#b0b0b0', fontSize: 14}}
                 />
-                {/* {daftarKendaraan.map((item, index) => {
+                {listLokasiUji.map((item, index) => {
                   return (
                     <Picker.Item
                       key={index}
-                      label={item?.nama}
-                      value={item?.nama}
+                      label={item?.nama_tempat}
+                      value={item?.id}
                       style={{fontSize: 14}}
                     />
                   );
-                })} */}
+                })}
               </Picker>
             </View>
             <View>
@@ -186,16 +422,16 @@ function PengajuanKeur({navigation}) {
                   value=""
                   style={{color: '#b0b0b0', fontSize: 14}}
                 />
-                {/* {daftarKendaraan.map((item, index) => {
+                {listJenisKendaraan.map((item, index) => {
                   return (
                     <Picker.Item
                       key={index}
                       label={item?.nama}
-                      value={item?.nama}
+                      value={item?.id}
                       style={{fontSize: 14}}
                     />
                   );
-                })} */}
+                })}
               </Picker>
             </View>
             <View>
@@ -248,7 +484,8 @@ function PengajuanKeur({navigation}) {
                 placeholder="Nomor Mesin"
               />
             </View>
-            <View>
+
+            {/* <View>
               <Text style={styles.text}>Muatan Sumbu Terberat</Text>
             </View>
             <View style={styles.boxInput}>
@@ -277,12 +514,68 @@ function PengajuanKeur({navigation}) {
                 onChangeText={val => setJumlahBebanIzin(val)}
                 placeholder="Jumlah beban yang di izinkan"
               />
+            </View> */}
+            <View>
+              <Text style={styles.text}>Masa Berlaku Awal</Text>
             </View>
-
-            <View style={styles.boxButton}>
+            <View style={styles.boxInputTanggal}>
               <TouchableOpacity
-                style={styles.buttonLogin}
-                onPress={handleSubmit}>
+                onPress={() => setShowTanggal(true)}
+                style={styles.tanggal}>
+                <Text
+                  style={{
+                    color: !tanggal ? '#b0b0b0' : 'black',
+                    fontSize: 18,
+                    margin: 10,
+                    marginTop: 15,
+                  }}
+                  onChangeText={text => setTanggal(text)}>
+                  {!tanggal ? 'dd/mm/yyyy' : tanggal}
+                </Text>
+                <View>
+                  <DateTimePickerModal
+                    minimumDate={new Date()}
+                    isVisible={showTanggal}
+                    mode="date"
+                    onConfirm={val => {
+                      setTanggal(
+                        `${val.getFullYear()}-${(
+                          '0' +
+                          (val.getMonth() + 1)
+                        ).slice(-2)}-${('0' + val.getDate()).slice(-2)}`,
+                      );
+                      setShowTanggal(false);
+                    }}
+                    onCancel={() => {
+                      setShowTanggal(false);
+                    }}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.text}>Unggah Gambar/Foto STNK</Text>
+            </View>
+            <View style={[styles.boxInput, {flexDirection: 'row'}]}>
+              <TextInput
+                value={namaFoto}
+                style={[styles.textInput, {flex: 5}]}
+                // onChangeText={val => setJudulPengaduan(val)}
+                // placeholder="Judul Pengaduan"
+                editable={false}></TextInput>
+              <TouchableOpacity
+                onPress={pilihFoto}
+                style={{
+                  flex: 1,
+                  // borderWidth: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <FontAwesomeIcon color="grey" size={25} icon={faCamera} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.boxButton}>
+              <TouchableOpacity style={styles.buttonLogin} onPress={cekKirim}>
                 <Text style={styles.textButton}>Kirim</Text>
               </TouchableOpacity>
             </View>
@@ -297,7 +590,11 @@ function PengajuanKeur({navigation}) {
           <View style={styles.modalView}>
             <Image
               style={{width: 50, height: 50}}
-              source={require('../../assets/image/success.png')}
+              source={
+                statusData == 200
+                  ? require('../../assets/image/success.png')
+                  : require('../../assets/image/warning.png')
+              }
             />
             <View style={{alignItems: 'center'}}>
               <Text
@@ -462,6 +759,15 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     width: '80%',
+  },
+  boxInputTanggal: {
+    margin: 5,
+    borderRadius: 10,
+    width: '100%',
+    height: 50,
+
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
   },
 });
 export default PengajuanKeur;
