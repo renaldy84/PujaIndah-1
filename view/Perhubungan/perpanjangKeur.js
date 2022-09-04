@@ -27,39 +27,81 @@ import {
 } from 'react-native-responsive-screen';
 
 function PerpanjangKeur({navigation}) {
-  const [nama, setNama] = useState('');
-  const [email, setEmail] = useState('');
-  const [nik, setNik] = useState('');
-  const [telp, setTelp] = useState('');
-  const [nomorKendaraan, setNomorKendaraan] = useState('');
-  const [fungsiKendaraan, setFungsiKendaraan] = useState('');
-  const [tahunPembuatan, setTahunPembuatan] = useState('');
-  const [nomorChasis, setNomorChasis] = useState('');
-  const [nomorMesin, setNomorMesin] = useState('');
-  const [muatanSumbu, setMuatanSumbu] = useState('');
-  const [jumlahBeban, setJumlahBeban] = useState('');
   const [jumlahBebanIzin, setJumlahBebanIzin] = useState('');
-  const [profil, setProfil] = useState({});
+  const [daftarKendaraan, setDaftarKendaraan] = useState([]);
+  const [daftarLokasi, setDaftarLokasi] = useState([]);
   const [kendaraan, setKendaraan] = useState('');
+  const [lokasiUji, setLokasiUji] = useState('');
+  const [modalVisibleSukses, setModalVisibleSukses] = useState(false);
+  const [statusResp, setStatusResp] = useState('')
 
-  const getProfil = async () => {
+  const getDataKendaraan = async () => {
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     Axios({
-      url: url + '/api/master/profile/user-detail',
+      url: url + `/keur/daftar-kendaraan?m_daerah_id=0&per_page=100=${idDaerah}&per_page=100`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        setProfil(response.data.data);
+        setDaftarKendaraan(response.data.data);
+      })
+      .catch(error => {
+      });
+  };
+
+  const getLokasiUji = async () => {
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
+    Axios({
+      url: url + `/public/lokasi_keur?m_daerah_id=${idDaerah}&per_page=100`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setDaftarLokasi(response.data.data);
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  const handleSubmit = async () => {
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
+    setModalVisibleSukses(true);
+    Axios({
+      url: url + '/keur/perpanjangan',
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+      data: {
+        lokasi_uji: lokasiUji,
+        pelayanan_keur_id: kendaraan,
+        m_daerah_id: idDaerah
+      },
+    })
+      .then(response => {
+      setProfil(response.data.data);
+      setStatusResp(200)
+      setModalVisibleSukses(true);
+      setTimeout(() => {
+      navigation.navigate('DashboardPerhubungan')
+      }, 2000);
+      })
+      .catch(error => {
+        setTimeout(() => {
+          setModalVisibleSukses(false);
+          }, 2000);
+        console.log('post perpanjangan',error.response);
+      });
+  };
+
   useEffect(() => {
-    getProfil();
+    getDataKendaraan();
+    getLokasiUji();
   }, []);
   return (
     <>
@@ -116,27 +158,54 @@ function PerpanjangKeur({navigation}) {
                   value=""
                   style={{color: '#b0b0b0', fontSize: 14}}
                 />
-                <Picker.Item
-                  label="xxxxx"
-                  value="xxxxxx"
-                  style={{fontSize: 14}}
-                />
-                <Picker.Item
-                  label="xxxxx"
-                  value="xxxxx"
-                  style={{fontSize: 14}}
-                />
+                {daftarKendaraan.map((item, index) => {
+                  return (
+                    <Picker.Item
+                      key={index}
+                      label={item?.no_kendaraan}
+                      value={item}
+                      style={{fontSize: 14}}
+                    />
+                  );
+                })}
               </Picker>
             </View>
 
+              <View>
+              <Text style={styles.text}>Pilih Lokasi Uji</Text>
+            </View>
+            <View style={[styles.drbDown, {justifyContent: 'center'}]}>
+              <Picker
+                mode="dropdown"
+                selectedValue={lokasiUji}
+                onValueChange={(itemValue, itemIndex) => {
+                  setLokasiUji(itemValue);
+                }}>
+                <Picker.Item
+                  label="Pilih Lokasi Uji"
+                  value=""
+                  style={{color: '#b0b0b0', fontSize: 14}}
+                />
+                {daftarLokasi.map((item, index) => {
+                  return (
+                    <Picker.Item
+                      key={index}
+                      label={item?.nama_tempat}
+                      value={item?.id}
+                      style={{fontSize: 14}}
+                    />
+                  );
+                })}
+              </Picker>
+            </View>
             <View>
               <Text style={styles.text}>Fungsi Kendaraan</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setFungsiKendaraan(val)}
-                placeholder="Fungsi Kendaraan"
+                value={kendaraan?.fungsi}
+                placeholder={kendaraan?.fungsi}
               />
             </View>
             <View>
@@ -145,8 +214,8 @@ function PerpanjangKeur({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setTahunPembuatan(val)}
-                placeholder="Tahun Pembuatan"
+                value={`${!kendaraan?.tahun_pembuatan ? '' : kendaraan?.tahun_pembuatan}`}
+                placeholder={`${!kendaraan?.tahun_pembuatan ? '' : kendaraan?.tahun_pembuatan}`}
               />
             </View>
             <View>
@@ -155,8 +224,8 @@ function PerpanjangKeur({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setNomorChasis(val)}
-                placeholder="Nomor Chasis"
+                value={kendaraan?.no_chasis}
+                placeholder={kendaraan?.no_chasis}
               />
             </View>
             <View>
@@ -165,8 +234,8 @@ function PerpanjangKeur({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setNomorMesin(val)}
-                placeholder="Nomor Mesin"
+                value={kendaraan?.no_mesin}
+                placeholder={kendaraan?.no_mesin}
               />
             </View>
             <View>
@@ -175,39 +244,78 @@ function PerpanjangKeur({navigation}) {
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setMuatanSumbu(val)}
-                placeholder="Muatan Sumbu Terberat"
+                value={kendaraan?.jenis?.mst}
+                placeholder={kendaraan?.jenis?.mst}
               />
             </View>
+            {/*  */}
             <View>
               <Text style={styles.text}>Jumlah beban yang diperbolehkan</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJumlahBeban(val)}
-                placeholder="Jumlah beban yang diperbolehkan"
+                value={kendaraan?.jenis?.jbb}
+                placeholder={kendaraan?.jenis?.jbb}
               />
             </View>
+            {/*  */}
+            <View>
+              <Text style={styles.text}>Jumlah beban yang diperbolehkan</Text>
+            </View>
+            <View style={styles.boxInput}>
+              <TextInput
+                style={styles.textInput}
+                value={kendaraan?.jenis?.jbb}
+                placeholder={kendaraan?.jenis?.jbb}
+              />
+            </View>
+            {/*  */}
             <View>
               <Text style={styles.text}>Jumlah beban yang di izinkan</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={val => setJumlahBebanIzin(val)}
-                placeholder="Jumlah beban yang di izinkan"
+                value={kendaraan?.jenis?.jbi}
+                placeholder={kendaraan?.jenis?.jbi}
               />
             </View>
-
+            
             <View style={styles.boxButton}>
-              <TouchableOpacity style={styles.buttonLogin} onPress={() => {}}>
+              <TouchableOpacity
+                style={styles.buttonLogin}
+                onPress={handleSubmit}>
                 <Text style={styles.textButton}>Kirim</Text>
               </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
       </View>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisibleSukses}>
+        <View style={styles.centeredViewModal}>
+          <View style={styles.modalView}>
+            <Image
+              style={{width: 50, height: 50}}
+              source={statusResp === 200 ? require(`../../assets/image/success.png`) : require(`../../assets/image/warning.png`)}
+            />
+            <View style={{alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 14,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                }}>
+                  {statusResp === 200 ? 'Berhasil Perpanjangan KEUR' : 'Gagal Melakukan Perpanjangan Keur'}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
@@ -231,6 +339,12 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     backgroundColor: '#E6E6E6',
+  },
+  boxInputWhite: {
+    margin: 5,
+    borderRadius: 10,
+    width: '100%',
+    borderWidth: 1,
   },
   boxInputPassword: {
     flexDirection: 'row',
@@ -284,21 +398,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: '#ffffff',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
   arrow: {
     // borderWidth: 1,
     // marginTop: 30,
@@ -332,6 +431,28 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     padding: 10,
     color: '#000000',
+  },
+  centeredViewModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#080a1a99',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: '80%',
   },
 });
 export default PerpanjangKeur;
