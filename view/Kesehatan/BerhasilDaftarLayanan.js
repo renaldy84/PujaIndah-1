@@ -30,8 +30,10 @@ import {
 } from 'react-native-responsive-screen';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {faClock} from '@fortawesome/free-regular-svg-icons';
+import {ActivityIndicator} from 'react-native-paper';
 
-function BerhasilDaftarLayanan({navigation}) {
+function BerhasilDaftarLayanan({navigation, route}) {
+  const {faskes} = route.params;
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [nik, setNik] = useState('');
@@ -41,22 +43,187 @@ function BerhasilDaftarLayanan({navigation}) {
   const [tanggal, setTanggal] = useState('');
   const [showTime, setShowTime] = useState(false);
   const [time, setTime] = useState('');
+  const [dataBerhasil, setDataBerhasil] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getProfil = async () => {
+    setIsLoading(true);
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     Axios({
-      url: url + `/api/master/profile/user-detail`,
+      url: url + `/faskes/antrian?m_daerah_id=${idDaerah}&per_page=100`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        console.log(response.data);
-        setProfil(response.data.data);
+        setDataBerhasil(response?.data?.data);
+        setIsLoading(false);
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <View style={{paddingHorizontal: 20}}>
+        <View style={{marginTop: hp('3%')}}>
+          <Text style={{fontSize: 16, fontWeight: 'bold', color: '#ACA3A3'}}>
+            Informasi Pendaftaran Layanan
+          </Text>
+        </View>
+        <View style={{marginTop: hp('3%')}}>
+          {/* <View> */}
+          {/* <View style={{flexDirection: 'row'}}>
+              <View style={{width: wp('30%')}}>
+                <Text>Nama Pasien</Text>
+              </View>
+              <View>
+                <Text>:</Text>
+              </View>
+              <View style={{marginLeft: 10, flex: 1}}>
+                <Text>Jhon Doe</Text>
+              </View>
+            </View> */}
+          {/* <View
+              style={{
+                borderTopWidth: 2,
+                marginTop: hp('1%'),
+                borderColor: '#758097',
+                opacity: 0.5,
+              }}
+            /> */}
+          {/* </View> */}
+          <View style={{marginTop: hp('1%')}}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: wp('30%')}}>
+                <Text>Tanggal Daftar</Text>
+              </View>
+              <View>
+                <Text>:</Text>
+              </View>
+              <View style={{marginLeft: 10, flex: 1}}>
+                <Text>{item?.tanggal}</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                borderTopWidth: 2,
+                marginTop: hp('1%'),
+                borderColor: '#758097',
+                opacity: 0.5,
+              }}
+            />
+          </View>
+          <View style={{marginTop: hp('1%')}}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: wp('30%')}}>
+                <Text>Jadwal</Text>
+              </View>
+              <View>
+                <Text>:</Text>
+              </View>
+              <View style={{marginLeft: 10, flex: 1}}>
+                <Text>{item?.jadwal}</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                borderTopWidth: 2,
+                marginTop: hp('1%'),
+                borderColor: '#758097',
+                opacity: 0.5,
+              }}
+            />
+          </View>
+          <View style={{marginTop: hp('1%')}}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: wp('30%')}}>
+                <Text>Keluhan</Text>
+              </View>
+              <View>
+                <Text>:</Text>
+              </View>
+              <View style={{marginLeft: 10, flex: 1}}>
+                <Text>{item?.keluhan}</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                borderTopWidth: 2,
+                marginTop: hp('1%'),
+                borderColor: '#758097',
+                opacity: 0.5,
+              }}
+            />
+          </View>
+          <View style={{marginTop: hp('1%')}}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: wp('30%')}}>
+                <Text>Poli</Text>
+              </View>
+              <View>
+                <Text>:</Text>
+              </View>
+              <View style={{marginLeft: 10, flex: 1}}>
+                <Text>{item?.poli}</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                borderTopWidth: 2,
+                marginTop: hp('1%'),
+                borderColor: '#758097',
+                opacity: 0.5,
+              }}
+            />
+          </View>
+        </View>
+        {/* Card Pendaftaran */}
+        <View style={{marginTop: hp('5%'), marginBottom: hp('5%')}}>
+          <View style={styles.card}>
+            <View
+              style={{
+                backgroundColor: '#274799',
+                width: '100%',
+                borderRadius: 5,
+                paddingVertical: 5,
+                alignItems: 'center',
+              }}>
+              <Text style={{fontSize: 40, color: 'white'}}>
+                AT-{item?.no_antrian}
+              </Text>
+            </View>
+            <View>
+              <View style={{alignItems: 'center', marginTop: hp('1%')}}>
+                <Text style={{fontSize: 16}}>Nomor Antrean Kamu</Text>
+              </View>
+              <View style={{alignItems: 'center', marginTop: hp('1%')}}>
+                <Text style={{fontSize: 48}}>{item?.no_antrian}</Text>
+              </View>
+              <View style={{alignItems: 'center', marginTop: hp('1%')}}>
+                <Text style={{fontSize: 16}}>Antrian Saat Ini</Text>
+              </View>
+              <View style={{alignItems: 'center', marginTop: hp('1%')}}>
+                <Text style={{fontSize: 48}}>{item?.antrian_saat_ini}</Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#FF6677',
+                width: '100%',
+                borderRadius: 5,
+                paddingVertical: 15,
+                alignItems: 'center',
+                marginTop: hp('3%'),
+              }}>
+              <Text style={{fontSize: 16, color: 'white'}}>Batalkan</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
   };
 
   useEffect(() => {
@@ -95,198 +262,70 @@ function BerhasilDaftarLayanan({navigation}) {
             </Text>
           </View>
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            {/* Lokasi Puskesmas */}
-            <View>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  color: 'black',
-                  fontSize: 14,
-                  marginTop: hp('2%'),
-                }}>
-                Puskesmas Pamulang
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
-              <View>
-                <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
-              </View>
-              <View style={{marginLeft: 5}}>
-                <Text>
-                  Jl. Satria - Sudirman, RT.002/RW.001, Sukaasih, Kec.
-                  Tangerang, Kota Tangerang, Banten 15111
-                </Text>
-              </View>
-            </View>
-            <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
-              <View style={{rotation: 90}}>
-                <FontAwesomeIcon size={20} icon={faPhoneAlt} />
-              </View>
-              <View style={{marginLeft: 5}}>
-                <Text>021- 29662529</Text>
-              </View>
-            </View>
-            <View
+        <View style={styles.container}>
+          {/* Lokasi Puskesmas */}
+          <View>
+            <Text
               style={{
-                borderTopWidth: 2,
-                marginTop: hp('3%'),
-                borderColor: '#758097',
-                opacity: 0.5,
-              }}></View>
-            {/* Judul Inforasi Pasien */}
-            <View style={{marginTop: hp('3%')}}>
-              <Text
-                style={{fontSize: 16, fontWeight: 'bold', color: '#ACA3A3'}}>
-                Informasi Pendaftaran Layanan
-              </Text>
+                fontWeight: 'bold',
+                color: 'black',
+                fontSize: 14,
+                marginTop: hp('2%'),
+              }}>
+              {faskes?.nama}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: hp('2%')}}>
+            <View>
+              <FontAwesomeIcon size={20} icon={faMapMarkerAlt} />
             </View>
-            {/* List Informasi Pasien */}
-            <View style={{marginTop: hp('3%')}}>
-              <View>
-                <View style={{flexDirection: 'row'}}>
-                  <View style={{width: wp('30%')}}>
-                    <Text>Nama Pasien</Text>
-                  </View>
-                  <View>
-                    <Text>:</Text>
-                  </View>
-                  <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>Jhon Doe</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    borderTopWidth: 2,
-                    marginTop: hp('1%'),
-                    borderColor: '#758097',
-                    opacity: 0.5,
-                  }}></View>
-              </View>
-              <View style={{marginTop: hp('1%')}}>
-                <View style={{flexDirection: 'row'}}>
-                  <View style={{width: wp('30%')}}>
-                    <Text>Tanggal Daftar</Text>
-                  </View>
-                  <View>
-                    <Text>:</Text>
-                  </View>
-                  <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>Senin, 04/07/2022</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    borderTopWidth: 2,
-                    marginTop: hp('1%'),
-                    borderColor: '#758097',
-                    opacity: 0.5,
-                  }}></View>
-              </View>
-              <View style={{marginTop: hp('1%')}}>
-                <View style={{flexDirection: 'row'}}>
-                  <View style={{width: wp('30%')}}>
-                    <Text>Jadwal</Text>
-                  </View>
-                  <View>
-                    <Text>:</Text>
-                  </View>
-                  <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>07:30:00 - 20:00:00</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    borderTopWidth: 2,
-                    marginTop: hp('1%'),
-                    borderColor: '#758097',
-                    opacity: 0.5,
-                  }}></View>
-              </View>
-              <View style={{marginTop: hp('1%')}}>
-                <View style={{flexDirection: 'row'}}>
-                  <View style={{width: wp('30%')}}>
-                    <Text>Keluhan</Text>
-                  </View>
-                  <View>
-                    <Text>:</Text>
-                  </View>
-                  <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>Karang Gigi</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    borderTopWidth: 2,
-                    marginTop: hp('1%'),
-                    borderColor: '#758097',
-                    opacity: 0.5,
-                  }}></View>
-              </View>
-              <View style={{marginTop: hp('1%')}}>
-                <View style={{flexDirection: 'row'}}>
-                  <View style={{width: wp('30%')}}>
-                    <Text>Poli</Text>
-                  </View>
-                  <View>
-                    <Text>:</Text>
-                  </View>
-                  <View style={{marginLeft: 10, flex: 1}}>
-                    <Text>Gigi dan Mulut</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    borderTopWidth: 2,
-                    marginTop: hp('1%'),
-                    borderColor: '#758097',
-                    opacity: 0.5,
-                  }}></View>
-              </View>
-            </View>
-            {/* Card Pendaftaran */}
-            <View style={{marginTop: hp('5%'), marginBottom: hp('5%')}}>
-              <View style={styles.card}>
-                <View
-                  style={{
-                    backgroundColor: '#274799',
-                    width: '100%',
-                    borderRadius: 5,
-                    paddingVertical: 5,
-                    alignItems: 'center',
-                  }}>
-                  <Text style={{fontSize: 40, color: 'white'}}>AT-020</Text>
-                </View>
-                <View>
-                  <View style={{alignItems: 'center', marginTop: hp('1%')}}>
-                    <Text style={{fontSize: 16}}>Nomor Antrean Kamu</Text>
-                  </View>
-                  <View style={{alignItems: 'center', marginTop: hp('1%')}}>
-                    <Text style={{fontSize: 48}}>020</Text>
-                  </View>
-                  <View style={{alignItems: 'center', marginTop: hp('1%')}}>
-                    <Text style={{fontSize: 16}}>Antrian Saat Ini</Text>
-                  </View>
-                  <View style={{alignItems: 'center', marginTop: hp('1%')}}>
-                    <Text style={{fontSize: 48}}>010</Text>
-                  </View>
-                </View>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: '#FF6677',
-                    width: '100%',
-                    borderRadius: 5,
-                    paddingVertical: 15,
-                    alignItems: 'center',
-                    marginTop: hp('3%'),
-                  }}>
-                  <Text style={{fontSize: 16, color: 'white'}}>Batalkan</Text>
-                </TouchableOpacity>
-              </View>
+            <View style={{marginLeft: 5}}>
+              <Text>{faskes?.alamat}</Text>
             </View>
           </View>
-        </ScrollView>
+          <View style={{flexDirection: 'row', marginTop: hp('1%')}}>
+            <View style={{rotation: 90}}>
+              <FontAwesomeIcon size={20} icon={faPhoneAlt} />
+            </View>
+            <View style={{marginLeft: 5}}>
+              <Text>{faskes?.no_telp}</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              borderTopWidth: 2,
+              marginTop: hp('3%'),
+              borderColor: '#758097',
+              opacity: 0.5,
+            }}
+          />
+        </View>
+        {isLoading ? (
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+            }}>
+            <ActivityIndicator size={30} />
+          </View>
+        ) : dataBerhasil.length !== 0 ? (
+          <View style={{flex: 1}}>
+            <FlatList
+              data={dataBerhasil}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        ) : (
+          <>
+            <View style={{alignItems: 'center', marginTop: 30}}>
+              <Text>Data tidak ditemukan</Text>
+            </View>
+          </>
+        )}
       </View>
     </>
   );
