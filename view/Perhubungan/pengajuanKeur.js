@@ -79,7 +79,7 @@ function PengajuanKeur({navigation}) {
   const getLokasiKeur = async () => {
     const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     Axios({
-      url: url + `/public/lokasi_keur?m_daerah_id=1332&per_page=100`,
+      url: url + `/public/lokasi_keur?m_daerah_id=${idDaerah}&per_page=100`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -96,7 +96,7 @@ function PengajuanKeur({navigation}) {
   const getJenisKendaraan = async () => {
     const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     Axios({
-      url: url + `/public/jenis_kendaraan?m_daerah_id=1332&per_page=100`,
+      url: url + `/public/jenis_kendaraan?m_daerah_id=${idDaerah}&per_page=100`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
