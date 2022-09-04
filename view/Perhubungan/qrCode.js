@@ -18,8 +18,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import QRCode from 'react-native-qrcode-svg';
 
-function QrCode({navigation}) {
+function QrCode({navigation, route}) {
+  const {link} = route.params;
   const [filterTitikRawan, setFilterTitikRawan] = useState([]);
   const [filter, setFilter] = useState('');
   const [listTitikRawan, setListTitikRawan] = useState([]);
@@ -106,10 +108,7 @@ function QrCode({navigation}) {
               alignContent: 'center',
               alignItems: 'center',
             }}>
-            <Image
-              style={{width: 140, height: 125}}
-              source={require('../../assets/image/iconPerhubungan/qrCode.png')}
-            />
+            <QRCode value={link} />
             <View style={{marginTop: 10}}>
               <Text>Scan Qrcode Validasi KEUR</Text>
             </View>
