@@ -9,6 +9,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  Linking,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
@@ -34,6 +35,7 @@ import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
 function RiwayatPelayananKeur({navigation}) {
   const modalizeRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [dataDetail, setDataDetail] = useState([]);
 
   const pilihFoto = () => {
     modalizeRef.current?.open();
@@ -99,7 +101,7 @@ function RiwayatPelayananKeur({navigation}) {
     const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     setIsLoading(true);
     Axios({
-      url: url + `/keur/riwayat/0?m_daerah_id=${idDaerah}&per_page=100`,
+      url: url + `/keur/riwayat/8?m_daerah_id=${idDaerah}&per_page=100`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -107,10 +109,21 @@ function RiwayatPelayananKeur({navigation}) {
     })
       .then(response => {
         setIsLoading(false);
+        setDataDetail(response.data.data);
       })
       .catch(error => {
         console.log(error);
       });
+  };
+
+  const _renderDataStatusUji = () => {
+    if (dataDetail.status_uji === 0) {
+      return 'BELUM UJI';
+    } else if (dataDetail.status_uji === 1) {
+      return 'TIDAK LAYAK';
+    } else {
+      return 'LULUS UJI';
+    }
   };
 
   useEffect(() => {
@@ -187,7 +200,7 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>DEVICTOR KALE DARA</Text>
+                <Text>{dataDetail?.nama}</Text>
               </View>
             </View>
             <View
@@ -203,7 +216,7 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>JL. KEMANG RAYA NO.10 JAKSEL</Text>
+                <Text>{dataDetail?.alamat}</Text>
               </View>
             </View>
             <View
@@ -220,7 +233,7 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>B 1101 AC</Text>
+                <Text>{dataDetail?.no_kendaraan}</Text>
               </View>
             </View>
             <View
@@ -237,7 +250,7 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>Rp. 500.000,00</Text>
+                <Text>{dataDetail?.retribusi}</Text>
               </View>
             </View>
             <View
@@ -254,7 +267,7 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>0</Text>
+                <Text>{dataDetail?.biaya_denda}</Text>
               </View>
             </View>
             <View
@@ -271,41 +284,7 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>Rp. 20.000,00</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-
-                marginTop: hp('1%'),
-              }}>
-              <View style={{width: wp('30%')}}>
-                <Text>BIAYA DENDA</Text>
-              </View>
-              <View>
-                <Text>:</Text>
-              </View>
-              <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>0</Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-
-                marginTop: hp('1%'),
-              }}>
-              <View style={{width: wp('30%')}}>
-                <Text>TOTAL BIAYA</Text>
-              </View>
-              <View>
-                <Text>:</Text>
-              </View>
-              <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>Rp. 520.000,00</Text>
+                <Text>{dataDetail.admin_bank}</Text>
               </View>
             </View>
             <View
@@ -322,7 +301,7 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>PKB MENTENG</Text>
+                <Text>{dataDetail?.lokasi_uji}</Text>
               </View>
             </View>
             <View
@@ -336,10 +315,10 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>TANGGAL UJI</Text>
               </View>
               <View>
-                <Text>:</Text>
+                <Text>: {dataDetail?.tgl_uji}</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>14 DESEMBER 2022</Text>
+                <Text>{dataDetail?.tgl_dikerjakan}</Text>
               </View>
             </View>
             <View
@@ -356,7 +335,7 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>BELUM DI LAKUKAN</Text>
+                <Text>{_renderDataStatusUji()}</Text>
               </View>
             </View>
             <View
@@ -373,7 +352,11 @@ function RiwayatPelayananKeur({navigation}) {
                 <Text>:</Text>
               </View>
               <View style={{flex: 1, paddingLeft: 5}}>
-                <Text>BELUM LUNAS</Text>
+                <Text>
+                  {dataDetail?.status_pembayaran === 0
+                    ? 'BELUM LUNAS'
+                    : 'LUNAS'}{' '}
+                </Text>
               </View>
             </View>
 
@@ -384,17 +367,23 @@ function RiwayatPelayananKeur({navigation}) {
                 marginTop: hp('3%'),
                 justifyContent: 'center',
               }}>
-              <TouchableOpacity onPress={pilihFoto} style={styles.buttonUpload}>
-                <Text style={{fontSize: RFValue(10)}}>Unggah Bukti Bayar</Text>
+              <TouchableOpacity
+                style={styles.buttonUpload}
+                onPress={() => Linking.openURL(dataDetail?.foto_stnk)}>
+                <Text style={{fontSize: RFValue(10)}}>Foto STNK</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonInvoice}>
+              {/* <TouchableOpacity style={styles.buttonInvoice}>
                 <Text style={{fontSize: RFValue(10), color: 'black'}}>
                   Unduh Invoice
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 style={styles.buttonInvoice}
-                onPress={() => navigation.navigate('QrCodeKendaraan')}>
+                onPress={() =>
+                  navigation.navigate('QrCodeKendaraan', {
+                    link: dataDetail?.qrcode_text,
+                  })
+                }>
                 <Text style={{fontSize: RFValue(10), color: 'black'}}>
                   Lihat QR Code
                 </Text>
