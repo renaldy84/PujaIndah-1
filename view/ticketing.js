@@ -1,4 +1,5 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   View,
   Text,
@@ -14,7 +15,12 @@ import {
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowLeft, faSearch, faBars} from '@fortawesome/free-solid-svg-icons';
+import {
+  faComments,
+  faHouse,
+  faCamera,
+  faFolderOpen,
+} from '@fortawesome/free-solid-svg-icons';
 import {Modalize} from 'react-native-modalize';
 import MapView, {Marker} from 'react-native-maps';
 import {RadioButton} from 'react-native-paper';
@@ -27,10 +33,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
+import {faComment} from '@fortawesome/free-regular-svg-icons';
 
 function Ticketing({navigation}) {
   const [listTicket, setListTicket] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const modalizeRef = useRef(null);
   const getTicket = async () => {
     setIsLoading(true);
     Axios({
@@ -51,69 +60,275 @@ function Ticketing({navigation}) {
   };
 
   const renderItem = ({item}) => {
-    console.log(item.layanan.nama);
     return (
       <>
-        <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.container}
+          onPress={() => {
+            navigation.navigate('DetailTicketing', {detailTicketing: item});
+          }}>
           <View style={styles.content}>
             <View
               style={{
                 flex: 1,
                 justifyContent: 'center',
                 margin: 10,
-                // alignItems: 'center',
               }}>
-              <View style={{borderWidth: 1, flexDirection: 'row'}}>
-                <View style={{marginTop: 5}}>
-                  <Text style={{fontWeight: 'bold'}}>xxx</Text>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{flex: 1}}>
+                  <Text style={{fontWeight: 'bold', color: '#1C2D57'}}>
+                    {item.layanan.nama}
+                  </Text>
                 </View>
-              </View>
-              {/* <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>NIK :</Text> {item.nik}
-              </Text>
-              <Text style={{marginTop: 5}}>
-                <Text style={{fontWeight: 'bold'}}>NKK :</Text> {item.nkk}
-              </Text> */}
-              <View style={{marginTop: 20, alignItems: 'flex-end'}}>
                 <View
                   style={{
                     height: 30,
-                    width: 117,
-                    backgroundColor: '#F2C94C',
-                    borderRadius: 15,
+                    width: 78,
+                    backgroundColor:
+                      item.inquiry.status == 0
+                        ? '#D9D9D9'
+                        : item.inquiry.status == 1
+                        ? '#CDFFC0'
+                        : '#ffc0c0',
+                    borderRadius: 5,
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
                   <Text style={{fontWeight: 'bold', fontSize: 12}}>
-                    PENDING
+                    {item.inquiry.status == 0
+                      ? 'ongoing'
+                      : item.inquiry.status == 1
+                      ? 'selesai'
+                      : 'ditolak'}
                   </Text>
                 </View>
               </View>
-              {/* <View style={{marginTop: 10, marginBottom: 15}}>
-                <Text>
-                  Jl. Raya Bekasi No.KM.18, RT.6/RW.2, Pulo Gadung, East Jakarta
-                  City, Jakarta 13260
-                </Text>
-                <Text>
-                  <Text>Jam Mulai:</Text> 08:00 AM
-                </Text>
-                <Text>
-                  <Text>Jam Selesai:</Text> 17:00 PM
-                </Text>
-              </View> */}
+              <View style={{flexDirection: 'row'}}>
+                <View style={{flex: 1}}>
+                  <Text style={{fontSize: 12, color: '#1C2D57'}}>
+                    {item.inquiry.perihal}
+                  </Text>
+                </View>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <Text style={{fontSize: 12}}>{item.inquiry.tanggal}</Text>
+                </View>
+                <View style={{marginHorizontal: 10}}>
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    size={RFPercentage(5)}
+                    color="#274799"
+                  />
+                  <View
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                      backgroundColor: 'red',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      top: -5,
+                      right: -8,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: 10,
+                        textAlign: 'center',
+                      }}>
+                      {item.comments.length}
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </>
     );
+  };
+
+  const pilihLayanan = () => {
+    modalizeRef.current?.open();
   };
 
   useEffect(() => {
     getTicket();
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      getTicket();
+    }, []),
+  );
+
   return (
     <>
+      <Modalize
+        ref={modalizeRef}
+        // snapPoint={150}
+        modalHeight={hp('50%')}
+        HeaderComponent={
+          <View style={{alignItems: 'flex-start', margin: 10}}>
+            <Text style={{fontSize: 14}}>Pilih Layanan</Text>
+          </View>
+        }>
+        <ScrollView
+          style={{
+            width: wp('100%'),
+          }}>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#C9C8C8',
+              width: wp('100%'),
+              alignItems: 'flex-start',
+              paddingVertical: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('BuatPengaduan');
+              }}
+              style={{alignItems: 'center', marginLeft: 20}}>
+              <View>
+                <Text>Layanan Trantibumlinmas</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#C9C8C8',
+              width: wp('100%'),
+              alignItems: 'flex-start',
+              paddingVertical: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('PengajuanKeur');
+              }}
+              style={{alignItems: 'center', marginLeft: 20}}>
+              <View>
+                <Text>Layanan Perhubungan</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#C9C8C8',
+              width: wp('100%'),
+              alignItems: 'flex-start',
+              paddingVertical: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('AktaKelahiran');
+              }}
+              style={{alignItems: 'center', marginLeft: 20}}>
+              <View>
+                <Text>Layanan Kependudukan (Akta Kelahiran)</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#C9C8C8',
+              width: wp('100%'),
+              alignItems: 'flex-start',
+              paddingVertical: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('AktaKematian');
+              }}
+              style={{alignItems: 'center', marginLeft: 20}}>
+              <View>
+                <Text>Layanan Kependudukan (Akta Kematian)</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#C9C8C8',
+              width: wp('100%'),
+              alignItems: 'flex-start',
+              paddingVertical: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('KartuIdentitasAnak');
+              }}
+              style={{alignItems: 'center', marginLeft: 20}}>
+              <View>
+                <Text>Layanan Kependudukan (KIA)</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#C9C8C8',
+              width: wp('100%'),
+              alignItems: 'flex-start',
+              paddingVertical: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('KartuTandaPenduduk');
+              }}
+              style={{alignItems: 'center', marginLeft: 20}}>
+              <View>
+                <Text>Layanan Kependudukan (KTP)</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#C9C8C8',
+              width: wp('100%'),
+              alignItems: 'flex-start',
+              paddingVertical: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('FormBuatAspirasi');
+              }}
+              style={{alignItems: 'center', marginLeft: 20}}>
+              <View>
+                <Text>Layanan Aspirasi</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: '#C9C8C8',
+              width: wp('100%'),
+              alignItems: 'flex-start',
+              paddingVertical: 10,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('BuatPengaduanPekerjaanUmum');
+              }}
+              style={{alignItems: 'center', marginLeft: 20}}>
+              <View>
+                <Text>Layanan Pekerjaan Umum</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </Modalize>
       <View
         style={{
           flex: 1,
@@ -179,9 +394,7 @@ function Ticketing({navigation}) {
         )}
 
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('FormKIA');
-          }}
+          onPress={pilihLayanan}
           style={{
             width: 60,
             height: 60,

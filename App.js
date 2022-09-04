@@ -109,6 +109,7 @@ import DetailPejabatEksekutif from './view/Aspirasi/detailPejabatEksekutif';
 import DetailAnggotaDprd from './view/Aspirasi/detailAnggotaDprd';
 import TambahKegiatanBlk from './view/Ketenagakerjaan/tambahKegiatan';
 import inputOtp from './view/otp';
+import DetailTicketing from './view/detailTicketing';
 
 const CancelToken = Axios.CancelToken;
 const Stack = createStackNavigator();
@@ -750,6 +751,13 @@ function SettingNav() {
           }}
           name="TambahKegiatanBlk"
           component={TambahKegiatanBlk}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="DetailTicketing"
+          component={DetailTicketing}
         />
       </Stack.Navigator>
     </>
