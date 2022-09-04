@@ -33,6 +33,7 @@ import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
 
 function RiwayatPelayananKeur({navigation}) {
   const modalizeRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const pilihFoto = () => {
     modalizeRef.current?.open();
@@ -94,6 +95,27 @@ function RiwayatPelayananKeur({navigation}) {
     );
   };
 
+  const getData = async () => {
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
+    setIsLoading(true);
+    Axios({
+      url: url + `/keur/riwayat/0?m_daerah_id=${idDaerah}&per_page=100`,
+      method: 'get',
+      headers: {
+        Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
+      },
+    })
+      .then(response => {
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <View
@@ -172,7 +194,6 @@ function RiwayatPelayananKeur({navigation}) {
               style={{
                 flex: 1,
                 flexDirection: 'row',
-
                 marginTop: hp('1%'),
               }}>
               <View style={{width: wp('30%')}}>

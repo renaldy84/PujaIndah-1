@@ -34,9 +34,10 @@ function DaftarKendaraan({navigation}) {
   const [isLoading, setIsLoading] = useState(false);
 
   const getDaftarKendaraan = async () => {
+    const idDaerah = await AsyncStorage.getItem('m_daerah_id');
     setIsLoading(true);
     Axios({
-      url: url + '/api/perhubungan/lokasi-keur/getall?order=nama_tempat+asc',
+      url: url + `/keur/daftar-kendaraan?m_daerah_id=${idDaerah}&per_page=100`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -55,30 +56,81 @@ function DaftarKendaraan({navigation}) {
     return (
       <>
         <View style={styles.container}>
-          <View style={styles.content}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                margin: 10,
-                // alignItems: 'center',
-              }}>
-              <View>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: 'black',
-                    fontSize: 16,
-                    marginTop: 15,
-                  }}>
-                  {item.nama_tempat}
-                </Text>
-              </View>
-              <View style={{marginTop: 10, marginBottom: 15}}>
-                <Text>{item.lokasi}</Text>
+          <ScrollView horizontal={true}>
+            <View style={styles.content}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  margin: 10,
+                  // alignItems: 'center',
+                }}>
+                <View>
+                  <View>
+                    <Text>Nomor Kendaraan</Text>
+                  </View>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      fontSize: 16,
+                      marginTop: 5,
+                      marginBottom: 10,
+                    }}>
+                    {item?.no_kendaraan}
+                  </Text>
+                </View>
+                {/*  */}
+                <View>
+                  <View>
+                    <Text>Jenis Kendaraan</Text>
+                  </View>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      fontSize: 16,
+                      marginTop: 5,
+                      marginBottom: 10,
+                    }}>
+                    {item?.jenis?.nama}
+                  </Text>
+                </View>
+                {/*  */}
+                <View>
+                  <View>
+                    <Text>Tanggal Uji KEUR</Text>
+                  </View>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      fontSize: 16,
+                      marginTop: 5,
+                      marginBottom: 10,
+                    }}>
+                    {item?.tgl_uji}
+                  </Text>
+                </View>
+                {/*  */}
+                <View>
+                  <View>
+                    <Text>Tanggal Perpanjang KEUR</Text>
+                  </View>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      fontSize: 16,
+                      marginTop: 5,
+                      marginBottom: 10,
+                    }}>
+                    {item?.masa_berlaku_awal}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
+          </ScrollView>
         </View>
       </>
     );
@@ -130,7 +182,7 @@ function DaftarKendaraan({navigation}) {
             <TextInput
               style={[styles.textInput, {flex: 5, fontSize: 12, height: 40}]}
               onChangeText={val => setFilter(val)}
-              placeholder="Ketik daerah yang ingin dicari"
+              placeholder="Ketik kendaraan yang ingin dicari"
             />
             <TouchableOpacity
               onPress={() => {}}
@@ -191,7 +243,6 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
   },
   arrow: {
-    // borderWidth: 1,
     // marginTop: 30,
     marginLeft: 30,
   },
@@ -205,7 +256,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   container: {
-    // marginTop: 5,
+    marginTop: 5,
     marginBottom: hp('3%'),
     marginLeft: 10,
     width: wp('85%'),
