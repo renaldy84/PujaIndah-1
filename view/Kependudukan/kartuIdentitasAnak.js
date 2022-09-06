@@ -27,6 +27,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useFocusEffect} from '@react-navigation/native';
 
 function KartuIdentitasAnak({navigation}) {
   const [listKIA, setListKIA] = useState([]);
@@ -111,7 +112,11 @@ function KartuIdentitasAnak({navigation}) {
   useEffect(() => {
     getListKIA();
   }, []);
-
+  useFocusEffect(
+    React.useCallback(() => {
+      getListKIA();
+    }, []),
+  );
   return (
     <>
       <View

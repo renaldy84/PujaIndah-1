@@ -49,25 +49,26 @@ function DetailPariwisata({navigation, route}) {
   const getDetail = async () => {
     console.log(pariwisataId, 'pariwisataID');
     Axios({
-      url: url + `/api/pariwisata/pariwisata/getid/${pariwisataId}`,
+      // url: url + `/api/pariwisata/pariwisata/getid/${pariwisataId}`,
+      url: url + `/pariwisata/${pariwisataId}`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        console.log(response.data, 'detailpariwisata');
+        console.log(response.data.data, 'detailpariwisata');
         if (response.data.status === 1) {
           setDetail(response.data.data);
 
-          if (response.data.data.foto[0].image !== '') {
-            setFoto(response.data.data.foto[0].image);
-          }
-          if (response.data.data.video.url === null) {
-            setUrlVideo('');
-          } else {
-            setUrlVideo(response.data.data.video.url);
-          }
+          // if (response.data.data.foto[0].image !== '') {
+          //   setFoto(response.data.data.foto[0].image);
+          // }
+          // if (response.data.data.video.url === null) {
+          //   setUrlVideo('');
+          // } else {
+          //   setUrlVideo(response.data.data.video.url);
+          // }
           setRating(response.data.data.rating);
           setUlasan(response.data.data.ulasan);
         } else {

@@ -108,7 +108,7 @@ const ListPariwisata = ({navigation}) => {
             </Text>
           </View>
           <View>
-            <Text style={{fontSize: 12}}>Daerah {item.wilayah[0].nama}</Text>
+            {/* <Text style={{fontSize: 12}}>Daerah {item.wilayah[0].nama}</Text> */}
           </View>
         </View>
       </TouchableOpacity>
@@ -126,9 +126,7 @@ const ListPariwisata = ({navigation}) => {
   useEffect(() => {
     if (data.length !== 0) {
       setFilterePariwisata(
-        data.filter(x =>
-          x.wilayah[0].nama.toLowerCase().includes(filter.toLowerCase()),
-        ),
+        data.filter(x => x.name.toLowerCase().includes(filter.toLowerCase())),
       );
     }
   }, [filter]);

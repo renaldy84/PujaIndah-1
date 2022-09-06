@@ -3,6 +3,7 @@ import {Text, View, useWindowDimensions} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {ScrollView} from 'react-native-gesture-handler';
 import RenderHtml from 'react-native-render-html';
+import {WebView} from 'react-native-webview';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,6 +20,30 @@ function TopTab({item}) {
               html: `${item.narasi}`,
             }}
           />
+        </View>
+      </ScrollView>
+    );
+  }
+
+  function BeaMasuk() {
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        <View style={{margin: 20}}>
+          <Text>Rp.{item.bea_masuk}</Text>
+        </View>
+      </ScrollView>
+    );
+  }
+
+  function KulturLokal() {
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        <View style={{margin: 20}}>
+          <Text>{item.kultur_lokal}</Text>
         </View>
       </ScrollView>
     );
@@ -281,6 +306,41 @@ function TopTab({item}) {
       </ScrollView>
     );
   }
+
+  function Map() {
+    return (
+      // <ScrollView
+      //   showsVerticalScrollIndicator={false}
+      //   contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+      <View>
+        {/* <WebView
+          source={{
+            html: '<iframe width="100%" height="50%" src="https://www.youtube.com/embed/cqyziA30whE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>',
+          }}
+          style={{marginTop: 20}}
+        /> */}
+      </View>
+      // </ScrollView>
+    );
+  }
+
+  function Wisatawan() {
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1, backgroundColor: 'white'}}>
+        <View style={{margin: 20}}>
+          <Text>
+            Year : {item.wisatawan.length == 0 ? '-' : item.wisatawan[0].year}
+          </Text>
+          <Text>
+            Total Pengunjung :
+            {item.wisatawan.length == 0 ? '-' : item.wisatawan[0].value}
+          </Text>
+        </View>
+      </ScrollView>
+    );
+  }
   return (
     <View
       horizontal={true}
@@ -295,10 +355,14 @@ function TopTab({item}) {
           tabBarScrollEnabled: true,
         }}>
         <Tab.Screen name="Deskripsi" component={Deskripsi} />
+        <Tab.Screen name="Bea Masuk" component={BeaMasuk} />
+        <Tab.Screen name="Kultur Lokal" component={KulturLokal} />
         <Tab.Screen name="Transportasi" component={Transportasi} />
         <Tab.Screen name="Kuliner" component={Kuliner} />
         <Tab.Screen name="Penginapan" component={Penginapan} />
         <Tab.Screen name="Travel Agen" component={TravelAgen} />
+        {/* <Tab.Screen name="Wisatawan" component={Wisatawan} /> */}
+        {/* <Tab.Screen name="Peta" component={Map} /> */}
       </Tab.Navigator>
     </View>
   );
