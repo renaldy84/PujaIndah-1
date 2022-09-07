@@ -47,9 +47,9 @@ function GawatDarurat({navigation}) {
     Axios({
       url:
         url +
-        `/public/pus_puskesmas?search=${
+        `/public/pus_puskesmas?m_daerah_id=${
           !value ? idDaerah : value
-        }&igd_id=1&page=0&per_page=20`,
+        }&igd=1&page=0&per_page=20`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
