@@ -68,7 +68,7 @@ function DaftarPerizinan({navigation}) {
 
   const items = getDataJson.map(item => {
     const data = {};
-    data.id = item.m_daerah_id;
+    data.id = item.id;
     data.name = item.nama;
     return data;
   });

@@ -66,7 +66,7 @@ function FasilitasKesehatan({navigation}) {
   };
   const items = getDataJson.map(item => {
     const data = {};
-    data.id = item.m_daerah_id;
+    data.id = item.id;
     data.name = item.nama;
     return data;
   });
@@ -180,6 +180,7 @@ function FasilitasKesehatan({navigation}) {
           <SearchableDropdown
             onItemSelect={item => {
               getData(item.id);
+              console.log(item.id);
             }}
             containerStyle={{padding: 5}}
             itemStyle={{
