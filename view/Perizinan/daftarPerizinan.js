@@ -49,7 +49,7 @@ function DaftarPerizinan({navigation}) {
     Axios({
       url:
         url +
-        `/public/perizinan_layanan?search=${
+        `/public/perizinan_layanan?m_daerah_id=${
           !value ? idDaerah : value
         }&page=0&per_page=20`,
       method: 'get',
