@@ -43,18 +43,19 @@ function Ticketing({navigation}) {
   const getTicket = async () => {
     setIsLoading(true);
     Axios({
-      url: url + `/tickets`,
+      url: url + `/v1/my_tickets`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
     })
       .then(response => {
-        console.log('Kartu Identitas Anak : ', response.data);
+        // console.log('Ticket : ', response.data.data);
         setListTicket(response.data.data);
         setIsLoading(false);
       })
       .catch(error => {
+        setIsLoading(false);
         console.log(error);
       });
   };
@@ -65,7 +66,10 @@ function Ticketing({navigation}) {
         <TouchableOpacity
           style={styles.container}
           onPress={() => {
-            navigation.navigate('DetailTicketing', {detailTicketing: item});
+            // console.log(item);
+            navigation.navigate('DetailTicketing', {
+              detailTicketing: item,
+            });
           }}>
           <View style={styles.content}>
             <View
@@ -77,7 +81,7 @@ function Ticketing({navigation}) {
               <View style={{flexDirection: 'row'}}>
                 <View style={{flex: 1}}>
                   <Text style={{fontWeight: 'bold', color: '#1C2D57'}}>
-                    {item.layanan.nama}
+                    {item.layanan.name}
                   </Text>
                 </View>
                 <View
@@ -85,9 +89,9 @@ function Ticketing({navigation}) {
                     height: 30,
                     width: 78,
                     backgroundColor:
-                      item.inquiry.status == 0
+                      item.inquiry.ticket_status == 0
                         ? '#D9D9D9'
-                        : item.inquiry.status == 1
+                        : item.inquiry.ticket_status == 1
                         ? '#CDFFC0'
                         : '#ffc0c0',
                     borderRadius: 5,
@@ -95,11 +99,11 @@ function Ticketing({navigation}) {
                     justifyContent: 'center',
                   }}>
                   <Text style={{fontWeight: 'bold', fontSize: 12}}>
-                    {item.inquiry.status == 0
-                      ? 'ongoing'
-                      : item.inquiry.status == 1
-                      ? 'selesai'
-                      : 'ditolak'}
+                    {item.inquiry.ticket_status == 0
+                      ? 'baru'
+                      : item.inquiry.ticket_status == 1
+                      ? 'diproses'
+                      : 'selesai'}
                   </Text>
                 </View>
               </View>
@@ -138,7 +142,7 @@ function Ticketing({navigation}) {
                         fontSize: 10,
                         textAlign: 'center',
                       }}>
-                      {item.comments.length}
+                      {item.inquiry.documents.length}
                     </Text>
                   </View>
                 </View>

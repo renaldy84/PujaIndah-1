@@ -50,7 +50,7 @@ function DetailTicketing({navigation, route}) {
 
   const getKomentar = async () => {
     Axios({
-      url: url + `/tickets/${detailTicketing.id}/comments`,
+      url: url + `/v1/tickets/${detailTicketing.inquiry.id}/comments`,
       method: 'get',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
@@ -137,7 +137,7 @@ function DetailTicketing({navigation, route}) {
     })
       .then(async res => {
         let data = await res.json();
-        console.log(data);
+        console.log(data, '>>>>>>>>>>>>>>>>>>>');
         setLinkFotoKejadian(data.data.path);
       })
       .catch(err => {
@@ -150,14 +150,15 @@ function DetailTicketing({navigation, route}) {
   };
 
   const kirim = async () => {
+    console.log(detailTicketing.layanan.id);
     Axios({
-      url: url + `/tickets/${detailTicketing.id}/comments`,
+      url: url + `/v1/tickets/${detailTicketing.inquiry.id}/comments`,
       method: 'post',
       headers: {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
       data: {
-        text: komentar,
+        txt: komentar,
         file_url: linkFotoKejadian,
       },
     })
@@ -166,6 +167,7 @@ function DetailTicketing({navigation, route}) {
         setModalVisibleSukses(true);
       })
       .catch(error => {
+        console.log(error);
         setModalVisible(true);
       });
 
@@ -177,7 +179,6 @@ function DetailTicketing({navigation, route}) {
     // getDetail();
   }, []);
 
-  console.log('detail', detailTicketing);
   return (
     <>
       <Modal
@@ -403,20 +404,23 @@ function DetailTicketing({navigation, route}) {
         </View>
 
         <ScrollView
+          onMomentumScrollEnd={() => {
+            console.log('tes scroll');
+          }}
           style={styles.container}
           showsVerticalScrollIndicator={false}>
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1, justifyContent: 'center'}}>
-              <Text style={styles.judul}>{detailTicketing.layanan.nama}</Text>
+              <Text style={styles.judul}>{detailTicketing.layanan.name}</Text>
             </View>
             <View
               style={{
                 height: 30,
                 width: 78,
                 backgroundColor:
-                  detailTicketing.inquiry.status == 0
+                  detailTicketing.inquiry.ticket_status == 0
                     ? '#D9D9D9'
-                    : detailTicketing.inquiry.status == 1
+                    : detailTicketing.inquiry.ticket_status == 1
                     ? '#CDFFC0'
                     : '#ffc0c0',
                 borderRadius: 5,
@@ -424,11 +428,11 @@ function DetailTicketing({navigation, route}) {
                 justifyContent: 'center',
               }}>
               <Text style={{fontWeight: 'bold', fontSize: 12}}>
-                {detailTicketing.inquiry.status == 0
-                  ? 'ongoing'
-                  : item.inquiry.status == 1
-                  ? 'selesai'
-                  : 'ditolak'}
+                {detailTicketing.inquiry.ticket_status == 0
+                  ? 'baru'
+                  : detailTicketing.inquiry.ticket_status == 1
+                  ? 'diproses'
+                  : 'selesai'}
               </Text>
             </View>
           </View>

@@ -78,6 +78,7 @@ function PengajuanKeur({navigation}) {
 
   const getLokasiKeur = async () => {
     const idDaerah = await AsyncStorage.getItem('m_daerah_id');
+    console.log(idDaerah, 'idDaerah');
     Axios({
       url: url + `/public/lokasi_keur?m_daerah_id=${idDaerah}&per_page=100`,
       method: 'get',

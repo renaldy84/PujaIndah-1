@@ -230,6 +230,8 @@ function BuatPengaduan({navigation}) {
             name: response.fileName,
             type: response.type,
           });
+          console.log(formData._parts[0], '<><><><><><><><><><');
+          // console.log(response.uri, '<><><><><><><><><><');
           // setDataFotoKTP(formData);
           kirimFotoKTP(formData);
         }
@@ -278,7 +280,7 @@ function BuatPengaduan({navigation}) {
     })
       .then(async res => {
         let data = await res.json();
-        console.log(data);
+        console.log(data, '???????????????????');
         setLinkFotoKTP(data.data.path);
       })
       .catch(err => {

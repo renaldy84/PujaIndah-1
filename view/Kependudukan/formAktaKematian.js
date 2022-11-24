@@ -83,6 +83,17 @@ function FormAktaKematian({navigation}) {
   };
   const kirim = async () => {
     // console.log(`http://maps.google.com/maps?q=${latMarker},${longMarker}`);
+    console.log(
+      nama,
+      nik,
+      nkk,
+      linkFotoKejadian,
+      linkFotoRS,
+      linkFotoKTP,
+      linkFotoKK,
+      linkFotoLain,
+      catatan,
+    );
     setModalLoading(true);
     Axios({
       url: url + '/api/kependudukan/kematian/create',
@@ -91,8 +102,8 @@ function FormAktaKematian({navigation}) {
         Authorization: 'Bearer ' + (await AsyncStorage.getItem('token')),
       },
       data: {
-        nama: profil.name,
-        nik: profil.nik,
+        nama: nama,
+        nik: nik,
         nkk: nkk,
         amd_kategori_id: 1,
         provinsi_id: 1,
@@ -115,10 +126,9 @@ function FormAktaKematian({navigation}) {
       .catch(error => {
         console.log(error.response);
         setModalLoading(false);
-        // setMessage(error.response.data.message);
+
         setModalVisible(true);
       });
-    // : navigation.navigate('MenuTrantibum');
   };
 
   const pilihFoto = () => {
@@ -679,15 +689,16 @@ function FormAktaKematian({navigation}) {
           </View>
         </View>
 
-        <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1}}
+          showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View>
               <Text style={styles.text}>Nama</Text>
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={false}
-                value={profil.name}
+                value={nama}
                 style={styles.textInput}
                 onChangeText={val => setNama(val)}
                 placeholder="Nama"></TextInput>
@@ -698,8 +709,7 @@ function FormAktaKematian({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={false}
-                value={profil.nik}
+                value={nik}
                 style={styles.textInput}
                 onChangeText={val => setNik(val)}
                 placeholder="NIK"></TextInput>

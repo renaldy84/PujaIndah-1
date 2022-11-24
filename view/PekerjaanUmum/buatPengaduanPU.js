@@ -483,14 +483,10 @@ function BuatPengaduanPekerjaanUmum({navigation}) {
             </View>
             <View style={styles.boxInput}>
               <TextInput
-                editable={
-                  responLogin.detailProfile.phone === null ? true : false
-                }
-                value={
-                  responLogin.detailProfile.phone === null
-                    ? ''
-                    : responLogin.detailProfile.phone
-                }
+                // editable={
+                //   responLogin.detailProfile.phone === null ? true : false
+                // }
+                value={responLogin.detailProfile.phone}
                 style={styles.textInput}
                 onChangeText={val => setTelp(val)}
                 placeholder="No Telp/HP"></TextInput>
