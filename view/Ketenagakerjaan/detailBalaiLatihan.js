@@ -54,10 +54,10 @@ function DetailBalaiLatihan({navigation, route}) {
       },
     })
       .then(response => {
-        console.log(response.data.data);
+        console.log(response.data.data, '>>>>>>>>><<<<<<<<<');
         setIsLoading(false);
-        setListTitikRawan(response.data.data[0]);
-        setFilterTitikRawan(response.data.data[0]);
+        setListTitikRawan(response.data.data);
+        setFilterTitikRawan(response.data.data);
       })
       .catch(error => {
         console.log(error);
@@ -97,7 +97,7 @@ function DetailBalaiLatihan({navigation, route}) {
           </View>
           <View style={styles.boxJudul}>
             <Text style={[styles.textJudul, {color: 'white'}]}>
-              {listTitikRawan.nama_tempat}
+              {/* {listTitikRawan.nama_tempat} */}
             </Text>
           </View>
         </View>

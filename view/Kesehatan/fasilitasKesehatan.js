@@ -57,6 +57,7 @@ function FasilitasKesehatan({navigation}) {
       },
     })
       .then(response => {
+        console.log(response?.data?.data, '???????????');
         setFasilitasKesehatan(response?.data?.data);
         setIsLoading(false);
       })
