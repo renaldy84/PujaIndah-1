@@ -158,11 +158,10 @@ const ListPariwisata = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Pekerjaan Umum adalah layanan masyarakat Reference site
-              about Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator. giving information on its origins, as
-              well as a random Lipsum generator. giving information on its
-              origins, as well as a random Lipsum generator.
+              Aplikasi ini bermanfaat untuk memberikan informasi layanan
+              pariwisata dalam upaya mempublikasikan destinasi wisata daerah
+              untuk meningkatkan pendapatan dan kesejahteraan masyarakat dan
+              pendapatan pemerintah daerah.
             </Text>
           </View>
           <View style={styles.footer}>

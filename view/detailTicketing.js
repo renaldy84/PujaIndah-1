@@ -488,6 +488,7 @@ function DetailTicketing({navigation, route}) {
               );
             })}
           </View>
+
           <View style={{marginTop: hp('5%')}}>
             <View style={{flexDirection: 'row'}}>
               <View>
@@ -509,6 +510,68 @@ function DetailTicketing({navigation, route}) {
                 </Text>
               </View>
             </View>
+          </View>
+          <View>
+            {dataKomentar.length == 0
+              ? null
+              : dataKomentar.map((val, index) => {
+                  return (
+                    <View
+                      style={{
+                        marginTop: hp('1%'),
+                        borderBottomWidth: 1,
+                        paddingBottom: 5,
+                        borderBottomColor: '#b5b3b3',
+                      }}
+                      key={index}>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <View style={{flex: 1}}>
+                          <Text style={{fontWeight: 'bold'}}>{val.from}</Text>
+                        </View>
+                        <View style={{marginLeft: 5}}>
+                          <Text style={{color: '#7D7D7D'}}>
+                            {`${new Date(val.created_at).getDate()}/${
+                              new Date(val.created_at).getMonth() + 1
+                            }/${new Date(
+                              val.created_at,
+                            ).getFullYear()} ${new Date(
+                              val.created_at,
+                            ).getHours()}:${new Date(
+                              val.created_at,
+                            ).getMinutes()}`}
+                          </Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{marginTop: hp('1%'), justifyContent: 'center'}}>
+                        <Text>{val.text}</Text>
+                      </View>
+                      {val.file_url == '' ? null : (
+                        <TouchableOpacity
+                          onPress={async () => {
+                            await Linking.openURL(val.file_url);
+                          }}
+                          style={{
+                            flexDirection: 'row',
+                            marginTop: hp('1%'),
+                            alignItems: 'center',
+                          }}>
+                          <View>
+                            <FontAwesomeIcon
+                              icon={faFilePdf}
+                              size={RFPercentage(4)}
+                              color="#274799"
+                            />
+                          </View>
+                          <View style={{marginLeft: 5}}>
+                            <Text style={{color: '#274799'}}>file.pdf</Text>
+                          </View>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  );
+                })}
           </View>
           <View style={{marginTop: hp('2%')}}>
             <View>
@@ -563,58 +626,6 @@ function DetailTicketing({navigation, route}) {
                 />
               </TouchableOpacity>
             </View>
-          </View>
-          <View style={{marginTop: hp('3%')}}>
-            {dataKomentar.length == 0
-              ? null
-              : dataKomentar.map((val, index) => {
-                  return (
-                    <View
-                      style={{
-                        marginTop: hp('2%'),
-                        borderBottomWidth: 1,
-                        paddingBottom: 5,
-                        borderBottomColor: '#b5b3b3',
-                      }}
-                      key={index}>
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <View style={{flex: 1}}>
-                          <Text style={{fontWeight: 'bold'}}>{val.from}</Text>
-                        </View>
-                        <View style={{marginLeft: 5}}>
-                          <Text style={{color: '#7D7D7D'}}>{val.tanggal}</Text>
-                        </View>
-                      </View>
-                      <View
-                        style={{marginTop: hp('1%'), justifyContent: 'center'}}>
-                        <Text>{val.text}</Text>
-                      </View>
-                      {val.file_url == '' ? null : (
-                        <TouchableOpacity
-                          onPress={async () => {
-                            await Linking.openURL(val.file_url);
-                          }}
-                          style={{
-                            flexDirection: 'row',
-                            marginTop: hp('1%'),
-                            alignItems: 'center',
-                          }}>
-                          <View>
-                            <FontAwesomeIcon
-                              icon={faFilePdf}
-                              size={RFPercentage(4)}
-                              color="#274799"
-                            />
-                          </View>
-                          <View style={{marginLeft: 5}}>
-                            <Text style={{color: '#274799'}}>file.pdf</Text>
-                          </View>
-                        </TouchableOpacity>
-                      )}
-                    </View>
-                  );
-                })}
           </View>
         </ScrollView>
       </View>

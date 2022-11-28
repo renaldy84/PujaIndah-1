@@ -131,9 +131,10 @@ const DashboardKomoditas = ({navigation}) => {
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1}}>
                 <Text style={{color: 'white', textAlign: 'left'}}>
-                  Layanan Komoditas adalah layanan masyarakat Reference site
-                  about Lorem Ipsum, giving information on its origins, as well
-                  as a random Lipsum generator.
+                  Aplikasi layanan komuditas telah running yang bermanfaat bagi
+                  pemerintah daerah, pelaku usaha, distributor dan masyarakat
+                  perorangan dalam memberikan data tentang harga dan distribusi
+                  serta jumlah hasil produksi kebutuhan 9 bahan pokok.
                 </Text>
               </View>
               <View style={{flex: 1}}>

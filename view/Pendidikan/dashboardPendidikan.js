@@ -56,12 +56,14 @@ const DashboardPendidikan = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Pendidikan adalah layanan masyarakat Reference site about
-              Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator.
+              Aplikasi bermanfaat dalam memberikan layanan informasi di bidang
+              Pendidikan. Aplikasi ini merupakan sarana komunikasi antara
+              sekolah, guru, wali murid dan peserta didik.
             </Text>
           </View>
-          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.footer}
+            showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

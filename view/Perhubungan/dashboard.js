@@ -56,11 +56,10 @@ const DashboardPerhubungan = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Perhubungan adalah layanan masyarakat Reference site about
-              Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator. giving information on its origins, as
-              well as a random Lipsum generator. giving information on its
-              origins, as well as a random Lipsum generator.
+              Aplikasi layanan perhubungan bermanfaat untuk membantu percepatan
+              penerimaan keuangan daerah yang bersumber dari keur kendaraan,
+              tujuan utama aplikasi ini adalah untuk menjamin keselamatan
+              pengguna dan pemakai jalan.
             </Text>
           </View>
           <ScrollView

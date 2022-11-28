@@ -58,9 +58,10 @@ const DashboardKesehatan = ({navigation}) => {
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1}}>
                 <Text style={{color: 'white', textAlign: 'left'}}>
-                  Layanan Kesehatan adalah layanan masyarakat Reference site
-                  about Lorem Ipsum, giving information on its origins, as well
-                  as a random Lipsum generator.
+                  Aplikasi ini berfungsi untuk memudahkan pelayanan jasa kepada
+                  masyarakat di bidang kesehatan yang diberikan oleh rumah
+                  sakit, puskesmas, dokter/bidan/ perawat praktek mandiri secara
+                  tepat, cepat dan akurat.
                 </Text>
               </View>
               <View style={{flex: 1}}>
@@ -71,7 +72,9 @@ const DashboardKesehatan = ({navigation}) => {
               </View>
             </View>
           </View>
-          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.footer}
+            showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

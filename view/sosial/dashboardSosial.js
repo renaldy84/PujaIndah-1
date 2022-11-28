@@ -57,15 +57,18 @@ const DashboardSosial = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Sosial adalah layanan masyarakat Reference site about
-              Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator. giving information on its origins, as
-              well as a random Lipsum generator. giving information on its
-              origins, as well as a random Lipsum generator.
+              Aplikasi ini bermanfaat untuk memberikan pelayanan sosial kepada
+              Penyandang Masalah Kesejahteraan Sosial (PMKS) antara lain anak
+              terlantar, yatim piatu, orang yang mengalami gangguan kejiwaan,
+              anak kekurangan pangan busung lapar/KEP, pengemis dan tuna wisma,
+              keluarga miskin dsb sesuai kriteria PMKS yang membutuhkan
+              fasilitasi dan layanan pemerintahan.
             </Text>
           </View>
 
-          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.footer}
+            showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

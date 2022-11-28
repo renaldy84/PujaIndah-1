@@ -56,12 +56,16 @@ const DashboardKetenagakerjaan = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Ketenagakerjaan adalah layanan masyarakat Reference site
-              about Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator.
+              Aplikasi ini berfungsi sebagai media mempublikasikan informasi
+              lowongan pekerjaan, informasi spesifikasi kebutuhan tenaga kerja,
+              informasi balai latihan kerja dan Lembaga kursus lokal yang dapat
+              dimanfaatkan oleh para pencari kerja dan pihak yang membutuhkan
+              tenaga kerja secara online.
             </Text>
           </View>
-          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.footer}
+            showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

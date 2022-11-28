@@ -56,12 +56,16 @@ const DashboardPerizinan = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Perizianan adalah layanan masyarakat Reference site about
-              Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator.
+              Aplikasi ini berfungsi memberikan informasi kepada masyarakat
+              terkait perizinan dari setiap PTSP dengan daftar perizinan yang
+              ada di daerah tersebut. Aplikasi ini juga memberikan informasi
+              terkait dengan potensi-potensi yang ada di daerah tersebut baik
+              itu sector pariwisata, industry dan sumber daya alam.
             </Text>
           </View>
-          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.footer}
+            showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

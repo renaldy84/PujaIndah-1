@@ -57,13 +57,17 @@ const DashboardKependudukan = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Kependudukan adalah layanan masyarakat Reference site
-              about Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator.
+              Layanan ini dapat memaksimalkan dan mempercepat pelayanan
+              kependudukan terkait dengan percepatan proses layanan kartu
+              keluarga, akta kelahiran dan akta kematian karena terintegrasi
+              dengan layanan kesehatan, dan mampu memberikan data-data potensi
+              KTP/ KIA karena terintegrasi dengan aplikasi layanan pendidikan.
             </Text>
           </View>
 
-          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.footer}
+            showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

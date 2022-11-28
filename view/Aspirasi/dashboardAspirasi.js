@@ -57,15 +57,18 @@ const DashboardAspirasi = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Aspirasi adalah layanan masyarakat Reference site about
-              Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator. giving information on its origins, as
-              well as a random Lipsum generator. giving information on its
-              origins, as well as a random Lipsum generator.
+              Aplikasi layanan aspirasi telah running guna memudahkan masyarakat
+              mendapatkan informasi terkait kegiatan kedewanan dan kegiatan
+              pemerintah daerah. Aplikasi ini merupakan wadah dalam menyampaikan
+              aspirasi kepada Lembaga legislatif, sehingga dengan secara mudah
+              dan efektif bagi masyarakat dalam menyampaikan aspirasi kepada
+              DPRD untuk ditindaklanjuti secara cepat, tepat dan akurat.
             </Text>
           </View>
 
-          <ScrollView style={styles.footer} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.footer}
+            showsVerticalScrollIndicator={false}>
             <View style={{margin: 20}}>
               <TouchableOpacity
                 onPress={() => {

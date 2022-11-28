@@ -56,11 +56,10 @@ const MenuTrantibum = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Trantibum Linmas adalah layanan masyarakat Reference site
-              about Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator. giving information on its origins, as
-              well as a random Lipsum generator. giving information on its
-              origins, as well as a random Lipsum generator.
+              Aplikasi layanan Layanan Keamanan dan Ketertiban Umum dan
+              Perlindungan Masyarakat ini guna memudahkan masyarakat untuk
+              menyampaikan keluhan terkait ketentraman, ketertiban umum dan
+              perlindungan masyarakat.
             </Text>
           </View>
           <ScrollView style={styles.footer}>

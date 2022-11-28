@@ -56,11 +56,11 @@ const DashboardPekerjaanUmum = ({navigation}) => {
           </View>
           <View style={styles.boxIsi}>
             <Text style={{color: 'white', textAlign: 'justify'}}>
-              Layanan Pekerjaan Umum adalah layanan masyarakat Reference site
-              about Lorem Ipsum, giving information on its origins, as well as a
-              random Lipsum generator. giving information on its origins, as
-              well as a random Lipsum generator. giving information on its
-              origins, as well as a random Lipsum generator.
+              Aplikasi ini bermanfaat sebagai layanan pengaduan terhadap
+              kerusakan jalan dan jembatan sesuai dengan kelas dan tingkatan
+              penanggung jawab jalan. Disamping itu aplikasi ini membantu secara
+              efektif dan efisien dalam pengelolaan alat berat yang menjadi aset
+              daerah dalam meningkatkan pendapatan daerah.
             </Text>
           </View>
           <ScrollView
