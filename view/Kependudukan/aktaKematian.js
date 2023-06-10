@@ -27,6 +27,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useFocusEffect} from '@react-navigation/native';
 
 function AktaKematian({navigation}) {
   const DATA = [
@@ -138,6 +139,11 @@ function AktaKematian({navigation}) {
     getListKematian();
   }, []);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      getListKematian();
+    }, []),
+  );
   return (
     <>
       <View

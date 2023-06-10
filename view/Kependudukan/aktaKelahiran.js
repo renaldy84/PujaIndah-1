@@ -28,6 +28,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {useFocusEffect} from '@react-navigation/native';
 
 function AktaKelahiran({navigation}) {
   // const DATA = [
@@ -137,6 +138,12 @@ function AktaKelahiran({navigation}) {
   useEffect(() => {
     getListKelahiran();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getListKelahiran();
+    }, []),
+  );
 
   return (
     <>
