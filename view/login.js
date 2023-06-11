@@ -47,6 +47,7 @@ function login({navigation}) {
       },
     })
       .then(async res => {
+        console.log('login',res);
         await AsyncStorage.setItem(
           'm_daerah_id',
           JSON.stringify(res.data.daerah),
@@ -56,12 +57,14 @@ function login({navigation}) {
           await AsyncStorage.setItem('email', email);
           // await AsyncStorage.setItem('password', password);
           await AsyncStorage.setItem('token', res.data.data.api_token);
-        } catch (error) {}
+        } catch (error) {
+          throw error;
+        }
         dispatch({type: 'LOGIN', payload: res.data.data.api_token});
         dispatch({type: 'RESPON_LOGIN', payload: res.data});
       })
       .catch(error => {
-        console.log('error', error.response);
+        console.log('error', error);
         setModalVisible(true);
         setMessage(error.response.data.message);
         setModalLoading(false);
@@ -94,6 +97,7 @@ function login({navigation}) {
               onPress={() => {
                 setModalVisible(!modalVisible);
                 setMessage('');
+                setModalLoading(false);
               }}
               style={{
                 backgroundColor: '#ff0000',
